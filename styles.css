@@ -301,15 +301,15 @@ body {
 
 .float-element.yellow {
     background: linear-gradient(135deg, #FDE047, #FACC15);
-    top: 30%;
-    right: 10%;
+    bottom: 40%;
+    left: 5%;
     animation-delay: 2s;
 }
 
 .float-element.teal {
     background: linear-gradient(135deg, #14B8A6, #0D9488);
-    bottom: 40%;
-    left: 5%;
+    top: 30%;
+    right: 10%;
     animation-delay: 3s;
 }
 
