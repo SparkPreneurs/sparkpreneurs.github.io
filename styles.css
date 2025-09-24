@@ -308,7 +308,7 @@ body {
 
 .float-element.teal {
     background: linear-gradient(135deg, #14B8A6, #0D9488);
-    bottom: 40%;
+    bottom: 15%;
     right: -5%;
     animation-delay: 3s;
 }
