@@ -13,6 +13,7 @@
 
 ## Quick Facts
 - No build tooling; edit files directly and push commits to publish via GitHub Pages.
+- Always run ``git pull`` before starting any new commit to keep your copy in sync with GitHub.
 - Hero section image path updated to `assets/perspective.png` (`index.html:41`).
 - Before committing, run `git status` to ensure every changed/added file (e.g., assets) is staged.
 - Fonts load from Google Fonts (Fredoka and Comic Neue); requires network access when previewing.
