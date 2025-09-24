@@ -1,0 +1,917 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Fredoka', 'Comic Neue', cursive;
+    line-height: 1.6;
+    color: #1F2937;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header Styles */
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    height: 40px;
+    width: 40px;
+}
+
+.brand-text {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Fredoka', cursive;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #1F2937;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.nav-link:hover {
+    color: #8B5CF6;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #14B8A6, #3B82F6);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #1F2937;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    font-family: 'Fredoka', cursive;
+}
+
+.highlight-art {
+    background: linear-gradient(135deg, #F97316, #FB923C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.highlight-music {
+    background: linear-gradient(135deg, #FDE047, #FACC15);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.highlight-robotics {
+    background: linear-gradient(135deg, #8B5CF6, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.highlight-movement {
+    background: linear-gradient(135deg, #14B8A6, #0D9488);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: #6B7280;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    font-family: 'Comic Neue', cursive;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #1F2937;
+    border: 2px solid #1F2937;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.btn-secondary:hover {
+    background: #1F2937;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 48px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #8B5CF6;
+    font-family: 'Fredoka', cursive;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #6B7280;
+    font-weight: 500;
+    font-family: 'Comic Neue', cursive;
+}
+
+.hero-visual {
+    position: relative;
+    height: 500px;
+}
+
+.hero-image {
+    position: relative;
+    z-index: 2;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.float-element {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    opacity: 0.9;
+    animation: float 6s ease-in-out infinite;
+}
+
+.float-element.purple {
+    background: linear-gradient(135deg, #8B5CF6, #A855F7);
+    top: 10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.float-element.orange {
+    background: linear-gradient(135deg, #F97316, #FB923C);
+    bottom: 20%;
+    right: -5%;
+    animation-delay: 1s;
+}
+
+.float-element.yellow {
+    background: linear-gradient(135deg, #FDE047, #FACC15);
+    top: 30%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.float-element.teal {
+    background: linear-gradient(135deg, #14B8A6, #0D9488);
+    bottom: 40%;
+    left: 5%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Section Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #1F2937, #8B5CF6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Fredoka', cursive;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #6B7280;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Comic Neue', cursive;
+}
+
+/* About Section */
+.about {
+    padding: 120px 0;
+    background: white;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    margin-bottom: 64px;
+}
+
+.about-card {
+    text-align: center;
+    padding: 32px 24px;
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.about-card.art {
+    background: linear-gradient(135deg, #FEF3E2, #FED7AA);
+    border-color: #F97316;
+}
+
+.about-card.robotics {
+    background: linear-gradient(135deg, #F3E8FF, #DDD6FE);
+    border-color: #8B5CF6;
+}
+
+.about-card.music {
+    background: linear-gradient(135deg, #FEFCE8, #FEF08A);
+    border-color: #FDE047;
+}
+
+.about-card.movement {
+    background: linear-gradient(135deg, #F0FDFA, #CCFBF1);
+    border-color: #14B8A6;
+}
+
+.about-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.about-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1F2937;
+    font-family: 'Fredoka', cursive;
+}
+
+.about-card p {
+    color: #6B7280;
+    line-height: 1.6;
+    font-family: 'Comic Neue', cursive;
+}
+
+.about-mission {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+    border-radius: 20px;
+    border: 2px solid #E5E7EB;
+}
+
+.mission-text {
+    font-size: 18px;
+    color: #1F2937;
+    line-height: 1.7;
+    font-weight: 500;
+    font-family: 'Comic Neue', cursive;
+}
+
+/* Programs Section */
+.programs {
+    padding: 120px 0;
+    background: #F9FAFB;
+}
+
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+.program-card {
+    background: white;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid transparent;
+    text-align: center;
+}
+
+.program-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.art-program {
+    border-color: #F97316;
+}
+
+.art-program:hover {
+    background: linear-gradient(135deg, #FEF3E2, white);
+}
+
+.music-program {
+    border-color: #FDE047;
+}
+
+.music-program:hover {
+    background: linear-gradient(135deg, #FEFCE8, white);
+}
+
+.robotics-program {
+    border-color: #8B5CF6;
+}
+
+.robotics-program:hover {
+    background: linear-gradient(135deg, #F3E8FF, white);
+}
+
+.movement-program {
+    border-color: #14B8A6;
+}
+
+.movement-program:hover {
+    background: linear-gradient(135deg, #F0FDFA, white);
+}
+
+.program-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.program-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1F2937;
+    font-family: 'Fredoka', cursive;
+}
+
+.program-tagline {
+    font-size: 16px;
+    font-weight: 600;
+    color: #8B5CF6;
+    margin-bottom: 8px;
+    font-family: 'Fredoka', cursive;
+}
+
+.program-age {
+    font-size: 14px;
+    font-weight: 600;
+    color: #F97316;
+    margin-bottom: 16px;
+    font-family: 'Comic Neue', cursive;
+}
+
+.program-card p {
+    color: #6B7280;
+    line-height: 1.6;
+    font-family: 'Comic Neue', cursive;
+}
+
+/* Parties Section */
+.parties {
+    padding: 120px 0;
+    background: white;
+}
+
+.parties-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.party-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.party-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.party-features {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.party-feature {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.feature-icon {
+    font-size: 32px;
+    min-width: 50px;
+}
+
+.feature-text h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #1F2937;
+    font-family: 'Fredoka', cursive;
+}
+
+.feature-text p {
+    color: #6B7280;
+    line-height: 1.6;
+    font-family: 'Comic Neue', cursive;
+}
+
+.party-cta {
+    font-size: 18px;
+    padding: 18px 36px;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+    padding: 120px 0;
+    background: #F9FAFB;
+}
+
+.why-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.why-text h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 48px;
+    color: #1F2937;
+    font-family: 'Fredoka', cursive;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.benefit {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.benefit-icon {
+    font-size: 32px;
+    min-width: 50px;
+}
+
+.benefit-text h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1F2937;
+    font-family: 'Fredoka', cursive;
+}
+
+.benefit-text p {
+    color: #6B7280;
+    line-height: 1.6;
+    font-family: 'Comic Neue', cursive;
+}
+
+.why-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.why-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* Final CTA Section */
+.final-cta {
+    padding: 120px 0;
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    color: white;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'Fredoka', cursive;
+}
+
+.cta-content p {
+    font-size: 18px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+    font-family: 'Comic Neue', cursive;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 16px 32px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: #8B5CF6;
+    transform: translateY(-3px);
+}
+
+.large {
+    padding: 18px 36px;
+    font-size: 18px;
+}
+
+/* Footer */
+.footer {
+    background: #1F2937;
+    color: white;
+    padding: 64px 0 24px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.footer-logo {
+    height: 40px;
+    width: 40px;
+}
+
+.footer-brand-text {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Fredoka', cursive;
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    font-family: 'Fredoka', cursive;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: #D1D5DB;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-family: 'Comic Neue', cursive;
+}
+
+.footer-section ul li a:hover {
+    color: white;
+}
+
+.footer-section p {
+    font-family: 'Comic Neue', cursive;
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.social-link {
+    font-size: 24px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.social-link:hover {
+    transform: scale(1.2);
+}
+
+.contact-info p {
+    margin-bottom: 8px;
+    color: #D1D5DB;
+    font-family: 'Comic Neue', cursive;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid #374151;
+    color: #9CA3AF;
+    font-family: 'Comic Neue', cursive;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 40px;
+    }
+    
+    .why-content, .parties-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .programs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .programs-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 32px;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
+    
+    .nav {
+        padding: 16px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 24px;
+    }
+    
+    .section-title {
+        font-size: 24px;
+    }
+    
+    .final-cta h2 {
+        font-size: 28px;
+    }
+    
+    .program-card,
+    .about-card {
+        padding: 24px;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus States for Accessibility */
+button:focus,
+a:focus {
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading {
+    animation: pulse 2s infinite;
+}
