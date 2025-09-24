@@ -17,6 +17,10 @@
 - Before committing, run `git status` to ensure every changed/added file (e.g., assets) is staged.
 - Fonts load from Google Fonts (Fredoka and Comic Neue); requires network access when previewing.
 
+## Communication Style
+- Users of this project are not developers, so keep requests simple and provide step-by-step guidance when asking them to do anything.
+- When users ask to "upload to GitHub" or similar, you are responsible for the integrity of everything committed and pushed.
+
 ## Next Actions
 1. Verify `assets/perspective.png` renders correctly after deployment.
 2. Review hero floating text artifacts (`dYZ"`, etc.) for cleanup if unintended.
