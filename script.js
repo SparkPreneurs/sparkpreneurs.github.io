@@ -148,7 +148,7 @@ document.querySelectorAll('.btn-primary, .cta-button').forEach(button => {
             ">
                 ${randomMessage}<br><br>
                 <div style="font-size: 14px; opacity: 0.9;">
-                    Contact us at hello@sparkpreneurs.ca or (416) 123-SPARK to get started!
+                    Contact us at info@sparkpreneurs.ca or (416) 123-SPARK to get started!
                 </div>
                 <button onclick="this.parentElement.parentElement.remove()" style="
                     background: white;
@@ -349,5 +349,5 @@ document.querySelector('.party-cta')?.addEventListener('click', function() {
     }
     
     // Show party booking message
-    alert('🎉 Let\'s plan an amazing party! Contact us at hello@sparkpreneurs.ca or (416) 123-SPARK to book your celebration!');
+    alert('🎉 Let\'s plan an amazing party! Contact us at info@sparkpreneurs.ca or (416) 123-SPARK to book your celebration!');
 });
