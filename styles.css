@@ -85,6 +85,10 @@ body {
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-weight: 600;
     font-size: 16px;
     cursor: pointer;
@@ -190,6 +194,10 @@ body {
     border: none;
     padding: 16px 32px;
     border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -208,6 +216,10 @@ body {
     border: 2px solid #1F2937;
     padding: 14px 32px;
     border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -521,6 +533,23 @@ body {
     font-family: 'Comic Neue', cursive;
 }
 
+.program-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.program-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.25);
+}
 /* Parties Section */
 .parties {
     padding: 120px 0;
@@ -682,6 +711,10 @@ body {
     border: 2px solid white;
     padding: 16px 32px;
     border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -933,3 +966,243 @@ a:focus {
 .loading {
     animation: pulse 2s infinite;
 }
+
+
+
+/* Program Detail Pages */
+.program-detail-page {
+    background: #F9FAFB;
+}
+
+.program-detail-main {
+    padding-top: 80px;
+}
+
+.program-detail-hero {
+    padding: 160px 0 100px;
+}
+
+.program-detail-hero .detail-content {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+}
+
+.program-detail-hero .detail-text h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'Fredoka', cursive;
+}
+
+.program-detail-hero .detail-tagline {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: 'Fredoka', cursive;
+}
+
+.program-detail-hero .detail-intro {
+    font-size: 18px;
+    color: #4B5563;
+    margin-bottom: 24px;
+    font-family: 'Comic Neue', cursive;
+}
+
+.detail-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.highlight-pill {
+    background: white;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 600;
+    color: #1F2937;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    font-family: 'Fredoka', cursive;
+}
+
+.detail-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    border: 3px solid rgba(139, 92, 246, 0.15);
+}
+
+.detail-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: 'Fredoka', cursive;
+}
+
+.schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.schedule-list li {
+    display: flex;
+    justify-content: space-between;
+    background: #F9FAFB;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Comic Neue', cursive;
+    color: #1F2937;
+    font-weight: 600;
+}
+
+.schedule-list .day {
+    color: #8B5CF6;
+}
+
+.schedule-list .time {
+    color: #F97316;
+}
+
+.program-detail-info {
+    padding: 80px 0;
+}
+
+.detail-grid {
+    display: grid;
+    gap: 32px;
+}
+
+.info-block {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.info-block h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'Fredoka', cursive;
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    display: grid;
+    gap: 12px;
+}
+
+.detail-list li {
+    position: relative;
+    padding-left: 24px;
+    font-family: 'Comic Neue', cursive;
+    color: #4B5563;
+}
+
+.detail-list li::before {
+    content: '\u2022';
+    position: absolute;
+    left: 8px;
+    color: #8B5CF6;
+    font-size: 18px;
+}
+
+.program-detail-footer {
+    padding: 48px 0 72px;
+    text-align: center;
+    background: white;
+}
+
+.program-detail-footer p {
+    font-family: 'Comic Neue', cursive;
+    color: #4B5563;
+    margin-bottom: 16px;
+}
+
+.program-detail-footer a {
+    color: #8B5CF6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.art-hero {
+    background: linear-gradient(135deg, #FEF3E2 0%, #FFFFFF 100%);
+}
+
+.art-hero .detail-tagline {
+    color: #F97316;
+}
+
+.music-hero {
+    background: linear-gradient(135deg, #FEFCE8 0%, #FFFFFF 100%);
+}
+
+.music-hero .detail-tagline {
+    color: #FACC15;
+}
+
+.robotics-hero {
+    background: linear-gradient(135deg, #F3E8FF 0%, #FFFFFF 100%);
+}
+
+.robotics-hero .detail-tagline {
+    color: #8B5CF6;
+}
+
+.movement-hero {
+    background: linear-gradient(135deg, #F0FDFA 0%, #FFFFFF 100%);
+}
+
+.movement-hero .detail-tagline {
+    color: #14B8A6;
+}
+
+@media (min-width: 992px) {
+    .program-detail-hero .detail-content {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .program-detail-hero {
+        padding: 140px 0 80px;
+    }
+
+    .detail-card,
+    .info-block {
+        padding: 24px;
+    }
+
+    .schedule-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+
+.detail-card p {
+    font-size: 14px;
+    color: #4B5563;
+    font-family: 'Comic Neue', cursive;
+    margin-top: 16px;
+}
+
+.detail-card p a {
+    color: #8B5CF6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
