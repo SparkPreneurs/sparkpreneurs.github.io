@@ -17,6 +17,7 @@
 - Hero section image path updated to `assets/perspective.png` (`index.html:41`).
 - Before committing, run `git status` to ensure every changed/added file (e.g., assets) is staged.
 - Fonts load from Google Fonts (Fredoka and Comic Neue); requires network access when previewing.
+- When a user asks for a "new page", build a new path (e.g. `/gallery`) via a standalone HTML file (e.g. `gallery/index.html`) and keep fonts/styles consistent with `index.html`.
 
 ## Communication Style
 - Users of this project are not developers, so keep requests simple and provide step-by-step guidance when asking them to do anything.
@@ -26,3 +27,4 @@
 1. Verify `assets/perspective.png` renders correctly after deployment.
 2. Review hero floating text artifacts (`dYZ"`, etc.) for cleanup if unintended.
 3. Consider optimizing images (compress or resize) before publishing.
+
