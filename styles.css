@@ -313,14 +313,14 @@ body {
 .float-element.orange {
     background: linear-gradient(135deg, #F97316, #FB923C);
     bottom: 20%;
-    left: 5%;
+    left: -6%;
     animation-delay: 1s;
 }
 
 .float-element.yellow {
     background: linear-gradient(135deg, #FDE047, #FACC15);
     top: 30%;
-    right: 10%;
+    right: -8%;
     animation-delay: 2s;
 }
 
@@ -1212,5 +1212,3 @@ a:focus {
     font-weight: 600;
     text-decoration: none;
 }
-
-
