@@ -1116,7 +1116,7 @@ a:focus {
 }
 
 .detail-list li::before {
-    content: '\u2022';
+    content: '\2022';
     position: absolute;
     left: 8px;
     color: #8B5CF6;
@@ -1212,3 +1212,4 @@ a:focus {
     font-weight: 600;
     text-decoration: none;
 }
+
