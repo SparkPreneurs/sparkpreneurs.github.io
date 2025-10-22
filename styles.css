@@ -838,7 +838,232 @@ body {
 }
 
 
-/* Responsive Design */
+/* Mascot Robot */
+.mascot-robot {
+    position: fixed;
+    bottom: 12vh;
+    left: -220px;
+    width: 160px;
+    height: 220px;
+    pointer-events: none;
+    z-index: 150;
+    animation: robot-walk 28s linear infinite;
+    animation-delay: 3s;
+    filter: drop-shadow(0 18px 32px rgba(15, 23, 42, 0.25));
+}
+
+.mascot-robot .robot-antenna {
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.mascot-robot .antenna-tip {
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+    border-radius: 50%;
+    position: relative;
+    animation: antenna-bounce 1.8s ease-in-out infinite;
+}
+
+.mascot-robot .antenna-tip::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 18px;
+    background: #8B5CF6;
+    border-radius: 4px;
+}
+
+.mascot-robot .antenna-tip:last-child {
+    animation-delay: 0.4s;
+}
+
+.mascot-robot .robot-head {
+    width: 110px;
+    height: 90px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #F3E8FF, #C4B5FD);
+    border-radius: 32px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mascot-robot .robot-eye {
+    width: 26px;
+    height: 26px;
+    background: #1F2937;
+    border-radius: 50%;
+    margin: 0 8px;
+    box-shadow: inset 0 -4px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+.mascot-robot .robot-eye::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.mascot-robot .robot-mouth {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 12px;
+    border-radius: 6px;
+    background: #1F2937;
+}
+
+.mascot-robot .robot-body {
+    width: 130px;
+    height: 100px;
+    margin: -10px auto 0;
+    background: linear-gradient(135deg, #8B5CF6, #6366F1);
+    border-radius: 40px 40px 30px 30px;
+    position: relative;
+    padding-top: 12px;
+}
+
+.mascot-robot .robot-shirt {
+    width: 110px;
+    height: 80px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 28px;
+    position: relative;
+    box-shadow: inset 0 -6px 12px rgba(15, 23, 42, 0.1);
+}
+
+.mascot-robot .robot-logo {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 36px;
+    background: url('assets/Logo.png') center/contain no-repeat;
+}
+
+.mascot-robot .robot-arm {
+    position: absolute;
+    top: 132px;
+    width: 42px;
+    height: 16px;
+    background: linear-gradient(135deg, #14B8A6, #0EA5E9);
+    border-radius: 12px;
+    animation: robot-arm-swing 1.8s ease-in-out infinite;
+}
+
+.mascot-robot .robot-arm.left {
+    left: -14px;
+    transform-origin: right center;
+}
+
+.mascot-robot .robot-arm.right {
+    right: -14px;
+    transform-origin: left center;
+    animation-delay: 0.9s;
+}
+
+.mascot-robot .robot-leg {
+    position: absolute;
+    bottom: 0;
+    width: 28px;
+    height: 70px;
+    background: linear-gradient(135deg, #F97316, #FDE047);
+    border-radius: 18px;
+    animation: robot-leg-step 1.8s ease-in-out infinite;
+}
+
+.mascot-robot .robot-leg.left {
+    left: 40px;
+}
+
+.mascot-robot .robot-leg.right {
+    right: 40px;
+    animation-delay: 0.9s;
+}
+
+@keyframes robot-walk {
+    0% {
+        left: -220px;
+        transform: translateY(0);
+    }
+    45% {
+        transform: translateY(-12px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    100% {
+        left: calc(100vw + 220px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes robot-arm-swing {
+    0%, 100% {
+        transform: rotate(12deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+@keyframes robot-leg-step {
+    0%, 100% {
+        transform: rotate(-6deg);
+    }
+    50% {
+        transform: rotate(14deg);
+    }
+}
+
+@keyframes antenna-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mascot-robot,
+    .mascot-robot * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mascot-robot {
+        display: none;
+    }
+}
+
+
 @media (max-width: 1024px) {
     .hero-content {
         grid-template-columns: 1fr;
