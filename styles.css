@@ -837,6 +837,12 @@ body {
     font-family: 'Comic Neue', cursive;
 }
 
+@media (min-width: 1200px) {
+    .programs-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content {
@@ -1212,4 +1218,5 @@ a:focus {
     font-weight: 600;
     text-decoration: none;
 }
+
 
