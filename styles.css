@@ -8,7 +8,7 @@
 body {
     font-family: 'Fredoka', 'Comic Neue', cursive;
     line-height: 1.6;
-    color: #1F2937;
+    color: #E5E7EB;
     background: #2f3240;
     overflow-x: hidden;
 }
@@ -120,7 +120,7 @@ body {
 /* Hero Section */
 .hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+    background: linear-gradient(135deg, rgba(47,50,64,0.95) 0%, rgba(24,27,36,0.85) 100%);
     display: flex;
     align-items: center;
     padding-top: 80px;
@@ -365,7 +365,7 @@ body {
 /* About Section */
 .about {
     padding: 120px 0;
-    background: white;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .about-grid {
@@ -448,7 +448,7 @@ body {
 /* Programs Section */
 .programs {
     padding: 120px 0;
-    background: #F9FAFB;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .programs-grid {
@@ -559,7 +559,7 @@ body {
 /* Parties Section */
 .parties {
     padding: 120px 0;
-    background: white;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .parties-content {
@@ -621,7 +621,7 @@ body {
 /* Why Choose Us Section */
 .why-choose-us {
     padding: 120px 0;
-    background: #F9FAFB;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .why-content {
@@ -1394,7 +1394,7 @@ a:focus {
 }
 
 .art-hero {
-    background: linear-gradient(135deg, #FEF3E2 0%, #FFFFFF 100%);
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(36, 40, 54, 0.9) 100%);
 }
 
 .art-hero .detail-tagline {
@@ -1402,7 +1402,7 @@ a:focus {
 }
 
 .music-hero {
-    background: linear-gradient(135deg, #FEFCE8 0%, #FFFFFF 100%);
+    background: linear-gradient(135deg, rgba(253, 224, 71, 0.2) 0%, rgba(36, 40, 54, 0.9) 100%);
 }
 
 .music-hero .detail-tagline {
@@ -1410,7 +1410,7 @@ a:focus {
 }
 
 .robotics-hero {
-    background: linear-gradient(135deg, #F3E8FF 0%, #FFFFFF 100%);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(36, 40, 54, 0.9) 100%);
 }
 
 .robotics-hero .detail-tagline {
@@ -1418,7 +1418,7 @@ a:focus {
 }
 
 .movement-hero {
-    background: linear-gradient(135deg, #F0FDFA 0%, #FFFFFF 100%);
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.2) 0%, rgba(36, 40, 54, 0.9) 100%);
 }
 
 .movement-hero .detail-tagline {
