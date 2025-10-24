@@ -1,3 +1,9 @@
+:root {
+    --charcoal: #2f3240;
+    --text-base: #E5E7EB;
+    --text-muted: rgba(226, 232, 240, 0.82);
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -8,8 +14,8 @@
 body {
     font-family: 'Fredoka', 'Comic Neue', cursive;
     line-height: 1.6;
-    color: #E5E7EB;
-    background: #2f3240;
+    color: var(--text-base);
+    background: var(--charcoal);
     overflow-x: hidden;
 }
 
@@ -432,9 +438,10 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px;
-    background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
     border-radius: 20px;
-    border: 2px solid #E5E7EB;
+    border: 2px solid rgba(255, 255, 255, 0.12);
 }
 
 .mission-text {
@@ -1463,4 +1470,26 @@ a:focus {
     color: #8B5CF6;
     font-weight: 600;
     text-decoration: none;
+}
+/* Dark theme typography adjustments */
+.hero-subtitle,
+.section-subtitle,
+.mission-text,
+.party-feature p,
+.feature-text p,
+.benefit-text p,
+.why-text p,
+.cta-content p,
+.stat-label,
+.footer-section p,
+.footer-bottom p,
+.contact-info p,
+.programs .section-header p,
+.about .section-header p,
+.parties .section-header p,
+.why-choose-us .section-header p,
+.detail-text .detail-intro,
+.program-detail-footer p
+{
+    color: var(--text-muted);
 }
