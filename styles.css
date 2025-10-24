@@ -807,7 +807,7 @@ body {
 }
 
 .footer-section ul li a {
-    color: #D1D5DB;
+    color: rgba(226, 232, 240, 0.9);
     text-decoration: none;
     transition: color 0.3s ease;
     font-family: 'Comic Neue', cursive;
@@ -839,7 +839,7 @@ body {
 
 .contact-info p {
     margin-bottom: 8px;
-    color: #D1D5DB;
+    color: rgba(248, 250, 252, 0.92);
     font-family: 'Comic Neue', cursive;
 }
 
@@ -1491,7 +1491,6 @@ a:focus {
 .stat-label,
 .footer-section p,
 .footer-bottom p,
-.contact-info p,
 .programs .section-header p,
 .about .section-header p,
 .parties .section-header p,
@@ -1501,4 +1500,3 @@ a:focus {
 {
     color: var(--text-muted);
 }
-
