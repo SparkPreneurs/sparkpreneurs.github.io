@@ -757,10 +757,11 @@ body {
 
 /* Footer */
 .footer {
-    background: var(--text-base);
-    color: white;
+    background: #0f172a;
+    color: var(--text-base);
     padding: 64px 0 24px;
 }
+
 
 .footer-content {
     display: grid;
@@ -1499,4 +1500,9 @@ a:focus {
 .program-detail-footer p
 {
     color: var(--text-muted);
+}
+.footer-section p,
+.footer-bottom p,
+.contact-info p {
+    color: rgba(248, 250, 252, 0.92);
 }
