@@ -369,88 +369,18 @@ body {
 }
 
 /* About Section */
-.about {
-    padding: 120px 0;
-    background: rgba(255, 255, 255, 0.05);
+\.about {
+    padding: 140px 0;
+    background: linear-gradient(135deg, #fef8ff 0%, #f1f5ff 100%);
+    position: relative;
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
-    margin-bottom: 64px;
-}
 
-.about-card {
-    text-align: center;
-    padding: 32px 24px;
-    border-radius: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 3px solid transparent;
-}
 
-.about-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
 
-.about-card.art {
-    background: linear-gradient(135deg, #FEF3E2, #FED7AA);
-    border-color: #F97316;
-}
+ .about-mission {\n    background: #ffffff;\n    backdrop-filter: blur(10px);\n    border-radius: 32px;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);\n}\n
 
-.about-card.robotics {
-    background: linear-gradient(135deg, #F3E8FF, #DDD6FE);
-    border-color: #8B5CF6;
-}
-
-.about-card.music {
-    background: linear-gradient(135deg, #FEFCE8, #FEF08A);
-    border-color: #FDE047;
-}
-
-.about-card.movement {
-    background: linear-gradient(135deg, #F0FDFA, #CCFBF1);
-    border-color: #14B8A6;
-}
-
-.about-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-}
-
-.about-card h3 {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    color: var(--text-base);
-    font-family: 'Fredoka', cursive;
-}
-
-.about-card p {
-    color: var(--text-muted);
-    line-height: 1.6;
-    font-family: 'Comic Neue', cursive;
-}
-
-.about-mission {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
-    border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-}
-
-.mission-text {
-    font-size: 18px;
-    color: var(--text-base);
-    line-height: 1.7;
-    font-weight: 500;
-    font-family: 'Comic Neue', cursive;
-}
+ 
 
 /* Programs Section */
 .programs {
@@ -1173,10 +1103,7 @@ body {
         font-size: 28px;
     }
 
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-
+    
     .programs-grid {
         grid-template-columns: 1fr;
     }
@@ -1507,11 +1434,12 @@ a:focus {
     color: rgba(248, 250, 252, 0.92);
 }
 
-.about {
+\.about {
     padding: 140px 0;
     background: linear-gradient(135deg, #fef8ff 0%, #f1f5ff 100%);
     position: relative;
 }
+
 
 .about::before {
     content: '';
@@ -1528,18 +1456,9 @@ a:focus {
     z-index: 1;
 }
 
-.about-layout {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 48px;
-    align-items: center;
-}
+  .about-layout {\n    display: flex;\n    flex-direction: column;\n    gap: 40px;\n}
 
-.about-text {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
+  .about-text {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n    gap: 32px;\n}
 
 .about .section-title {
     color: #6c3bf7;
@@ -1549,19 +1468,9 @@ a:focus {
     color: rgba(30, 41, 59, 0.8);
 }
 
-.about-mission {
-    background: #ffffff;
-    backdrop-filter: blur(0px);
-    border-radius: 32px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
-}
+ .about-mission {\n    background: #ffffff;\n    backdrop-filter: blur(10px);\n    border-radius: 32px;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);\n}\n
 
-.about-highlight-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-}
+ .about-highlight-grid {\n    display: grid;\n    grid-template-columns: repeat(3, minmax(220px, 1fr));\n    gap: 24px;\n}
 
 .about-highlight {
     background: #ffffff;
@@ -1588,3 +1497,8 @@ a:focus {
     color: rgba(15, 23, 42, 0.75);
     line-height: 1.6;
 }
+
+
+\n@media (max-width: 1024px) {\n    .about-highlight-grid {\n        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n    }\n    .about-text {\n        grid-template-columns: 1fr;\n    }\n}\n
+
+\n.about {\n    padding: 140px 0;\n    background: linear-gradient(135deg, #fef8ff 0%, #f1f5ff 100%);\n    position: relative;\n}\n\n.about::before {\n    content: '';\n    position: absolute;\n    inset: 40px;\n    border-radius: 40px;\n    background: radial-gradient(circle at top left, rgba(139, 92, 246, 0.15), transparent 45%),\n                radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.15), transparent 45%);\n    z-index: 0;\n}\n\n.about .container {\n    position: relative;\n    z-index: 1;\n}\n\n.about-layout {\n    display: flex;\n    flex-direction: column;\n    gap: 40px;\n}\n\n.about-text {\n    display: grid;\n    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));\n    gap: 32px;\n}\n\n.about .section-title {\n    color: #6c3bf7;\n}\n\n.about .section-subtitle,\n.mission-text {\n    color: rgba(15, 23, 42, 0.85);\n}\n\n.about-mission {\n    background: #ffffff;\n    border-radius: 32px;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);\n    padding: 40px;\n}\n\n.about-highlight-grid {\n    display: grid;\n    grid-template-columns: repeat(3, minmax(220px, 1fr));\n    gap: 24px;\n}\n\n.about-highlight {\n    background: #ffffff;\n    border-radius: 24px;\n    padding: 28px;\n    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    display: flex;\n    flex-direction: column;\n    gap: 12px;\n}\n\n.highlight-icon {\n    font-size: 32px;\n}\n\n.about-highlight h3 {\n    font-size: 20px;\n    font-weight: 700;\n    color: #1F2937;\n}\n\n.about-highlight p {\n    color: rgba(15, 23, 42, 0.75);\n    line-height: 1.6;\n}\n\n@media (max-width: 1024px) {\n    .about-highlight-grid {\n        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n    }\n    .about-text {\n        grid-template-columns: 1fr;\n    }\n}\n
