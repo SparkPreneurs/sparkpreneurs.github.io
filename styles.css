@@ -369,20 +369,91 @@ body {
 }
 
 /* About Section */
-\.about {
+.about {
     padding: 140px 0;
     background: linear-gradient(135deg, #fef8ff 0%, #f1f5ff 100%);
     position: relative;
 }
 
+.about::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border-radius: 40px;
+    background: radial-gradient(circle at top left, rgba(139, 92, 246, 0.12), transparent 45%),
+                radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.12), transparent 45%);
+    z-index: 0;
+}
 
+.about .container {
+    position: relative;
+    z-index: 1;
+}
 
+.about-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
 
- .about-mission {\n    background: #ffffff;\n    backdrop-filter: blur(10px);\n    border-radius: 32px;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);\n}\n
+.about-block,
+.about-mission {
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+    padding: 32px;
+}
 
- 
+.about-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-/* Programs Section */
+.about-label {
+    font-weight: 700;
+    color: #1F2937;
+    font-size: 18px;
+}
+
+.about-highlight-grid {
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+.about-highlight {
+    flex: 1;
+    min-width: 240px;
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.1);
+    padding: 24px;
+}
+
+.about-highlight h3 {
+    color: #1F2937;
+}
+
+.about .section-title {
+    color: #6c3bf7;
+}
+
+.about .section-subtitle,
+.about-block p,
+.about-highlight p {
+    color: rgba(15, 23, 42, 0.8);
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .about-highlight-grid {
+        flex-direction: column;
+    }
+}
+\n/* Programs Section *//* Programs Section */
 .programs {
     padding: 120px 0;
     background: rgba(255, 255, 255, 0.04);
@@ -1587,3 +1658,40 @@ a:focus {
         flex-direction: column;
     }
 }
+.about-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.about-block {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+}
+
+.about-label {
+    display: inline-block;
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 12px;
+}
+
+.about-highlight-grid {
+    display: flex;
+    gap: 24px;
+}
+
+.about-highlight {
+    flex: 1;
+}
+
+@media (max-width: 1024px) {
+    .about-highlight-grid {
+        flex-direction: column;
+    }
+}
+
+\n.about-highlight-grid {\n    margin-top: 8px;\n}
