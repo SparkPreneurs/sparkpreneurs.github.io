@@ -1,3 +1,47 @@
+/* Section Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Fredoka', cursive;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Comic Neue', cursive;
+}
+
+.about .section-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.about .section-subtitle.about-callout {
+    margin: 0 auto;
+    max-width: 720px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.about .section-subtitle.about-callout strong {
+    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #8B5CF6;
+}
 :root {
     --charcoal: #2f3240;
     --text-base: #E5E7EB;
@@ -367,7 +411,7 @@ body {
     margin: 0 auto;
     font-family: 'Comic Neue', cursive;
 }
-
+\n.about .section-header {\n    text-align: center;\n    margin-bottom: 32px;\n}\n\n.about .section-subtitle.about-callout {\n    margin: 0 auto;\n    max-width: 720px;\n    font-size: 24px;\n    font-weight: 700;\n}\n\n.about .section-subtitle.about-callout strong {\n    background: linear-gradient(135deg, #8B5CF6, #F97316);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    color: #8B5CF6;\n}\n\n
 /* About Section */
 .about {
     padding: 140px 0;
@@ -1538,7 +1582,7 @@ a:focus {
 .about .section-subtitle {
     color: rgba(30, 41, 59, 0.8);
 }
-
+\n.about .section-header {\n    text-align: center;\n    margin-bottom: 32px;\n}\n\n.about .section-subtitle.about-callout {\n    margin: 0 auto;\n    max-width: 720px;\n    font-size: 24px;\n    font-weight: 700;\n}\n\n.about .section-subtitle.about-callout strong {\n    background: linear-gradient(135deg, #8B5CF6, #F97316);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n    background-clip: text;\n    color: #8B5CF6;\n}\n\n
  .about-mission {\n    background: #ffffff;\n    backdrop-filter: blur(10px);\n    border-radius: 32px;\n    border: 1px solid rgba(15, 23, 42, 0.08);\n    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);\n}\n
 
  .about-highlight-grid {\n    display: grid;\n    grid-template-columns: repeat(3, minmax(220px, 1fr));\n    gap: 24px;\n}
@@ -1697,3 +1741,397 @@ a:focus {
 \n.about-highlight-grid {\n    margin-top: 8px;\n}
 
 
+
+/* Program Card Accents */
+.program-card.art-program {
+    border-color: rgba(249, 115, 22, 0.35);
+}
+
+.program-card.art-program .program-tagline {
+    color: #F97316;
+}
+
+.program-card.art-program .program-button {
+    background: linear-gradient(135deg, #FDBA74, #F97316);
+    color: white;
+    box-shadow: 0 12px 24px rgba(249, 115, 22, 0.25);
+}
+
+.program-card.art-program .program-button:hover {
+    box-shadow: 0 16px 36px rgba(249, 115, 22, 0.35);
+}
+
+.program-card.music-program {
+    border-color: rgba(250, 204, 21, 0.35);
+}
+
+.program-card.music-program .program-tagline {
+    color: #FACC15;
+}
+
+.program-card.music-program .program-button {
+    background: linear-gradient(135deg, #FDE68A, #FACC15);
+    color: #1F2937;
+    box-shadow: 0 12px 24px rgba(250, 204, 21, 0.25);
+}
+
+.program-card.music-program .program-button:hover {
+    box-shadow: 0 16px 36px rgba(250, 204, 21, 0.35);
+}
+
+.program-card.robotics-program {
+    border-color: rgba(139, 92, 246, 0.35);
+}
+
+.program-card.robotics-program .program-tagline {
+    color: #8B5CF6;
+}
+
+.program-card.robotics-program .program-button {
+    background: linear-gradient(135deg, #C084FC, #8B5CF6);
+    color: white;
+    box-shadow: 0 12px 24px rgba(139, 92, 246, 0.25);
+}
+
+.program-card.robotics-program .program-button:hover {
+    box-shadow: 0 16px 36px rgba(139, 92, 246, 0.35);
+}
+
+.program-card.movement-program {
+    border-color: rgba(20, 184, 166, 0.35);
+}
+
+.program-card.movement-program .program-tagline {
+    color: #14B8A6;
+}
+
+.program-card.movement-program .program-button {
+    background: linear-gradient(135deg, #5EEAD4, #14B8A6);
+    color: white;
+    box-shadow: 0 12px 24px rgba(20, 184, 166, 0.25);
+}
+
+.program-card.movement-program .program-button:hover {
+    box-shadow: 0 16px 36px rgba(20, 184, 166, 0.35);
+}
+
+/* Program Detail Theme Variations */
+body.art-theme {
+    background: #FFF7ED;
+    color: #7C2D12;
+}
+
+body.art-theme .program-detail-hero {
+    background: linear-gradient(135deg, #FFF1E6 0%, #FFE4D0 100%);
+}
+
+body.art-theme .detail-card,
+body.art-theme .info-block {
+    background: rgba(255, 248, 240, 0.92);
+    border: 1px solid rgba(249, 115, 22, 0.18);
+    box-shadow: none;
+}
+
+body.art-theme .detail-intro,
+body.art-theme .detail-list li,
+body.art-theme .mission-text {
+    color: #7C2D12;
+}
+
+body.art-theme .detail-list li::before {
+    color: #F97316;
+}
+
+body.art-theme .highlight-pill {
+    background: rgba(249, 115, 22, 0.15);
+    color: #C2410C;
+}
+
+body.art-theme .schedule-list li {
+    background: rgba(249, 115, 22, 0.12);
+}
+
+body.art-theme .schedule-list .day {
+    color: #EA580C;
+}
+
+body.art-theme .schedule-list .time {
+    color: #C2410C;
+}
+
+body.art-theme .btn-primary {
+    background: linear-gradient(135deg, #FDBA74, #F97316);
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.25);
+    color: #ffffff;
+}
+
+body.art-theme .btn-primary:hover {
+    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.35);
+}
+
+body.art-theme .btn-secondary {
+    color: #F97316;
+    border: 2px solid rgba(249, 115, 22, 0.6);
+}
+
+body.art-theme .btn-secondary:hover {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: #F97316;
+    color: #C2410C;
+}
+
+body.art-theme .program-detail-footer {
+    background: #FFE4D0;
+}
+
+body.art-theme .program-detail-footer p {
+    color: #7C2D12;
+}
+
+body.art-theme .program-detail-footer a {
+    color: #F97316;
+}
+
+body.art-theme .program-detail-footer a:hover {
+    color: #C2410C;
+}
+
+body.music-theme {
+    background: #FFFBEB;
+    color: #854D0E;
+}
+
+body.music-theme .program-detail-hero {
+    background: linear-gradient(135deg, #FEFCE8 0%, #FDE68A 100%);
+}
+
+body.music-theme .detail-card,
+body.music-theme .info-block {
+    background: rgba(255, 251, 235, 0.92);
+    border: 1px solid rgba(250, 204, 21, 0.2);
+    box-shadow: none;
+}
+
+body.music-theme .detail-intro,
+body.music-theme .detail-list li,
+body.music-theme .mission-text {
+    color: #854D0E;
+}
+
+body.music-theme .detail-list li::before {
+    color: #FACC15;
+}
+
+body.music-theme .highlight-pill {
+    background: rgba(250, 204, 21, 0.18);
+    color: #B45309;
+}
+
+body.music-theme .schedule-list li {
+    background: rgba(250, 204, 21, 0.12);
+}
+
+body.music-theme .schedule-list .day {
+    color: #CA8A04;
+}
+
+body.music-theme .schedule-list .time {
+    color: #B45309;
+}
+
+body.music-theme .btn-primary {
+    background: linear-gradient(135deg, #FDE68A, #FACC15);
+    color: #1F2937;
+    box-shadow: 0 14px 30px rgba(250, 204, 21, 0.25);
+}
+
+body.music-theme .btn-primary:hover {
+    box-shadow: 0 18px 40px rgba(250, 204, 21, 0.35);
+}
+
+body.music-theme .btn-secondary {
+    color: #B45309;
+    border: 2px solid rgba(250, 204, 21, 0.6);
+}
+
+body.music-theme .btn-secondary:hover {
+    background: rgba(250, 204, 21, 0.12);
+    border-color: #FACC15;
+    color: #1F2937;
+}
+
+body.music-theme .program-detail-footer {
+    background: #FDE68A;
+}
+
+body.music-theme .program-detail-footer p {
+    color: #854D0E;
+}
+
+body.music-theme .program-detail-footer a {
+    color: #B45309;
+}
+
+body.music-theme .program-detail-footer a:hover {
+    color: #1F2937;
+}
+
+body.robotics-theme {
+    background: #F5F3FF;
+    color: #312E81;
+}
+
+body.robotics-theme .program-detail-hero {
+    background: linear-gradient(135deg, #F3E8FF 0%, #E0E7FF 100%);
+}
+
+body.robotics-theme .detail-card,
+body.robotics-theme .info-block {
+    background: rgba(245, 243, 255, 0.92);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    box-shadow: none;
+}
+
+body.robotics-theme .detail-intro,
+body.robotics-theme .detail-list li,
+body.robotics-theme .mission-text {
+    color: #312E81;
+}
+
+body.robotics-theme .detail-list li::before {
+    color: #8B5CF6;
+}
+
+body.robotics-theme .highlight-pill {
+    background: rgba(139, 92, 246, 0.18);
+    color: #5B21B6;
+}
+
+body.robotics-theme .schedule-list li {
+    background: rgba(139, 92, 246, 0.12);
+}
+
+body.robotics-theme .schedule-list .day {
+    color: #7C3AED;
+}
+
+body.robotics-theme .schedule-list .time {
+    color: #4C1D95;
+}
+
+body.robotics-theme .btn-primary {
+    background: linear-gradient(135deg, #C084FC, #8B5CF6);
+    color: white;
+    box-shadow: 0 14px 30px rgba(139, 92, 246, 0.25);
+}
+
+body.robotics-theme .btn-primary:hover {
+    box-shadow: 0 18px 40px rgba(139, 92, 246, 0.35);
+}
+
+body.robotics-theme .btn-secondary {
+    color: #7C3AED;
+    border: 2px solid rgba(139, 92, 246, 0.45);
+}
+
+body.robotics-theme .btn-secondary:hover {
+    background: rgba(139, 92, 246, 0.12);
+    border-color: #8B5CF6;
+    color: white;
+}
+
+body.robotics-theme .program-detail-footer {
+    background: #E0E7FF;
+}
+
+body.robotics-theme .program-detail-footer p {
+    color: #312E81;
+}
+
+body.robotics-theme .program-detail-footer a {
+    color: #5B21B6;
+}
+
+body.robotics-theme .program-detail-footer a:hover {
+    color: #1E1B4B;
+}
+
+body.movement-theme {
+    background: #ECFEFF;
+    color: #0F766E;
+}
+
+body.movement-theme .program-detail-hero {
+    background: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%);
+}
+
+body.movement-theme .detail-card,
+body.movement-theme .info-block {
+    background: rgba(236, 254, 255, 0.92);
+    border: 1px solid rgba(20, 184, 166, 0.22);
+    box-shadow: none;
+}
+
+body.movement-theme .detail-intro,
+body.movement-theme .detail-list li,
+body.movement-theme .mission-text {
+    color: #0F766E;
+}
+
+body.movement-theme .detail-list li::before {
+    color: #14B8A6;
+}
+
+body.movement-theme .highlight-pill {
+    background: rgba(20, 184, 166, 0.15);
+    color: #0D9488;
+}
+
+body.movement-theme .schedule-list li {
+    background: rgba(45, 212, 191, 0.12);
+}
+
+body.movement-theme .schedule-list .day {
+    color: #0D9488;
+}
+
+body.movement-theme .schedule-list .time {
+    color: #0F766E;
+}
+
+body.movement-theme .btn-primary {
+    background: linear-gradient(135deg, #5EEAD4, #14B8A6);
+    color: white;
+    box-shadow: 0 14px 30px rgba(20, 184, 166, 0.25);
+}
+
+body.movement-theme .btn-primary:hover {
+    box-shadow: 0 18px 40px rgba(20, 184, 166, 0.35);
+}
+
+body.movement-theme .btn-secondary {
+    color: #0D9488;
+    border: 2px solid rgba(20, 184, 166, 0.6);
+}
+
+body.movement-theme .btn-secondary:hover {
+    background: rgba(20, 184, 166, 0.12);
+    border-color: #14B8A6;
+    color: #045D56;
+}
+
+body.movement-theme .program-detail-footer {
+    background: #CCFBF1;
+}
+
+body.movement-theme .program-detail-footer p {
+    color: #0F766E;
+}
+
+body.movement-theme .program-detail-footer a {
+    color: #0D9488;
+}
+
+body.movement-theme .program-detail-footer a:hover {
+    color: #045D56;
+}
