@@ -2135,3 +2135,41 @@ body.movement-theme .program-detail-footer a {
 body.movement-theme .program-detail-footer a:hover {
     color: #045D56;
 }
+/* SparkPreneurs overrides */
+.contact-info .contact-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-info .contact-link:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 769px) {
+    .nav-menu {
+        margin-left: auto;
+        align-items: center;
+    }
+}
+
+.nav-link {
+    color: #36454F;
+}
+
+.about .section-header {
+    padding-top: 24px;
+}
+
+.about .section-subtitle.about-callout {
+    font-size: 30px;
+}
+
+.programs .section-header {
+    padding-top: 24px;
+}
+
+
+.cta-button {
+    margin-left: 24px;
+}
+
