@@ -2173,3 +2173,25 @@ body.movement-theme .program-detail-footer a:hover {
     margin-left: 24px;
 }
 
+.custom-time-note {
+    margin-top: 16px;
+    font-weight: 600;
+}
+
+body.art-theme .custom-time-note {
+    color: #C2410C;
+}
+
+body.music-theme .custom-time-note {
+    color: #B45309;
+}
+
+body.robotics-theme .custom-time-note {
+    color: #5B21B6;
+}
+
+body.movement-theme .custom-time-note {
+    color: #0D9488;
+}
+
+
