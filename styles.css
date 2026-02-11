@@ -167,6 +167,92 @@ body {
     border-radius: 2px;
 }
 
+/* March Break Banner */
+.march-break-banner {
+    background: linear-gradient(120deg, #FDE047 0%, #F97316 50%, #FB7185 100%);
+    padding: 120px 0 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.march-break-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.55), transparent 50%),
+        radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.35), transparent 45%);
+    pointer-events: none;
+}
+
+.march-break-content {
+    display: grid;
+    grid-template-columns: minmax(0, 520px) auto;
+    align-items: center;
+    gap: 4px;
+    justify-content: start;
+    position: relative;
+    z-index: 1;
+}
+
+.march-break-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.march-break-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    color: var(--charcoal);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Fredoka', cursive;
+}
+
+.march-break-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.march-break-flyer-wrap {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.march-break-button {
+    background: #F97316;
+    color: var(--charcoal);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 18px 35px rgba(249, 115, 22, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Fredoka', cursive;
+}
+
+.march-break-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 45px rgba(249, 115, 22, 0.45);
+}
+
+.march-break-flyer {
+    width: min(360px, 100%);
+    height: auto;
+    border-radius: 16px;
+    border: 3px solid rgba(249, 115, 22, 0.35);
+    box-shadow: 0 18px 36px rgba(249, 115, 22, 0.25);
+    object-fit: cover;
+}
+
 /* Hero Section */
 .hero {
     min-height: 100vh;
@@ -1188,6 +1274,19 @@ body {
         display: none;
     }
 
+    .march-break-banner {
+        padding: 110px 0 40px;
+    }
+
+    .march-break-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .march-break-actions {
+        justify-content: center;
+    }
+
     .hero {
         padding-top: 140px;
     }
@@ -1243,6 +1342,14 @@ body {
 }
 
 @media (max-width: 480px) {
+    .march-break-banner {
+        padding: 96px 0 32px;
+    }
+
+    .march-break-flyer {
+        width: min(280px, 100%);
+    }
+
     .hero-title {
         font-size: 24px;
     }
