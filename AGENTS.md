@@ -16,12 +16,16 @@
 - Always run ``git pull`` before starting any new commit to keep your copy in sync with GitHub.
 - Hero section image path updated to `assets/perspective.png` (`index.html:41`).
 - Before committing, run `git status` to ensure every changed/added file (e.g., assets) is staged.
+- If you add or use a new asset, rename the file first to remove spaces and make it URL-friendly (example: `spring-flyer.png`) before linking it in HTML or CSS.
 - Fonts load from Google Fonts (Fredoka and Comic Neue); requires network access when previewing.
 - When a user asks for a "new page", build a new path (e.g. `/gallery`) via a standalone HTML file (e.g. `gallery/index.html`) and keep fonts/styles consistent with `index.html`.
+- For straightforward site updates like adding sections, images, or text, complete the change and commit it without stopping to ask the user for confirmation unless there is real ambiguity or risk.
 
 ## Communication Style
 - Users of this project are not developers, so keep requests simple and provide step-by-step guidance when asking them to do anything.
 - When users ask to "upload to GitHub" or similar, you are responsible for the integrity of everything committed and pushed.
+- Do not use developer jargon in user-facing updates when a plain-language version will do. Say `the image still needs to be included in the publish` instead of talking about `untracked files`, staging, or similar git terms.
+- Prefer outcome-focused updates: explain what changed on the page, what will happen next, and only mention technical process details if they materially affect the result.
 
 ## Next Actions
 1. Verify `assets/perspective.png` renders correctly after deployment.
