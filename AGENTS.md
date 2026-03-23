@@ -27,6 +27,16 @@
 - Do not use developer jargon in user-facing updates when a plain-language version will do. Say `the image still needs to be included in the publish` instead of talking about `untracked files`, staging, or similar git terms.
 - Prefer outcome-focused updates: explain what changed on the page, what will happen next, and only mention technical process details if they materially affect the result.
 
+## Live Site Debug Routine
+- If the user says something like `what I see on website is not what I see on my computer`, do not guess. Run this routine.
+- First, fetch what is live on `https://sparkpreneurs.ca/` and compare it with the local files that should produce that page.
+- Check the live HTML, linked CSS, linked JavaScript, and any directly relevant image or asset paths used by the part of the page the user is talking about.
+- Confirm whether the latest commits were pushed to GitHub and whether the local repo is ahead, behind, or already synced.
+- Compare the live page content against local `index.html`, `styles.css`, `script.js`, and any affected asset filenames to catch old deploys, cache issues, wrong file paths, or missing renamed assets.
+- If the mismatch is likely caching, explain that plainly and include a simple next step such as trying a hard refresh or opening the live site in a private window.
+- If the mismatch is a deployment problem, fix the source issue, commit, and push.
+- In the user-facing explanation, summarize the difference between `live website` and `local copy` in plain language instead of using git or deployment jargon unless absolutely necessary.
+
 ## Next Actions
 1. Verify `assets/perspective.png` renders correctly after deployment.
 2. Review hero floating text artifacts (`dYZ"`, etc.) for cleanup if unintended.
