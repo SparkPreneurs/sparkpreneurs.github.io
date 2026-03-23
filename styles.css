@@ -217,8 +217,8 @@ body {
 }
 
 .spring-programs-button {
-    background: var(--charcoal);
-    color: #fef08a;
+    background: #C85A8D;
+    color: #fff7fb;
     border: none;
     padding: 8px 16px;
     border-radius: 999px;
@@ -231,14 +231,14 @@ body {
     justify-content: center;
     align-self: flex-start;
     margin-top: 8px;
-    box-shadow: 0 18px 35px rgba(47, 50, 64, 0.2);
+    box-shadow: 0 18px 35px rgba(200, 90, 141, 0.28);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     font-family: 'Fredoka', cursive;
 }
 
 .spring-programs-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 22px 45px rgba(47, 50, 64, 0.28);
+    box-shadow: 0 22px 45px rgba(200, 90, 141, 0.36);
 }
 
 .spring-programs-flyer {
