@@ -24,11 +24,10 @@
         }
 
         .spring-programs-content {
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
             align-items: center;
-            justify-content: space-between;
-            gap: 32px;
-            flex-wrap: wrap;
+            gap: 40px;
             position: relative;
             z-index: 1;
         }
@@ -81,8 +80,11 @@
         }
 
         .spring-programs-flyer {
-            width: min(100%, 260px);
-            height: auto;
+            width: 260px !important;
+            max-width: 260px !important;
+            height: auto !important;
+            display: block;
+            justify-self: end;
             border-radius: 20px;
             border: 4px solid rgba(255, 255, 255, 0.55);
             box-shadow: 0 20px 45px rgba(47, 50, 64, 0.22);
@@ -95,7 +97,7 @@
             }
 
             .spring-programs-content {
-                flex-direction: column;
+                grid-template-columns: 1fr;
                 text-align: center;
             }
 
@@ -106,6 +108,12 @@
             .spring-programs-button {
                 align-self: center;
                 margin-top: 0;
+            }
+
+            .spring-programs-flyer {
+                justify-self: center;
+                width: min(100%, 260px) !important;
+                max-width: 260px !important;
             }
 
             .spring-programs-details {
@@ -148,7 +156,7 @@
                 </p>
                 <a class="spring-programs-button" href="https://docs.google.com/forms/d/e/1FAIpQLSfFXx4-4mAuEQN-hsLFWCbdyom-S5fTZ2CmBdi_KnH7xaE3bA/viewform" target="_blank" rel="noopener">Register Now</a>
             </div>
-            <img class="spring-programs-flyer" src="assets/spring-flyer.png" alt="SparkPreneurs Spring Programs flyer">
+            <img class="spring-programs-flyer" src="assets/spring-flyer.png" alt="SparkPreneurs Spring Programs flyer" style="width:260px; max-width:260px; height:auto; display:block;">
         </div>
     </section>
 
