@@ -6,121 +6,6 @@
     <title>SparkPreneurs - Where Art, Music, Robotics & Movement Come Together</title>
     <link rel="stylesheet" href="styles.css?v=20260323">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        .spring-programs-banner {
-            background: linear-gradient(120deg, #E7C547 0%, #F8C8DC 100%);
-            padding: 120px 0 48px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .spring-programs-banner::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
-                radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.35), transparent 36%);
-            pointer-events: none;
-        }
-
-        .spring-programs-content {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 300px;
-            align-items: center;
-            gap: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .spring-programs-text {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-width: 520px;
-        }
-
-        .spring-programs-title {
-            font-size: clamp(16px, 2vw, 22px);
-            font-weight: 800;
-            line-height: 1.1;
-            color: #2f3240;
-            font-family: 'Fredoka', cursive;
-        }
-
-        .spring-programs-details {
-            font-size: 18px;
-            line-height: 1.7;
-            color: rgba(47, 50, 64, 0.88);
-            font-family: 'Comic Neue', cursive;
-        }
-
-        .spring-programs-button {
-            background: #C85A8D;
-            color: #fff7fb;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 999px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            align-self: flex-start;
-            margin-top: 8px;
-            box-shadow: 0 18px 35px rgba(200, 90, 141, 0.28);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-family: 'Fredoka', cursive;
-        }
-
-        .spring-programs-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 22px 45px rgba(200, 90, 141, 0.36);
-        }
-
-        .spring-programs-flyer {
-            width: 260px !important;
-            max-width: 260px !important;
-            height: auto !important;
-            display: block;
-            justify-self: end;
-            border-radius: 20px;
-            border: 4px solid rgba(255, 255, 255, 0.55);
-            box-shadow: 0 20px 45px rgba(47, 50, 64, 0.22);
-            object-fit: contain;
-        }
-
-        @media (max-width: 768px) {
-            .spring-programs-banner {
-                padding: 110px 0 40px;
-            }
-
-            .spring-programs-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .spring-programs-text {
-                align-items: center;
-            }
-
-            .spring-programs-button {
-                align-self: center;
-                margin-top: 0;
-            }
-
-            .spring-programs-flyer {
-                justify-self: center;
-                width: min(100%, 260px) !important;
-                max-width: 260px !important;
-            }
-
-            .spring-programs-details {
-                font-size: 17px;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
@@ -133,6 +18,7 @@
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#programs" class="nav-link">Programs</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#parties" class="nav-link">Parties</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -145,20 +31,6 @@
             </div>
         </nav>
     </header>
-
-    <!-- Spring Programs Section -->
-    <section class="spring-programs-banner">
-        <div class="container spring-programs-content">
-            <div class="spring-programs-text">
-                <h2 class="spring-programs-title">Spring Programs</h2>
-                <p class="spring-programs-details">
-                    Explore our spring lineup and see what is coming up for families at SparkPreneurs. Registration details and program highlights are all in the flyer below.
-                </p>
-                <a class="spring-programs-button" href="https://docs.google.com/forms/d/e/1FAIpQLSfFXx4-4mAuEQN-hsLFWCbdyom-S5fTZ2CmBdi_KnH7xaE3bA/viewform" target="_blank" rel="noopener">Register Now</a>
-            </div>
-            <img class="spring-programs-flyer" src="assets/spring-flyer.png" alt="SparkPreneurs Spring Programs flyer" style="width:260px; max-width:260px; height:auto; display:block;">
-        </div>
-    </section>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -192,7 +64,7 @@
             </div>
             <div class="hero-visual">
                 <div class="hero-image">
-                    <img src="assets/perspective.png" alt="Kids creating and learning together">
+                    <img src="assets/collage.jpg" alt="Kids creating and learning together">
                 </div>
                 <div class="floating-elements">
                     <div class="float-element purple">🎨</div>
@@ -277,6 +149,36 @@
                     <p>Flowing yoga and playful gymnastics combining mindfulness with balance, coordination, and confidence building!</p>
                     <a class="program-button" href="yoga-gymnastics/index.html">Schedule Now</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Gallery</h2>
+                <p class="section-subtitle">
+                    A look inside our classes, camps, and creative moments at SparkPreneurs.
+                </p>
+            </div>
+            <div class="gallery-grid">
+                <figure class="gallery-card"><img src="assets/perspective.png" alt="SparkPreneurs gallery photo 1" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/art-2.jpg" alt="SparkPreneurs gallery photo 2" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/art-4.jpeg" alt="SparkPreneurs gallery photo 3" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/art-5.jpeg" alt="SparkPreneurs gallery photo 4" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/clay-1.jpeg" alt="SparkPreneurs gallery photo 5" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/img-0421.jpg" alt="SparkPreneurs gallery photo 6" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/img-0734.jpg" alt="SparkPreneurs gallery photo 7" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0004.jpg" alt="SparkPreneurs gallery photo 8" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0008.jpg" alt="SparkPreneurs gallery photo 9" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0029.jpg" alt="SparkPreneurs gallery photo 10" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0196.jpg" alt="SparkPreneurs gallery photo 11" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0397.jpg" alt="SparkPreneurs gallery photo 12" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0676.jpg" alt="SparkPreneurs gallery photo 13" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/mg-0822.jpg" alt="SparkPreneurs gallery photo 14" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/pizza-1.jpeg" alt="SparkPreneurs gallery photo 15" loading="lazy"></figure>
+                <figure class="gallery-card"><img src="assets/gallery/robotic-1.jpeg" alt="SparkPreneurs gallery photo 16" loading="lazy"></figure>
             </div>
         </div>
     </section>
@@ -407,6 +309,7 @@
                 <div class="footer-section">
                     <h4>Contact Info</h4>
                     <div class="contact-info">
+                        <p>Email: <a href="mailto:info@sparkpreneurs.ca" class="contact-link">info@sparkpreneurs.ca</a></p>
                         <p>📞 (416)884-1393</p>
                         <p>📧 <a href="/cdn-cgi/l/email-protection#a6cfc8c0c9e6d5d6c7d4cdd6d4c3c8c3d3d4d588c5c7" class="contact-link"><span class="__cf_email__" data-cfemail="99f0f7fff6d9eae9f8ebf2e9ebfcf7fcecebeab7faf8">[email&#160;protected]</span></a></p>
                         <p>📸 <a href="https://www.instagram.com/SparkPreneurs.ca" class="contact-link" target="_blank" rel="noopener">Instagram: SparkPreneurs.ca</a></p>

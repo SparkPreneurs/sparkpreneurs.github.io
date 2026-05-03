@@ -167,89 +167,6 @@ body {
     border-radius: 2px;
 }
 
-/* Spring Programs Banner */
-.spring-programs-banner {
-    background: linear-gradient(120deg, #E7C547 0%, #F8C8DC 100%);
-    padding: 120px 0 48px;
-    position: relative;
-    overflow: hidden;
-}
-
-.spring-programs-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
-        radial-gradient(circle at 82% 10%, rgba(255, 255, 255, 0.35), transparent 36%);
-    pointer-events: none;
-}
-
-.spring-programs-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
-}
-
-.spring-programs-text {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 520px;
-}
-
-.spring-programs-title {
-    font-size: clamp(16px, 2vw, 22px);
-    font-weight: 800;
-    line-height: 1.1;
-    color: var(--charcoal);
-    font-family: 'Fredoka', cursive;
-}
-
-.spring-programs-details {
-    font-size: 18px;
-    line-height: 1.7;
-    color: rgba(47, 50, 64, 0.88);
-    font-family: 'Comic Neue', cursive;
-}
-
-.spring-programs-button {
-    background: #C85A8D;
-    color: #fff7fb;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-start;
-    margin-top: 8px;
-    box-shadow: 0 18px 35px rgba(200, 90, 141, 0.28);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Fredoka', cursive;
-}
-
-.spring-programs-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 45px rgba(200, 90, 141, 0.36);
-}
-
-.spring-programs-flyer {
-    width: min(100%, 260px);
-    height: auto;
-    border-radius: 20px;
-    border: 4px solid rgba(255, 255, 255, 0.55);
-    box-shadow: 0 20px 45px rgba(47, 50, 64, 0.22);
-    object-fit: contain;
-}
-
 /* March Break Banner */
 .march-break-banner {
     background: linear-gradient(120deg, #FDE047 0%, #F97316 50%, #FB7185 100%);
@@ -797,6 +714,40 @@ body {
 .program-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(139, 92, 246, 0.25);
+}
+
+/* Gallery Section */
+.gallery {
+    padding: 120px 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(249, 115, 22, 0.08) 100%);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.gallery-card {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.14);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 /* Parties Section */
 .parties {
@@ -1372,28 +1323,6 @@ body {
         display: none;
     }
 
-    .spring-programs-banner {
-        padding: 110px 0 40px;
-    }
-
-    .spring-programs-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .spring-programs-text {
-        align-items: center;
-    }
-
-    .spring-programs-button {
-        align-self: center;
-        margin-top: 0;
-    }
-
-    .spring-programs-details {
-        font-size: 17px;
-    }
-
     .march-break-banner {
         padding: 110px 0 40px;
     }
@@ -1401,6 +1330,14 @@ body {
     .march-break-content {
         flex-direction: column;
         text-align: center;
+    }
+
+    .gallery {
+        padding: 96px 0;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .hero {
@@ -1435,6 +1372,10 @@ body {
 
     
     .programs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
 
