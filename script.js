@@ -352,3 +352,169 @@ document.querySelector('.party-cta')?.addEventListener('click', function() {
     alert('Let\'s plan an amazing party! Contact us at info@sparkpreneurs.ca or (416)884-1393 to book your celebration!');
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const summerShop = document.querySelector('.summer-camp-shop');
+
+    if (!summerShop) {
+        return;
+    }
+
+    const addButtons = summerShop.querySelectorAll('[data-add-week]');
+    const cards = summerShop.querySelectorAll('.summer-week-card');
+    const cartList = summerShop.querySelector('[data-summer-cart-list]');
+    const purchaseButton = summerShop.querySelector('[data-summer-cart-purchase]');
+    const clearButton = summerShop.querySelector('[data-summer-cart-clear]');
+    const totalsPanel = summerShop.querySelector('[data-summer-cart-totals]');
+    const regularTotalEl = summerShop.querySelector('[data-summer-regular-total]');
+    const discountRow = summerShop.querySelector('[data-summer-discount-row]');
+    const discountTotalEl = summerShop.querySelector('[data-summer-discount-total]');
+    const subtotalEl = summerShop.querySelector('[data-summer-subtotal]');
+    const hstEl = summerShop.querySelector('[data-summer-hst]');
+    const grandTotalEl = summerShop.querySelector('[data-summer-grand-total]');
+    const purchaseEmail = summerShop.dataset.purchaseEmail || 'info@sparkpreneurs.ca';
+    const selectedWeeks = new Map();
+    const HST_RATE = 0.13;
+    const FOUR_WEEK_BUNDLE = 1200;
+    const EIGHT_WEEK_BUNDLE = 2400;
+
+    function formatMoney(amount) {
+        return amount.toLocaleString('en-CA', {
+            style: 'currency',
+            currency: 'CAD'
+        });
+    }
+
+    function calculateTotals(entries) {
+        const sortedEntries = [...entries].sort((a, b) => b.price - a.price);
+        const regularTotal = sortedEntries.reduce((total, entry) => total + entry.price, 0);
+        let subtotal = regularTotal;
+
+        if (sortedEntries.length === 8) {
+            subtotal = EIGHT_WEEK_BUNDLE;
+        } else if (sortedEntries.length >= 4) {
+            const extraWeeks = sortedEntries.slice(4);
+            subtotal = FOUR_WEEK_BUNDLE + extraWeeks.reduce((total, entry) => total + entry.price, 0);
+        }
+
+        const discount = regularTotal - subtotal;
+        const hst = subtotal * HST_RATE;
+        const total = subtotal + hst;
+
+        return {
+            regularTotal,
+            discount,
+            subtotal,
+            hst,
+            total
+        };
+    }
+
+    function syncButtons() {
+        cards.forEach(card => {
+            const weekId = card.dataset.weekId;
+            const button = card.querySelector('[data-add-week]');
+            const isSelected = selectedWeeks.has(weekId);
+
+            card.classList.toggle('is-selected', isSelected);
+            button.classList.toggle('is-added', isSelected);
+            button.textContent = isSelected ? 'Added' : 'Add to Cart';
+        });
+    }
+
+    function renderCart() {
+        const entries = Array.from(selectedWeeks.values());
+        const totals = calculateTotals(entries);
+
+        cartList.innerHTML = '';
+
+        if (!entries.length) {
+            cartList.innerHTML = '<li class="summer-cart-empty">No weeks added yet.</li>';
+            purchaseButton.disabled = true;
+            totalsPanel.hidden = true;
+            return;
+        }
+
+        entries.forEach(entry => {
+            const item = document.createElement('li');
+            item.className = 'summer-cart-item';
+            item.innerHTML = `
+                <span class="summer-cart-item-name">${entry.name} - ${formatMoney(entry.price)}</span>
+                <button class="summer-cart-remove" type="button" data-remove-week="${entry.id}">Remove</button>
+            `;
+            cartList.appendChild(item);
+        });
+
+        totalsPanel.hidden = false;
+        regularTotalEl.textContent = formatMoney(totals.regularTotal);
+        discountRow.hidden = totals.discount <= 0;
+        discountTotalEl.textContent = `-${formatMoney(totals.discount)}`;
+        subtotalEl.textContent = formatMoney(totals.subtotal);
+        hstEl.textContent = formatMoney(totals.hst);
+        grandTotalEl.textContent = formatMoney(totals.total);
+        purchaseButton.disabled = false;
+    }
+
+    function addWeek(weekId) {
+        const card = summerShop.querySelector(`.summer-week-card[data-week-id="${weekId}"]`);
+
+        if (!card || selectedWeeks.has(weekId)) {
+            return;
+        }
+
+        selectedWeeks.set(weekId, {
+            id: weekId,
+            name: card.dataset.weekName || `Week ${weekId}`,
+            price: Number(card.dataset.weekPrice || 0)
+        });
+
+        syncButtons();
+        renderCart();
+    }
+
+    function removeWeek(weekId) {
+        selectedWeeks.delete(weekId);
+        syncButtons();
+        renderCart();
+    }
+
+    addButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            addWeek(this.dataset.addWeek);
+        });
+    });
+
+    cartList.addEventListener('click', function(event) {
+        const removeButton = event.target.closest('[data-remove-week]');
+
+        if (!removeButton) {
+            return;
+        }
+
+        removeWeek(removeButton.dataset.removeWeek);
+    });
+
+    clearButton?.addEventListener('click', function() {
+        selectedWeeks.clear();
+        syncButtons();
+        renderCart();
+    });
+
+    purchaseButton?.addEventListener('click', function() {
+        if (!selectedWeeks.size) {
+            return;
+        }
+
+        const weekList = Array.from(selectedWeeks.values()).map(entry => entry.name).join(', ');
+        const totals = calculateTotals(Array.from(selectedWeeks.values()));
+        const subject = 'Summer Camp Purchase Request';
+        const body = encodeURIComponent(
+            `Hello SparkPreneurs,\n\nI would like to purchase the following summer camp weeks:\n${weekList}\n\nSubtotal: ${formatMoney(totals.subtotal)}\nHST 13%: ${formatMoney(totals.hst)}\nTotal: ${formatMoney(totals.total)}\n\nPlease contact me with the next payment step.\n\nThank you.`
+        );
+
+        window.location.href = `mailto:${purchaseEmail}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    });
+
+    syncButtons();
+    renderCart();
+});
+

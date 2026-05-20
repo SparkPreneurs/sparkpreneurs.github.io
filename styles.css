@@ -2362,4 +2362,390 @@ body.movement-theme .custom-time-note {
     color: #0D9488;
 }
 
+/* Summer camp banner */
+.summer-camp-banner {
+    padding: 104px 0 48px;
+    background: linear-gradient(135deg, #ffe4bd 0%, #ffdcae 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.summer-camp-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.72), transparent 40%),
+        radial-gradient(circle at 85% 15%, rgba(249, 115, 22, 0.15), transparent 35%);
+    pointer-events: none;
+}
+
+.summer-camp-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.summer-camp-head {
+    max-width: 100%;
+}
+
+.summer-camp-text {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.summer-camp-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c2410c;
+}
+
+.summer-camp-title {
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1;
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+    white-space: nowrap;
+}
+
+.summer-camp-description {
+    max-width: 100%;
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+}
+
+.summer-camp-summary {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 18px;
+    padding: 12px 16px;
+    box-shadow: 0 14px 28px rgba(47, 50, 64, 0.08);
+}
+
+.summer-camp-summary-label,
+.summer-cart-label,
+.summer-week-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c2410c;
+}
+
+.summer-camp-summary-text {
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+}
+
+.summer-camp-offer {
+    margin-top: 6px;
+    font-family: 'Fredoka', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #dc2626;
+}
+
+.summer-camp-shop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    gap: 24px;
+    align-items: start;
+}
+
+.summer-camp-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summer-camp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+.summer-week-card,
+.summer-cart-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 18px 40px rgba(47, 50, 64, 0.12);
+}
+
+.summer-week-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.summer-week-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 46px rgba(47, 50, 64, 0.16);
+}
+
+.summer-week-card.is-selected {
+    border-color: rgba(249, 115, 22, 0.55);
+    box-shadow: 0 24px 50px rgba(249, 115, 22, 0.2);
+}
+
+.summer-week-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 3 / 4;
+    padding: 10px;
+    background: #fff7ed;
+    box-sizing: border-box;
+}
+
+.summer-week-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 14px;
+}
+
+.summer-week-body {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.summer-week-title {
+    font-size: 22px;
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+}
+
+.summer-week-date {
+    margin-top: 4px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    color: #c2410c;
+}
+
+.summer-week-price {
+    margin-top: 6px;
+    font-family: 'Fredoka', cursive;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2f3240;
+}
+
+.summer-week-add,
+.summer-cart-purchase,
+.summer-cart-clear,
+.summer-cart-remove {
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Fredoka', cursive;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.summer-week-add,
+.summer-cart-purchase {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: #ffffff;
+    box-shadow: 0 14px 28px rgba(249, 115, 22, 0.22);
+}
+
+.summer-week-add {
+    padding: 12px 16px;
+}
+
+.summer-week-add.is-added {
+    background: linear-gradient(135deg, #14b8a6, #2dd4bf);
+    box-shadow: 0 14px 28px rgba(20, 184, 166, 0.22);
+}
+
+.summer-cart {
+    position: sticky;
+    top: 100px;
+}
+
+.summer-cart-card {
+    padding: 24px;
+}
+
+.summer-cart-list {
+    list-style: none;
+    margin: 18px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summer-cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    background: #fff7ed;
+}
+
+.summer-cart-item-name,
+.summer-cart-empty,
+.summer-cart-note {
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+}
+
+.summer-cart-item-name {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.summer-cart-remove,
+.summer-cart-clear {
+    background: #ffffff;
+    color: #c2410c;
+    border: 1px solid rgba(194, 65, 12, 0.15);
+}
+
+.summer-cart-remove {
+    flex-shrink: 0;
+    padding: 8px 12px;
+}
+
+.summer-cart-totals {
+    border-top: 1px solid rgba(194, 65, 12, 0.16);
+    border-bottom: 1px solid rgba(194, 65, 12, 0.16);
+    margin: 18px 0;
+    padding: 14px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.summer-cart-totals[hidden] {
+    display: none;
+}
+
+.summer-cart-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 16px;
+    color: #3f3f46;
+}
+
+.summer-cart-total-row strong {
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+}
+
+.summer-cart-discount-row strong {
+    color: #0f766e;
+}
+
+.summer-cart-grand-total {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.summer-cart-note {
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.summer-cart-actions {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summer-cart-purchase,
+.summer-cart-clear {
+    padding: 14px 18px;
+}
+
+.summer-cart-purchase:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.summer-week-add:hover,
+.summer-cart-purchase:hover,
+.summer-cart-clear:hover,
+.summer-cart-remove:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .summer-camp-banner {
+        padding: 92px 0 32px;
+    }
+
+    .summer-camp-head,
+    .summer-camp-shop {
+        grid-template-columns: 1fr;
+    }
+
+    .summer-camp-title {
+        font-size: 28px;
+        white-space: normal;
+    }
+
+    .summer-camp-description {
+        font-size: 16px;
+        line-height: 1.32;
+    }
+
+    .summer-camp-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summer-cart {
+        position: static;
+    }
+}
+
+@media (max-width: 1024px) {
+    .summer-camp-head,
+    .summer-camp-shop {
+        grid-template-columns: 1fr;
+    }
+
+    .summer-camp-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .summer-camp-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
