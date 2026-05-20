@@ -570,6 +570,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 stripeSessionId: sessionId
             });
 
+            if (result.paymentStatus !== 'paid') {
+                throw new Error('Payment could not be verified yet. Please contact SparkPreneurs.');
+            }
+
             setStatus(result.message || 'Payment verified. Your registration has been received.', 'success');
         } catch (error) {
             setStatus(error.message || 'Payment could not be verified yet. Please contact SparkPreneurs.', 'error');
