@@ -18,9 +18,8 @@ Do not put Stripe secret keys in frontend files. Do not put live or test secret 
 - `index.html`: registration UI and `data-apps-script-url`.
 - `script.js`: cart/form logic, Apps Script POST, and post-payment verification.
 - `Code.gs`: exact code the user copies into Google Apps Script.
-- `apps-script.gs`: repo copy of the same Apps Script code. Keep this identical to `Code.gs`.
 
-After editing Apps Script logic, always copy/update both `Code.gs` and `apps-script.gs`, then verify they match.
+After editing Apps Script logic, update `Code.gs` directly. Treat it as the single source for the Google Apps Script code in this repo.
 
 ## Google Sheet Schema
 Use one spreadsheet with:
@@ -81,13 +80,12 @@ Important Apps Script/Stripe details:
 ## User Deployment Loop
 When Apps Script changes are needed:
 1. Update `Code.gs` in the repo with exactly what the user should paste.
-2. Keep `apps-script.gs` identical.
-3. Run local syntax checks.
-4. Tell the user to paste `Code.gs` into Apps Script.
-5. If applicable, tell the user to run `setupSheet2Summer2026()` once.
-6. If applicable, tell the user to run `authorizeRequiredServices()` once and approve permissions.
-7. Tell the user to deploy a new Web App version.
-8. Pause. Do not continue live tests until the user sends the new `/exec` link.
+2. Run local syntax checks.
+3. Tell the user to paste `Code.gs` into Apps Script.
+4. If applicable, tell the user to run `setupSheet2Summer2026()` once.
+5. If applicable, tell the user to run `authorizeRequiredServices()` once and approve permissions.
+6. Tell the user to deploy a new Web App version.
+7. Pause. Do not continue live tests until the user sends the new `/exec` link.
 
 Use clear non-developer language for the user. Example:
 ```text
@@ -326,7 +324,6 @@ Before marking done:
 - `git status --short --branch` is clean or only expected changes remain.
 - `node --check script.js` passes.
 - `Get-Content Code.gs | node --check --input-type=commonjs -` passes.
-- `Code.gs` and `apps-script.gs` are identical.
 - `rg` finds no Stripe secret keys:
 ```powershell
 rg -n 's[k]_(live|test)|r[k]_(live|test)|STRIPE_SECRET_KEY\s*=\s*["'']s[k]_' -S .
