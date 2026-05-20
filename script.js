@@ -362,8 +362,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const addButtons = summerShop.querySelectorAll('[data-add-week]');
     const cards = summerShop.querySelectorAll('.summer-week-card');
     const cartList = summerShop.querySelector('[data-summer-cart-list]');
+    const registrationForm = summerShop.querySelector('[data-summer-registration-form]');
     const purchaseButton = summerShop.querySelector('[data-summer-cart-purchase]');
     const clearButton = summerShop.querySelector('[data-summer-cart-clear]');
+    const statusEl = summerShop.querySelector('[data-summer-cart-status]');
     const totalsPanel = summerShop.querySelector('[data-summer-cart-totals]');
     const regularTotalEl = summerShop.querySelector('[data-summer-regular-total]');
     const discountRow = summerShop.querySelector('[data-summer-discount-row]');
@@ -371,42 +373,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const subtotalEl = summerShop.querySelector('[data-summer-subtotal]');
     const hstEl = summerShop.querySelector('[data-summer-hst]');
     const grandTotalEl = summerShop.querySelector('[data-summer-grand-total]');
-    const purchaseEmail = summerShop.dataset.purchaseEmail || 'info@sparkpreneurs.ca';
+    const appsScriptUrl = summerShop.dataset.appsScriptUrl || '';
+    const programCode = summerShop.dataset.programCode || 'summer2026';
     const selectedWeeks = new Map();
     const HST_RATE = 0.13;
-    const FOUR_WEEK_BUNDLE = 1200;
-    const EIGHT_WEEK_BUNDLE = 2400;
+    const FOUR_WEEK_BUNDLE_CENTS = 120000;
+    const EIGHT_WEEK_BUNDLE_CENTS = 240000;
+    let isSubmitting = false;
 
-    function formatMoney(amount) {
-        return amount.toLocaleString('en-CA', {
+    function formatMoneyCents(cents) {
+        return (cents / 100).toLocaleString('en-CA', {
             style: 'currency',
             currency: 'CAD'
         });
     }
 
     function calculateTotals(entries) {
-        const sortedEntries = [...entries].sort((a, b) => b.price - a.price);
-        const regularTotal = sortedEntries.reduce((total, entry) => total + entry.price, 0);
-        let subtotal = regularTotal;
+        const sortedEntries = [...entries].sort((a, b) => b.priceCents - a.priceCents);
+        const regularTotalCents = sortedEntries.reduce((total, entry) => total + entry.priceCents, 0);
+        let subtotalCents = regularTotalCents;
 
         if (sortedEntries.length === 8) {
-            subtotal = EIGHT_WEEK_BUNDLE;
+            subtotalCents = EIGHT_WEEK_BUNDLE_CENTS;
         } else if (sortedEntries.length >= 4) {
             const extraWeeks = sortedEntries.slice(4);
-            subtotal = FOUR_WEEK_BUNDLE + extraWeeks.reduce((total, entry) => total + entry.price, 0);
+            subtotalCents = FOUR_WEEK_BUNDLE_CENTS + extraWeeks.reduce((total, entry) => total + entry.priceCents, 0);
         }
 
-        const discount = regularTotal - subtotal;
-        const hst = subtotal * HST_RATE;
-        const total = subtotal + hst;
+        const discountCents = regularTotalCents - subtotalCents;
+        const hstCents = Math.round(subtotalCents * HST_RATE);
+        const totalCents = subtotalCents + hstCents;
 
         return {
-            regularTotal,
-            discount,
-            subtotal,
-            hst,
-            total
+            regularTotalCents,
+            discountCents,
+            subtotalCents,
+            hstCents,
+            totalCents
         };
+    }
+
+    function setStatus(message, type = '') {
+        if (!statusEl) {
+            return;
+        }
+
+        statusEl.textContent = message;
+        statusEl.dataset.status = type;
+    }
+
+    function setSubmitting(isLoading) {
+        isSubmitting = isLoading;
+        purchaseButton.disabled = isLoading || selectedWeeks.size === 0;
+        clearButton.disabled = isLoading;
+        purchaseButton.textContent = isLoading ? 'Opening Secure Payment...' : 'Continue to Secure Payment';
     }
 
     function syncButtons() {
@@ -437,21 +457,27 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             const item = document.createElement('li');
             item.className = 'summer-cart-item';
-            item.innerHTML = `
-                <span class="summer-cart-item-name">${entry.name} - ${formatMoney(entry.price)}</span>
-                <button class="summer-cart-remove" type="button" data-remove-week="${entry.id}">Remove</button>
-            `;
+            const name = document.createElement('span');
+            const removeButton = document.createElement('button');
+
+            name.className = 'summer-cart-item-name';
+            name.textContent = `${entry.name} - ${formatMoneyCents(entry.priceCents)}`;
+            removeButton.className = 'summer-cart-remove';
+            removeButton.type = 'button';
+            removeButton.dataset.removeWeek = entry.id;
+            removeButton.textContent = 'Remove';
+            item.append(name, removeButton);
             cartList.appendChild(item);
         });
 
         totalsPanel.hidden = false;
-        regularTotalEl.textContent = formatMoney(totals.regularTotal);
-        discountRow.hidden = totals.discount <= 0;
-        discountTotalEl.textContent = `-${formatMoney(totals.discount)}`;
-        subtotalEl.textContent = formatMoney(totals.subtotal);
-        hstEl.textContent = formatMoney(totals.hst);
-        grandTotalEl.textContent = formatMoney(totals.total);
-        purchaseButton.disabled = false;
+        regularTotalEl.textContent = formatMoneyCents(totals.regularTotalCents);
+        discountRow.hidden = totals.discountCents <= 0;
+        discountTotalEl.textContent = `-${formatMoneyCents(totals.discountCents)}`;
+        subtotalEl.textContent = formatMoneyCents(totals.subtotalCents);
+        hstEl.textContent = formatMoneyCents(totals.hstCents);
+        grandTotalEl.textContent = formatMoneyCents(totals.totalCents);
+        purchaseButton.disabled = isSubmitting;
     }
 
     function addWeek(weekId) {
@@ -463,18 +489,93 @@ document.addEventListener('DOMContentLoaded', function() {
 
         selectedWeeks.set(weekId, {
             id: weekId,
+            code: card.dataset.weekCode || `W${weekId}`,
             name: card.dataset.weekName || `Week ${weekId}`,
-            price: Number(card.dataset.weekPrice || 0)
+            priceCents: Number(card.dataset.weekPriceCents || 0)
         });
 
+        setStatus('');
         syncButtons();
         renderCart();
     }
 
     function removeWeek(weekId) {
         selectedWeeks.delete(weekId);
+        setStatus('');
         syncButtons();
         renderCart();
+    }
+
+    function getRegistrationData() {
+        if (!registrationForm?.reportValidity()) {
+            return null;
+        }
+
+        const formData = new FormData(registrationForm);
+
+        return {
+            studentName: String(formData.get('studentName') || '').trim(),
+            parentName: String(formData.get('parentName') || '').trim(),
+            parentEmail: String(formData.get('parentEmail') || '').trim(),
+            phone: String(formData.get('phone') || '').trim()
+        };
+    }
+
+    async function postToAppsScript(payload) {
+        const response = await fetch(appsScriptUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(payload)
+        });
+        const text = await response.text();
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch (error) {
+            throw new Error('The registration service did not return a readable response.');
+        }
+
+        if (!response.ok || data.success === false) {
+            throw new Error(data.error || 'The registration service could not process this request.');
+        }
+
+        return data;
+    }
+
+    async function verifyReturnedPayment() {
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        const paymentStatus = params.get('payment');
+
+        if (paymentStatus === 'canceled') {
+            setStatus('Payment was canceled. Please choose your weeks again when you are ready.', 'warning');
+            summerShop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.history.replaceState({}, document.title, `${window.location.pathname}#summer-camp`);
+            return;
+        }
+
+        if (paymentStatus !== 'success' || !sessionId || !appsScriptUrl) {
+            return;
+        }
+
+        setStatus('Checking payment status...', 'pending');
+        summerShop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        try {
+            const result = await postToAppsScript({
+                action: 'verifyCheckoutSession',
+                stripeSessionId: sessionId
+            });
+
+            setStatus(result.message || 'Payment verified. Your registration has been received.', 'success');
+        } catch (error) {
+            setStatus(error.message || 'Payment could not be verified yet. Please contact SparkPreneurs.', 'error');
+        } finally {
+            window.history.replaceState({}, document.title, `${window.location.pathname}#summer-camp`);
+        }
     }
 
     addButtons.forEach(button => {
@@ -495,26 +596,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
     clearButton?.addEventListener('click', function() {
         selectedWeeks.clear();
+        setStatus('');
         syncButtons();
         renderCart();
     });
 
-    purchaseButton?.addEventListener('click', function() {
+    purchaseButton?.addEventListener('click', async function() {
         if (!selectedWeeks.size) {
+            setStatus('Please choose at least one week first.', 'warning');
             return;
         }
 
-        const weekList = Array.from(selectedWeeks.values()).map(entry => entry.name).join(', ');
-        const totals = calculateTotals(Array.from(selectedWeeks.values()));
-        const subject = 'Summer Camp Purchase Request';
-        const body = encodeURIComponent(
-            `Hello SparkPreneurs,\n\nI would like to purchase the following summer camp weeks:\n${weekList}\n\nSubtotal: ${formatMoney(totals.subtotal)}\nHST 13%: ${formatMoney(totals.hst)}\nTotal: ${formatMoney(totals.total)}\n\nPlease contact me with the next payment step.\n\nThank you.`
-        );
+        if (!appsScriptUrl) {
+            setStatus('Secure payment is not connected yet. Please contact SparkPreneurs.', 'error');
+            return;
+        }
 
-        window.location.href = `mailto:${purchaseEmail}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        const registrationData = getRegistrationData();
+
+        if (!registrationData) {
+            setStatus('Please complete the registration fields before payment.', 'warning');
+            return;
+        }
+
+        const entries = Array.from(selectedWeeks.values());
+        const totals = calculateTotals(entries);
+        const pageUrl = `${window.location.origin}${window.location.pathname}`;
+
+        setSubmitting(true);
+        setStatus('Checking the registration total...', 'pending');
+
+        try {
+            const result = await postToAppsScript({
+                action: 'createCheckoutSession',
+                programCode,
+                selectedWeeks: entries.map(entry => entry.code),
+                selectedWeekDetails: entries.map(entry => ({
+                    code: entry.code,
+                    name: entry.name,
+                    displayedPriceCents: entry.priceCents
+                })),
+                displayedAmountCents: totals.totalCents,
+                successUrl: `${pageUrl}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+                cancelUrl: `${pageUrl}?payment=canceled#summer-camp`,
+                ...registrationData
+            });
+
+            if (!result.checkoutUrl) {
+                throw new Error('Stripe Checkout did not return a payment link.');
+            }
+
+            setStatus('Opening Stripe Checkout...', 'pending');
+            window.location.href = result.checkoutUrl;
+        } catch (error) {
+            setSubmitting(false);
+            setStatus(error.message || 'Payment could not be started. Please try again.', 'error');
+        }
     });
 
     syncButtons();
     renderCart();
+    verifyReturnedPayment();
 });
 

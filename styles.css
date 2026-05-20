@@ -2597,6 +2597,38 @@ body.movement-theme .custom-time-note {
     gap: 12px;
 }
 
+.summer-registration-form {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+}
+
+.summer-form-field {
+    display: grid;
+    gap: 6px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    color: #3f3f46;
+}
+
+.summer-form-field input {
+    width: 100%;
+    border: 1px solid rgba(194, 65, 12, 0.22);
+    border-radius: 14px;
+    background: #ffffff;
+    color: #2f3240;
+    font: inherit;
+    padding: 11px 12px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.summer-form-field input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.16);
+}
+
 .summer-cart-item {
     display: flex;
     align-items: center;
@@ -2676,6 +2708,40 @@ body.movement-theme .custom-time-note {
     line-height: 1.55;
 }
 
+.summer-cart-status {
+    border-radius: 16px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 12px;
+    padding: 12px 14px;
+}
+
+.summer-cart-status:empty {
+    display: none;
+}
+
+.summer-cart-status[data-status="pending"] {
+    background: #fff7ed;
+    color: #9a3412;
+}
+
+.summer-cart-status[data-status="success"] {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.summer-cart-status[data-status="warning"] {
+    background: #fffbeb;
+    color: #92400e;
+}
+
+.summer-cart-status[data-status="error"] {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
 .summer-cart-actions {
     margin-top: 18px;
     display: flex;
@@ -2688,7 +2754,8 @@ body.movement-theme .custom-time-note {
     padding: 14px 18px;
 }
 
-.summer-cart-purchase:disabled {
+.summer-cart-purchase:disabled,
+.summer-cart-clear:disabled {
     opacity: 0.55;
     cursor: not-allowed;
     transform: none;
