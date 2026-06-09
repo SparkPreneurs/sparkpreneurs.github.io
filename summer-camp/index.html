@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Camp Ages 4-12 | SparkPreneurs</title>
+    <link rel="stylesheet" href="../styles.css?v=20260609">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="summer-camp-page">
+    <header class="header">
+        <nav class="nav">
+            <a class="nav-brand" href="../index.html">
+                <img src="../assets/Logo.png" alt="SparkPreneurs Logo" class="logo">
+                <span class="brand-text">SparkPreneurs</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#programs" class="nav-link">Programs</a></li>
+                <li><a href="../index.html#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <a class="cta-button" href="../index.html#contact">Join the Fun!</a>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="summer-camp-banner" id="summer-camp">
+            <div class="container summer-camp-content">
+                <div class="summer-camp-head">
+                    <div class="summer-camp-text">
+                        <p class="summer-camp-kicker">Summer Camp Ages 4-12</p>
+                        <h1 class="summer-camp-title">Choose Your Summer Camp Weeks</h1>
+                        <p class="summer-camp-description">Explore all 8 themed weeks with art, STEM, cooking, yoga, dance, design, and hands-on creativity. Choose the weeks your child will love, complete the registration form, and continue to secure payment.</p>
+                        <a class="summer-page-back" href="../index.html#summer-programs">← View All Summer Programs</a>
+                    </div>
+                </div>
+                <div class="summer-camp-shop" data-program-code="summer2026" data-apps-script-url="https://script.google.com/macros/s/AKfycbxQNyWYEpSRKOq9kY7zJ0KWMK5Ge3Hm5rBqUKiVe7JW5Q1Gj5m3VxC9kdfbz4fmjZAM-g/exec">
+                    <div class="summer-camp-options">
+                        <div class="summer-camp-summary">
+                            <p class="summer-camp-summary-label">Choose Your Weeks</p>
+                            <p class="summer-camp-summary-text">Open any week design, add the weeks you want, then complete registration with secure Stripe payment.</p>
+                            <p class="summer-camp-offer">Special offer: choose any 4 weeks for $1,200 before HST.</p>
+                        </div>
+                        <div class="summer-camp-grid" data-summer-week-grid></div>
+                    </div>
+                    <aside class="summer-cart" aria-live="polite">
+                        <div class="summer-cart-card">
+                            <p class="summer-cart-label">Selected Weeks</p>
+                            <ul class="summer-cart-list" data-summer-cart-list>
+                                <li class="summer-cart-empty">No weeks added yet.</li>
+                            </ul>
+                            <div class="summer-cart-totals" data-summer-cart-totals hidden>
+                                <div class="summer-cart-total-row">
+                                    <span>Regular price</span>
+                                    <strong data-summer-regular-total>$0.00</strong>
+                                </div>
+                                <div class="summer-cart-total-row summer-cart-discount-row" data-summer-discount-row hidden>
+                                    <span>Bundle discount</span>
+                                    <strong data-summer-discount-total>-$0.00</strong>
+                                </div>
+                                <div class="summer-cart-total-row">
+                                    <span>Subtotal</span>
+                                    <strong data-summer-subtotal>$0.00</strong>
+                                </div>
+                                <div class="summer-cart-total-row">
+                                    <span>HST 13%</span>
+                                    <strong data-summer-hst>$0.00</strong>
+                                </div>
+                                <div class="summer-cart-total-row summer-cart-grand-total">
+                                    <span>Total</span>
+                                    <strong data-summer-grand-total>$0.00</strong>
+                                </div>
+                            </div>
+                            <form class="summer-registration-form" data-summer-registration-form novalidate>
+                                <label class="summer-form-field">
+                                    <span>Student name</span>
+                                    <input type="text" name="studentName" autocomplete="name" required>
+                                </label>
+                                <label class="summer-form-field">
+                                    <span>Parent name</span>
+                                    <input type="text" name="parentName" autocomplete="name" required>
+                                </label>
+                                <label class="summer-form-field">
+                                    <span>Parent email</span>
+                                    <input type="email" name="parentEmail" autocomplete="email" required>
+                                </label>
+                                <label class="summer-form-field">
+                                    <span>Phone</span>
+                                    <input type="tel" name="phone" autocomplete="tel" required>
+                                </label>
+                            </form>
+                            <p class="summer-cart-note">Final pricing is checked securely before Stripe opens. Registration is confirmed after payment is verified.</p>
+                            <p class="summer-cart-status" data-summer-cart-status role="status" aria-live="polite"></p>
+                            <div class="summer-cart-actions">
+                                <button class="summer-cart-purchase" type="button" data-summer-cart-purchase>Continue to Secure Payment</button>
+                                <button class="summer-cart-clear" type="button" data-summer-cart-clear>Clear Cart</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="program-detail-footer">
+        <div class="container">
+            <p>Questions about summer camp? Contact SparkPreneurs and we will help you choose the right weeks.</p>
+            <a class="btn-secondary" href="../index.html#contact">Contact Us</a>
+        </div>
+    </footer>
+
+    <script>
+        const summerWeeks = [
+            { id: 1, date: 'July 6-10', price: 420 },
+            { id: 2, date: 'July 13-17', price: 420 },
+            { id: 3, date: 'July 20-24', price: 420 },
+            { id: 4, date: 'July 27-31', price: 420 },
+            { id: 5, date: 'August 4-7', price: 390 },
+            { id: 6, date: 'August 10-14', price: 420 },
+            { id: 7, date: 'August 17-21', price: 420 },
+            { id: 8, date: 'August 24-28', price: 420 }
+        ];
+        const weekGrid = document.querySelector('[data-summer-week-grid]');
+
+        summerWeeks.forEach(week => {
+            const card = document.createElement('article');
+            card.className = 'summer-week-card';
+            card.dataset.weekId = week.id;
+            card.dataset.weekCode = `W${week.id}`;
+            card.dataset.weekName = `Week ${week.id} (${week.date})`;
+            card.dataset.weekPriceCents = week.price * 100;
+            card.innerHTML = `
+                <a class="summer-week-preview" href="../assets/week${week.id}.png" target="_blank" rel="noopener">
+                    <img src="../assets/week${week.id}.png" alt="SparkPreneurs Summer Camp Week ${week.id} design" class="summer-week-image">
+                </a>
+                <div class="summer-week-body">
+                    <div>
+                        <p class="summer-week-label">Summer Week ${week.id}</p>
+                        <h2 class="summer-week-title">Week ${week.id}</h2>
+                        <p class="summer-week-date">${week.date}</p>
+                        <p class="summer-week-price">$${week.price}</p>
+                    </div>
+                    <button class="summer-week-add" type="button" data-add-week="${week.id}">Add to Cart</button>
+                </div>
+            `;
+            weekGrid.appendChild(card);
+        });
+    </script>
+    <script src="../script.js?v=20260609"></script>
+</body>
+</html>
