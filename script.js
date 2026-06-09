@@ -355,7 +355,7 @@ document.querySelector('.party-cta')?.addEventListener('click', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const summerShop = document.querySelector('.summer-camp-shop');
 
-    if (!summerShop) {
+    if (!summerShop || summerShop.dataset.checkoutMode === 'sessions') {
         return;
     }
 

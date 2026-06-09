@@ -5,7 +5,7 @@ const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-05-20-4";
+const SCRIPT_VERSION = "2026-06-09-5";
 
 function doPost(e) {
   try {
@@ -20,7 +20,8 @@ function doPost(e) {
     if (action === "ping") {
       return jsonResponse({
         success: true,
-        version: SCRIPT_VERSION
+        version: SCRIPT_VERSION,
+        programs: ["summer2026", "summer2026_10_14"]
       });
     }
 
@@ -48,11 +49,16 @@ function doGet() {
   return jsonResponse({
     success: true,
     message: "SparkPreneurs registration endpoint is running.",
-    version: SCRIPT_VERSION
+    version: SCRIPT_VERSION,
+    programs: ["summer2026", "summer2026_10_14"]
   });
 }
 
 function setupSheet2Summer2026() {
+  setupSheet2SummerPrograms2026();
+}
+
+function setupSheet2SummerPrograms2026() {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(PRICING_SHEET_NAME) || ss.insertSheet(PRICING_SHEET_NAME);
   const rows = [
@@ -65,9 +71,29 @@ function setupSheet2Summer2026() {
     ["summer2026", "W6", "Week 6 (August 10-14)", 42000, true, "", "", "", ""],
     ["summer2026", "W7", "Week 7 (August 17-21)", 42000, true, "", "", "", ""],
     ["summer2026", "W8", "Week 8 (August 24-28)", 42000, true, "", "", "", ""],
-    ["", "", "Bundle: any 4 weeks", "", "", 4, "", 120000, ""],
-    ["", "", "Bundle: all 8 weeks", "", "", 8, "", 240000, ""]
+    ["summer2026", "", "Bundle: any 4 weeks", "", "", 4, "", 120000, ""],
+    ["summer2026", "", "Bundle: all 8 weeks", "", "", 8, "", 240000, ""]
   ];
+  const olderSummerWeeks = [
+    ["1", "July 6-10", 20000],
+    ["2", "July 13-17", 20000],
+    ["3", "July 20-24", 20000],
+    ["4", "July 27-31", 20000],
+    ["5", "August 4-7", 16000],
+    ["6", "August 10-14", 20000],
+    ["7", "August 17-21", 20000],
+    ["8", "August 24-28", 20000]
+  ];
+
+  olderSummerWeeks.forEach(function(week) {
+    const weekNumber = week[0];
+    const date = week[1];
+    const sessionPriceCents = week[2];
+
+    rows.push(["summer2026_10_14", "W" + weekNumber + "AM", "Week " + weekNumber + " Morning (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
+    rows.push(["summer2026_10_14", "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
+    rows.push(["summer2026_10_14", "W" + weekNumber + "MEAL", "Week " + weekNumber + " Meal (" + date + ")", 4500, true, "", "", "", ""]);
+  });
 
   sheet.clearContents();
   sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
@@ -103,6 +129,7 @@ function authorizeRequiredServices() {
 function createCheckoutSession_(data) {
   const programCode = sanitizeText_(data.programCode || DEFAULT_PROGRAM_CODE, 40);
   const selectedWeeks = normalizeSelectedWeeks_(data.selectedWeeks);
+  validateProgramSelections_(selectedWeeks, programCode);
   const displayedAmountCents = normalizeCents_(data.displayedAmountCents, "displayedAmountCents");
   const registration = normalizeRegistration_(data);
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -128,6 +155,10 @@ function createCheckoutSession_(data) {
   const weekList = pricing.selectedWeeks.map(function(week) {
     return week.weekName;
   }).join(", ");
+  const checkoutDescription = sanitizeText_(weekList, 500);
+  const productName = programCode === "summer2026_10_14"
+    ? "SparkPreneurs Summer Programs Ages 10-14 Registration"
+    : "SparkPreneurs Summer Camp Registration";
   const checkoutSession = stripeRequest_("post", "/checkout/sessions", {
     mode: "payment",
     success_url: successUrl,
@@ -137,14 +168,14 @@ function createCheckoutSession_(data) {
     billing_address_collection: "auto",
     "phone_number_collection[enabled]": "true",
     "line_items[0][price_data][currency]": DEFAULT_CURRENCY,
-    "line_items[0][price_data][product_data][name]": "SparkPreneurs Summer Camp Registration",
-    "line_items[0][price_data][product_data][description]": weekList,
+    "line_items[0][price_data][product_data][name]": productName,
+    "line_items[0][price_data][product_data][description]": checkoutDescription,
     "line_items[0][price_data][unit_amount]": String(pricing.totalCents),
     "line_items[0][quantity]": "1",
     "metadata[orderId]": orderId,
     "metadata[programCode]": programCode,
     "metadata[selectedWeeks]": selectedWeeks.join(","),
-    "metadata[selectedWeekNames]": weekList,
+    "metadata[selectedWeekNames]": sanitizeText_(weekList, 500),
     "metadata[studentName]": registration.studentName,
     "metadata[parentName]": registration.parentName,
     "metadata[parentEmail]": registration.parentEmail,
@@ -259,7 +290,7 @@ function calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode) {
   const regularSubtotalCents = selectedPricing.reduce(function(total, week) {
     return total + week.priceCents;
   }, 0);
-  const discountedSubtotalCents = calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents);
+  const discountedSubtotalCents = calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents, programCode);
   const discountCents = regularSubtotalCents - discountedSubtotalCents;
   const taxRatePercent = readTaxRatePercent_(values, headers);
   const taxCents = Math.round(discountedSubtotalCents * (taxRatePercent / 100));
@@ -276,7 +307,8 @@ function calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode) {
   };
 }
 
-function calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents) {
+function calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents, programCode) {
+  const programIndex = requiredHeader_(headers, "programCode");
   const minWeeksIndex = optionalHeader_(headers, "minWeeks");
   const discountPercentIndex = optionalHeader_(headers, "discountPercent");
   const bundlePriceCentsIndex = optionalHeader_(headers, "bundlePriceCents");
@@ -291,9 +323,10 @@ function calculateDiscountedSubtotal_(values, headers, selectedPricing, regularS
   let bestSubtotalCents = regularSubtotalCents;
 
   values.slice(1).forEach(function(row) {
+    const rowProgramCode = String(row[programIndex]).trim();
     const minWeeks = Number(row[minWeeksIndex]);
 
-    if (!Number.isFinite(minWeeks) || minWeeks <= 0 || sortedWeeks.length < minWeeks) {
+    if (rowProgramCode !== programCode || !Number.isFinite(minWeeks) || minWeeks <= 0 || sortedWeeks.length < minWeeks) {
       return;
     }
 
@@ -511,8 +544,8 @@ function normalizeSelectedWeeks_(selectedWeeks) {
     throw new Error("No weeks selected.");
   }
 
-  if (selectedWeeks.length > 8) {
-    throw new Error("Too many weeks selected.");
+  if (selectedWeeks.length > 24) {
+    throw new Error("Too many sessions or meals selected.");
   }
 
   const normalized = selectedWeeks.map(function(weekCode) {
@@ -533,6 +566,35 @@ function normalizeSelectedWeeks_(selectedWeeks) {
   });
 
   return normalized;
+}
+
+function validateProgramSelections_(selectedWeeks, programCode) {
+  if (programCode !== "summer2026_10_14") {
+    return;
+  }
+
+  const selected = {};
+  let sessionCount = 0;
+
+  selectedWeeks.forEach(function(code) {
+    selected[code] = true;
+
+    if (/^W[1-8](AM|PM)$/.test(code)) {
+      sessionCount++;
+    }
+  });
+
+  if (sessionCount === 0) {
+    throw new Error("Choose at least one morning or afternoon session.");
+  }
+
+  selectedWeeks.forEach(function(code) {
+    const match = code.match(/^W([1-8])MEAL$/);
+
+    if (match && !selected["W" + match[1] + "AM"] && !selected["W" + match[1] + "PM"]) {
+      throw new Error("A meal requires a selected session in Week " + match[1] + ".");
+    }
+  });
 }
 
 function sanitizeSessionId_(sessionId) {

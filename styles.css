@@ -2967,6 +2967,146 @@ body.movement-theme .custom-time-note {
     white-space: normal;
 }
 
+.older-summer-banner {
+    padding: 104px 0 48px;
+    background: linear-gradient(135deg, #f5f3ff 0%, #ecfeff 100%);
+}
+
+.older-summer-program-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.older-summer-program-list span {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #3f3f46;
+    font-family: 'Fredoka', cursive;
+    font-weight: 700;
+    padding: 12px 16px;
+    text-align: center;
+}
+
+.older-summer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.older-summer-week-card {
+    padding: 22px;
+    border: 1px solid rgba(139, 92, 246, 0.12);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 40px rgba(47, 50, 64, 0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.older-summer-week-card.is-selected {
+    border-color: rgba(139, 92, 246, 0.48);
+    box-shadow: 0 20px 44px rgba(139, 92, 246, 0.16);
+}
+
+.older-summer-week-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.older-summer-week-head h2 {
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+    font-size: 26px;
+}
+
+.older-summer-four-day {
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    font-family: 'Fredoka', cursive;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 10px;
+}
+
+.older-summer-session-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.older-session-button {
+    display: grid;
+    gap: 3px;
+    border: 1px solid rgba(139, 92, 246, 0.18);
+    border-radius: 18px;
+    background: #faf5ff;
+    color: #3f3f46;
+    cursor: pointer;
+    font-family: 'Fredoka', cursive;
+    padding: 13px 10px;
+    text-align: left;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.older-session-button small {
+    font-family: 'Comic Neue', cursive;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.older-session-button strong {
+    margin-top: 3px;
+}
+
+.older-session-button.is-selected {
+    border-color: transparent;
+    background: linear-gradient(135deg, #8b5cf6, #14b8a6);
+    color: #ffffff;
+}
+
+.older-session-button:hover {
+    transform: translateY(-1px);
+}
+
+.older-summer-meal {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 9px;
+    margin-top: 14px;
+    border-radius: 16px;
+    background: #fff7ed;
+    color: #3f3f46;
+    cursor: pointer;
+    font-family: 'Comic Neue', cursive;
+    font-weight: 700;
+    padding: 12px;
+}
+
+.older-summer-meal input {
+    width: 18px;
+    height: 18px;
+    accent-color: #f97316;
+}
+
+.older-summer-meal:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.older-summer-meal-note {
+    margin-top: 7px;
+    color: #71717a;
+    font-family: 'Comic Neue', cursive;
+    font-size: 13px;
+    font-weight: 700;
+}
+
 @media (max-width: 768px) {
     .summer-program-selector {
         padding: 96px 0 44px;
@@ -2984,6 +3124,15 @@ body.movement-theme .custom-time-note {
 
     .summer-preview-hero {
         padding: 110px 0 56px;
+    }
+
+    .older-summer-banner {
+        padding: 92px 0 32px;
+    }
+
+    .older-summer-program-list,
+    .older-summer-grid {
+        grid-template-columns: 1fr;
     }
 }
 
