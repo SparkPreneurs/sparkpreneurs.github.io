@@ -2972,6 +2972,25 @@ body.movement-theme .custom-time-note {
     background: linear-gradient(135deg, #f5f3ff 0%, #ecfeff 100%);
 }
 
+.older-summer-banner .summer-camp-head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 28px;
+}
+
+.summer-programs-page .summer-camp-title {
+    white-space: normal;
+}
+
+.older-summer-hero-image {
+    display: block;
+    width: 100%;
+    border: 8px solid rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    box-shadow: 0 20px 44px rgba(47, 50, 64, 0.16);
+}
+
 .older-summer-program-list {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3249,6 +3268,16 @@ body.movement-theme .custom-time-note {
 
     .older-summer-banner {
         padding: 92px 0 32px;
+    }
+
+    .older-summer-banner .summer-camp-head {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .older-summer-hero-image {
+        border-width: 5px;
+        border-radius: 22px;
     }
 
     .older-summer-program-list,
