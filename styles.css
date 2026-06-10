@@ -2986,15 +2986,24 @@ body.movement-theme .custom-time-note {
     max-width: 900px;
 }
 
-.older-summer-hero-image {
-    display: block;
+.older-summer-hero {
+    position: relative;
     width: 100%;
     height: 260px;
     border: 8px solid rgba(255, 255, 255, 0.9);
     border-radius: 28px;
+    background: linear-gradient(rgba(245, 243, 255, 0.58), rgba(236, 254, 255, 0.58)),
+        url('assets/age-10-14.png') center / cover;
     box-shadow: 0 20px 44px rgba(47, 50, 64, 0.16);
-    object-fit: cover;
-    object-position: center;
+    overflow: hidden;
+}
+
+.older-summer-hero-image {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .older-summer-schedule {
@@ -3263,7 +3272,7 @@ body.movement-theme .custom-time-note {
         padding: 92px 0 32px;
     }
 
-    .older-summer-hero-image {
+    .older-summer-hero {
         height: 150px;
         border-width: 5px;
         border-radius: 22px;
