@@ -2989,9 +2989,12 @@ body.movement-theme .custom-time-note {
 .older-summer-hero-image {
     display: block;
     width: 100%;
+    height: 260px;
     border: 8px solid rgba(255, 255, 255, 0.9);
     border-radius: 28px;
     box-shadow: 0 20px 44px rgba(47, 50, 64, 0.16);
+    object-fit: cover;
+    object-position: center;
 }
 
 .older-summer-schedule {
@@ -3261,6 +3264,7 @@ body.movement-theme .custom-time-note {
     }
 
     .older-summer-hero-image {
+        height: 150px;
         border-width: 5px;
         border-radius: 22px;
     }
