@@ -2993,7 +2993,7 @@ body.movement-theme .custom-time-note {
     border: 8px solid rgba(255, 255, 255, 0.9);
     border-radius: 28px;
     background: linear-gradient(rgba(245, 243, 255, 0.58), rgba(236, 254, 255, 0.58)),
-        url('assets/age-10-14.png') center / cover;
+        url('assets/older-program.png') center / cover;
     box-shadow: 0 20px 44px rgba(47, 50, 64, 0.16);
     overflow: hidden;
 }
