@@ -101,6 +101,40 @@ function setupSheet2SummerPrograms2026() {
   sheet.autoResizeColumns(1, rows[0].length);
 }
 
+function setupSummer2026Ages10To14() {
+  const sheetName = "summer2026_ages10_14";
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
+  const rows = [
+    ["programCode", "weekCode", "weekName", "priceCents", "active", "minWeeks", "discountPercent", "bundlePriceCents", "taxRatePercent"]
+  ];
+  const weeks = [
+    ["1", "July 6-10", 20000],
+    ["2", "July 13-17", 20000],
+    ["3", "July 20-24", 20000],
+    ["4", "July 27-31", 20000],
+    ["5", "August 4-7", 16000],
+    ["6", "August 10-14", 20000],
+    ["7", "August 17-21", 20000],
+    ["8", "August 24-28", 20000]
+  ];
+
+  weeks.forEach(function(week) {
+    const weekNumber = week[0];
+    const date = week[1];
+    const sessionPriceCents = week[2];
+
+    rows.push(["summer2026_10_14", "W" + weekNumber + "AM", "Week " + weekNumber + " Morning (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
+    rows.push(["summer2026_10_14", "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
+    rows.push(["summer2026_10_14", "W" + weekNumber + "MEAL", "Week " + weekNumber + " Meal (" + date + ")", 4500, true, "", "", "", ""]);
+  });
+
+  sheet.clearContents();
+  sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
+  sheet.setFrozenRows(1);
+  sheet.autoResizeColumns(1, rows[0].length);
+}
+
 function authorizeRequiredServices() {
   const secretKey = PropertiesService.getScriptProperties().getProperty("STRIPE_SECRET_KEY");
 
