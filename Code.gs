@@ -1,11 +1,12 @@
 const SPREADSHEET_ID = "1xCdl23sViHWcP9Zq6Zu_cpHxpZTinyy11R1qZZOCobo";
 const REGISTRATION_SHEET_NAME = "Sheet1";
 const PRICING_SHEET_NAME = "Sheet2";
+const AGES_10_TO_14_PRICING_SHEET_NAME = "summer2026_ages10_14";
 const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-06-09-5";
+const SCRIPT_VERSION = "2026-06-13-1";
 
 function doPost(e) {
   try {
@@ -102,9 +103,8 @@ function setupSheet2SummerPrograms2026() {
 }
 
 function setupSummer2026Ages10To14() {
-  const sheetName = "summer2026_ages10_14";
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(sheetName) || ss.insertSheet(sheetName);
+  const sheet = ss.getSheetByName(AGES_10_TO_14_PRICING_SHEET_NAME) || ss.insertSheet(AGES_10_TO_14_PRICING_SHEET_NAME);
   const rows = [
     ["programCode", "weekCode", "weekName", "priceCents", "active", "minWeeks", "discountPercent", "bundlePriceCents", "taxRatePercent"]
   ];
@@ -167,10 +167,11 @@ function createCheckoutSession_(data) {
   const displayedAmountCents = normalizeCents_(data.displayedAmountCents, "displayedAmountCents");
   const registration = normalizeRegistration_(data);
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const pricingSheet = ss.getSheetByName(PRICING_SHEET_NAME);
+  const pricingSheetName = getPricingSheetName_(programCode);
+  const pricingSheet = ss.getSheetByName(pricingSheetName);
 
   if (!pricingSheet) {
-    throw new Error("Missing pricing sheet: " + PRICING_SHEET_NAME);
+    throw new Error("Missing pricing sheet: " + pricingSheetName);
   }
 
   const pricing = calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode);
@@ -284,7 +285,7 @@ function calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode) {
   const values = pricingSheet.getDataRange().getValues();
 
   if (values.length < 2) {
-    throw new Error("Sheet2 needs a header row and at least one pricing row.");
+    throw new Error(pricingSheet.getName() + " needs a header row and at least one pricing row.");
   }
 
   const headers = values[0].map(function(header) {
@@ -339,6 +340,12 @@ function calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode) {
     taxCents: taxCents,
     totalCents: totalCents
   };
+}
+
+function getPricingSheetName_(programCode) {
+  return programCode === "summer2026_10_14"
+    ? AGES_10_TO_14_PRICING_SHEET_NAME
+    : PRICING_SHEET_NAME;
 }
 
 function calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents, programCode) {
