@@ -2629,6 +2629,205 @@ body.movement-theme .custom-time-note {
     box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.16);
 }
 
+.summer-waiver-note {
+    margin: 2px 0 0;
+    border-radius: 14px;
+    background: #f5f3ff;
+    color: #5b21b6;
+    font-family: 'Comic Neue', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+    padding: 11px 12px;
+}
+
+.waiver-dialog {
+    width: min(920px, calc(100vw - 32px));
+    max-width: none;
+    max-height: min(92vh, 980px);
+    border: 0;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 28px 80px rgba(45, 35, 66, 0.3);
+    color: #2f3240;
+    padding: 0;
+}
+
+.waiver-dialog::backdrop {
+    background: rgba(35, 25, 52, 0.72);
+    backdrop-filter: blur(3px);
+}
+
+.waiver-form {
+    max-height: min(92vh, 980px);
+    display: flex;
+    flex-direction: column;
+}
+
+.waiver-header,
+.waiver-actions {
+    flex-shrink: 0;
+    background: #ffffff;
+    padding: 20px 24px;
+}
+
+.waiver-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid rgba(91, 33, 182, 0.14);
+}
+
+.waiver-kicker {
+    margin: 0 0 4px;
+    color: #c2410c;
+    font-family: 'Fredoka', cursive;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.waiver-header h2 {
+    margin: 0;
+    color: #5b21b6;
+    font-family: 'Fredoka', cursive;
+    font-size: 28px;
+}
+
+.waiver-header p:last-child {
+    margin: 4px 0 0;
+    font-family: 'Comic Neue', cursive;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.waiver-close {
+    min-width: 42px;
+    min-height: 42px;
+    border: 1px solid rgba(91, 33, 182, 0.14);
+    border-radius: 50%;
+    background: #f5f3ff;
+    color: #5b21b6;
+    font-size: 28px;
+    line-height: 1;
+    padding: 0;
+}
+
+.waiver-body {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 24px;
+}
+
+.waiver-section {
+    border: 1px solid rgba(91, 33, 182, 0.12);
+    border-radius: 18px;
+    background: #ffffff;
+    margin-bottom: 18px;
+    padding: 20px;
+}
+
+.waiver-section:last-child {
+    margin-bottom: 0;
+}
+
+.waiver-section h3 {
+    margin: 0 0 12px;
+    color: #5b21b6;
+    font-family: 'Fredoka', cursive;
+    font-size: 21px;
+}
+
+.waiver-section p {
+    margin: 0 0 12px;
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.waiver-terms h3:not(:first-child) {
+    margin-top: 24px;
+}
+
+.waiver-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.waiver-field {
+    display: grid;
+    gap: 7px;
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.waiver-field:has(textarea) {
+    margin-bottom: 14px;
+}
+
+.waiver-field input,
+.waiver-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(91, 33, 182, 0.22);
+    border-radius: 12px;
+    background: #ffffff;
+    color: #2f3240;
+    font: inherit;
+    outline: none;
+    padding: 11px 12px;
+}
+
+.waiver-field textarea {
+    resize: vertical;
+}
+
+.waiver-field input:focus,
+.waiver-field textarea:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
+}
+
+.waiver-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 14px;
+    background: #f5f3ff;
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+    font-size: 16px;
+    line-height: 1.45;
+    margin-top: 12px;
+    padding: 12px;
+}
+
+.waiver-check input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #7c3aed;
+}
+
+.waiver-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid rgba(91, 33, 182, 0.14);
+}
+
+.waiver-actions button {
+    padding: 13px 18px;
+}
+
 .summer-cart-item {
     display: flex;
     align-items: center;
@@ -2812,6 +3011,42 @@ body.movement-theme .custom-time-note {
 @media (max-width: 560px) {
     .summer-camp-grid {
         grid-template-columns: 1fr;
+    }
+
+    .waiver-dialog {
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 16px);
+        border-radius: 18px;
+    }
+
+    .waiver-form {
+        max-height: calc(100vh - 16px);
+    }
+
+    .waiver-header,
+    .waiver-body,
+    .waiver-actions {
+        padding: 16px;
+    }
+
+    .waiver-header h2 {
+        font-size: 23px;
+    }
+
+    .waiver-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .waiver-section {
+        padding: 16px;
+    }
+
+    .waiver-actions {
+        flex-direction: column-reverse;
+    }
+
+    .waiver-actions button {
+        width: 100%;
     }
 }
 

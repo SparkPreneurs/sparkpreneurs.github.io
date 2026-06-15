@@ -6,7 +6,7 @@ const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-06-13-1";
+const SCRIPT_VERSION = "2026-06-15-1";
 
 function doPost(e) {
   try {
@@ -215,6 +215,9 @@ function createCheckoutSession_(data) {
     "metadata[parentName]": registration.parentName,
     "metadata[parentEmail]": registration.parentEmail,
     "metadata[phone]": registration.phone,
+    "metadata[waiverAccepted]": "true",
+    "metadata[waiverVersion]": registration.waiverVersion,
+    "metadata[waiverSignedDate]": registration.waiverSignedDate,
     "metadata[expectedAmountCents]": String(pricing.totalCents),
     "payment_intent_data[metadata][orderId]": orderId,
     "payment_intent_data[metadata][programCode]": programCode,
@@ -415,7 +418,10 @@ function finalizePaidRegistration_(session) {
     studentName: sanitizeText_(metadata.studentName, 100),
     parentName: sanitizeText_(metadata.parentName, 100),
     parentEmail: sanitizeEmail_(metadata.parentEmail),
-    phone: sanitizeText_(metadata.phone, 40)
+    phone: sanitizeText_(metadata.phone, 40),
+    waiverAccepted: isTruthy_(metadata.waiverAccepted),
+    waiverVersion: sanitizeText_(metadata.waiverVersion, 30),
+    waiverSignedDate: sanitizeText_(metadata.waiverSignedDate, 10)
   };
   const pricing = pending ? pending.pricing : {
     regularSubtotalCents: "",
@@ -440,6 +446,29 @@ function finalizePaidRegistration_(session) {
     parentName: registration.parentName,
     parentEmail: registration.parentEmail,
     phone: registration.phone,
+    waiverChildFullName: registration.waiverChildFullName,
+    childDateOfBirth: registration.childDateOfBirth,
+    waiverParentGuardianFullName: registration.waiverParentGuardianFullName,
+    waiverParentPhone: registration.waiverParentPhone,
+    waiverParentEmail: registration.waiverParentEmail,
+    emergencyContactName: registration.emergencyContactName,
+    emergencyContactPhone: registration.emergencyContactPhone,
+    emergencyContactRelationship: registration.emergencyContactRelationship,
+    medicalInformation: registration.medicalInformation,
+    medicalInformationConfirmed: registration.medicalInformationConfirmed,
+    waiverAcknowledged: registration.waiverAcknowledged,
+    photoConsent: registration.photoConsent,
+    authorizedPickup1Name: registration.authorizedPickup1Name,
+    authorizedPickup1Phone: registration.authorizedPickup1Phone,
+    authorizedPickup2Name: registration.authorizedPickup2Name,
+    authorizedPickup2Phone: registration.authorizedPickup2Phone,
+    authorizedPickup3Name: registration.authorizedPickup3Name,
+    authorizedPickup3Phone: registration.authorizedPickup3Phone,
+    waiverConfirmationName: registration.waiverConfirmationName,
+    electronicSignature: registration.electronicSignature,
+    waiverSignedDate: registration.waiverSignedDate,
+    waiverVersion: registration.waiverVersion,
+    waiverAccepted: registration.waiverAccepted,
     selectedWeeks: selectedWeeks,
     selectedWeekNames: selectedWeekNames,
     regularSubtotalCents: pricing.regularSubtotalCents,
@@ -480,6 +509,29 @@ function ensureRegistrationHeaders_(sheet) {
     "parentName",
     "parentEmail",
     "phone",
+    "waiverChildFullName",
+    "childDateOfBirth",
+    "waiverParentGuardianFullName",
+    "waiverParentPhone",
+    "waiverParentEmail",
+    "emergencyContactName",
+    "emergencyContactPhone",
+    "emergencyContactRelationship",
+    "medicalInformation",
+    "medicalInformationConfirmed",
+    "waiverAcknowledged",
+    "photoConsent",
+    "authorizedPickup1Name",
+    "authorizedPickup1Phone",
+    "authorizedPickup2Name",
+    "authorizedPickup2Phone",
+    "authorizedPickup3Name",
+    "authorizedPickup3Phone",
+    "waiverConfirmationName",
+    "electronicSignature",
+    "waiverSignedDate",
+    "waiverVersion",
+    "waiverAccepted",
     "selectedWeeks",
     "selectedWeekNames",
     "regularSubtotalCents",
@@ -572,12 +624,92 @@ function parseRequest_(e) {
 }
 
 function normalizeRegistration_(data) {
-  return {
+  const registration = {
     studentName: requireText_(data.studentName, "studentName", 100),
     parentName: requireText_(data.parentName, "parentName", 100),
     parentEmail: sanitizeEmail_(data.parentEmail),
     phone: requireText_(data.phone, "phone", 40)
   };
+  const waiver = normalizeWaiver_(data);
+
+  Object.keys(waiver).forEach(function(key) {
+    registration[key] = waiver[key];
+  });
+
+  return registration;
+}
+
+function normalizeWaiver_(data) {
+  if (!isTruthy_(data.waiverAccepted)) {
+    throw new Error("The parent/guardian waiver must be completed before payment.");
+  }
+
+  if (!isTruthy_(data.medicalInformationConfirmed)) {
+    throw new Error("Medical and emergency information must be confirmed.");
+  }
+
+  if (!isTruthy_(data.waiverAcknowledged)) {
+    throw new Error("The parent/guardian waiver must be acknowledged.");
+  }
+
+  const photoConsent = sanitizeText_(data.photoConsent, 3).toLowerCase();
+
+  if (photoConsent !== "yes" && photoConsent !== "no") {
+    throw new Error("Choose yes or no for photo and video consent.");
+  }
+
+  const childDateOfBirth = requireDate_(data.childDateOfBirth, "childDateOfBirth");
+  const waiverSignedDate = requireDate_(data.waiverSignedDate, "waiverSignedDate");
+  const pickup2 = normalizeOptionalPickup_(data.authorizedPickup2Name, data.authorizedPickup2Phone, 2);
+  const pickup3 = normalizeOptionalPickup_(data.authorizedPickup3Name, data.authorizedPickup3Phone, 3);
+
+  return {
+    waiverChildFullName: requireText_(data.waiverChildFullName, "waiverChildFullName", 100),
+    childDateOfBirth: childDateOfBirth,
+    waiverParentGuardianFullName: requireText_(data.waiverParentGuardianFullName, "waiverParentGuardianFullName", 100),
+    waiverParentPhone: requireText_(data.waiverParentPhone, "waiverParentPhone", 40),
+    waiverParentEmail: sanitizeNamedEmail_(data.waiverParentEmail, "waiverParentEmail"),
+    emergencyContactName: requireText_(data.emergencyContactName, "emergencyContactName", 100),
+    emergencyContactPhone: requireText_(data.emergencyContactPhone, "emergencyContactPhone", 40),
+    emergencyContactRelationship: requireText_(data.emergencyContactRelationship, "emergencyContactRelationship", 80),
+    medicalInformation: requireText_(data.medicalInformation, "medicalInformation", 2000),
+    medicalInformationConfirmed: true,
+    waiverAcknowledged: true,
+    photoConsent: photoConsent,
+    authorizedPickup1Name: requireText_(data.authorizedPickup1Name, "authorizedPickup1Name", 100),
+    authorizedPickup1Phone: requireText_(data.authorizedPickup1Phone, "authorizedPickup1Phone", 40),
+    authorizedPickup2Name: pickup2.name,
+    authorizedPickup2Phone: pickup2.phone,
+    authorizedPickup3Name: pickup3.name,
+    authorizedPickup3Phone: pickup3.phone,
+    waiverConfirmationName: requireText_(data.waiverConfirmationName, "waiverConfirmationName", 100),
+    electronicSignature: requireText_(data.electronicSignature, "electronicSignature", 100),
+    waiverSignedDate: waiverSignedDate,
+    waiverVersion: requireText_(data.waiverVersion, "waiverVersion", 30),
+    waiverAccepted: true
+  };
+}
+
+function normalizeOptionalPickup_(nameValue, phoneValue, number) {
+  const name = sanitizeText_(nameValue, 100);
+  const phone = sanitizeText_(phoneValue, 40);
+
+  if ((name && !phone) || (!name && phone)) {
+    throw new Error("Authorized pickup " + number + " requires both a name and phone number.");
+  }
+
+  return { name: name, phone: phone };
+}
+
+function requireDate_(value, fieldName) {
+  const date = requireText_(value, fieldName, 10);
+  const parsed = new Date(date + "T00:00:00Z");
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) {
+    throw new Error("Invalid " + fieldName + ".");
+  }
+
+  return date;
 }
 
 function normalizeSelectedWeeks_(selectedWeeks) {
@@ -663,10 +795,14 @@ function sanitizeText_(value, maxLength) {
 }
 
 function sanitizeEmail_(value) {
-  const email = requireText_(value, "parentEmail", 120).toLowerCase();
+  return sanitizeNamedEmail_(value, "parentEmail");
+}
+
+function sanitizeNamedEmail_(value, fieldName) {
+  const email = requireText_(value, fieldName, 120).toLowerCase();
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    throw new Error("Invalid parentEmail.");
+    throw new Error("Invalid " + fieldName + ".");
   }
 
   return email;
