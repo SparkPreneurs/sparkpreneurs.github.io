@@ -817,6 +817,60 @@ body {
     padding: 18px 36px;
 }
 
+.events-content {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.65fr);
+    gap: 44px;
+    align-items: center;
+    margin-bottom: 34px;
+}
+
+.event-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.event-intro p {
+    color: var(--muted-ink);
+    line-height: 1.7;
+    font-family: 'Lora', serif;
+}
+
+.event-types-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.event-type-card {
+    padding: 28px;
+}
+
+.event-type-number {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--terracotta);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.event-type-card h3 {
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.event-type-card p {
+    color: var(--muted-ink);
+    line-height: 1.6;
+    font-family: 'Lora', serif;
+}
+
 /* Why Choose Us Section */
 .why-choose-us {
     padding: 120px 0;
@@ -1302,9 +1356,13 @@ body {
         font-size: 40px;
     }
     
-    .why-content, .parties-content {
+    .why-content, .parties-content, .events-content {
         grid-template-columns: 1fr;
         gap: 48px;
+    }
+
+    .event-types-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     
     .programs-grid {
@@ -1384,6 +1442,10 @@ body {
 
     .gallery-grid {
         grid-template-columns: minmax(0, 240px);
+    }
+
+    .event-types-grid {
+        grid-template-columns: 1fr;
     }
 
     .cta-buttons {
@@ -3640,6 +3702,10 @@ body > .why-choose-us { order: 7; }
 body > .final-cta { order: 8; }
 body > .footer { order: 9; }
 
+section {
+    scroll-margin-top: 150px;
+}
+
 .header {
     background: rgba(216, 196, 170, 0.94);
     border-bottom: 1px solid var(--line);
@@ -3824,6 +3890,8 @@ body > .footer { order: 9; }
 .summer-selector-heading p,
 .summer-selector-card p,
 .program-card p,
+.event-intro p,
+.event-type-card p,
 .feature-text p,
 .benefit-text p,
 .cta-content p {
@@ -3834,6 +3902,7 @@ body > .footer { order: 9; }
 .about-highlight,
 .about-mission,
 .program-card,
+.event-type-card,
 .gallery-card,
 .party-image,
 .why-image,
@@ -3851,7 +3920,8 @@ body > .footer { order: 9; }
 }
 
 .summer-selector-card,
-.program-card {
+.program-card,
+.event-type-card {
     align-items: flex-start;
     text-align: left;
     padding: 34px;
@@ -3859,6 +3929,7 @@ body > .footer { order: 9; }
 
 .summer-selector-card h3,
 .program-card h3,
+.event-type-card h3,
 .about-highlight h3,
 .feature-text h4,
 .benefit-text h4 {
@@ -4098,12 +4169,17 @@ body > .footer { order: 9; }
     }
 
     .summer-selector-card,
-    .program-card {
+    .program-card,
+    .event-type-card {
         padding: 26px;
     }
 
     .gallery-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .event-types-grid {
+        grid-template-columns: 1fr;
     }
 
     .party-image img {

@@ -20,18 +20,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+function scrollToSection(target) {
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 18;
+    window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+    });
+}
+
 // Smooth Scrolling for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const selector = this.getAttribute('href');
+        if (!selector || selector === '#') {
+            return;
+        }
+
+        const target = document.querySelector(selector);
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            e.preventDefault();
+            scrollToSection(target);
         }
     });
+});
+
+window.addEventListener('load', function() {
+    if (!window.location.hash) {
+        return;
+    }
+
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+        setTimeout(() => scrollToSection(target), 50);
+    }
 });
 
 // Header Background on Scroll
