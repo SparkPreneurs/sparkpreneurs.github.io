@@ -168,6 +168,7 @@ body {
     border-radius: 2px;
 }
 
+
 /* March Break Banner */
 .march-break-banner {
     background: linear-gradient(120deg, #FDE047 0%, #F97316 50%, #FB7185 100%);
@@ -3538,6 +3539,511 @@ body.movement-theme .custom-time-note {
     .older-summer-schedule-table th,
     .older-summer-schedule-table td {
         padding: 10px 7px;
+    }
+}
+
+/* Final cream studio overrides */
+:root {
+    --cream: #f6efe4;
+    --cream-soft: #fffaf2;
+    --ink: #29231f;
+    --muted-ink: #665a50;
+    --aubergine: #4b236f;
+    --terracotta: #b85f3e;
+    --sage: #667c6b;
+    --line: rgba(41, 35, 31, 0.14);
+    --shadow-soft: 0 20px 55px rgba(70, 55, 40, 0.12);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: var(--cream);
+    color: var(--ink);
+}
+
+section {
+    scroll-margin-top: 145px;
+}
+
+body > .hero { order: 1; }
+body > .summer-program-selector { order: 2; }
+body > .about { order: 3; }
+body > .programs { order: 4; }
+body > .gallery { order: 5; }
+body > .parties { order: 6; }
+body > .why-choose-us { order: 7; }
+body > .final-cta { order: 8; }
+body > .footer { order: 9; }
+
+.header {
+    background: rgba(255, 250, 242, 0.94);
+    border-bottom: 1px solid var(--line);
+    box-shadow: none;
+}
+
+.nav {
+    max-width: 1320px;
+    padding: 10px 32px;
+}
+
+.nav-brand {
+    min-width: 124px;
+}
+
+.header .brand-text {
+    display: none;
+}
+
+.logo {
+    width: 112px;
+    height: 112px;
+    object-fit: contain;
+}
+
+.nav-link {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.hamburger span {
+    background: var(--ink);
+}
+
+.cta-button,
+.btn-primary,
+.program-button,
+.summer-selector-button,
+.summer-cart-purchase {
+    background: var(--aubergine);
+    color: #ffffff;
+    border: 1px solid var(--aubergine);
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.btn-secondary,
+.btn-outline {
+    border-radius: 8px;
+}
+
+.hero {
+    min-height: 760px;
+    padding: 170px 0 96px;
+    color: #ffffff;
+    background:
+        linear-gradient(90deg, rgba(24, 20, 18, 0.76) 0%, rgba(24, 20, 18, 0.5) 42%, rgba(24, 20, 18, 0.18) 100%),
+        url('assets/studio.png') center center / cover no-repeat;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    max-width: 1320px;
+    padding: 0 40px;
+}
+
+.hero-text {
+    max-width: 780px;
+}
+
+.hero-kicker,
+.summer-camp-kicker {
+    margin-bottom: 18px;
+    color: #f2d9be;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.hero-title {
+    max-width: 760px;
+    margin-bottom: 24px;
+    color: #ffffff;
+    background: none;
+    font-size: 64px;
+    line-height: 1.04;
+    text-wrap: balance;
+}
+
+.hero-subtitle {
+    max-width: 690px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 21px;
+    line-height: 1.7;
+}
+
+.hero .btn-secondary {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.78);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    min-width: 142px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    background: rgba(255, 250, 242, 0.9);
+    text-align: left;
+}
+
+.stat-number {
+    color: var(--aubergine);
+    font-size: 20px;
+}
+
+.stat-label {
+    color: var(--muted-ink);
+}
+
+.hero-visual,
+.floating-elements {
+    display: none;
+}
+
+.summer-program-selector,
+.about,
+.programs,
+.gallery,
+.parties,
+.why-choose-us,
+.final-cta {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 96px 0;
+}
+
+.gallery {
+    background: #fff7ed;
+}
+
+.section-title,
+.summer-selector-heading h2,
+.why-text h2,
+.cta-content h2,
+.program-detail-hero .detail-text h1,
+.summer-camp-title,
+.summer-programs-page .summer-camp-title {
+    color: var(--ink);
+    background: none;
+    -webkit-text-fill-color: currentColor;
+}
+
+.section-title,
+.summer-selector-heading h2,
+.why-text h2,
+.cta-content h2 {
+    font-size: 42px;
+    line-height: 1.12;
+}
+
+.section-subtitle,
+.programs .section-header p,
+.gallery .section-header p,
+.parties .section-header p,
+.about .section-subtitle,
+.mission-text,
+.summer-selector-heading p,
+.summer-selector-card p,
+.program-card p,
+.feature-text p,
+.benefit-text p,
+.cta-content p {
+    color: var(--muted-ink);
+}
+
+.summer-selector-card,
+.about-highlight,
+.about-mission,
+.program-card,
+.gallery-card,
+.party-image,
+.why-image,
+.detail-card,
+.info-block,
+.summer-cart-card,
+.summer-week-card,
+.older-summer-week-card,
+.older-summer-schedule,
+.about-insight {
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--cream-soft);
+    box-shadow: var(--shadow-soft);
+}
+
+.summer-selector-card,
+.program-card {
+    align-items: flex-start;
+    text-align: left;
+    padding: 34px;
+}
+
+.summer-selector-card h3,
+.program-card h3,
+.about-highlight h3,
+.feature-text h4,
+.benefit-text h4 {
+    color: var(--ink);
+}
+
+.summer-selector-icon {
+    width: auto;
+    height: auto;
+    color: var(--terracotta);
+    background: none;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.program-card,
+.art-program,
+.music-program,
+.robotics-program,
+.movement-program {
+    border-color: var(--line);
+}
+
+.program-card.art-program,
+.program-card.music-program,
+.program-card.robotics-program,
+.program-card.movement-program {
+    border-color: var(--line);
+}
+
+.program-card.art-program .program-tagline,
+.program-card.music-program .program-tagline,
+.program-card.robotics-program .program-tagline,
+.program-card.movement-program .program-tagline {
+    color: var(--sage);
+}
+
+.program-card.art-program .program-button,
+.program-card.music-program .program-button,
+.program-card.robotics-program .program-button,
+.program-card.movement-program .program-button {
+    background: var(--aubergine);
+    border-color: var(--aubergine);
+    color: #ffffff;
+}
+
+.program-icon,
+.feature-icon,
+.benefit-icon,
+.highlight-icon {
+    color: var(--terracotta);
+    font-size: 34px;
+}
+
+.program-tagline {
+    color: var(--sage);
+}
+
+.gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.gallery-card {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.gallery-card img,
+.party-image img,
+.why-image img {
+    border-radius: 8px;
+}
+
+.party-image img {
+    height: 100%;
+    min-height: 420px;
+}
+
+.party-feature,
+.benefit {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.party-feature:last-child,
+.benefit:last-child {
+    border-bottom: 0;
+}
+
+.final-cta {
+    background: var(--sage);
+}
+
+.final-cta h2,
+.final-cta p {
+    color: #ffffff;
+}
+
+.footer {
+    background: #251f1b;
+    color: #f8efe5;
+}
+
+.footer-section p,
+.footer-bottom p,
+.footer-section ul li a,
+.contact-link {
+    color: rgba(248, 239, 229, 0.84);
+}
+
+.footer-logo {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+}
+
+.program-detail-page,
+.summer-camp-page,
+.summer-programs-page {
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.program-detail-hero,
+.art-hero,
+.music-hero,
+.robotics-hero,
+.movement-hero,
+.summer-camp-banner,
+.older-summer-banner {
+    background: var(--cream) !important;
+    color: var(--ink);
+    padding-top: 150px;
+}
+
+.program-detail-hero .detail-intro,
+.detail-list li,
+.custom-time-note,
+.summer-camp-description,
+.summer-camp-summary-text,
+.summer-cart-note {
+    color: var(--muted-ink);
+}
+
+@media (max-width: 1024px) {
+    .logo {
+        width: 96px;
+        height: 96px;
+    }
+
+    .hero {
+        min-height: 690px;
+        padding: 150px 0 82px;
+    }
+
+    .hero-title {
+        font-size: 52px;
+    }
+
+    .programs-grid,
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        padding: 8px 18px;
+    }
+
+    .nav-brand {
+        min-width: 96px;
+    }
+
+    .logo {
+        width: 84px;
+        height: 84px;
+    }
+
+    .hero {
+        min-height: 760px;
+        padding: 138px 0 70px;
+        background:
+            linear-gradient(180deg, rgba(24, 20, 18, 0.72) 0%, rgba(24, 20, 18, 0.52) 58%, rgba(24, 20, 18, 0.42) 100%),
+            url('assets/studio.png') center center / cover no-repeat;
+    }
+
+    .hero-content {
+        padding: 0 22px;
+        text-align: left;
+    }
+
+    .hero-title {
+        font-size: 40px;
+    }
+
+    .hero-subtitle {
+        font-size: 18px;
+    }
+
+    .hero-buttons {
+        align-items: stretch;
+    }
+
+    .stat {
+        min-width: 100%;
+    }
+
+    .summer-program-selector,
+    .about,
+    .programs,
+    .gallery,
+    .parties,
+    .why-choose-us,
+    .final-cta {
+        padding: 72px 0;
+    }
+
+    .section-title,
+    .summer-selector-heading h2,
+    .why-text h2,
+    .cta-content h2 {
+        font-size: 32px;
+    }
+
+    .summer-selector-card,
+    .program-card {
+        padding: 26px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .party-image img {
+        min-height: 320px;
+    }
+
+    .program-detail-hero,
+    .summer-camp-banner,
+    .older-summer-banner {
+        padding-top: 122px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 34px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
     }
 }
 
