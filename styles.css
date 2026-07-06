@@ -3544,10 +3544,10 @@ body.movement-theme .custom-time-note {
 
 /* Final cream studio overrides */
 :root {
-    --cream: #f6efe4;
-    --cream-soft: #fffaf2;
+    --cream: #cdb89d;
+    --cream-soft: #e2d1ba;
     --ink: #29231f;
-    --muted-ink: #665a50;
+    --muted-ink: #594d43;
     --aubergine: #4b236f;
     --terracotta: #b85f3e;
     --sage: #667c6b;
@@ -3641,7 +3641,7 @@ body > .final-cta { order: 8; }
 body > .footer { order: 9; }
 
 .header {
-    background: rgba(255, 250, 242, 0.94);
+    background: rgba(205, 184, 157, 0.94);
     border-bottom: 1px solid var(--line);
     box-shadow: none;
 }
@@ -3761,7 +3761,7 @@ body > .footer { order: 9; }
     padding: 16px 18px;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 8px;
-    background: rgba(255, 250, 242, 0.9);
+    background: rgba(226, 209, 186, 0.9);
     text-align: left;
 }
 
@@ -3792,7 +3792,7 @@ body > .footer { order: 9; }
 }
 
 .gallery {
-    background: #fff7ed;
+    background: #d8c5ab;
 }
 
 .section-title,
@@ -3971,6 +3971,15 @@ body > .footer { order: 9; }
     color: rgba(248, 239, 229, 0.84);
 }
 
+.camps-page {
+    background: var(--cream);
+}
+
+.camps-landing {
+    min-height: 72vh;
+    padding-top: 180px;
+}
+
 .footer-logo {
     width: 84px;
     height: 84px;
@@ -4105,6 +4114,10 @@ body > .footer { order: 9; }
     .summer-camp-banner,
     .older-summer-banner {
         padding-top: 122px;
+    }
+
+    .camps-landing {
+        padding-top: 130px;
     }
 }
 
