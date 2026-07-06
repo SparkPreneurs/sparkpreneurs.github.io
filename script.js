@@ -38,10 +38,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', function() {
     const header = document.querySelector('.header');
     if (window.scrollY > 100) {
-        header.style.background = 'rgba(205, 184, 157, 0.98)';
+        header.style.background = 'rgba(216, 196, 170, 0.98)';
         header.style.boxShadow = '0 8px 28px rgba(41, 35, 31, 0.08)';
     } else {
-        header.style.background = 'rgba(205, 184, 157, 0.94)';
+        header.style.background = 'rgba(216, 196, 170, 0.94)';
         header.style.boxShadow = 'none';
     }
 });
@@ -218,7 +218,7 @@ style.textContent = `
             top: calc(100% + 8px);
             left: 16px;
             right: 16px;
-            background: #e2d1ba;
+            background: #eadbc8;
             flex-direction: column;
             padding: 18px;
             box-shadow: 0 20px 55px rgba(70, 55, 40, 0.12);

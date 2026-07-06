@@ -3544,8 +3544,8 @@ body.movement-theme .custom-time-note {
 
 /* Final cream studio overrides */
 :root {
-    --cream: #cdb89d;
-    --cream-soft: #e2d1ba;
+    --cream: #d8c4aa;
+    --cream-soft: #eadbc8;
     --ink: #29231f;
     --muted-ink: #594d43;
     --aubergine: #4b236f;
@@ -3641,7 +3641,7 @@ body > .final-cta { order: 8; }
 body > .footer { order: 9; }
 
 .header {
-    background: rgba(205, 184, 157, 0.94);
+    background: rgba(216, 196, 170, 0.94);
     border-bottom: 1px solid var(--line);
     box-shadow: none;
 }
@@ -3761,7 +3761,7 @@ body > .footer { order: 9; }
     padding: 16px 18px;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 8px;
-    background: rgba(226, 209, 186, 0.9);
+    background: rgba(234, 219, 200, 0.9);
     text-align: left;
 }
 
@@ -3792,7 +3792,7 @@ body > .footer { order: 9; }
 }
 
 .gallery {
-    background: #d8c5ab;
+    background: #dfceb7;
 }
 
 .section-title,
