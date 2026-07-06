@@ -23,7 +23,7 @@
                     <div>
                         <p class="waiver-kicker">Required Before Checkout</p>
                         <h2 id="waiver-title">SparkPreneurs Inc.</h2>
-                        <p>Parent/Guardian Waiver, Consent and Medical Information Form</p>
+                        <p>Participant/Guardian Waiver, Consent and Medical Information Form</p>
                     </div>
                     <button class="waiver-close" type="button" data-waiver-cancel aria-label="Close waiver">&times;</button>
                 </div>
@@ -32,14 +32,14 @@
                     <section class="waiver-section">
                         <h3>Participant Information</h3>
                         <div class="waiver-fields">
-                            ${field('Child’s Full Name', 'waiverChildFullName', 'text', 'autocomplete="name" required')}
+                            ${field('Participant Full Name', 'waiverChildFullName', 'text', 'autocomplete="name" required')}
                             ${field('Date of Birth', 'childDateOfBirth', 'date', 'required')}
-                            ${field('Parent/Guardian Full Name', 'waiverParentGuardianFullName', 'text', 'autocomplete="name" required')}
+                            ${field('Participant or Guardian Full Name', 'waiverParentGuardianFullName', 'text', 'autocomplete="name" required')}
                             ${field('Phone Number', 'waiverParentPhone', 'tel', 'autocomplete="tel" required')}
                             ${field('Email Address', 'waiverParentEmail', 'email', 'autocomplete="email" required')}
                             ${field('Emergency Contact Name', 'emergencyContactName', 'text', 'required')}
                             ${field('Emergency Contact Phone', 'emergencyContactPhone', 'tel', 'required')}
-                            ${field('Relationship to Child', 'emergencyContactRelationship', 'text', 'required')}
+                            ${field('Relationship to Participant', 'emergencyContactRelationship', 'text', 'required')}
                         </div>
                     </section>
 
@@ -57,12 +57,12 @@
 
                     <section class="waiver-section waiver-terms">
                         <h3>Acknowledgement and Assumption of Risk</h3>
-                        <p>I understand that participation in SparkPreneurs Inc. programs may include art, pottery, movement, dance, yoga, 3D printing, cooking, outdoor activities, games, camps, workshops, and the use of age-appropriate tools and materials.</p>
+                        <p>I understand that participation in SparkPreneurs Inc. programs may include art, pottery, movement, dance, yoga, 3D printing, cooking, outdoor activities, games, camps, workshops, and the use of program-appropriate tools and materials.</p>
                         <p>I understand that participation may involve ordinary risks, including slips, falls, minor cuts, allergic reactions, contact with art materials, physical exertion, equipment use, and other minor injuries.</p>
-                        <p>I voluntarily permit my child to participate and agree to inform SparkPreneurs Inc. of any activity my child should not participate in.</p>
+                        <p>I voluntarily consent to participation and agree to inform SparkPreneurs Inc. of any activity the participant should not join.</p>
 
                         <h3>Safety and Conduct</h3>
-                        <p>I understand that my child must follow the safety instructions and behaviour expectations provided by SparkPreneurs Inc. staff.</p>
+                        <p>I understand that the participant must follow the safety instructions and behaviour expectations provided by SparkPreneurs Inc. staff.</p>
                         <p>SparkPreneurs Inc. reserves the right to contact a parent or guardian and require early pick-up if a participant’s behaviour creates a safety risk to themselves or others.</p>
 
                         <h3>Emergency Medical Consent</h3>
@@ -79,20 +79,20 @@
 
                     <section class="waiver-section">
                         <h3>Photo and Video Consent — Optional</h3>
-                        <p>Please select one. Refusing photo consent will not affect your child’s ability to participate.</p>
+                        <p>Please select one. Refusing photo consent will not affect the participant’s ability to participate.</p>
                         <label class="waiver-check">
                             <input type="radio" name="photoConsent" value="yes" required>
-                            <span><strong>Yes,</strong> I authorize SparkPreneurs Inc. to photograph or record my child during programs and use selected images or videos for its website, social media, advertisements, printed materials, and other promotional purposes.</span>
+                            <span><strong>Yes,</strong> I authorize SparkPreneurs Inc. to photograph or record the participant during programs and use selected images or videos for its website, social media, advertisements, printed materials, and other promotional purposes.</span>
                         </label>
                         <label class="waiver-check">
                             <input type="radio" name="photoConsent" value="no" required>
-                            <span><strong>No,</strong> I do not authorize the use of identifiable photographs or videos of my child for promotional purposes.</span>
+                            <span><strong>No,</strong> I do not authorize the use of identifiable photographs or videos of the participant for promotional purposes.</span>
                         </label>
                     </section>
 
                     <section class="waiver-section">
                         <h3>Pick-Up Authorization</h3>
-                        <p>List at least one person authorized to pick up your child. Identification may be requested before your child is released.</p>
+                        <p>List at least one person authorized to pick up the participant when required. Identification may be requested before the participant is released.</p>
                         <div class="waiver-fields">
                             ${field('Authorized Person 1 Name', 'authorizedPickup1Name', 'text', 'required')}
                             ${field('Authorized Person 1 Phone', 'authorizedPickup1Phone', 'tel', 'required')}
@@ -104,14 +104,14 @@
                     </section>
 
                     <section class="waiver-section">
-                        <h3>Parent/Guardian Confirmation</h3>
-                        <p>By signing below, I confirm that I am the participant’s parent or legal guardian; I have read and understood this form; the information I provided is complete and accurate; I consent to my child’s participation; and I agree that my electronic signature has the same effect as a handwritten signature.</p>
+                        <h3>Participant/Guardian Confirmation</h3>
+                        <p>By signing below, I confirm that I am the participant or the participant’s parent/legal guardian; I have read and understood this form; the information I provided is complete and accurate; I consent to participation; and I agree that my electronic signature has the same effect as a handwritten signature.</p>
                         <label class="waiver-check">
                             <input type="checkbox" name="waiverAcknowledged" value="yes" required>
                             <span>I have read and agree to the acknowledgements, consents, release, and confirmation above.</span>
                         </label>
                         <div class="waiver-fields">
-                            ${field('Parent/Guardian Full Name', 'waiverConfirmationName', 'text', 'required')}
+                            ${field('Participant/Guardian Full Name', 'waiverConfirmationName', 'text', 'required')}
                             ${field('Electronic Signature', 'electronicSignature', 'text', 'required')}
                             ${field('Date', 'waiverSignedDate', 'date', 'required')}
                         </div>

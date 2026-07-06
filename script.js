@@ -119,8 +119,8 @@ document.querySelectorAll('.btn-primary, .cta-button').forEach(button => {
     button.addEventListener('click', function() {
         const messages = [
             "Awesome! Let's get this creative adventure started!",
-            "So exciting! We can't wait to meet your little creator!",
-            "Amazing choice! Your child's creativity journey begins here!",
+            "So exciting! We can't wait to meet another creative guest!",
+            "Amazing choice! Your creativity journey begins here!",
             "Fantastic! Time to spark some serious creativity!"
         ];
         
