@@ -138,7 +138,7 @@ document.querySelectorAll('.btn-primary, .cta-button').forEach(button => {
                 color: white;
                 padding: 24px 32px;
                 border-radius: 20px;
-                font-family: 'Fredoka', cursive;
+                font-family: 'Lora', Georgia, serif;
                 font-size: 18px;
                 font-weight: 600;
                 z-index: 10000;
@@ -158,7 +158,7 @@ document.querySelectorAll('.btn-primary, .cta-button').forEach(button => {
                     border-radius: 15px;
                     margin-top: 16px;
                     cursor: pointer;
-                    font-family: 'Fredoka', cursive;
+                    font-family: 'Lora', Georgia, serif;
                     font-weight: 600;
                 ">Got it!</button>
             </div>

@@ -3558,8 +3558,72 @@ body.movement-theme .custom-time-note {
 body {
     display: flex;
     flex-direction: column;
+    font-family: 'Lora', Georgia, serif;
     background: var(--cream);
     color: var(--ink);
+}
+
+h1,
+h2,
+h3,
+h4,
+.hero-title,
+.section-title,
+.summer-selector-heading h2,
+.summer-selector-card h3,
+.program-card h3,
+.about-highlight h3,
+.feature-text h4,
+.benefit-text h4,
+.footer-section h4,
+.why-text h2,
+.cta-content h2,
+.program-detail-hero .detail-text h1,
+.summer-camp-title,
+.summer-programs-page .summer-camp-title,
+.detail-card h2,
+.info-block h3,
+.older-summer-schedule-head h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+p,
+li,
+.section-subtitle,
+.hero-subtitle,
+.program-card p,
+.summer-selector-card p,
+.feature-text p,
+.benefit-text p,
+.mission-text,
+.detail-intro,
+.detail-list li,
+.program-tagline,
+.custom-time-note,
+.summer-camp-kicker,
+.summer-camp-description,
+.summer-camp-summary-text,
+.summer-cart-note,
+.footer-section p,
+.footer-bottom p {
+    font-family: 'Lora', Georgia, serif;
+    letter-spacing: 0;
+}
+
+.nav-link,
+.cta-button,
+.btn-primary,
+.btn-secondary,
+.btn-outline,
+.program-button,
+.summer-selector-button,
+.summer-cart-purchase,
+.summer-cart-clear {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: 0;
 }
 
 section {
@@ -3630,10 +3694,12 @@ body > .footer { order: 9; }
 
 .hero {
     min-height: 760px;
-    padding: 170px 0 96px;
+    display: flex;
+    align-items: flex-end;
+    padding: 180px 0 48px;
     color: #ffffff;
     background:
-        linear-gradient(90deg, rgba(24, 20, 18, 0.76) 0%, rgba(24, 20, 18, 0.5) 42%, rgba(24, 20, 18, 0.18) 100%),
+        linear-gradient(90deg, rgba(24, 20, 18, 0.78) 0%, rgba(24, 20, 18, 0.52) 42%, rgba(24, 20, 18, 0.2) 100%),
         url('assets/studio.png') center center / cover no-repeat;
 }
 
@@ -3642,11 +3708,12 @@ body > .footer { order: 9; }
     z-index: 1;
     display: block;
     max-width: 1320px;
-    padding: 0 40px;
+    width: 100%;
+    padding: 0 52px;
 }
 
 .hero-text {
-    max-width: 780px;
+    max-width: 820px;
 }
 
 .hero-kicker,
@@ -3660,20 +3727,20 @@ body > .footer { order: 9; }
 }
 
 .hero-title {
-    max-width: 760px;
-    margin-bottom: 24px;
+    max-width: 780px;
+    margin-bottom: 20px;
     color: #ffffff;
     background: none;
-    font-size: 64px;
-    line-height: 1.04;
+    font-size: 54px;
+    line-height: 1;
     text-wrap: balance;
 }
 
 .hero-subtitle {
-    max-width: 690px;
+    max-width: 800px;
     color: rgba(255, 255, 255, 0.88);
-    font-size: 21px;
-    line-height: 1.7;
+    font-size: 19px;
+    line-height: 1.65;
 }
 
 .hero .btn-secondary {
@@ -3681,10 +3748,12 @@ body > .footer { order: 9; }
     border-color: rgba(255, 255, 255, 0.78);
 }
 
+.hero-buttons {
+    margin-bottom: 0;
+}
+
 .hero-stats {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
+    display: none;
 }
 
 .stat {
@@ -3944,11 +4013,11 @@ body > .footer { order: 9; }
 
     .hero {
         min-height: 690px;
-        padding: 150px 0 82px;
+        padding: 150px 0 48px;
     }
 
     .hero-title {
-        font-size: 52px;
+        font-size: 48px;
     }
 
     .programs-grid,
@@ -3973,7 +4042,8 @@ body > .footer { order: 9; }
 
     .hero {
         min-height: 760px;
-        padding: 138px 0 70px;
+        align-items: flex-end;
+        padding: 132px 0 34px;
         background:
             linear-gradient(180deg, rgba(24, 20, 18, 0.72) 0%, rgba(24, 20, 18, 0.52) 58%, rgba(24, 20, 18, 0.42) 100%),
             url('assets/studio.png') center center / cover no-repeat;
@@ -3985,11 +4055,12 @@ body > .footer { order: 9; }
     }
 
     .hero-title {
-        font-size: 40px;
+        font-size: 38px;
     }
 
     .hero-subtitle {
-        font-size: 18px;
+        font-size: 16px;
+        line-height: 1.6;
     }
 
     .hero-buttons {
@@ -4039,7 +4110,7 @@ body > .footer { order: 9; }
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 34px;
+        font-size: 32px;
     }
 
     .gallery-grid {
