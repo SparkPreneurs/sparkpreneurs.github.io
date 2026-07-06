@@ -3700,7 +3700,7 @@ body > .footer { order: 9; }
     color: #ffffff;
     background:
         linear-gradient(90deg, rgba(24, 20, 18, 0.78) 0%, rgba(24, 20, 18, 0.52) 42%, rgba(24, 20, 18, 0.2) 100%),
-        url('assets/studio.png') center center / cover no-repeat;
+        url('assets/studio1.jpg') center center / cover no-repeat;
 }
 
 .hero-content {
@@ -4055,7 +4055,7 @@ body > .footer { order: 9; }
         padding: 132px 0 34px;
         background:
             linear-gradient(180deg, rgba(24, 20, 18, 0.72) 0%, rgba(24, 20, 18, 0.52) 58%, rgba(24, 20, 18, 0.42) 100%),
-            url('assets/studio.png') center center / cover no-repeat;
+            url('assets/studio1.jpg') center center / cover no-repeat;
     }
 
     .hero-content {
