@@ -848,15 +848,6 @@ body {
     padding: 28px;
 }
 
-.event-type-number {
-    display: block;
-    margin-bottom: 16px;
-    color: var(--terracotta);
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0;
-}
-
 .event-type-card h3 {
     color: var(--ink);
     font-size: 22px;
@@ -3188,7 +3179,6 @@ body.movement-theme .custom-time-note {
     padding: 30px;
 }
 
-.summer-selector-icon,
 .summer-preview-card > span {
     font-size: 46px;
 }
@@ -3950,15 +3940,6 @@ section {
     color: var(--ink);
 }
 
-.summer-selector-icon {
-    width: auto;
-    height: auto;
-    color: var(--terracotta);
-    background: none;
-    font-size: 13px;
-    font-weight: 800;
-}
-
 .program-card,
 .art-program,
 .music-program,
@@ -4323,14 +4304,6 @@ section {
 
 .event-page-card {
     padding: 30px;
-}
-
-.event-page-card span {
-    display: block;
-    margin-bottom: 16px;
-    color: var(--terracotta);
-    font-size: 13px;
-    font-weight: 800;
 }
 
 .event-page-card h2,
