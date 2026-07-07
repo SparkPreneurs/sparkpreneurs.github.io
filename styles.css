@@ -2144,6 +2144,10 @@ body.music-theme {
     color: #854D0E;
 }
 
+body.music-theme .music-hero .detail-tagline {
+    color: #B45309;
+}
+
 body.music-theme .program-detail-hero {
     background: linear-gradient(135deg, #FEFCE8 0%, #FDE68A 100%);
 }
