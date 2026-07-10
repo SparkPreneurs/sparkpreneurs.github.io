@@ -3610,8 +3610,8 @@ body.movement-theme .custom-time-note {
 
 /* Final cream studio overrides */
 :root {
-    --cream: #eadbc8;
-    --cream-soft: #f5eadc;
+    --cream: #f7eadb;
+    --cream-soft: #fff6ec;
     --ink: #29231f;
     --muted-ink: #594d43;
     --aubergine: #4b236f;
@@ -3625,6 +3625,18 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Lora', Georgia, serif;
+    background: var(--cream);
+    color: var(--ink);
+}
+
+html {
+    background: var(--cream);
+}
+
+body.art-theme,
+body.music-theme,
+body.robotics-theme,
+body.movement-theme {
     background: var(--cream);
     color: var(--ink);
 }
@@ -3711,7 +3723,7 @@ section {
 }
 
 .header {
-    background: rgba(234, 219, 200, 0.94);
+    background: rgba(247, 234, 219, 0.94);
     border-bottom: 1px solid var(--line);
     box-shadow: none;
 }
@@ -3862,7 +3874,7 @@ section {
 }
 
 .gallery {
-    background: #efe0cd;
+    background: var(--cream);
 }
 
 .section-title,
@@ -4059,6 +4071,13 @@ section {
     color: var(--ink);
 }
 
+body.program-detail-page .detail-card,
+body.program-detail-page .info-block {
+    background: var(--cream-soft);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-soft);
+}
+
 .program-detail-hero,
 .art-hero,
 .music-hero,
@@ -4069,6 +4088,14 @@ section {
     background: var(--cream) !important;
     color: var(--ink);
     padding-top: 150px;
+}
+
+body.program-detail-page .program-detail-footer {
+    background: var(--cream);
+}
+
+body.program-detail-page .program-detail-footer p {
+    color: var(--muted-ink);
 }
 
 .program-detail-hero .detail-intro,
