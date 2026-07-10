@@ -1493,7 +1493,7 @@ html {
 /* Focus States for Accessibility */
 button:focus,
 a:focus {
-    outline: 2px solid #8B5CF6;
+    outline: 2px solid var(--brand-blue, #061C49);
     outline-offset: 2px;
 }
 
@@ -3485,9 +3485,9 @@ body.movement-theme .custom-time-note {
 .older-session-button {
     display: grid;
     gap: 3px;
-    border: 1px solid rgba(139, 92, 246, 0.18);
+    border: 1px solid rgba(6, 28, 73, 0.18);
     border-radius: 18px;
-    background: #faf5ff;
+    background: #f6f8fb;
     color: #3f3f46;
     cursor: pointer;
     font-family: 'Fredoka', cursive;
@@ -3508,8 +3508,9 @@ body.movement-theme .custom-time-note {
 
 .older-session-button.is-selected {
     border-color: transparent;
-    background: linear-gradient(135deg, #8b5cf6, #14b8a6);
-    color: #ffffff;
+    background-color: #061C49 !important;
+    background-image: none !important;
+    color: #ffffff !important;
 }
 
 .older-session-button:hover {
@@ -3614,7 +3615,9 @@ body.movement-theme .custom-time-note {
     --cream-soft: #fff6ec;
     --ink: #29231f;
     --muted-ink: #594d43;
-    --aubergine: #4b236f;
+    --brand-blue: #061C49;
+    --brand-blue-hover: #0A2B68;
+    --aubergine: var(--brand-blue);
     --terracotta: #b85f3e;
     --sage: #667c6b;
     --line: rgba(41, 35, 31, 0.14);
@@ -3767,6 +3770,16 @@ section {
     border: 1px solid var(--aubergine);
     border-radius: 8px;
     box-shadow: none;
+}
+
+.cta-button:hover,
+.btn-primary:hover,
+.program-button:hover,
+.summer-selector-button:hover,
+.summer-cart-purchase:hover,
+.event-page-button-primary:hover {
+    background: var(--brand-blue-hover);
+    border-color: var(--brand-blue-hover);
 }
 
 .btn-secondary,
@@ -4096,6 +4109,37 @@ body.program-detail-page .program-detail-footer {
 
 body.program-detail-page .program-detail-footer p {
     color: var(--muted-ink);
+}
+
+body.program-detail-page .btn-primary {
+    background: var(--brand-blue);
+    background-image: none;
+    border-color: var(--brand-blue);
+    color: #ffffff;
+    box-shadow: none;
+}
+
+body.program-detail-page .btn-primary:hover {
+    background: var(--brand-blue-hover);
+    border-color: var(--brand-blue-hover);
+    box-shadow: none;
+}
+
+body.program-detail-page .btn-secondary {
+    color: var(--brand-blue);
+    border-color: rgba(6, 28, 73, 0.58);
+}
+
+body.program-detail-page .btn-secondary:hover {
+    background: rgba(6, 28, 73, 0.08);
+    border-color: var(--brand-blue);
+    color: var(--brand-blue);
+}
+
+.older-session-button.is-selected {
+    background-color: var(--brand-blue) !important;
+    background-image: none !important;
+    color: #ffffff !important;
 }
 
 .program-detail-hero .detail-intro,
