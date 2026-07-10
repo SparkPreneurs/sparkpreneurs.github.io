@@ -1229,7 +1229,7 @@ body {
     transform: translateX(-50%);
     width: 72px;
     height: 52px;
-    background: url('assets/SPARKPRENEURS_NEW_LOGO.png') center/contain no-repeat;
+    background: url('assets/sp-new-logo.png') center/contain no-repeat;
 }
 
 .mascot-robot .robot-arm {
