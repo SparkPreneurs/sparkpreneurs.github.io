@@ -4472,4 +4472,220 @@ body.program-detail-page .btn-secondary:hover {
     }
 }
 
+/* About section and page */
+.about {
+    padding: 88px 0 96px;
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.about::before {
+    display: none;
+}
+
+.about-story {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 46px 0 0;
+    border-top: 1px solid var(--line);
+}
+
+.about-story h2 {
+    margin-bottom: 8px;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 48px;
+    line-height: 1.05;
+}
+
+.about-kicker {
+    margin-bottom: 26px;
+    color: var(--sage);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.about-story-copy {
+    display: grid;
+    gap: 18px;
+    max-width: 850px;
+}
+
+.about-story-copy p {
+    color: var(--muted-ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+}
+
+.about-link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    margin-top: 32px;
+    padding: 14px 24px;
+    border: 1px solid var(--aubergine);
+    border-radius: 8px;
+    background: var(--aubergine);
+    color: #ffffff;
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.about-link-button:hover {
+    background: var(--brand-blue-hover);
+    border-color: var(--brand-blue-hover);
+    transform: translateY(-2px);
+}
+
+.about-page,
+.about-page-main {
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.about-page-hero {
+    padding: 174px 0 84px;
+}
+
+.about-page-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
+    gap: 56px;
+    align-items: center;
+}
+
+.about-page-copy h1 {
+    margin-bottom: 18px;
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 64px;
+    line-height: 1;
+}
+
+.about-page-subtitle {
+    color: var(--sage);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.about-page-copy > p:not(.summer-camp-kicker):not(.about-page-subtitle) {
+    max-width: 680px;
+    margin-bottom: 18px;
+    color: var(--muted-ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+}
+
+.about-page-photo {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--cream-soft);
+    box-shadow: var(--shadow-soft);
+}
+
+.about-page-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.about-page-details {
+    padding: 0 0 96px;
+}
+
+.about-page-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.about-page-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--cream-soft);
+    box-shadow: var(--shadow-soft);
+    padding: 30px;
+}
+
+.about-page-card h2 {
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 28px;
+    line-height: 1.15;
+}
+
+.about-page-card p {
+    margin-top: 12px;
+    color: var(--muted-ink);
+    font-family: 'Lora', Georgia, serif;
+    line-height: 1.65;
+}
+
+@media (max-width: 1024px) {
+    .about-page-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-page-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .about {
+        padding: 70px 0 76px;
+    }
+
+    .about-story {
+        padding-top: 34px;
+    }
+
+    .about-story h2,
+    .about-page-copy h1 {
+        font-size: 40px;
+    }
+
+    .about-kicker,
+    .about-page-subtitle {
+        font-size: 18px;
+    }
+
+    .about-story-copy p,
+    .about-page-copy > p:not(.summer-camp-kicker):not(.about-page-subtitle) {
+        font-size: 17px;
+    }
+
+    .about-link-button {
+        width: 100%;
+    }
+
+    .about-page-hero {
+        padding: 132px 0 54px;
+    }
+
+    .about-page-hero-grid {
+        gap: 34px;
+    }
+
+    .about-page-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-page-card {
+        padding: 26px;
+    }
+}
+
 
