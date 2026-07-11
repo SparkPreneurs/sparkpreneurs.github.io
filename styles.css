@@ -990,27 +990,29 @@ body {
 .footer {
     background: #0f172a;
     color: var(--text-base);
-    padding: 64px 0 24px;
+    padding: 34px 0 16px;
 }
 
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 48px;
-    margin-bottom: 48px;
+    grid-template-columns: minmax(150px, 0.45fr) minmax(280px, 1fr);
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .footer-brand {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 0;
 }
 
 .footer-logo {
-    height: 52px;
-    width: 52px;
+    height: 132px;
+    width: 132px;
     object-fit: contain;
 }
 
@@ -1025,9 +1027,9 @@ body {
 }
 
 .footer-section h4 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     font-family: 'Fredoka', cursive;
 }
 
@@ -1071,17 +1073,20 @@ body {
 }
 
 .contact-info p {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: rgba(248, 250, 252, 0.92);
     font-family: 'Comic Neue', cursive;
+    font-size: 15px;
+    line-height: 1.35;
 }
 
 .footer-bottom {
     text-align: center;
-    padding-top: 24px;
+    padding-top: 12px;
     border-top: 1px solid #374151;
     color: #9CA3AF;
     font-family: 'Comic Neue', cursive;
+    font-size: 13px;
 }
 
 
@@ -4075,9 +4080,27 @@ section {
 }
 
 .footer-logo {
-    width: 84px;
-    height: 84px;
+    width: 132px;
+    height: 132px;
     object-fit: contain;
+}
+
+@media (max-width: 640px) {
+    .footer {
+        padding: 26px 0 14px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+        text-align: center;
+    }
+
+    .footer-logo {
+        width: 118px;
+        height: 118px;
+    }
 }
 
 .program-detail-page,
