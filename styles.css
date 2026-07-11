@@ -988,7 +988,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #735b47;
+    background: #556b2f;
     color: var(--text-base);
     padding: 34px 0 16px;
 }
@@ -4059,7 +4059,7 @@ section {
 }
 
 .footer {
-    background: #735b47;
+    background: #556b2f;
     color: #f8efe5;
 }
 
