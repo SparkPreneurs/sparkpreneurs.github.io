@@ -3714,12 +3714,13 @@ section {
 body > .hero { order: 1; }
 body > .summer-program-selector { order: 2; }
 body > .about { order: 3; }
-body > .programs { order: 4; }
-body > .gallery { order: 5; }
-body > .parties { order: 6; }
-body > .why-choose-us { order: 7; }
-body > .final-cta { order: 8; }
-body > .footer { order: 9; }
+body > .explore-sparkpreneurs { order: 4; }
+body > .programs { order: 5; }
+body > .gallery { order: 6; }
+body > .parties { order: 7; }
+body > .why-choose-us { order: 8; }
+body > .final-cta { order: 9; }
+body > .footer { order: 10; }
 
 section {
     scroll-margin-top: 150px;
@@ -3876,6 +3877,7 @@ section {
 
 .summer-program-selector,
 .about,
+.explore-sparkpreneurs,
 .programs,
 .gallery,
 .parties,
@@ -4544,6 +4546,148 @@ body.program-detail-page .btn-secondary:hover {
     transform: translateY(-2px);
 }
 
+/* Explore SparkPreneurs */
+.explore-sparkpreneurs {
+    padding: 88px 0 104px;
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.explore-header {
+    max-width: 760px;
+    margin-bottom: 34px;
+}
+
+.explore-header h2 {
+    margin-bottom: 12px;
+    color: var(--brand-blue);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 48px;
+    line-height: 1.05;
+}
+
+.explore-header p {
+    color: var(--muted-ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.65;
+}
+
+.explore-card-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.explore-card {
+    position: relative;
+    display: flex;
+    grid-column: span 2;
+    min-height: 380px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 28, 73, 0.16);
+    border-radius: 8px;
+    background: var(--brand-blue);
+    box-shadow: 0 18px 38px rgba(41, 35, 31, 0.14);
+    color: #ffffff;
+    isolation: isolate;
+    text-decoration: none;
+    transition: box-shadow 0.28s ease, transform 0.28s ease;
+}
+
+.explore-card:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.explore-card:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+.explore-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.45s ease;
+    z-index: -2;
+}
+
+.explore-card-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(6, 28, 73, 0.12) 0%, rgba(6, 28, 73, 0.52) 44%, rgba(6, 28, 73, 0.82) 100%),
+        linear-gradient(90deg, rgba(41, 35, 31, 0.28), rgba(184, 95, 62, 0.12));
+    z-index: -1;
+}
+
+.explore-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    min-height: 100%;
+    padding: 28px;
+}
+
+.explore-card-title {
+    color: #ffffff;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 31px;
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.explore-card-description {
+    max-width: 95%;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.explore-card-action {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: var(--terracotta);
+    color: #ffffff;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    transition: background 0.28s ease, transform 0.28s ease;
+}
+
+.explore-card:hover,
+.explore-card:focus-visible {
+    box-shadow: 0 26px 54px rgba(41, 35, 31, 0.22);
+    transform: translateY(-4px);
+}
+
+.explore-card:hover img,
+.explore-card:focus-visible img {
+    transform: scale(1.06);
+}
+
+.explore-card:hover .explore-card-action,
+.explore-card:focus-visible .explore-card-action {
+    background: #d06b43;
+    transform: translateX(4px);
+}
+
+.explore-card:focus-visible {
+    outline: 3px solid rgba(249, 115, 22, 0.75);
+    outline-offset: 4px;
+}
+
 .about-page,
 .about-page-main {
     background: var(--cream);
@@ -4678,6 +4822,20 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 @media (max-width: 1024px) {
+    .explore-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .explore-card,
+    .explore-card:nth-child(4),
+    .explore-card:nth-child(5) {
+        grid-column: auto;
+    }
+
+    .explore-card {
+        min-height: 350px;
+    }
+
     .about-page-hero-grid {
         grid-template-columns: 1fr;
     }
@@ -4713,6 +4871,48 @@ body.program-detail-page .btn-secondary:hover {
 
     .about-link-button {
         width: 100%;
+    }
+
+    .explore-sparkpreneurs {
+        padding: 70px 0 76px;
+    }
+
+    .explore-header {
+        margin-bottom: 26px;
+    }
+
+    .explore-header h2 {
+        font-size: 34px;
+    }
+
+    .explore-header p {
+        font-size: 16px;
+    }
+
+    .explore-card-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .explore-card {
+        min-height: 320px;
+    }
+
+    .explore-card-content {
+        padding: 24px;
+    }
+
+    .explore-card-title {
+        font-size: 27px;
+    }
+
+    .explore-card-description {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .explore-card-action {
+        font-size: 13px;
     }
 
     .about-page-hero {
