@@ -4011,8 +4011,9 @@ section {
 }
 
 .gallery-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 168px));
+    justify-content: center;
+    gap: 14px;
 }
 
 .gallery-card {
@@ -4044,7 +4045,7 @@ section {
 }
 
 .final-cta {
-    background: var(--sage);
+    background: var(--brand-blue);
 }
 
 .final-cta h2,
@@ -4168,9 +4169,14 @@ body.program-detail-page .btn-secondary:hover {
         font-size: 48px;
     }
 
-    .programs-grid,
-    .gallery-grid {
+    .programs-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 150px));
+        justify-content: center;
+        gap: 12px;
     }
 }
 
@@ -4243,7 +4249,9 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .gallery-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 150px));
+        justify-content: center;
+        gap: 12px;
     }
 
     .event-types-grid {
@@ -4271,7 +4279,8 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .gallery-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 145px));
+        justify-content: center;
     }
 }
 
