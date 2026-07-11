@@ -3896,6 +3896,7 @@ section {
 
 .gallery {
     background: var(--cream);
+    padding: 28px 0 96px;
 }
 
 .section-title,
@@ -4585,7 +4586,7 @@ body.program-detail-page .btn-secondary:hover {
 
 /* Explore SparkPreneurs */
 .explore-sparkpreneurs {
-    padding: 28px 0 104px;
+    padding: 28px 0 38px;
     background: var(--cream);
     color: var(--ink);
 }
@@ -4913,7 +4914,11 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .explore-sparkpreneurs {
-        padding: 28px 0 76px;
+        padding: 28px 0 30px;
+    }
+
+    .gallery {
+        padding: 28px 0 72px;
     }
 
     .explore-header {
