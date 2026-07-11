@@ -4640,6 +4640,11 @@ body.program-detail-page .btn-secondary:hover {
     margin-top: 18px;
 }
 
+.about-page-text-section .about-page-closing {
+    color: var(--brand-blue);
+    font-weight: 700;
+}
+
 .about-page-details {
     padding: 0 0 96px;
 }
