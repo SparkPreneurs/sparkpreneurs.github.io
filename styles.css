@@ -4554,6 +4554,10 @@ body.program-detail-page .btn-secondary:hover {
     padding: 174px 0 84px;
 }
 
+.about-page .summer-camp-kicker {
+    color: var(--brand-blue);
+}
+
 .about-page-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
