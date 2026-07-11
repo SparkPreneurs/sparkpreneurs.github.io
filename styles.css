@@ -4333,6 +4333,10 @@ body.program-detail-page .btn-secondary:hover {
     line-height: 1;
 }
 
+.event-page-copy .summer-camp-kicker {
+    color: var(--brand-blue);
+}
+
 .event-page-copy > p:not(.summer-camp-kicker) {
     max-width: 620px;
     color: var(--muted-ink);
