@@ -4513,7 +4513,7 @@ body.program-detail-page .btn-secondary:hover {
 
 /* About section and page */
 .about {
-    padding: 88px 0 96px;
+    padding: 88px 0 38px;
     background: var(--cream);
     color: var(--ink);
 }
@@ -4585,7 +4585,7 @@ body.program-detail-page .btn-secondary:hover {
 
 /* Explore SparkPreneurs */
 .explore-sparkpreneurs {
-    padding: 88px 0 104px;
+    padding: 28px 0 104px;
     background: var(--cream);
     color: var(--ink);
 }
@@ -4886,7 +4886,7 @@ body.program-detail-page .btn-secondary:hover {
 
 @media (max-width: 768px) {
     .about {
-        padding: 70px 0 76px;
+        padding: 70px 0 30px;
     }
 
     .about-story {
@@ -4913,7 +4913,7 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .explore-sparkpreneurs {
-        padding: 70px 0 76px;
+        padding: 28px 0 76px;
     }
 
     .explore-header {
