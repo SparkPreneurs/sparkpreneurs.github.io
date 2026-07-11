@@ -4654,8 +4654,8 @@ body.program-detail-page .btn-secondary:hover {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(180deg, rgba(6, 28, 73, 0.12) 0%, rgba(6, 28, 73, 0.52) 44%, rgba(6, 28, 73, 0.82) 100%),
-        linear-gradient(90deg, rgba(41, 35, 31, 0.28), rgba(184, 95, 62, 0.12));
+        linear-gradient(180deg, rgba(6, 28, 73, 0.03) 0%, rgba(6, 28, 73, 0.22) 44%, rgba(6, 28, 73, 0.52) 100%),
+        linear-gradient(90deg, rgba(41, 35, 31, 0.12), rgba(184, 95, 62, 0.06));
     z-index: -1;
 }
 
@@ -4674,6 +4674,7 @@ body.program-detail-page .btn-secondary:hover {
     font-size: 31px;
     font-weight: 700;
     line-height: 1.05;
+    text-shadow: 0 2px 12px rgba(6, 28, 73, 0.72);
 }
 
 .explore-card-description {
@@ -4683,6 +4684,7 @@ body.program-detail-page .btn-secondary:hover {
     font-family: 'Lora', Georgia, serif;
     font-size: 15px;
     line-height: 1.45;
+    text-shadow: 0 2px 10px rgba(6, 28, 73, 0.7);
 }
 
 .explore-card-action {
