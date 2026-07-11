@@ -988,8 +988,8 @@ body {
 
 /* Footer */
 .footer {
-    background: #556b2f;
-    color: var(--text-base);
+    background: #c6d29b;
+    color: #243116;
     padding: 34px 0 16px;
 }
 
@@ -1074,7 +1074,7 @@ body {
 
 .contact-info p {
     margin-bottom: 4px;
-    color: rgba(248, 250, 252, 0.92);
+    color: rgba(36, 49, 22, 0.9);
     font-family: 'Comic Neue', cursive;
     font-size: 15px;
     line-height: 1.35;
@@ -1083,8 +1083,8 @@ body {
 .footer-bottom {
     text-align: center;
     padding-top: 12px;
-    border-top: 1px solid rgba(248, 239, 229, 0.22);
-    color: #9CA3AF;
+    border-top: 1px solid rgba(36, 49, 22, 0.2);
+    color: rgba(36, 49, 22, 0.72);
     font-family: 'Comic Neue', cursive;
     font-size: 13px;
 }
@@ -4059,15 +4059,15 @@ section {
 }
 
 .footer {
-    background: #556b2f;
-    color: #f8efe5;
+    background: #c6d29b;
+    color: #243116;
 }
 
 .footer-section p,
 .footer-bottom p,
 .footer-section ul li a,
 .contact-link {
-    color: rgba(248, 239, 229, 0.84);
+    color: rgba(36, 49, 22, 0.86);
 }
 
 .camps-page {
