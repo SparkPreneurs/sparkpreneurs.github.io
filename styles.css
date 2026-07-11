@@ -988,7 +988,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #0f172a;
+    background: #735b47;
     color: var(--text-base);
     padding: 34px 0 16px;
 }
@@ -1083,7 +1083,7 @@ body {
 .footer-bottom {
     text-align: center;
     padding-top: 12px;
-    border-top: 1px solid #374151;
+    border-top: 1px solid rgba(248, 239, 229, 0.22);
     color: #9CA3AF;
     font-family: 'Comic Neue', cursive;
     font-size: 13px;
@@ -4059,7 +4059,7 @@ section {
 }
 
 .footer {
-    background: var(--brand-blue);
+    background: #735b47;
     color: #f8efe5;
 }
 
