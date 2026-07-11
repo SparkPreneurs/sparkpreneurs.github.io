@@ -4566,10 +4566,10 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .about-page-copy h1 {
-    margin-bottom: 18px;
-    color: var(--ink);
+    margin-bottom: 16px;
+    color: var(--brand-blue);
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 64px;
+    font-size: 54px;
     line-height: 1;
 }
 
@@ -4582,11 +4582,11 @@ body.program-detail-page .btn-secondary:hover {
 
 .about-page-copy > p:not(.summer-camp-kicker):not(.about-page-subtitle) {
     max-width: 680px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     color: var(--muted-ink);
     font-family: 'Lora', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.75;
+    font-size: 17px;
+    line-height: 1.7;
 }
 
 .about-page-photo {
@@ -4621,10 +4621,10 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .about-page-text-section h2 {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     color: var(--brand-blue);
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 42px;
+    font-size: 36px;
     line-height: 1.08;
 }
 
@@ -4632,12 +4632,12 @@ body.program-detail-page .btn-secondary:hover {
     max-width: 900px;
     color: var(--muted-ink);
     font-family: 'Lora', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.75;
+    font-size: 17px;
+    line-height: 1.7;
 }
 
 .about-page-text-section p + p {
-    margin-top: 18px;
+    margin-top: 16px;
 }
 
 .about-page-text-section .about-page-closing {
@@ -4698,7 +4698,7 @@ body.program-detail-page .btn-secondary:hover {
 
     .about-story h2,
     .about-page-copy h1 {
-        font-size: 40px;
+        font-size: 34px;
     }
 
     .about-kicker,
@@ -4708,7 +4708,7 @@ body.program-detail-page .btn-secondary:hover {
 
     .about-story-copy p,
     .about-page-copy > p:not(.summer-camp-kicker):not(.about-page-subtitle) {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .about-link-button {
@@ -4740,11 +4740,11 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .about-page-text-section h2 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .about-page-text-section p {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .about-page-card {
