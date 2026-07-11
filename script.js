@@ -201,10 +201,11 @@ document.querySelectorAll('.btn-primary, .cta-button').forEach(button => {
 document.querySelectorAll('.btn-secondary, .btn-outline').forEach(button => {
     if (button.textContent.includes('Explore') || button.textContent.includes('Visit')) {
         button.addEventListener('click', function() {
-            // Scroll to programs or contact section
-            const programsSection = document.getElementById('programs');
-            if (programsSection) {
-                programsSection.scrollIntoView({ behavior: 'smooth' });
+            const target = button.textContent.includes('Visit')
+                ? document.getElementById('contact')
+                : document.getElementById('explore-sparkpreneurs');
+            if (target) {
+                scrollToSection(target);
             }
         });
     }
