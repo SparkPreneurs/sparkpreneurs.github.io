@@ -4605,6 +4605,41 @@ body.program-detail-page .btn-secondary:hover {
     object-fit: cover;
 }
 
+.about-page-story {
+    padding: 0 0 96px;
+}
+
+.about-page-story-grid {
+    display: grid;
+    gap: 42px;
+    max-width: 980px;
+}
+
+.about-page-text-section {
+    padding-top: 42px;
+    border-top: 1px solid var(--line);
+}
+
+.about-page-text-section h2 {
+    margin-bottom: 18px;
+    color: var(--brand-blue);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 42px;
+    line-height: 1.08;
+}
+
+.about-page-text-section p {
+    max-width: 900px;
+    color: var(--muted-ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+}
+
+.about-page-text-section p + p {
+    margin-top: 18px;
+}
+
 .about-page-details {
     padding: 0 0 96px;
 }
@@ -4685,6 +4720,26 @@ body.program-detail-page .btn-secondary:hover {
 
     .about-page-card-grid {
         grid-template-columns: 1fr;
+    }
+
+    .about-page-story {
+        padding-bottom: 76px;
+    }
+
+    .about-page-story-grid {
+        gap: 34px;
+    }
+
+    .about-page-text-section {
+        padding-top: 34px;
+    }
+
+    .about-page-text-section h2 {
+        font-size: 32px;
+    }
+
+    .about-page-text-section p {
+        font-size: 17px;
     }
 
     .about-page-card {
