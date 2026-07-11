@@ -4054,7 +4054,7 @@ section {
 }
 
 .footer {
-    background: #251f1b;
+    background: var(--brand-blue);
     color: #f8efe5;
 }
 
