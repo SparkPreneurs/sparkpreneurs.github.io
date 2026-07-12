@@ -1724,30 +1724,9 @@ a:focus {
 
 .adult-art-hero {
     position: relative;
-    min-height: 720px;
-    padding: 150px 0 88px;
-    background: #061c49;
+    padding: 150px 0 72px;
+    background: linear-gradient(180deg, #f4ede3 0%, #f8f3eb 100%);
     overflow: hidden;
-}
-
-.adult-art-hero-media,
-.adult-art-hero-overlay {
-    position: absolute;
-    inset: 0;
-}
-
-.adult-art-hero-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-.adult-art-hero-overlay {
-    background:
-        linear-gradient(90deg, rgba(6, 28, 73, 0.82) 0%, rgba(6, 28, 73, 0.52) 45%, rgba(6, 28, 73, 0.38) 100%),
-        linear-gradient(180deg, rgba(6, 28, 73, 0.18) 0%, rgba(6, 28, 73, 0.62) 100%);
 }
 
 .adult-art-hero-content {
@@ -1755,12 +1734,24 @@ a:focus {
     z-index: 1;
     display: flex;
     align-items: center;
-    min-height: 480px;
+    min-height: auto;
+}
+
+.adult-art-hero-content--stacked {
+    justify-content: center;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.adult-art-top-photo {
+    max-width: 860px;
+    height: clamp(180px, 26vw, 300px);
+    margin-bottom: 18px;
 }
 
 .adult-art-hero-copy {
-    width: min(100%, 660px);
-    color: #ffffff;
+    width: min(100%, 720px);
+    color: #061c49;
 }
 
 .adult-art-eyebrow,
@@ -1773,20 +1764,20 @@ a:focus {
 }
 
 .adult-art-eyebrow {
-    color: #ffd0a6;
+    color: #c55a11;
 }
 
 .adult-art-hero-copy h1 {
     margin-top: 14px;
-    color: #ffffff;
+    color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: clamp(48px, 8vw, 84px);
+    font-size: clamp(44px, 7vw, 76px);
     line-height: 0.98;
 }
 
 .adult-art-tagline {
     margin-top: 18px;
-    color: #ffd0a6;
+    color: #c55a11;
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(28px, 4vw, 42px);
     font-weight: 600;
@@ -1996,12 +1987,16 @@ a:focus {
     }
 
     .adult-art-hero {
-        min-height: auto;
         padding: 136px 0 72px;
     }
 
     .adult-art-hero-content {
         min-height: auto;
+    }
+
+    .adult-art-top-photo {
+        height: 180px;
+        margin-bottom: 16px;
     }
 
     .adult-art-hero-copy h1 {
