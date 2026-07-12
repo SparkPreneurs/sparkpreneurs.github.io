@@ -118,6 +118,81 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function setupClickableProgramCards(scope, options = {}) {
+    const cards = scope.querySelectorAll('[data-card-link]');
+    const programSelect = options.programSelect || null;
+
+    cards.forEach((card) => {
+        const navigate = () => {
+            const href = card.dataset.cardLink;
+            if (!href) {
+                return;
+            }
+
+            if (card.dataset.interestProgram && programSelect) {
+                programSelect.value = card.dataset.interestProgram;
+            }
+
+            window.location.href = href;
+        };
+
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('a, button, input, select, textarea, label')) {
+                return;
+            }
+            navigate();
+        });
+
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                navigate();
+            }
+        });
+    });
+}
+
+function setupInterestForm(scope) {
+    const interestForm = scope.querySelector('[data-interest-form]');
+    const successMessage = scope.querySelector('[data-interest-form-success]');
+    const programSelect = scope.querySelector('[data-interest-program-select]');
+    const interestLinks = scope.querySelectorAll('[data-interest-program]');
+
+    if (!interestForm || !successMessage || !programSelect) {
+        return { programSelect: null };
+    }
+
+    interestLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            programSelect.value = link.dataset.interestProgram || '';
+        });
+    });
+
+    interestForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        if (!interestForm.reportValidity()) {
+            return;
+        }
+
+        interestForm.reset();
+        successMessage.hidden = false;
+    });
+
+    return { programSelect };
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const page = document.body?.dataset.page;
+
+    if (page !== 'adult-art-studio') {
+        return;
+    }
+
+    const formSetup = setupInterestForm(document);
+    setupClickableProgramCards(document, { programSelect: formSetup.programSelect });
+});
+
 // Fun Emoji Reactions on Hover
 document.addEventListener('DOMContentLoaded', function() {
     const programCards = document.querySelectorAll('.program-card');

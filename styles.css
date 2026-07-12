@@ -2187,6 +2187,11 @@ a:focus {
     box-shadow: 0 24px 48px rgba(6, 28, 73, 0.14);
 }
 
+.adult-art-card:focus-visible {
+    outline: 3px solid rgba(6, 28, 73, 0.72);
+    outline-offset: 4px;
+}
+
 .adult-art-card:hover .adult-art-card-image,
 .adult-art-card:focus-within .adult-art-card-image,
 .adult-art-card:focus-visible .adult-art-card-image {
@@ -2201,6 +2206,16 @@ a:focus {
 
 .adult-art-card-button:hover {
     color: #c55a11;
+}
+
+.adult-art-card-button:focus-visible,
+.adult-art-form-submit:focus-visible,
+.adult-art-cta-actions .btn-primary:focus-visible,
+.adult-art-cta-actions .btn-secondary:focus-visible,
+.adult-art-actions .btn-primary:focus-visible,
+.adult-art-actions .btn-secondary:focus-visible {
+    outline: 3px solid rgba(6, 28, 73, 0.72);
+    outline-offset: 4px;
 }
 
 .adult-art-private-workshop,
