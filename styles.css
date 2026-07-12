@@ -1816,6 +1816,11 @@ a:focus {
     gap: 28px;
 }
 
+.adult-art-overview-grid--single {
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+}
+
 .adult-art-overview-copy,
 .adult-art-overview-panel,
 .adult-art-experience-card,
