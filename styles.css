@@ -1724,7 +1724,7 @@ a:focus {
 
 .adult-art-hero {
     position: relative;
-    padding: 136px 0 56px;
+    padding: 136px 0 40px;
     background: linear-gradient(180deg, #f4ede3 0%, #f8f3eb 100%);
     overflow: hidden;
 }
@@ -1897,6 +1897,7 @@ a:focus {
 
 .adult-art-programs {
     background: #fffdf9;
+    padding-top: 56px;
 }
 
 .adult-art-programs--request {
@@ -2061,7 +2062,7 @@ a:focus {
     }
 
     .adult-art-hero {
-        padding: 128px 0 56px;
+        padding: 128px 0 40px;
     }
 
     .adult-art-hero-content {
@@ -2096,6 +2097,10 @@ a:focus {
     .adult-art-programs,
     .adult-art-experience {
         padding: 68px 0;
+    }
+
+    .adult-art-programs {
+        padding-top: 44px;
     }
 
     .adult-art-overview-grid,
