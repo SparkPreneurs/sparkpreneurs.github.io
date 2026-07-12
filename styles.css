@@ -2497,6 +2497,16 @@ body.movement-theme .custom-time-note {
     font-family: 'Comic Neue', cursive;
 }
 
+.summer-camp-age {
+    max-width: 100%;
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 1.35;
+    color: #7c2d12;
+    font-family: 'Fredoka', cursive;
+    font-weight: 700;
+}
+
 .summer-camp-summary {
     background: rgba(255, 255, 255, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.7);
