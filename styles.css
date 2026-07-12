@@ -2107,6 +2107,9 @@ a:focus {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
 }
 
 .adult-art-card-image {
@@ -2115,6 +2118,7 @@ a:focus {
     aspect-ratio: 4 / 3;
     object-fit: cover;
     object-position: center;
+    transition: transform 0.4s ease;
 }
 
 .adult-art-card-body {
@@ -2161,6 +2165,7 @@ a:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     margin-top: auto;
     padding-top: 22px;
     color: #061c49;
@@ -2170,8 +2175,96 @@ a:focus {
     text-decoration: none;
 }
 
+.adult-art-card-button span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.adult-art-card:hover,
+.adult-art-card:focus-within,
+.adult-art-card:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px rgba(6, 28, 73, 0.14);
+}
+
+.adult-art-card:hover .adult-art-card-image,
+.adult-art-card:focus-within .adult-art-card-image,
+.adult-art-card:focus-visible .adult-art-card-image {
+    transform: scale(1.04);
+}
+
+.adult-art-card:hover .adult-art-card-button span,
+.adult-art-card:focus-within .adult-art-card-button span,
+.adult-art-card:focus-visible .adult-art-card-button span {
+    transform: translateX(4px);
+}
+
 .adult-art-card-button:hover {
     color: #c55a11;
+}
+
+.adult-art-private-workshop,
+.adult-art-final-cta {
+    padding: 88px 0;
+}
+
+.adult-art-private-workshop {
+    background: #fffdf9;
+}
+
+.adult-art-final-cta {
+    background: linear-gradient(180deg, #fffdf9 0%, #f4ede3 100%);
+}
+
+.adult-art-cta-panel {
+    border-radius: 24px;
+    border: 1px solid rgba(6, 28, 73, 0.08);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 18px 40px rgba(6, 28, 73, 0.08);
+    padding: 36px;
+}
+
+.adult-art-cta-panel--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.85fr);
+    gap: 28px;
+    align-items: center;
+}
+
+.adult-art-cta-panel--center {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.adult-art-cta-copy h2,
+.adult-art-cta-panel--center h2 {
+    margin-top: 10px;
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.08;
+}
+
+.adult-art-cta-copy p:last-child,
+.adult-art-cta-panel--center > p:last-of-type {
+    margin-top: 16px;
+    color: rgba(6, 28, 73, 0.82);
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.adult-art-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: flex-start;
+}
+
+.adult-art-cta-actions--center {
+    justify-content: center;
+    margin-top: 26px;
 }
 
 .adult-art-experience {
@@ -2267,7 +2360,9 @@ a:focus {
     .adult-art-programs,
     .adult-art-experience,
     .adult-art-pottery-info,
-    .adult-art-interest-section {
+    .adult-art-interest-section,
+    .adult-art-private-workshop,
+    .adult-art-final-cta {
         padding: 68px 0;
     }
 
@@ -2276,6 +2371,7 @@ a:focus {
     }
 
     .adult-art-pottery-grid,
+    .adult-art-cta-panel--split,
     .adult-art-overview-grid,
     .adult-art-experience-grid,
     .adult-art-card-grid {
@@ -2284,6 +2380,18 @@ a:focus {
 
     .adult-art-interest-shell {
         padding: 24px;
+    }
+
+    .adult-art-cta-panel {
+        padding: 24px;
+    }
+
+    .adult-art-cta-actions {
+        justify-content: flex-start;
+    }
+
+    .adult-art-cta-actions--center {
+        justify-content: center;
     }
 
     .adult-art-form-grid {
