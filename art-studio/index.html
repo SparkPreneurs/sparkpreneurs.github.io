@@ -102,7 +102,7 @@
                             <span class="adult-art-status-badge adult-art-status-badge--request">Available by Request</span>
                             <h3>Acrylic Painting</h3>
                             <p>Explore colour, composition, and expressive painting techniques in a supportive studio environment.</p>
-                            <a class="adult-art-card-button" href="../index.html#contact">Join Interest List</a>
+                            <a class="adult-art-card-button" href="#interest-form" data-interest-program="Acrylic Painting">Join Interest List</a>
                         </div>
                     </article>
                     <article class="adult-art-card">
@@ -111,7 +111,7 @@
                             <span class="adult-art-status-badge adult-art-status-badge--request">Available by Request</span>
                             <h3>Watercolour Painting</h3>
                             <p>Discover washes, layering, colour blending, and beautiful watercolour techniques.</p>
-                            <a class="adult-art-card-button" href="../index.html#contact">Join Interest List</a>
+                            <a class="adult-art-card-button" href="#interest-form" data-interest-program="Watercolour Painting">Join Interest List</a>
                         </div>
                     </article>
                     <article class="adult-art-card">
@@ -120,9 +120,87 @@
                             <span class="adult-art-status-badge adult-art-status-badge--request">Available by Request</span>
                             <h3>Drawing &amp; Sketching</h3>
                             <p>Develop confidence in observation, shading, perspective, and drawing techniques.</p>
-                            <a class="adult-art-card-button" href="../index.html#contact">Join Interest List</a>
+                            <a class="adult-art-card-button" href="#interest-form" data-interest-program="Drawing &amp; Sketching">Join Interest List</a>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="adult-art-pottery-info">
+            <div class="container">
+                <div class="adult-art-pottery-grid">
+                    <div class="adult-art-pottery-photo-wrap">
+                        <img src="../assets/pottery 6.jpg" alt="Finished pottery pieces at SparkPreneurs" class="adult-art-pottery-photo" loading="lazy">
+                    </div>
+                    <div class="adult-art-pottery-copy">
+                        <p class="adult-art-section-label">Pottery Information</p>
+                        <h2>From Clay to Finished Piece</h2>
+                        <p>Pottery pieces created at SparkPreneurs will be professionally kiln-fired through our trusted ceramic partner. Firing and finishing details will be explained clearly before registration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="interest-form" class="adult-art-interest-section">
+            <div class="container">
+                <div class="adult-art-interest-shell">
+                    <div class="adult-art-section-head adult-art-section-head--form">
+                        <p class="adult-art-section-label">Interest Form</p>
+                        <h2>Join the Interest List</h2>
+                        <p class="adult-art-section-subtitle">Tell us which workshop you are interested in and we will contact you when a suitable class is organized.</p>
+                    </div>
+                    <form class="adult-art-interest-form" data-interest-form novalidate>
+                        <div class="adult-art-form-grid">
+                            <label class="adult-art-form-field">
+                                <span>First Name</span>
+                                <input type="text" name="firstName" autocomplete="given-name" required>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Last Name</span>
+                                <input type="text" name="lastName" autocomplete="family-name" required>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Email Address</span>
+                                <input type="email" name="email" autocomplete="email" required>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Phone Number <small>optional</small></span>
+                                <input type="tel" name="phone" autocomplete="tel">
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Program of Interest</span>
+                                <select name="program" data-interest-program-select required>
+                                    <option value="">Select a program</option>
+                                    <option value="Acrylic Painting">Acrylic Painting</option>
+                                    <option value="Watercolour Painting">Watercolour Painting</option>
+                                    <option value="Drawing & Sketching">Drawing &amp; Sketching</option>
+                                </select>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Preferred Day</span>
+                                <input type="text" name="preferredDay" required>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Preferred Time</span>
+                                <input type="text" name="preferredTime" required>
+                            </label>
+                            <label class="adult-art-form-field">
+                                <span>Number of Participants</span>
+                                <input type="number" name="participants" min="1" step="1" required>
+                            </label>
+                            <label class="adult-art-form-field adult-art-form-field--full">
+                                <span>Message <small>optional</small></span>
+                                <textarea name="message" rows="5"></textarea>
+                            </label>
+                        </div>
+                        <label class="adult-art-form-check">
+                            <input type="checkbox" name="consent" required>
+                            <span>I agree to receive updates from SparkPreneurs about this program.</span>
+                        </label>
+                        <input class="adult-art-form-submit" type="submit" value="Notify Me">
+                        <p class="adult-art-form-success" data-interest-form-success hidden>Thank you! We will contact you when a suitable workshop becomes available.</p>
+                    </form>
                 </div>
             </div>
         </section>
@@ -136,5 +214,36 @@
     </footer>
 
     <script src="../script.js?v=20260707-light-bg"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const interestForm = document.querySelector('[data-interest-form]');
+            const successMessage = document.querySelector('[data-interest-form-success]');
+            const programSelect = document.querySelector('[data-interest-program-select]');
+            const interestLinks = document.querySelectorAll('[data-interest-program]');
+
+            interestLinks.forEach((link) => {
+                link.addEventListener('click', () => {
+                    if (programSelect) {
+                        programSelect.value = link.dataset.interestProgram || '';
+                    }
+                });
+            });
+
+            if (!interestForm || !successMessage) {
+                return;
+            }
+
+            interestForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                if (!interestForm.reportValidity()) {
+                    return;
+                }
+
+                interestForm.reset();
+                successMessage.hidden = false;
+            });
+        });
+    </script>
 </body>
 </html>
