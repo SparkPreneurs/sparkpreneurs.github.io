@@ -1724,7 +1724,7 @@ a:focus {
 
 .adult-art-hero {
     position: relative;
-    padding: 128px 0 28px;
+    padding: 120px 0 18px;
     background: linear-gradient(180deg, #f4ede3 0%, #f8f3eb 100%);
     overflow: hidden;
 }
@@ -1744,9 +1744,9 @@ a:focus {
 }
 
 .adult-art-top-photo {
-    max-width: 760px;
-    height: clamp(150px, 22vw, 240px);
-    margin-bottom: 14px;
+    max-width: 660px;
+    height: clamp(130px, 19vw, 200px);
+    margin-bottom: 10px;
 }
 
 .adult-art-hero-copy {
@@ -1771,15 +1771,15 @@ a:focus {
     margin-top: 10px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: clamp(34px, 5vw, 52px);
+    font-size: clamp(30px, 4.2vw, 44px);
     line-height: 0.98;
 }
 
 .adult-art-tagline {
-    margin-top: 12px;
+    margin-top: 8px;
     color: #c55a11;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(21px, 2.8vw, 28px);
+    font-size: clamp(19px, 2.2vw, 24px);
     font-weight: 600;
 }
 
@@ -1796,13 +1796,13 @@ a:focus {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .adult-art-overview,
 .adult-art-programs,
 .adult-art-experience {
-    padding: 64px 0;
+    padding: 44px 0;
 }
 
 .adult-art-overview {
@@ -1906,7 +1906,7 @@ a:focus {
 
 .adult-art-pottery-info,
 .adult-art-interest-section {
-    padding: 64px 0;
+    padding: 44px 0;
 }
 
 .adult-art-pottery-info {
@@ -1953,16 +1953,16 @@ a:focus {
     margin-top: 10px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: clamp(26px, 3.2vw, 36px);
+    font-size: clamp(22px, 2.8vw, 30px);
     line-height: 1.08;
 }
 
 .adult-art-pottery-copy p:last-child {
-    margin-top: 16px;
+    margin-top: 12px;
     color: rgba(6, 28, 73, 0.82);
     font-family: 'Lora', serif;
-    font-size: 18px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 .adult-art-interest-section {
@@ -1970,7 +1970,7 @@ a:focus {
 }
 
 .adult-art-interest-shell {
-    padding: 36px;
+    padding: 28px;
 }
 
 .adult-art-section-head--form {
@@ -2081,7 +2081,7 @@ a:focus {
 
 .adult-art-section-head {
     max-width: 760px;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .adult-art-section-label {
@@ -2089,23 +2089,23 @@ a:focus {
 }
 
 .adult-art-section-head h2 {
-    margin-top: 10px;
-    font-size: clamp(26px, 3.4vw, 36px);
+    margin-top: 8px;
+    font-size: clamp(22px, 2.8vw, 30px);
     line-height: 1.08;
 }
 
 .adult-art-section-subtitle {
-    margin-top: 14px;
+    margin-top: 10px;
     color: rgba(6, 28, 73, 0.78);
     font-family: 'Lora', serif;
-    font-size: 18px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 .adult-art-card-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px;
+    gap: 20px;
 }
 
 .adult-art-card {
@@ -2132,7 +2132,7 @@ a:focus {
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
-    padding: 28px;
+    padding: 22px;
 }
 
 .adult-art-status-badge {
@@ -2156,14 +2156,14 @@ a:focus {
 }
 
 .adult-art-card h3 {
-    margin-top: 18px;
+    margin-top: 14px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .adult-art-card p {
-    margin-top: 14px;
+    margin-top: 10px;
 }
 
 .adult-art-card-button {
@@ -2172,7 +2172,7 @@ a:focus {
     justify-content: center;
     gap: 8px;
     margin-top: auto;
-    padding-top: 22px;
+    padding-top: 16px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
     font-size: 16px;
@@ -2225,7 +2225,7 @@ a:focus {
 
 .adult-art-private-workshop,
 .adult-art-final-cta {
-    padding: 64px 0;
+    padding: 44px 0;
 }
 
 .adult-art-private-workshop {
@@ -2241,7 +2241,7 @@ a:focus {
     border: 1px solid rgba(6, 28, 73, 0.08);
     background: rgba(255, 255, 255, 0.86);
     box-shadow: 0 18px 40px rgba(6, 28, 73, 0.08);
-    padding: 30px;
+    padding: 24px;
 }
 
 .adult-art-cta-panel--split {
@@ -2259,20 +2259,20 @@ a:focus {
 
 .adult-art-cta-copy h2,
 .adult-art-cta-panel--center h2 {
-    margin-top: 10px;
+    margin-top: 8px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: clamp(26px, 3.4vw, 36px);
+    font-size: clamp(22px, 2.8vw, 30px);
     line-height: 1.08;
 }
 
 .adult-art-cta-copy p:last-child,
 .adult-art-cta-panel--center > p:last-of-type {
-    margin-top: 16px;
+    margin-top: 12px;
     color: rgba(6, 28, 73, 0.82);
     font-family: 'Lora', serif;
-    font-size: 18px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 .adult-art-cta-actions {
@@ -2284,7 +2284,7 @@ a:focus {
 
 .adult-art-cta-actions--center {
     justify-content: center;
-    margin-top: 26px;
+    margin-top: 18px;
 }
 
 .adult-art-experience {
@@ -2345,7 +2345,7 @@ a:focus {
     }
 
     .adult-art-hero {
-        padding: 122px 0 24px;
+        padding: 116px 0 18px;
     }
 
     .adult-art-hero-content {
@@ -2353,17 +2353,17 @@ a:focus {
     }
 
     .adult-art-top-photo {
-        max-width: 320px;
-        height: 150px;
-        margin-bottom: 12px;
+        max-width: 280px;
+        height: 126px;
+        margin-bottom: 10px;
     }
 
     .adult-art-hero-copy h1 {
-        font-size: clamp(30px, 9vw, 42px);
+        font-size: clamp(26px, 8vw, 36px);
     }
 
     .adult-art-tagline {
-        font-size: 21px;
+        font-size: 18px;
     }
 
     .adult-art-intro,
@@ -2373,7 +2373,7 @@ a:focus {
     .adult-art-card p,
     .adult-art-experience-card p:not(.adult-art-section-label),
     .adult-art-feature-list li {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .adult-art-overview,
@@ -2383,11 +2383,11 @@ a:focus {
     .adult-art-interest-section,
     .adult-art-private-workshop,
     .adult-art-final-cta {
-        padding: 48px 0;
+        padding: 34px 0;
     }
 
     .adult-art-programs {
-        padding-top: 32px;
+        padding-top: 24px;
     }
 
     .adult-art-pottery-grid,
@@ -2399,11 +2399,11 @@ a:focus {
     }
 
     .adult-art-interest-shell {
-        padding: 24px;
+        padding: 20px;
     }
 
     .adult-art-cta-panel {
-        padding: 22px;
+        padding: 18px;
     }
 
     .adult-art-cta-actions {
