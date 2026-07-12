@@ -1718,6 +1718,244 @@ a:focus {
     color: #F97316;
 }
 
+.adult-art-page {
+    background: #f4ede3;
+}
+
+.adult-art-hero {
+    position: relative;
+    min-height: 720px;
+    padding: 150px 0 88px;
+    background: #061c49;
+    overflow: hidden;
+}
+
+.adult-art-hero-media,
+.adult-art-hero-overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.adult-art-hero-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.adult-art-hero-overlay {
+    background:
+        linear-gradient(90deg, rgba(6, 28, 73, 0.82) 0%, rgba(6, 28, 73, 0.52) 45%, rgba(6, 28, 73, 0.38) 100%),
+        linear-gradient(180deg, rgba(6, 28, 73, 0.18) 0%, rgba(6, 28, 73, 0.62) 100%);
+}
+
+.adult-art-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-height: 480px;
+}
+
+.adult-art-hero-copy {
+    width: min(100%, 660px);
+    color: #ffffff;
+}
+
+.adult-art-eyebrow,
+.adult-art-section-label {
+    font-family: 'Fredoka', cursive;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.adult-art-eyebrow {
+    color: #ffd0a6;
+}
+
+.adult-art-hero-copy h1 {
+    margin-top: 14px;
+    color: #ffffff;
+    font-family: 'Fredoka', cursive;
+    font-size: clamp(48px, 8vw, 84px);
+    line-height: 0.98;
+}
+
+.adult-art-tagline {
+    margin-top: 18px;
+    color: #ffd0a6;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+}
+
+.adult-art-intro {
+    margin-top: 20px;
+    max-width: 600px;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+.adult-art-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.adult-art-overview,
+.adult-art-programs,
+.adult-art-experience {
+    padding: 88px 0;
+}
+
+.adult-art-overview {
+    background: linear-gradient(180deg, #f4ede3 0%, #f8f3eb 100%);
+}
+
+.adult-art-overview-grid,
+.adult-art-experience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.adult-art-overview-copy,
+.adult-art-overview-panel,
+.adult-art-experience-card,
+.adult-art-card {
+    border-radius: 24px;
+}
+
+.adult-art-overview-copy h2,
+.adult-art-section-head h2,
+.adult-art-experience-card h3 {
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+}
+
+.adult-art-overview-copy h2 {
+    margin-top: 10px;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.08;
+}
+
+.adult-art-overview-copy p:not(.adult-art-section-label),
+.adult-art-overview-panel,
+.adult-art-card p,
+.adult-art-experience-card p:not(.adult-art-section-label) {
+    color: rgba(6, 28, 73, 0.82);
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.adult-art-overview-copy p:not(.adult-art-section-label) + p:not(.adult-art-section-label) {
+    margin-top: 18px;
+}
+
+.adult-art-overview-panel,
+.adult-art-experience-card,
+.adult-art-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(6, 28, 73, 0.08);
+    box-shadow: 0 18px 40px rgba(6, 28, 73, 0.08);
+}
+
+.adult-art-overview-panel {
+    padding: 34px;
+}
+
+.adult-art-feature-list {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 16px;
+}
+
+.adult-art-feature-list li {
+    position: relative;
+    padding-left: 22px;
+    color: rgba(6, 28, 73, 0.82);
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.adult-art-feature-list li::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f97316;
+}
+
+.adult-art-programs {
+    background: #fffdf9;
+}
+
+.adult-art-section-head {
+    max-width: 760px;
+    margin-bottom: 28px;
+}
+
+.adult-art-section-label {
+    color: #c55a11;
+}
+
+.adult-art-section-head h2 {
+    margin-top: 10px;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.08;
+}
+
+.adult-art-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.adult-art-card {
+    padding: 30px;
+}
+
+.adult-art-card h3 {
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 26px;
+}
+
+.adult-art-card p {
+    margin-top: 14px;
+}
+
+.adult-art-experience {
+    background: linear-gradient(180deg, #fffdf9 0%, #f4ede3 100%);
+}
+
+.adult-art-experience-card {
+    padding: 32px;
+}
+
+.adult-art-experience-card h3 {
+    margin-top: 10px;
+    font-size: 30px;
+    line-height: 1.15;
+}
+
+.adult-art-experience-card p:not(.adult-art-section-label) {
+    margin-top: 14px;
+}
+
 .music-hero {
     background: linear-gradient(135deg, rgba(253, 224, 71, 0.2) 0%, rgba(36, 40, 54, 0.9) 100%);
 }
@@ -1755,6 +1993,44 @@ a:focus {
 @media (max-width: 768px) {
     .program-detail-hero {
         padding: 140px 0 80px;
+    }
+
+    .adult-art-hero {
+        min-height: auto;
+        padding: 136px 0 72px;
+    }
+
+    .adult-art-hero-content {
+        min-height: auto;
+    }
+
+    .adult-art-hero-copy h1 {
+        font-size: clamp(40px, 12vw, 58px);
+    }
+
+    .adult-art-tagline {
+        font-size: 28px;
+    }
+
+    .adult-art-intro,
+    .adult-art-overview-copy p:not(.adult-art-section-label),
+    .adult-art-overview-panel,
+    .adult-art-card p,
+    .adult-art-experience-card p:not(.adult-art-section-label),
+    .adult-art-feature-list li {
+        font-size: 17px;
+    }
+
+    .adult-art-overview,
+    .adult-art-programs,
+    .adult-art-experience {
+        padding: 68px 0;
+    }
+
+    .adult-art-overview-grid,
+    .adult-art-experience-grid,
+    .adult-art-card-grid {
+        grid-template-columns: 1fr;
     }
 
     .detail-card,
