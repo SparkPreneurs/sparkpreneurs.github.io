@@ -1909,6 +1909,14 @@ a:focus {
     line-height: 1.08;
 }
 
+.adult-art-section-subtitle {
+    margin-top: 14px;
+    color: rgba(6, 28, 73, 0.78);
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
 .adult-art-card-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1916,10 +1924,45 @@ a:focus {
 }
 
 .adult-art-card {
-    padding: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.adult-art-card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+}
+
+.adult-art-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 28px;
+}
+
+.adult-art-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: rgba(249, 115, 22, 0.12);
+    color: #c55a11;
+    font-family: 'Fredoka', cursive;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .adult-art-card h3 {
+    margin-top: 18px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
     font-size: 26px;
@@ -1927,6 +1970,23 @@ a:focus {
 
 .adult-art-card p {
     margin-top: 14px;
+}
+
+.adult-art-card-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 22px;
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.adult-art-card-button:hover {
+    color: #c55a11;
 }
 
 .adult-art-experience {
@@ -2011,6 +2071,7 @@ a:focus {
     .adult-art-intro,
     .adult-art-overview-copy p:not(.adult-art-section-label),
     .adult-art-overview-panel,
+    .adult-art-section-subtitle,
     .adult-art-card p,
     .adult-art-experience-card p:not(.adult-art-section-label),
     .adult-art-feature-list li {
