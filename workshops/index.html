@@ -56,15 +56,16 @@
                     <p>Browse the workshop areas currently featured at SparkPreneurs.</p>
                 </div>
                 <div class="kids-youth-card-grid">
-                    <a class="kids-youth-card" href="../index.html#contact" aria-label="Ask about Kids Workshops">
+                    <a class="kids-youth-card" href="#" data-workshop-rsvp aria-label="RSVP now for Kids Workshops">
                         <img src="../assets/kid-workshop-flyer.png" alt="SparkPreneurs kids workshop flyer" class="kids-youth-card-image" loading="lazy" decoding="async">
                         <span class="kids-youth-card-body">
                             <span class="kids-youth-card-title">Kids Workshops</span>
                             <span class="kids-youth-card-text">Hands-on creative workshops designed for children with art, making, and guided studio activities.</span>
-                            <span class="kids-youth-card-action">Ask About Workshops <span aria-hidden="true">-&gt;</span></span>
+                            <span class="kids-youth-card-action">RSVP now <span aria-hidden="true">-&gt;</span></span>
                         </span>
                     </a>
                 </div>
+                <p class="kids-youth-form-success" data-workshop-rsvp-success hidden>Thank you. The waiver has been completed for this workshop.</p>
             </div>
         </section>
 
@@ -94,6 +95,30 @@
         </div>
     </footer>
 
+    <script src="../waiver.js?v=20260706"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const workshopLink = document.querySelector('[data-workshop-rsvp]');
+            const successMessage = document.querySelector('[data-workshop-rsvp-success]');
+
+            if (!workshopLink || !window.SparkPreneursWaiver) {
+                return;
+            }
+
+            workshopLink.addEventListener('click', async function(event) {
+                event.preventDefault();
+
+                const waiverData = await window.SparkPreneursWaiver.collect({});
+
+                if (!waiverData) {
+                    return;
+                }
+
+                successMessage.hidden = false;
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
     <script src="../script.js?v=20260707-light-bg"></script>
 </body>
 </html>
