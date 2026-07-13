@@ -4827,8 +4827,14 @@ section {
 
 .kids-youth-hero-overlay {
     background:
-        linear-gradient(90deg, rgba(6, 28, 73, 0.82) 0%, rgba(6, 28, 73, 0.58) 45%, rgba(6, 28, 73, 0.34) 100%),
-        linear-gradient(180deg, rgba(6, 28, 73, 0.18) 0%, rgba(6, 28, 73, 0.6) 100%);
+        linear-gradient(90deg, rgba(6, 28, 73, 0.62) 0%, rgba(6, 28, 73, 0.4) 45%, rgba(6, 28, 73, 0.2) 100%),
+        linear-gradient(180deg, rgba(6, 28, 73, 0.08) 0%, rgba(6, 28, 73, 0.24) 40%, rgba(6, 28, 73, 0.78) 100%);
+}
+
+body.workshops-page .kids-youth-hero-overlay {
+    background:
+        linear-gradient(90deg, rgba(6, 28, 73, 0.48) 0%, rgba(6, 28, 73, 0.28) 45%, rgba(6, 28, 73, 0.14) 100%),
+        linear-gradient(180deg, rgba(6, 28, 73, 0.08) 0%, rgba(6, 28, 73, 0.28) 42%, rgba(6, 28, 73, 0.86) 100%);
 }
 
 .kids-youth-hero-layout {
@@ -4843,6 +4849,36 @@ section {
 .kids-youth-hero-layout--overlay {
     grid-template-columns: minmax(0, 720px);
     min-height: 420px;
+    align-items: end;
+}
+
+.kids-youth-hero-copy--overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100%;
+    align-items: flex-start;
+}
+
+body.workshops-page .kids-youth-hero-layout--overlay {
+    grid-template-columns: minmax(0, 560px);
+    min-height: 392px;
+}
+
+body.workshops-page .kids-youth-hero-copy h1 {
+    font-size: clamp(28px, 4vw, 42px);
+}
+
+body.workshops-page .kids-youth-tagline {
+    margin-top: 6px;
+    font-size: clamp(18px, 2.2vw, 26px);
+}
+
+body.workshops-page .kids-youth-intro {
+    max-width: 470px;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.45;
 }
 
 .kids-youth-eyebrow,
@@ -4871,13 +4907,13 @@ section {
 
 .kids-youth-hero-copy h1 {
     margin-top: 10px;
-    font-size: clamp(34px, 5vw, 54px);
+    font-size: clamp(30px, 4.6vw, 48px);
 }
 
 .kids-youth-tagline {
     margin-top: 10px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(22px, 3vw, 34px);
+    font-size: clamp(20px, 2.5vw, 30px);
     font-weight: 600;
 }
 
@@ -4894,6 +4930,8 @@ section {
 .kids-youth-intro {
     margin-top: 12px;
     max-width: 620px;
+    font-size: 15px;
+    line-height: 1.55;
 }
 
 .kids-youth-actions,
@@ -4904,18 +4942,50 @@ section {
     margin-top: 20px;
 }
 
+.kids-youth-hero-copy--overlay .kids-youth-actions {
+    margin-top: auto;
+    padding-top: 28px;
+}
+
+body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
+    margin-top: 16px;
+    padding-top: 0;
+}
+
 .kids-youth-programs,
 .kids-youth-support {
     padding: 48px 0;
+}
+
+.kids-youth-interest,
+.kids-youth-benefits,
+.kids-youth-cta {
+    padding: 36px 0;
 }
 
 .kids-youth-programs {
     background: #fffdf9;
 }
 
+.kids-youth-interest {
+    background: #fffdf9;
+}
+
+.kids-youth-benefits {
+    background: linear-gradient(180deg, #f8f3eb 0%, #fffdf9 100%);
+}
+
+.kids-youth-cta {
+    background: #fffdf9;
+}
+
 .kids-youth-section-head {
     max-width: 700px;
     margin-bottom: 20px;
+}
+
+.kids-youth-section-head--compact {
+    margin-bottom: 16px;
 }
 
 .kids-youth-section-head h2,
@@ -4961,7 +5031,8 @@ section {
     flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
+    padding: 18px;
+    gap: 0;
 }
 
 .kids-youth-card-tag {
@@ -4969,26 +5040,58 @@ section {
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    padding: 8px 12px;
+    padding: 7px 11px;
     background: rgba(249, 115, 22, 0.12);
     color: #9a3412;
     font-family: 'Fredoka', cursive;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
+.kids-youth-card-tag--open {
+    background: #dff6e8;
+    color: #166534;
+}
+
+.kids-youth-card-tag--coming {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.kids-youth-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.kids-youth-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    border-radius: 999px;
+    padding: 5px 10px;
+    background: rgba(6, 28, 73, 0.07);
+    color: rgba(6, 28, 73, 0.88);
+    font-family: 'Fredoka', cursive;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
 .kids-youth-card-title {
-    margin-top: 14px;
+    margin-top: 12px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: 21px;
-    line-height: 1.15;
+    font-size: 18px;
+    line-height: 1.18;
 }
 
 .kids-youth-card-text {
-    margin-top: 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.55;
 }
 
 .kids-youth-card-action {
@@ -4996,10 +5099,10 @@ section {
     align-items: center;
     gap: 8px;
     margin-top: auto;
-    padding-top: 16px;
+    padding-top: 14px;
     color: #061c49;
     font-family: 'Fredoka', cursive;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -5032,6 +5135,180 @@ section {
     background: linear-gradient(180deg, #fffdf9 0%, #f4ede3 100%);
 }
 
+.kids-youth-benefit-card {
+    border-radius: 18px;
+    border: 1px solid rgba(6, 28, 73, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 30px rgba(6, 28, 73, 0.08);
+}
+
+.kids-youth-benefit-card h3 {
+    margin: 0;
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.kids-youth-interest-shell {
+    border-radius: 22px;
+    border: 1px solid rgba(6, 28, 73, 0.08);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 38px rgba(6, 28, 73, 0.08);
+    padding: 20px;
+}
+
+.kids-youth-interest-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.kids-youth-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.kids-youth-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.kids-youth-form-field--full {
+    grid-column: 1 / -1;
+}
+
+.kids-youth-form-field span,
+.kids-youth-form-check span {
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.kids-youth-form-field small {
+    color: rgba(6, 28, 73, 0.62);
+    font-size: 12px;
+}
+
+.kids-youth-form-field input,
+.kids-youth-form-field select,
+.kids-youth-form-field textarea {
+    width: 100%;
+    border: 1px solid rgba(6, 28, 73, 0.16);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: #fffdf9;
+    color: #061c49;
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.kids-youth-form-field input:focus,
+.kids-youth-form-field select:focus,
+.kids-youth-form-field textarea:focus,
+.kids-youth-form-submit:focus-visible {
+    outline: none;
+    border-color: rgba(249, 115, 22, 0.8);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.14);
+}
+
+.kids-youth-form-field textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.kids-youth-form-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.kids-youth-form-check input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: #061c49;
+}
+
+.kids-youth-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+}
+
+.kids-youth-form-submit {
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 22px;
+    background: #061c49;
+    color: #ffffff;
+    font-family: 'Fredoka', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.kids-youth-form-submit:hover {
+    background: #0a2d72;
+    transform: translateY(-1px);
+}
+
+.kids-youth-form-success {
+    margin: 0;
+    color: #0f6b3b;
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.kids-youth-benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.kids-youth-benefit-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+}
+
+.kids-youth-benefit-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(249, 115, 22, 0.14);
+    color: #9a3412;
+    font-family: 'Fredoka', cursive;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.kids-youth-cta-panel {
+    border-radius: 20px;
+    border: 1px solid rgba(6, 28, 73, 0.08);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 38px rgba(6, 28, 73, 0.08);
+    padding: 22px;
+}
+
+.kids-youth-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+
 .kids-youth-support-panel {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.85fr);
@@ -5059,9 +5336,14 @@ section {
     .kids-youth-hero-layout--overlay {
         grid-template-columns: 1fr;
         min-height: 360px;
+        align-items: end;
     }
 
     .kids-youth-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .kids-youth-benefit-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -5087,16 +5369,41 @@ section {
         padding: 122px 0 28px;
     }
 
+    body.workshops-page .kids-youth-hero-layout--overlay {
+        min-height: 336px;
+    }
+
+    .kids-youth-hero-copy--overlay .kids-youth-actions {
+        margin-top: 20px;
+        padding-top: 0;
+    }
+
+    body.workshops-page .kids-youth-hero-copy h1 {
+        font-size: clamp(26px, 7vw, 34px);
+    }
+
+    body.workshops-page .kids-youth-tagline {
+        font-size: 20px;
+    }
+
+    body.workshops-page .kids-youth-intro {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
     .kids-youth-hero-copy h1 {
-        font-size: clamp(30px, 8vw, 40px);
+        font-size: clamp(28px, 7.2vw, 36px);
     }
 
     .kids-youth-tagline {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .kids-youth-programs,
-    .kids-youth-support {
+    .kids-youth-support,
+    .kids-youth-interest,
+    .kids-youth-benefits,
+    .kids-youth-cta {
         padding: 34px 0;
     }
 
@@ -5104,9 +5411,35 @@ section {
         grid-template-columns: 1fr;
     }
 
+    .kids-youth-benefit-grid,
+    .kids-youth-form-grid {
+        grid-template-columns: 1fr;
+    }
+
     .kids-youth-card-body,
-    .kids-youth-support-panel {
+    .kids-youth-support-panel,
+    .kids-youth-interest-shell,
+    .kids-youth-benefit-card,
+    .kids-youth-cta-panel {
         padding: 18px;
+    }
+
+    .kids-youth-chip {
+        font-size: 10px;
+    }
+
+    .kids-youth-benefit-card h3 {
+        font-size: 15px;
+    }
+
+    .kids-youth-form-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .kids-youth-cta-actions {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
 

@@ -185,12 +185,15 @@ function setupInterestForm(scope) {
 document.addEventListener('DOMContentLoaded', function() {
     const page = document.body?.dataset.page;
 
-    if (page !== 'adult-art-studio') {
+    if (page !== 'adult-art-studio' && page !== 'kids-youth-programs') {
         return;
     }
 
     const formSetup = setupInterestForm(document);
-    setupClickableProgramCards(document, { programSelect: formSetup.programSelect });
+
+    if (page === 'adult-art-studio') {
+        setupClickableProgramCards(document, { programSelect: formSetup.programSelect });
+    }
 });
 
 // Fun Emoji Reactions on Hover

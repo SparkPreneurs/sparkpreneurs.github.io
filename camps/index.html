@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../styles.css?v=20260711-footer-contact-bold">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="camps-page kids-youth-page">
+<body class="camps-page kids-youth-page" data-page="kids-youth-programs">
     <header class="header">
         <nav class="nav">
             <a class="nav-brand" href="../index.html">
@@ -42,7 +42,7 @@
                     <p class="kids-youth-tagline">Create. Explore. Grow.</p>
                     <p class="kids-youth-intro">Creative classes, workshops, camps, and after-school experiences designed to build confidence, imagination, and practical skills.</p>
                     <div class="kids-youth-actions">
-                        <a class="btn-primary" href="../summer-camp/index.html">View Summer Camp</a>
+                        <a class="btn-primary" href="../camp/index.html">View Summer Camp</a>
                     </div>
                 </div>
             </div>
@@ -52,39 +52,176 @@
             <div class="container">
                 <div class="kids-youth-section-head">
                     <p class="kids-youth-section-label">Explore</p>
-                    <h2>Choose a program path</h2>
-                    <p>Open the program that best matches the experience you want to explore next.</p>
+                    <h2>Explore Our Programs</h2>
+                    <p>Creative experiences for different interests, schedules, and stages of growth.</p>
                 </div>
                 <div class="kids-youth-card-grid">
-                    <a class="kids-youth-card" href="../summer-camp/index.html">
+                    <a class="kids-youth-card" href="#kids-youth-interest" data-interest-program="Classes" aria-label="Explore Classes">
+                        <img src="../assets/kids painting.jpg" alt="Children painting together during a SparkPreneurs class" class="kids-youth-card-image" loading="lazy" decoding="async">
+                        <span class="kids-youth-card-body">
+                            <span class="kids-youth-card-tags" aria-label="Programs included: Painting, Drawing, Pottery, Papier-Mache, 3D Printing">
+                                <span class="kids-youth-chip">Painting</span>
+                                <span class="kids-youth-chip">Drawing</span>
+                                <span class="kids-youth-chip">Pottery</span>
+                                <span class="kids-youth-chip">Papier-Mache</span>
+                                <span class="kids-youth-chip">3D Printing</span>
+                            </span>
+                            <span class="kids-youth-card-title">Classes</span>
+                            <span class="kids-youth-card-text">Ongoing instructor-led creative programs for children and teenagers.</span>
+                            <span class="kids-youth-card-action">Explore Classes <span aria-hidden="true">-&gt;</span></span>
+                        </span>
+                    </a>
+
+                    <a class="kids-youth-card" href="../workshops/index.html" data-interest-program="Workshops" aria-label="Explore Workshops">
+                        <img src="../assets/website photo painting.jpg" alt="SparkPreneurs workshop table with painting materials and creative activities" class="kids-youth-card-image" loading="lazy" decoding="async">
+                        <span class="kids-youth-card-body">
+                            <span class="kids-youth-card-tags" aria-label="Workshop topics: Art, Pottery, Seasonal Activities, Creative Technology">
+                                <span class="kids-youth-chip">Art</span>
+                                <span class="kids-youth-chip">Pottery</span>
+                                <span class="kids-youth-chip">Seasonal Activities</span>
+                                <span class="kids-youth-chip">Creative Technology</span>
+                            </span>
+                            <span class="kids-youth-card-title">Workshops</span>
+                            <span class="kids-youth-card-text">Short, hands-on creative experiences offered on selected dates or based on interest.</span>
+                            <span class="kids-youth-card-action">Explore Workshops <span aria-hidden="true">-&gt;</span></span>
+                        </span>
+                    </a>
+
+                    <a class="kids-youth-card" href="../camp/index.html" aria-label="View Camps">
                         <img src="../assets/summer-camp-flyer.png" alt="Summer Camp program preview at SparkPreneurs" class="kids-youth-card-image" loading="lazy" decoding="async">
                         <span class="kids-youth-card-body">
-                            <span class="kids-youth-card-tag">Current Route</span>
-                            <span class="kids-youth-card-title">Summer Camp</span>
-                            <span class="kids-youth-card-text">Open the existing Summer Camp page to explore camp weeks and continue to registration.</span>
-                            <span class="kids-youth-card-action">Open Summer Camp <span aria-hidden="true">-&gt;</span></span>
+                            <span class="kids-youth-card-tag kids-youth-card-tag--open">Open for Registration</span>
+                            <span class="kids-youth-card-title">Camps</span>
+                            <span class="kids-youth-card-text">Explore SparkPreneurs summer camp options for ages 4-10 and ages 9-14.</span>
+                            <span class="kids-youth-card-action">View Camps <span aria-hidden="true">-&gt;</span></span>
                         </span>
                     </a>
+                </div>
+            </div>
+        </section>
 
-                    <a class="kids-youth-card" href="../summer-programs/index.html">
-                        <img src="../assets/older-program.png" alt="Summer Programs preview showing art, pottery, dance, and 3D printing" class="kids-youth-card-image" loading="lazy" decoding="async">
-                        <span class="kids-youth-card-body">
-                            <span class="kids-youth-card-tag">Current Route</span>
-                            <span class="kids-youth-card-title">Summer Programs</span>
-                            <span class="kids-youth-card-text">View the existing Summer Programs page for session details and the current registration flow.</span>
-                            <span class="kids-youth-card-action">Open Summer Programs <span aria-hidden="true">-&gt;</span></span>
-                        </span>
-                    </a>
+        <section id="kids-youth-interest" class="kids-youth-interest">
+            <div class="container">
+                <div class="kids-youth-interest-shell">
+                    <div class="kids-youth-section-head kids-youth-section-head--compact">
+                        <p class="kids-youth-section-label">Interest Form</p>
+                        <h2>Stay informed about future classes and workshops.</h2>
+                    </div>
+                    <form class="kids-youth-interest-form" data-interest-form novalidate>
+                        <div class="kids-youth-form-grid">
+                            <label class="kids-youth-form-field">
+                                <span>Parent/Guardian First Name</span>
+                                <input type="text" name="parentFirstName" autocomplete="given-name" required>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Parent/Guardian Last Name</span>
+                                <input type="text" name="parentLastName" autocomplete="family-name" required>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Email Address</span>
+                                <input type="email" name="email" autocomplete="email" required>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Phone Number</span>
+                                <input type="tel" name="phone" autocomplete="tel">
+                                <small>Optional</small>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Child's Age</span>
+                                <input type="text" name="childAge" inputmode="numeric" required>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Program of Interest</span>
+                                <select name="programInterest" data-interest-program-select required>
+                                    <option value="">Select a program</option>
+                                    <option value="Classes">Classes</option>
+                                    <option value="Workshops">Workshops</option>
+                                    <option value="Camps">Camps</option>
+                                </select>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Preferred Day</span>
+                                <select name="preferredDay" required>
+                                    <option value="">Select a day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                    <option value="Flexible">Flexible</option>
+                                </select>
+                            </label>
+                            <label class="kids-youth-form-field">
+                                <span>Preferred Time</span>
+                                <select name="preferredTime" required>
+                                    <option value="">Select a time</option>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
+                                    <option value="Flexible">Flexible</option>
+                                </select>
+                            </label>
+                            <label class="kids-youth-form-field kids-youth-form-field--full">
+                                <span>Message</span>
+                                <textarea name="message"></textarea>
+                                <small>Optional</small>
+                            </label>
+                        </div>
+                        <label class="kids-youth-form-check">
+                            <input type="checkbox" name="consent" required>
+                            <span>I agree to receive updates from SparkPreneurs about Kids &amp; Youth programs.</span>
+                        </label>
+                        <div class="kids-youth-form-actions">
+                            <input class="kids-youth-form-submit" type="submit" value="Notify Me">
+                            <p class="kids-youth-form-success" data-interest-form-success hidden>Thank you! We will contact you when a suitable program becomes available.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-                    <a class="kids-youth-card" href="../index.html#contact">
-                        <img src="../assets/kids painting.jpg" alt="Young artists painting together at SparkPreneurs" class="kids-youth-card-image" loading="lazy" decoding="async">
-                        <span class="kids-youth-card-body">
-                            <span class="kids-youth-card-tag">Get in Touch</span>
-                            <span class="kids-youth-card-title">Ask About More Programs</span>
-                            <span class="kids-youth-card-text">Contact SparkPreneurs for guidance on the right creative experience for your child or teen.</span>
-                            <span class="kids-youth-card-action">Contact SparkPreneurs <span aria-hidden="true">-&gt;</span></span>
-                        </span>
-                    </a>
+        <section class="kids-youth-benefits">
+            <div class="container">
+                <div class="kids-youth-section-head kids-youth-section-head--compact">
+                    <p class="kids-youth-section-label">Why Families Choose SparkPreneurs</p>
+                    <h2>Thoughtful programs built around creativity, guidance, and a welcoming studio.</h2>
+                </div>
+                <div class="kids-youth-benefit-grid">
+                    <article class="kids-youth-benefit-card">
+                        <span class="kids-youth-benefit-mark" aria-hidden="true">01</span>
+                        <h3>Professional instructors</h3>
+                    </article>
+                    <article class="kids-youth-benefit-card">
+                        <span class="kids-youth-benefit-mark" aria-hidden="true">02</span>
+                        <h3>Small-group attention</h3>
+                    </article>
+                    <article class="kids-youth-benefit-card">
+                        <span class="kids-youth-benefit-mark" aria-hidden="true">03</span>
+                        <h3>Hands-on creativity and technology</h3>
+                    </article>
+                    <article class="kids-youth-benefit-card">
+                        <span class="kids-youth-benefit-mark" aria-hidden="true">04</span>
+                        <h3>Warm and welcoming studio</h3>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="kids-youth-cta">
+            <div class="container">
+                <div class="kids-youth-cta-panel">
+                    <div class="kids-youth-section-head kids-youth-section-head--compact">
+                        <p class="kids-youth-section-label">Next Step</p>
+                        <h2>Find the Right Creative Experience</h2>
+                        <p>Explore our current camps and programs or join the interest list for upcoming classes and workshops.</p>
+                    </div>
+                    <div class="kids-youth-cta-actions">
+                        <a class="btn-primary" href="../camp/index.html">View Summer Camp</a>
+                        <a class="btn-secondary" href="#kids-youth-interest">Join Interest List</a>
+                        <a class="btn-secondary" href="../index.html#contact">Contact Us</a>
+                    </div>
                 </div>
             </div>
         </section>
