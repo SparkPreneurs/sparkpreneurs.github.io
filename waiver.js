@@ -1,5 +1,9 @@
 (function() {
     const WAIVER_VERSION = '2026-06-15';
+    const DEFAULT_OPTIONS = {
+        kicker: 'Required Before Checkout',
+        submitLabel: 'Sign Waiver & Continue to Secure Payment'
+    };
     let dialog;
     let form;
     let activeResolve;
@@ -21,7 +25,7 @@
             <form class="waiver-form" method="dialog" novalidate>
                 <div class="waiver-header">
                     <div>
-                        <p class="waiver-kicker">Required Before Checkout</p>
+                        <p class="waiver-kicker" data-waiver-kicker>Required Before Checkout</p>
                         <h2 id="waiver-title">SparkPreneurs Inc.</h2>
                         <p>Participant/Guardian Waiver, Consent and Medical Information Form</p>
                     </div>
@@ -120,7 +124,7 @@
 
                 <div class="waiver-actions">
                     <button class="summer-cart-clear" type="button" data-waiver-cancel>Cancel</button>
-                    <button class="summer-cart-purchase" type="submit">Sign Waiver & Continue to Secure Payment</button>
+                    <button class="summer-cart-purchase" type="submit" data-waiver-submit>Sign Waiver & Continue to Secure Payment</button>
                 </div>
             </form>
         `;
@@ -158,6 +162,20 @@
         });
     }
 
+    function applyOptions(options = {}) {
+        const nextOptions = { ...DEFAULT_OPTIONS, ...options };
+        const kicker = dialog.querySelector('[data-waiver-kicker]');
+        const submitButton = dialog.querySelector('[data-waiver-submit]');
+
+        if (kicker) {
+            kicker.textContent = nextOptions.kicker;
+        }
+
+        if (submitButton) {
+            submitButton.textContent = nextOptions.submitLabel;
+        }
+    }
+
     function setIfBlank(name, value) {
         const input = form.elements.namedItem(name);
 
@@ -178,7 +196,7 @@
         }
     }
 
-    function collect(prefill = {}) {
+    function collect(prefill = {}, options = {}) {
         if (!dialog) {
             createDialog();
         }
@@ -186,6 +204,8 @@
         if (activeResolve) {
             return Promise.resolve(null);
         }
+
+        applyOptions(options);
 
         setIfBlank('waiverChildFullName', prefill.childName);
         setIfBlank('waiverParentGuardianFullName', prefill.parentName);

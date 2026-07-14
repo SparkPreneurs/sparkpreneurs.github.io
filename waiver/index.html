@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workshops | SparkPreneurs</title>
-    <link rel="stylesheet" href="../styles.css?v=20260711-footer-contact-bold">
+    <title>Waiver | SparkPreneurs</title>
+    <link rel="stylesheet" href="../styles.css?v=20260713-waiver-page">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="camps-page kids-youth-page workshops-page">
+<body class="waiver-page">
     <header class="header">
         <nav class="nav">
             <a class="nav-brand" href="../index.html">
@@ -21,7 +21,7 @@
                 <li><a href="../index.html#about" class="nav-link">About</a></li>
                 <li><a href="../book-your-event/index.html" class="nav-link">Book Your Event</a></li>
                 <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
-                <li><a href="../waiver/index.html" class="nav-link">Waiver</a></li>
+                <li><a href="index.html" class="nav-link">Waiver</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -31,44 +31,26 @@
         </nav>
     </header>
 
-    <main class="kids-youth-main">
-        <section class="kids-youth-hero">
-            <div class="kids-youth-hero-media">
-                <img src="../assets/website photo painting.jpg" alt="SparkPreneurs workshops with painting and hands-on creative materials" loading="eager" decoding="async" fetchpriority="high">
-                <div class="kids-youth-hero-overlay"></div>
-            </div>
-            <div class="container kids-youth-hero-layout kids-youth-hero-layout--overlay">
-                <div class="kids-youth-hero-copy kids-youth-hero-copy--overlay">
-                    <h1>Workshops</h1>
-                    <p class="kids-youth-tagline">Short, hands-on creative experiences.</p>
-                    <p class="kids-youth-intro">Explore SparkPreneurs workshops in art, pottery, seasonal activities, and creative technology for kids and youth.</p>
-                    <div class="kids-youth-actions">
-                        <a class="btn-primary" href="../index.html#contact">Join Interest List</a>
+    <main class="waiver-page-main">
+        <section class="waiver-page-hero">
+            <div class="container">
+                <div class="waiver-page-shell">
+                    <p class="waiver-page-label">SparkPreneurs</p>
+                    <h1>Waiver</h1>
+                    <p class="waiver-page-intro">Use this page to open and complete the current participant or guardian waiver form for future programs, camps, and workshops.</p>
+                    <div class="waiver-page-actions">
+                        <button class="btn-primary" type="button" data-waiver-start>Open Waiver Form</button>
+                        <a class="btn-secondary" href="../index.html#contact">Questions? Contact Us</a>
+                    </div>
+                    <p class="waiver-page-note">This page is ready for future waiver collection. Completed forms are currently confirmed on screen and can be connected to a submission workflow later.</p>
+                    <div class="waiver-page-status" data-waiver-status hidden>
+                        <h2>Waiver completed</h2>
+                        <p>The waiver form was completed successfully on this device.</p>
+                        <p>Online submission storage is not connected yet, so this page is currently prepared for future implementation.</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section class="kids-youth-programs">
-            <div class="container">
-                <div class="kids-youth-section-head">
-                    <p class="kids-youth-section-label">Explore</p>
-                    <h2>Workshop Experiences</h2>
-                    <p>Browse the workshop areas currently featured at SparkPreneurs.</p>
-                </div>
-                <div class="kids-youth-card-grid">
-                    <a class="kids-youth-card" href="https://docs.google.com/forms/d/e/1FAIpQLSd0mJXJQOqL364BBPNQySqQd4mzcfL6xWwbQRdjvDQRDVodOg/viewform?usp=dialog" target="_blank" rel="noopener" aria-label="RSVP now for Kids Workshops">
-                        <img src="../assets/kid-workshop-flyer.png" alt="SparkPreneurs kids workshop flyer" class="kids-youth-card-image" loading="lazy" decoding="async">
-                        <span class="kids-youth-card-body">
-                            <span class="kids-youth-card-title">Kids Workshops</span>
-                            <span class="kids-youth-card-text">Hands-on creative workshops designed for children with art, making, and guided studio activities.</span>
-                            <span class="kids-youth-card-action">RSVP now <span aria-hidden="true">-&gt;</span></span>
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <footer id="contact" class="footer">
@@ -94,6 +76,32 @@
             </div>
         </div>
     </footer>
+
+    <script src="../waiver.js?v=20260713-standalone"></script>
     <script src="../script.js?v=20260707-light-bg"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const openButton = document.querySelector('[data-waiver-start]');
+            const status = document.querySelector('[data-waiver-status]');
+
+            if (!openButton || !window.SparkPreneursWaiver) {
+                return;
+            }
+
+            openButton.addEventListener('click', async function() {
+                const waiverData = await window.SparkPreneursWaiver.collect({}, {
+                    kicker: 'SparkPreneurs Waiver Form',
+                    submitLabel: 'Sign Waiver'
+                });
+
+                if (!waiverData) {
+                    return;
+                }
+
+                status.hidden = false;
+                status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
 </body>
 </html>

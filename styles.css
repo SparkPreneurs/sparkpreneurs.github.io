@@ -6329,8 +6329,127 @@ body.program-detail-page .btn-secondary:hover {
         font-size: 16px;
     }
 
-    .about-page-card {
+.about-page-card {
         padding: 26px;
+    }
+}
+
+.waiver-page-main {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.18), transparent 30%),
+        linear-gradient(180deg, #fff7ed 0%, #f8fafc 52%, #eef2ff 100%);
+}
+
+.waiver-page-hero {
+    padding: 132px 0 88px;
+}
+
+.waiver-page-shell {
+    max-width: 880px;
+    margin: 0 auto;
+    border: 1px solid rgba(91, 33, 182, 0.12);
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 28px 70px rgba(45, 35, 66, 0.12);
+    padding: 40px;
+}
+
+.waiver-page-label {
+    margin: 0 0 10px;
+    color: #c2410c;
+    font-family: 'Fredoka', cursive;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.waiver-page-shell h1 {
+    margin: 0;
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: 0.98;
+}
+
+.waiver-page-intro,
+.waiver-page-note,
+.waiver-page-status p {
+    color: #3f3f46;
+    font-family: 'Comic Neue', cursive;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.waiver-page-intro {
+    max-width: 700px;
+    margin: 18px 0 0;
+}
+
+.waiver-page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.waiver-page-note {
+    margin: 22px 0 0;
+}
+
+.waiver-page-status {
+    margin-top: 28px;
+    border: 1px solid rgba(4, 120, 87, 0.16);
+    border-radius: 24px;
+    background: #ecfdf5;
+    padding: 24px;
+}
+
+.waiver-page-status h2 {
+    margin: 0 0 10px;
+    color: #047857;
+    font-family: 'Fredoka', cursive;
+    font-size: 28px;
+}
+
+.waiver-page-status p {
+    margin: 0;
+}
+
+.waiver-page-status p + p {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .waiver-page-hero {
+        padding: 112px 0 72px;
+    }
+
+    .waiver-page-shell {
+        border-radius: 24px;
+        padding: 28px 22px;
+    }
+
+    .waiver-page-intro,
+    .waiver-page-note,
+    .waiver-page-status p {
+        font-size: 16px;
+    }
+
+    .waiver-page-actions .btn-primary,
+    .waiver-page-actions .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .waiver-page-status {
+        padding: 20px;
+    }
+
+    .waiver-page-status h2 {
+        font-size: 24px;
     }
 }
 
