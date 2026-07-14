@@ -3079,6 +3079,7 @@ body.movement-theme .program-detail-footer a:hover {
     .nav-menu {
         margin-left: auto;
         align-items: center;
+        gap: 24px;
     }
 }
 
@@ -4436,7 +4437,7 @@ section {
 
 .nav {
     max-width: 1320px;
-    padding: 10px 32px;
+    padding: 4px 28px;
 }
 
 .nav-brand {
@@ -4455,7 +4456,7 @@ section {
 
 .nav-link {
     color: var(--ink);
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -5545,7 +5546,7 @@ body.program-detail-page .btn-secondary:hover {
 
 @media (max-width: 768px) {
     .nav {
-        padding: 8px 18px;
+        padding: 4px 16px;
     }
 
     .nav-brand {
@@ -5555,6 +5556,10 @@ body.program-detail-page .btn-secondary:hover {
     .logo {
         width: 84px;
         height: 84px;
+    }
+
+    .nav-link {
+        font-size: 18px;
     }
 
     .hero {
