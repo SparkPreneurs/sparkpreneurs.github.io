@@ -34,7 +34,7 @@
     <main class="kids-youth-main">
         <section class="kids-youth-hero">
             <div class="kids-youth-hero-media">
-                <img src="../assets/website photo painting.jpg" alt="SparkPreneurs workshops with painting and hands-on creative materials" loading="eager" decoding="async" fetchpriority="high">
+                <img src="../assets/website-photo-painting.jpg" alt="SparkPreneurs workshops with painting and hands-on creative materials" loading="eager" decoding="async" fetchpriority="high">
                 <div class="kids-youth-hero-overlay"></div>
             </div>
             <div class="container kids-youth-hero-layout kids-youth-hero-layout--overlay">
@@ -57,8 +57,8 @@
                     <p>Browse the workshop areas currently featured at SparkPreneurs.</p>
                 </div>
                 <div class="kids-youth-card-grid">
-                    <a class="kids-youth-card" href="https://docs.google.com/forms/d/e/1FAIpQLSd0mJXJQOqL364BBPNQySqQd4mzcfL6xWwbQRdjvDQRDVodOg/viewform?usp=dialog" target="_blank" rel="noopener" aria-label="RSVP now for Kids Workshops">
-                        <img src="../assets/kid-workshop-flyer.png" alt="SparkPreneurs kids workshop flyer" class="kids-youth-card-image" loading="lazy" decoding="async">
+                    <a class="kids-youth-card" href="#" data-workshop-rsvp aria-label="RSVP now for Kids Workshops">
+                        <img src="../assets/summer-kids-workshop.png" alt="SparkPreneurs kids workshop flyer" class="kids-youth-card-image" loading="lazy" decoding="async">
                         <span class="kids-youth-card-body">
                             <span class="kids-youth-card-title">Kids Workshops</span>
                             <span class="kids-youth-card-text">Hands-on creative workshops designed for children with art, making, and guided studio activities.</span>
@@ -66,6 +66,8 @@
                         </span>
                     </a>
                 </div>
+                <p class="kids-youth-form-success" data-workshop-rsvp-success hidden>Thank you. The waiver has been completed for this workshop.</p>
+                <p class="kids-youth-card-text" data-workshop-rsvp-error hidden>We could not save the waiver right now. Please try again.</p>
             </div>
         </section>
 
@@ -94,6 +96,62 @@
             </div>
         </div>
     </footer>
+    <script src="../waiver.js?v=20260706"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbzfbWYbO2d_P8Q8kktvc0vvdgFHSUEXIsE2PhPV5MAN60ppmSimWZBNl172vSGty_zIZQ/exec';
+            const workshopLink = document.querySelector('[data-workshop-rsvp]');
+            const successMessage = document.querySelector('[data-workshop-rsvp-success]');
+            const errorMessage = document.querySelector('[data-workshop-rsvp-error]');
+
+            if (!workshopLink || !window.SparkPreneursWaiver) {
+                return;
+            }
+
+            workshopLink.addEventListener('click', async function(event) {
+                event.preventDefault();
+                successMessage.hidden = true;
+                errorMessage.hidden = true;
+
+                const waiverData = await window.SparkPreneursWaiver.collect({});
+
+                if (!waiverData) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch(appsScriptUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8'
+                        },
+                        body: JSON.stringify({
+                            action: 'saveWaiverSubmission',
+                            submissionSource: 'workshops-page',
+                            programCode: 'kids_workshops',
+                            studentName: waiverData.waiverChildFullName || '',
+                            parentName: waiverData.waiverParentGuardianFullName || '',
+                            parentEmail: waiverData.waiverParentEmail || '',
+                            phone: waiverData.waiverParentPhone || '',
+                            ...waiverData
+                        })
+                    });
+                    const result = await response.json();
+
+                    if (!response.ok || result.success === false) {
+                        throw new Error(result.error || 'Waiver save failed.');
+                    }
+                } catch (error) {
+                    errorMessage.hidden = false;
+                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    return;
+                }
+
+                successMessage.hidden = false;
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
     <script src="../script.js?v=20260707-light-bg"></script>
 </body>
 </html>

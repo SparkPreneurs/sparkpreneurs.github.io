@@ -1,6 +1,8 @@
 const SPREADSHEET_ID = "1xCdl23sViHWcP9Zq6Zu_cpHxpZTinyy11R1qZZOCobo";
+const WAIVER_LOG_SPREADSHEET_ID = "1bXmWGjhS26CksGQheqqSFOKqWblAGVCZ2MbwMMjS720";
 const REGISTRATION_SHEET_NAME = "Sheet1";
 const PRICING_SHEET_NAME = "Sheet2";
+const WAIVER_LOG_SHEET_NAME = "Waiver Submissions";
 const AGES_10_TO_14_PRICING_SHEET_NAME = "summer2026_ages10_14";
 const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
@@ -32,6 +34,10 @@ function doPost(e) {
 
     if (action === "verifyCheckoutSession") {
       return jsonResponse(verifyCheckoutSession_(data.stripeSessionId));
+    }
+
+    if (action === "saveWaiverSubmission") {
+      return jsonResponse(saveWaiverSubmission_(data));
     }
 
     return jsonResponse({
@@ -233,6 +239,41 @@ function createCheckoutSession_(data) {
     selectedWeekNames: weekList,
     pricing: pricing,
     createdAt: new Date().toISOString()
+  });
+
+  logWaiverSubmission_({
+    submissionSource: "checkout",
+    submittedAt: new Date(),
+    programCode: programCode,
+    orderId: orderId,
+    stripeSessionId: checkoutSession.id,
+    studentName: registration.studentName,
+    parentName: registration.parentName,
+    parentEmail: registration.parentEmail,
+    phone: registration.phone,
+    waiverChildFullName: registration.waiverChildFullName,
+    childDateOfBirth: registration.childDateOfBirth,
+    waiverParentGuardianFullName: registration.waiverParentGuardianFullName,
+    waiverParentPhone: registration.waiverParentPhone,
+    waiverParentEmail: registration.waiverParentEmail,
+    emergencyContactName: registration.emergencyContactName,
+    emergencyContactPhone: registration.emergencyContactPhone,
+    emergencyContactRelationship: registration.emergencyContactRelationship,
+    medicalInformation: registration.medicalInformation,
+    medicalInformationConfirmed: registration.medicalInformationConfirmed,
+    waiverAcknowledged: registration.waiverAcknowledged,
+    photoConsent: registration.photoConsent,
+    authorizedPickup1Name: registration.authorizedPickup1Name,
+    authorizedPickup1Phone: registration.authorizedPickup1Phone,
+    authorizedPickup2Name: registration.authorizedPickup2Name,
+    authorizedPickup2Phone: registration.authorizedPickup2Phone,
+    authorizedPickup3Name: registration.authorizedPickup3Name,
+    authorizedPickup3Phone: registration.authorizedPickup3Phone,
+    waiverConfirmationName: registration.waiverConfirmationName,
+    electronicSignature: registration.electronicSignature,
+    waiverSignedDate: registration.waiverSignedDate,
+    waiverVersion: registration.waiverVersion,
+    waiverAccepted: registration.waiverAccepted
   });
 
   return {
@@ -498,6 +539,97 @@ function upsertRegistrationRow_(sheet, rowData) {
   } else {
     sheet.appendRow(row);
   }
+}
+
+function saveWaiverSubmission_(data) {
+  const waiver = normalizeWaiver_(data);
+  const rowData = {
+    submissionSource: sanitizeText_(data.submissionSource || "manual", 40),
+    submittedAt: new Date(),
+    programCode: sanitizeText_(data.programCode || "", 40),
+    orderId: sanitizeText_(data.orderId || "", 100),
+    stripeSessionId: sanitizeText_(data.stripeSessionId || "", 100),
+    studentName: sanitizeText_(data.studentName || data.waiverChildFullName || "", 100),
+    parentName: sanitizeText_(data.parentName || data.waiverParentGuardianFullName || "", 100),
+    parentEmail: sanitizeEmail_(data.parentEmail || data.waiverParentEmail || ""),
+    phone: sanitizeText_(data.phone || data.waiverParentPhone || "", 40)
+  };
+
+  Object.keys(waiver).forEach(function(key) {
+    rowData[key] = waiver[key];
+  });
+
+  logWaiverSubmission_(rowData);
+
+  return {
+    success: true,
+    message: "Waiver submission saved."
+  };
+}
+
+function logWaiverSubmission_(rowData) {
+  const ss = SpreadsheetApp.openById(WAIVER_LOG_SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(WAIVER_LOG_SHEET_NAME) || ss.insertSheet(WAIVER_LOG_SHEET_NAME);
+  const headers = ensureWaiverLogHeaders_(sheet);
+  const row = headers.map(function(header) {
+    return rowData[header] !== undefined ? rowData[header] : "";
+  });
+
+  sheet.appendRow(row);
+}
+
+function ensureWaiverLogHeaders_(sheet) {
+  const requiredHeaders = [
+    "submissionSource",
+    "submittedAt",
+    "programCode",
+    "orderId",
+    "stripeSessionId",
+    "studentName",
+    "parentName",
+    "parentEmail",
+    "phone",
+    "waiverChildFullName",
+    "childDateOfBirth",
+    "waiverParentGuardianFullName",
+    "waiverParentPhone",
+    "waiverParentEmail",
+    "emergencyContactName",
+    "emergencyContactPhone",
+    "emergencyContactRelationship",
+    "medicalInformation",
+    "medicalInformationConfirmed",
+    "waiverAcknowledged",
+    "photoConsent",
+    "authorizedPickup1Name",
+    "authorizedPickup1Phone",
+    "authorizedPickup2Name",
+    "authorizedPickup2Phone",
+    "authorizedPickup3Name",
+    "authorizedPickup3Phone",
+    "waiverConfirmationName",
+    "electronicSignature",
+    "waiverSignedDate",
+    "waiverVersion",
+    "waiverAccepted"
+  ];
+  const currentHeaders = sheet.getLastRow() > 0
+    ? sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), requiredHeaders.length)).getValues()[0].map(function(value) {
+        return String(value).trim();
+      })
+    : [];
+  const matches = requiredHeaders.length === currentHeaders.length && requiredHeaders.every(function(header, index) {
+    return currentHeaders[index] === header;
+  });
+
+  if (!matches) {
+    sheet.clearContents();
+    sheet.getRange(1, 1, 1, requiredHeaders.length).setValues([requiredHeaders]);
+    sheet.setFrozenRows(1);
+    sheet.autoResizeColumns(1, requiredHeaders.length);
+  }
+
+  return requiredHeaders;
 }
 
 function ensureRegistrationHeaders_(sheet) {
