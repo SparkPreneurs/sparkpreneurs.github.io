@@ -104,8 +104,8 @@ function setupSheet2SummerPrograms2026() {
   });
 
   const youngerSummerWeeks = [
-    ["5", "August 4-7", "Kitchen Creations", 10500],
-    ["6", "August 10-14", "Movement & Mindfulness", 10500],
+    ["5", "August 4-7", "Fashion Week", 10500],
+    ["6", "August 10-14", "Young Chef Creations 2", 10500],
     ["7", "August 17-21", "3D Storybook Makers", 10500],
     ["8", "August 24-28", "Dream House Designers", 10500]
   ];

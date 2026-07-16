@@ -6613,10 +6613,8 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .summer-camp-page .summer-camp-head {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-    gap: 24px;
-    align-items: end;
+    display: block;
+    max-width: 760px;
 }
 
 .summer-camp-page .summer-camp-text {
