@@ -36,36 +36,28 @@
                 <div class="summer-camp-head">
                     <div class="summer-camp-text">
                         <p class="summer-camp-kicker">Summer Camp Ages 4-10</p>
-                        <h1 class="summer-camp-title">Choose Your Summer Camp Weeks</h1>
+                        <h1 class="summer-camp-title">Choose Your Summer Camp Weeks and Sessions</h1>
                         <p class="summer-camp-age">Ages 4-10 years old.</p>
-                        <p class="summer-camp-description">Explore all 8 themed weeks with art, STEM, cooking, yoga, dance, design, and hands-on creativity. Choose your weeks, complete the registration form, and continue to secure payment.</p>
+                        <p class="summer-camp-description">Explore all 8 themed weeks with art, STEM, cooking, yoga, dance, design, and hands-on creativity. For the remaining August weeks, choose morning, afternoon, or both sessions, then complete registration and continue to secure payment. Lunch is not included.</p>
                         <a class="summer-page-back" href="../camps/index.html">← View All Summer Programs</a>
                     </div>
                 </div>
-                <div class="summer-camp-shop" data-program-code="summer2026" data-apps-script-url="https://script.google.com/macros/s/AKfycbzfbWYbO2d_P8Q8kktvc0vvdgFHSUEXIsE2PhPV5MAN60ppmSimWZBNl172vSGty_zIZQ/exec">
+                <div class="summer-camp-shop" data-checkout-mode="sessions" data-program-code="summer2026_4_10_sessions" data-apps-script-url="https://script.google.com/macros/s/AKfycbzfbWYbO2d_P8Q8kktvc0vvdgFHSUEXIsE2PhPV5MAN60ppmSimWZBNl172vSGty_zIZQ/exec">
                     <div class="summer-camp-options">
                         <div class="summer-camp-summary">
-                            <p class="summer-camp-summary-label">Choose Your Weeks</p>
-                            <p class="summer-camp-summary-text">Open any week design, add the weeks you want, then complete registration with secure Stripe payment.</p>
-                            <p class="summer-camp-offer">Special offer: choose any 4 weeks for $1,200 before HST.</p>
+                            <p class="summer-camp-summary-label">Choose Your Sessions</p>
+                            <p class="summer-camp-summary-text">Morning sessions run from 10 AM-12 PM. Afternoon sessions run from 1-3 PM. Choose either session or both for any open August week.</p>
+                            <p class="summer-camp-offer">Each session is $210 per week. Week 5 is $195 per session because it is a four-day week. Lunch is not included.</p>
                         </div>
                         <div class="summer-camp-grid" data-summer-week-grid></div>
                     </div>
                     <aside class="summer-cart" aria-live="polite">
                         <div class="summer-cart-card">
-                            <p class="summer-cart-label">Selected Weeks</p>
+                            <p class="summer-cart-label">Selected Sessions</p>
                             <ul class="summer-cart-list" data-summer-cart-list>
-                                <li class="summer-cart-empty">No weeks added yet.</li>
+                                <li class="summer-cart-empty">No sessions added yet.</li>
                             </ul>
                             <div class="summer-cart-totals" data-summer-cart-totals hidden>
-                                <div class="summer-cart-total-row">
-                                    <span>Regular price</span>
-                                    <strong data-summer-regular-total>$0.00</strong>
-                                </div>
-                                <div class="summer-cart-total-row summer-cart-discount-row" data-summer-discount-row hidden>
-                                    <span>Bundle discount</span>
-                                    <strong data-summer-discount-total>-$0.00</strong>
-                                </div>
                                 <div class="summer-cart-total-row">
                                     <span>Subtotal</span>
                                     <strong data-summer-subtotal>$0.00</strong>
@@ -113,54 +105,13 @@
 
     <footer class="program-detail-footer">
         <div class="container">
-            <p>Questions about summer camp? Contact SparkPreneurs and we will help you choose the right weeks.</p>
+            <p>Questions about summer camp? Contact SparkPreneurs and we will help you choose the right sessions.</p>
             <a class="btn-secondary" href="../index.html#contact">Contact Us</a>
         </div>
     </footer>
 
-    <script>
-        const summerWeeks = [
-            { id: 1, date: 'July 6-10', price: 420, theme: 'Creative Explorers', closed: true },
-            { id: 2, date: 'July 13-17', price: 420, theme: 'Invent & Imagine', closed: true },
-            { id: 3, date: 'July 20-24', price: 420, theme: 'Mini Makers Lab', closed: true },
-            { id: 4, date: 'July 27-31', price: 420, theme: 'Color Splash Studio', closed: true },
-            { id: 5, date: 'August 4-7', price: 390, theme: 'Kitchen Creations' },
-            { id: 6, date: 'August 10-14', price: 420, theme: 'Movement & Mindfulness' },
-            { id: 7, date: 'August 17-21', price: 420, theme: '3D Storybook Makers' },
-            { id: 8, date: 'August 24-28', price: 420, theme: 'Dream House Designers' }
-        ];
-        const weekGrid = document.querySelector('[data-summer-week-grid]');
-
-        summerWeeks.forEach(week => {
-            const card = document.createElement('article');
-            card.className = 'summer-week-card';
-            if (week.closed) {
-                card.classList.add('is-closed');
-                card.dataset.weekClosed = 'true';
-            }
-            card.dataset.weekId = week.id;
-            card.dataset.weekCode = `W${week.id}`;
-            card.dataset.weekName = `Week ${week.id}: ${week.theme} (${week.date})`;
-            card.dataset.weekPriceCents = week.price * 100;
-            card.innerHTML = `
-                <a class="summer-week-preview" href="../assets/week${week.id}.png" target="_blank" rel="noopener">
-                    <img src="../assets/week${week.id}.png" alt="SparkPreneurs Summer Camp Week ${week.id} design" class="summer-week-image">
-                </a>
-                <div class="summer-week-body">
-                    <div>
-                        <p class="summer-week-label">Summer Week ${week.id}</p>
-                        <h2 class="summer-week-title">Week ${week.id}</h2>
-                        <p class="summer-week-theme">${week.theme}</p>
-                        <p class="summer-week-date">${week.date}</p>
-                        <p class="summer-week-price">$${week.price}</p>
-                    </div>
-                    <button class="summer-week-add${week.closed ? ' is-closed' : ''}" type="button" data-add-week="${week.id}"${week.closed ? ' disabled aria-disabled="true"' : ''}>${week.closed ? 'Closed' : 'Add to Cart'}</button>
-                </div>
-            `;
-            weekGrid.appendChild(card);
-        });
-    </script>
     <script src="../waiver.js?v=20260706"></script>
     <script src="../script.js?v=20260707-light-bg"></script>
+    <script src="shop.js?v=20260716-sessions"></script>
 </body>
 </html>

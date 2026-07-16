@@ -4,6 +4,7 @@ const REGISTRATION_SHEET_NAME = "Sheet1";
 const PRICING_SHEET_NAME = "Sheet2";
 const WAIVER_LOG_SHEET_NAME = "Waiver Submissions";
 const AGES_10_TO_14_PRICING_SHEET_NAME = "summer2026_ages10_14";
+const SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE = "summer2026_4_10_sessions";
 const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
@@ -24,7 +25,7 @@ function doPost(e) {
       return jsonResponse({
         success: true,
         version: SCRIPT_VERSION,
-        programs: ["summer2026", "summer2026_10_14"]
+        programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE]
       });
     }
 
@@ -57,7 +58,7 @@ function doGet() {
     success: true,
     message: "SparkPreneurs registration endpoint is running.",
     version: SCRIPT_VERSION,
-    programs: ["summer2026", "summer2026_10_14"]
+    programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE]
   });
 }
 
@@ -100,6 +101,23 @@ function setupSheet2SummerPrograms2026() {
     rows.push(["summer2026_10_14", "W" + weekNumber + "AM", "Week " + weekNumber + " Morning (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
     rows.push(["summer2026_10_14", "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
     rows.push(["summer2026_10_14", "W" + weekNumber + "MEAL", "Week " + weekNumber + " Meal (" + date + ")", 4500, true, "", "", "", ""]);
+  });
+
+  const youngerSummerWeeks = [
+    ["5", "August 4-7", "Kitchen Creations", 19500],
+    ["6", "August 10-14", "Movement & Mindfulness", 21000],
+    ["7", "August 17-21", "3D Storybook Makers", 21000],
+    ["8", "August 24-28", "Dream House Designers", 21000]
+  ];
+
+  youngerSummerWeeks.forEach(function(week) {
+    const weekNumber = week[0];
+    const date = week[1];
+    const theme = week[2];
+    const sessionPriceCents = week[3];
+
+    rows.push([SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, "W" + weekNumber + "AM", "Week " + weekNumber + " Morning: " + theme + " (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
+    rows.push([SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon: " + theme + " (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
   });
 
   sheet.clearContents();
@@ -199,7 +217,9 @@ function createCheckoutSession_(data) {
   const checkoutDescription = sanitizeText_(weekList, 500);
   const productName = programCode === "summer2026_10_14"
     ? "SparkPreneurs Summer Programs Ages 10-14 Registration"
-    : "SparkPreneurs Summer Camp Registration";
+    : (programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE
+      ? "SparkPreneurs Summer Camp Ages 4-10 Registration"
+      : "SparkPreneurs Summer Camp Registration");
   const checkoutSession = stripeRequest_("post", "/checkout/sessions", {
     mode: "payment",
     success_url: successUrl,
@@ -874,7 +894,7 @@ function normalizeSelectedWeeks_(selectedWeeks) {
 }
 
 function validateProgramSelections_(selectedWeeks, programCode) {
-  if (programCode !== "summer2026_10_14") {
+  if (programCode !== "summer2026_10_14" && programCode !== SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE) {
     return;
   }
 
@@ -894,6 +914,10 @@ function validateProgramSelections_(selectedWeeks, programCode) {
   }
 
   selectedWeeks.forEach(function(code) {
+    if (programCode !== "summer2026_10_14") {
+      return;
+    }
+
     const match = code.match(/^W([1-8])MEAL$/);
 
     if (match && !selected["W" + match[1] + "AM"] && !selected["W" + match[1] + "PM"]) {
