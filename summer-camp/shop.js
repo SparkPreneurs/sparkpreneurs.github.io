@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const weeks = [
-        { id: '1', date: 'July 6-10', theme: 'Creative Explorers', sessionPriceCents: 21000, closed: true },
-        { id: '2', date: 'July 13-17', theme: 'Invent & Imagine', sessionPriceCents: 21000, closed: true },
-        { id: '3', date: 'July 20-24', theme: 'Mini Makers Lab', sessionPriceCents: 21000, closed: true },
-        { id: '4', date: 'July 27-31', theme: 'Color Splash Studio', sessionPriceCents: 21000, closed: true },
-        { id: '5', date: 'August 4-7', theme: 'Kitchen Creations', sessionPriceCents: 19500, fourDay: true },
-        { id: '6', date: 'August 10-14', theme: 'Movement & Mindfulness', sessionPriceCents: 21000 },
-        { id: '7', date: 'August 17-21', theme: '3D Storybook Makers', sessionPriceCents: 21000 },
-        { id: '8', date: 'August 24-28', theme: 'Dream House Designers', sessionPriceCents: 21000 }
+        { id: '1', date: 'July 6-10', theme: 'Creative Explorers', sessionPriceCents: 10500, closed: true },
+        { id: '2', date: 'July 13-17', theme: 'Invent & Imagine', sessionPriceCents: 10500, closed: true },
+        { id: '3', date: 'July 20-24', theme: 'Mini Makers Lab', sessionPriceCents: 10500, closed: true },
+        { id: '4', date: 'July 27-31', theme: 'Color Splash Studio', sessionPriceCents: 10500, closed: true },
+        { id: '5', date: 'August 4-7', theme: 'Kitchen Creations', sessionPriceCents: 10500, fourDay: true },
+        { id: '6', date: 'August 10-14', theme: 'Movement & Mindfulness', sessionPriceCents: 10500 },
+        { id: '7', date: 'August 17-21', theme: '3D Storybook Makers', sessionPriceCents: 10500 },
+        { id: '8', date: 'August 24-28', theme: 'Dream House Designers', sessionPriceCents: 10500 }
     ];
     const HST_RATE = 0.13;
     const SESSION_TIMES = {
@@ -64,25 +64,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${week.closed
                         ? `
                             <div class="summer-week-closed-summary">
+                                <div class="summer-week-headline">
+                                    <div>
+                                        <p class="summer-week-label">Week ${week.id}</p>
+                                        <h2 class="summer-week-title">${week.theme}</h2>
+                                    </div>
+                                    <span class="summer-week-closed-chip">Closed</span>
+                                </div>
                                 <p class="summer-week-date">${week.date}</p>
-                                <p class="summer-week-ended-note">This week has ended.</p>
                             </div>
                         `
                         : `
                             <div>
                                 <div class="summer-week-headline">
                                     <div>
-                                        <p class="summer-week-label">Summer Week ${week.id}</p>
-                                        <h2 class="summer-week-title">Week ${week.id}</h2>
+                                        <p class="summer-week-label">Week ${week.id}</p>
+                                        <h2 class="summer-week-title">${week.theme}</h2>
                                     </div>
                                     ${week.fourDay ? '<span class="summer-week-badge">4 days</span>' : ''}
                                 </div>
                                 <p class="summer-week-date">${week.date}</p>
-                                <div class="summer-week-info-row">
-                                    <span class="summer-week-info-pill">Morning 10 AM-12 PM</span>
-                                    <span class="summer-week-info-pill">Afternoon 1-3 PM</span>
-                                </div>
-                                <p class="summer-week-session-note">Choose one session or both.</p>
                             </div>
                         `}
                     ${week.closed
@@ -97,9 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </span>
                                         <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
                                     </span>
-                                    <span class="summer-week-session-bottom">
-                                        <span class="summer-week-session-cta">Add to Cart</span>
-                                    </span>
                                 </button>
                                 <button class="summer-week-session-button" type="button" data-session="PM">
                                     <span class="summer-week-session-top">
@@ -109,8 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </span>
                                         <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
                                     </span>
-                                    <span class="summer-week-session-bottom">
-                                        <span class="summer-week-session-cta">Add to Cart</span>
+                                </button>
+                                <button class="summer-week-session-button summer-week-session-button--full" type="button" data-session="FULL">
+                                    <span class="summer-week-session-top">
+                                        <span class="summer-week-session-copy">
+                                            <strong>Full Day</strong>
+                                            <small>${SESSION_TIMES.AM} and ${SESSION_TIMES.PM}</small>
+                                        </span>
+                                        <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents * 2)}</span>
                                     </span>
                                 </button>
                             </div>
@@ -172,12 +176,22 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.toggle('is-selected', hasSelection);
 
             card.querySelectorAll('[data-session]').forEach(button => {
-                const isSelected = selectedItems.has(`W${weekId}${button.dataset.session}`);
+                const isSelected = button.dataset.session === 'FULL'
+                    ? selectedItems.has(`W${weekId}AM`) && selectedItems.has(`W${weekId}PM`)
+                    : selectedItems.has(`W${weekId}${button.dataset.session}`);
                 const cta = button.querySelector('.summer-week-session-cta');
                 button.classList.toggle('is-selected', isSelected);
+                button.setAttribute('aria-pressed', String(isSelected));
+                button.style.backgroundColor = isSelected ? '#061c49' : '';
+                button.style.backgroundImage = isSelected ? 'none' : '';
+                button.style.borderColor = isSelected ? '#061c49' : '';
 
                 if (cta) {
-                    cta.textContent = isSelected ? 'Added' : 'Add to Cart';
+                    if (button.dataset.session === 'FULL') {
+                        cta.textContent = isSelected ? 'Full Day Added' : 'Add Full Day';
+                    } else {
+                        cta.textContent = isSelected ? 'Added' : 'Add to Cart';
+                    }
                 }
             });
         });
@@ -363,6 +377,23 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        if (button.dataset.session === 'FULL') {
+            const morningItem = makeSessionItem(week, 'AM');
+            const afternoonItem = makeSessionItem(week, 'PM');
+            const hasFullDay = selectedItems.has(morningItem.code) && selectedItems.has(afternoonItem.code);
+
+            if (hasFullDay) {
+                selectedItems.delete(morningItem.code);
+                selectedItems.delete(afternoonItem.code);
+            } else {
+                selectedItems.set(morningItem.code, morningItem);
+                selectedItems.set(afternoonItem.code, afternoonItem);
+            }
+
+            updateShop();
+            return;
+        }
+
         const item = makeSessionItem(week, button.dataset.session);
 
         if (selectedItems.has(item.code)) {
@@ -398,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (!entries.length) {
-            setStatus('Please choose at least one morning or afternoon session first.', 'warning');
+            setStatus('Please choose at least one morning, afternoon, or full-day session first.', 'warning');
             return;
         }
 

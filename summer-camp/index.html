@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer Camp Ages 4-10 | SparkPreneurs</title>
-    <link rel="stylesheet" href="../styles.css?v=20260711-footer-contact-bold">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=20260716-summer-camp-clean-v2">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="summer-camp-page">
     <header class="header">
@@ -35,49 +35,47 @@
             <div class="container summer-camp-content">
                 <div class="summer-camp-head">
                     <div class="summer-camp-text">
-                        <p class="summer-camp-kicker">Summer Camp Ages 4-10</p>
-                        <h1 class="summer-camp-title">Choose Your Summer Camp Weeks and Sessions</h1>
-                        <p class="summer-camp-age">Ages 4-10 years old.</p>
-                        <p class="summer-camp-description">Explore all 8 themed weeks with art, STEM, cooking, yoga, dance, design, and hands-on creativity. For the remaining August weeks, choose morning, afternoon, or both sessions, then complete registration and continue to secure payment.</p>
-                        <a class="summer-page-back" href="../camps/index.html">← View All Summer Programs</a>
+                        <a class="summer-page-back" href="../camps/index.html">Back to camps</a>
+                        <p class="summer-camp-kicker">Ages 4-10</p>
+                        <h1 class="summer-camp-title">Summer Camp</h1>
+                        <p class="summer-camp-description">Choose an August week, pick a session, and complete registration.</p>
+                    </div>
+                    <div class="summer-camp-price-strip" aria-label="Session prices">
+                        <div>
+                            <span>Morning</span>
+                            <strong>$105</strong>
+                        </div>
+                        <div>
+                            <span>Afternoon</span>
+                            <strong>$105</strong>
+                        </div>
+                        <div>
+                            <span>Full Day</span>
+                            <strong>$210</strong>
+                        </div>
                     </div>
                 </div>
-                <div class="summer-camp-shop" data-checkout-mode="sessions" data-program-code="summer2026_4_10_sessions" data-apps-script-url="https://script.google.com/macros/s/AKfycbzfbWYbO2d_P8Q8kktvc0vvdgFHSUEXIsE2PhPV5MAN60ppmSimWZBNl172vSGty_zIZQ/exec">
+                <div class="summer-camp-shop" id="summer-camp-booking" data-checkout-mode="sessions" data-program-code="summer2026_4_10_sessions" data-apps-script-url="https://script.google.com/macros/s/AKfycbzfbWYbO2d_P8Q8kktvc0vvdgFHSUEXIsE2PhPV5MAN60ppmSimWZBNl172vSGty_zIZQ/exec">
                     <div class="summer-camp-options">
-                        <div class="summer-camp-summary">
-                            <p class="summer-camp-summary-label">Choose Your Sessions</p>
-                            <p class="summer-camp-summary-text">Morning sessions run from 10 AM-12 PM. Afternoon sessions run from 1-3 PM. Choose either session or both for any open August week.</p>
-                            <p class="summer-camp-offer">Each session is $210 per week. Week 5 is $195 per session because it is a four-day week.</p>
-                        </div>
-                        <div class="summer-camp-helper-list" aria-label="Summer camp details">
-                            <div class="summer-camp-helper-pill">
-                                <strong>Open now</strong>
-                                <span>August weeks 5-8</span>
-                            </div>
-                            <div class="summer-camp-helper-pill">
-                                <strong>Session times</strong>
-                                <span>10 AM-12 PM or 1-3 PM</span>
-                            </div>
-                        </div>
-                        <section class="summer-week-section summer-week-section--closed" aria-labelledby="closed-weeks-title">
-                            <div class="summer-week-section-head">
-                                <div>
-                                    <p class="summer-camp-summary-label">Past Weeks</p>
-                                    <h2 id="closed-weeks-title" class="summer-week-section-title">Closed July Weeks</h2>
-                                </div>
-                                <p class="summer-week-section-note">These weeks have already ended.</p>
-                            </div>
-                            <div class="summer-camp-grid summer-camp-grid--closed" data-summer-closed-grid></div>
-                        </section>
                         <section class="summer-week-section" aria-labelledby="open-weeks-title">
                             <div class="summer-week-section-head">
                                 <div>
-                                    <p class="summer-camp-summary-label">Open For Registration</p>
-                                    <h2 id="open-weeks-title" class="summer-week-section-title">Available August Sessions</h2>
+                                    <p class="summer-camp-summary-label">Open now</p>
+                                    <h2 id="open-weeks-title" class="summer-week-section-title">Available August Weeks</h2>
                                 </div>
-                                <p class="summer-week-section-note">Choose morning, afternoon, or both for any open week.</p>
+                                <p class="summer-week-section-note">10 AM-12 PM, 1-3 PM, or full day.</p>
                             </div>
                             <div class="summer-camp-grid summer-camp-grid--open" data-summer-open-grid></div>
+                        </section>
+                        <section class="summer-week-section summer-week-section--closed" aria-labelledby="closed-weeks-title">
+                            <div class="summer-week-section-head">
+                                <div>
+                                    <p class="summer-camp-summary-label">Closed</p>
+                                    <h2 id="closed-weeks-title" class="summer-week-section-title">July Weeks</h2>
+                                </div>
+                                <p class="summer-week-section-note">These weeks have ended.</p>
+                            </div>
+                            <div class="summer-camp-grid summer-camp-grid--closed" data-summer-closed-grid></div>
                         </section>
                     </div>
                     <aside class="summer-cart" aria-live="polite">
