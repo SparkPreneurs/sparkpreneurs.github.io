@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <span class="summer-week-info-pill">Morning 10 AM-12 PM</span>
                                     <span class="summer-week-info-pill">Afternoon 1-3 PM</span>
                                 </div>
-                                <p class="summer-week-session-note">Choose one session or both. Lunch is not included.</p>
+                                <p class="summer-week-session-note">Choose one session or both.</p>
                             `}
                     </div>
                     ${week.closed
