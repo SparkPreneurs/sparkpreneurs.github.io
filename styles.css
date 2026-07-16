@@ -3319,7 +3319,7 @@ body.movement-theme .custom-time-note {
 }
 
 .summer-camp-grid--open {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .summer-camp-grid--closed {
@@ -3347,6 +3347,10 @@ body.movement-theme .custom-time-note {
 
 .summer-week-card--closed .summer-week-body {
     gap: 10px;
+}
+
+.summer-week-card--closed .summer-week-body {
+    padding-top: 14px;
 }
 
 .summer-week-card:hover {
@@ -3505,6 +3509,19 @@ body.movement-theme .custom-time-note {
     font-size: 14px;
     font-weight: 700;
     line-height: 1.4;
+}
+
+.summer-week-closed-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summer-week-ended-note {
+    color: #57534e;
+    font-family: 'Comic Neue', cursive;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .summer-week-info-row {
@@ -4019,7 +4036,8 @@ body.movement-theme .custom-time-note {
     }
 
     .summer-camp-helper-list,
-    .summer-camp-grid {
+    .summer-camp-grid,
+    .summer-camp-grid--open {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -4049,7 +4067,7 @@ body.movement-theme .custom-time-note {
     }
 
     .summer-camp-grid--open {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
 

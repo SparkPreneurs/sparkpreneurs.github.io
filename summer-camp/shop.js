@@ -61,26 +61,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     <img src="../assets/week${week.id}.png" alt="SparkPreneurs Summer Camp Week ${week.id} design" class="summer-week-image">
                 </a>
                 <div class="summer-week-body">
-                    <div>
-                        <div class="summer-week-headline">
-                            <div>
-                                <p class="summer-week-label">Summer Week ${week.id}</p>
-                                <h2 class="summer-week-title">Week ${week.id}</h2>
+                    ${week.closed
+                        ? `
+                            <div class="summer-week-closed-summary">
+                                <p class="summer-week-date">${week.date}</p>
+                                <p class="summer-week-ended-note">This week has ended.</p>
                             </div>
-                            ${week.fourDay ? '<span class="summer-week-badge">4 days</span>' : ''}
-                        </div>
-                        <p class="summer-week-theme">${week.theme}</p>
-                        <p class="summer-week-date">${week.date}</p>
-                        ${week.closed
-                            ? '<p class="summer-week-session-note">This week has ended and is now closed.</p>'
-                            : `
+                        `
+                        : `
+                            <div>
+                                <div class="summer-week-headline">
+                                    <div>
+                                        <p class="summer-week-label">Summer Week ${week.id}</p>
+                                        <h2 class="summer-week-title">Week ${week.id}</h2>
+                                    </div>
+                                    ${week.fourDay ? '<span class="summer-week-badge">4 days</span>' : ''}
+                                </div>
+                                <p class="summer-week-theme">${week.theme}</p>
+                                <p class="summer-week-date">${week.date}</p>
                                 <div class="summer-week-info-row">
                                     <span class="summer-week-info-pill">Morning 10 AM-12 PM</span>
                                     <span class="summer-week-info-pill">Afternoon 1-3 PM</span>
                                 </div>
                                 <p class="summer-week-session-note">Choose one session or both.</p>
-                            `}
-                    </div>
+                            </div>
+                        `}
                     ${week.closed
                         ? '<div class="summer-week-closed-pill">Ended</div>'
                         : `
