@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         AM: '10 AM-12 PM',
         PM: '1-3 PM'
     };
-    const grid = shop.querySelector('[data-summer-week-grid]');
+    const openGrid = shop.querySelector('[data-summer-open-grid]');
+    const closedGrid = shop.querySelector('[data-summer-closed-grid]');
     const cartList = shop.querySelector('[data-summer-cart-list]');
     const totalsPanel = shop.querySelector('[data-summer-cart-totals]');
     const subtotalEl = shop.querySelector('[data-summer-subtotal]');
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildWeekCards() {
         weeks.forEach(week => {
             const card = document.createElement('article');
-            card.className = 'summer-week-card';
+            card.className = `summer-week-card ${week.closed ? 'summer-week-card--closed' : 'summer-week-card--open'}`;
             card.dataset.weekId = week.id;
 
             if (week.closed) {
@@ -71,28 +72,42 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="summer-week-date">${week.date}</p>
                         ${week.closed
                             ? '<p class="summer-week-session-note">This week has ended and is now closed.</p>'
-                            : `<p class="summer-week-session-note">Choose morning, afternoon, or both. No lunch included.</p>`}
+                            : `
+                                <div class="summer-week-info-row">
+                                    <span class="summer-week-info-pill">Morning 10 AM-12 PM</span>
+                                    <span class="summer-week-info-pill">Afternoon 1-3 PM</span>
+                                </div>
+                                <p class="summer-week-session-note">Choose one session or both. Lunch is not included.</p>
+                            `}
                     </div>
                     ${week.closed
                         ? '<div class="summer-week-closed-pill">Closed</div>'
                         : `
                             <div class="summer-week-session-grid">
                                 <button class="summer-week-session-button" type="button" data-session="AM">
-                                    <span>Morning</span>
-                                    <small>${SESSION_TIMES.AM}</small>
-                                    <strong>${formatMoneyCents(week.sessionPriceCents)}</strong>
+                                    <span class="summer-week-session-copy">
+                                        <strong>Morning</strong>
+                                        <small>${SESSION_TIMES.AM}</small>
+                                    </span>
+                                    <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
                                 </button>
                                 <button class="summer-week-session-button" type="button" data-session="PM">
-                                    <span>Afternoon</span>
-                                    <small>${SESSION_TIMES.PM}</small>
-                                    <strong>${formatMoneyCents(week.sessionPriceCents)}</strong>
+                                    <span class="summer-week-session-copy">
+                                        <strong>Afternoon</strong>
+                                        <small>${SESSION_TIMES.PM}</small>
+                                    </span>
+                                    <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
                                 </button>
                             </div>
                         `}
                 </div>
             `;
 
-            grid.appendChild(card);
+            if (week.closed) {
+                closedGrid.appendChild(card);
+            } else {
+                openGrid.appendChild(card);
+            }
         });
     }
 
@@ -313,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCart();
     }
 
-    grid.addEventListener('click', function(event) {
+    openGrid.addEventListener('click', function(event) {
         const button = event.target.closest('[data-session]');
 
         if (!button) {

@@ -3202,6 +3202,40 @@ body.movement-theme .custom-time-note {
     box-shadow: 0 14px 28px rgba(47, 50, 64, 0.08);
 }
 
+.summer-camp-helper-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.summer-camp-helper-pill,
+.summer-week-section {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow: 0 14px 28px rgba(47, 50, 64, 0.08);
+}
+
+.summer-camp-helper-pill {
+    border-radius: 18px;
+    padding: 14px 16px;
+}
+
+.summer-camp-helper-pill strong {
+    display: block;
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+    font-size: 16px;
+}
+
+.summer-camp-helper-pill span {
+    display: block;
+    margin-top: 4px;
+    color: #57534e;
+    font-family: 'Comic Neue', cursive;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .summer-camp-summary-label,
 .summer-cart-label,
 .summer-week-label {
@@ -3243,11 +3277,53 @@ body.movement-theme .custom-time-note {
     gap: 12px;
 }
 
+.summer-week-section {
+    border-radius: 24px;
+    padding: 18px;
+}
+
+.summer-week-section--closed {
+    background: rgba(255, 255, 255, 0.58);
+}
+
+.summer-week-section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.summer-week-section-title {
+    margin-top: 4px;
+    color: #2f3240;
+    font-family: 'Fredoka', cursive;
+    font-size: 28px;
+    line-height: 1.05;
+}
+
+.summer-week-section-note {
+    max-width: 300px;
+    color: #57534e;
+    font-family: 'Comic Neue', cursive;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: right;
+}
+
 .summer-camp-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 18px;
     align-items: stretch;
+}
+
+.summer-camp-grid--open {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.summer-camp-grid--closed {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .summer-week-card,
@@ -3263,6 +3339,14 @@ body.movement-theme .custom-time-note {
     flex-direction: column;
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.summer-week-card--open {
+    min-height: 100%;
+}
+
+.summer-week-card--closed .summer-week-body {
+    gap: 10px;
 }
 
 .summer-week-card:hover {
@@ -3295,7 +3379,7 @@ body.movement-theme .custom-time-note {
 
 .summer-week-body {
     flex: 1;
-    padding: 16px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -3314,12 +3398,13 @@ body.movement-theme .custom-time-note {
     font-family: 'Fredoka', cursive;
     font-size: 18px;
     font-weight: 600;
+    line-height: 1.2;
 }
 
 .summer-week-date {
-    margin-top: 4px;
+    margin-top: 8px;
     font-family: 'Comic Neue', cursive;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: #c2410c;
 }
@@ -3396,46 +3481,79 @@ body.movement-theme .custom-time-note {
     margin-top: 10px;
     color: #52525b;
     font-family: 'Comic Neue', cursive;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
+    line-height: 1.4;
+}
+
+.summer-week-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.summer-week-info-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(249, 115, 22, 0.08);
+    color: #9a3412;
+    font-family: 'Fredoka', cursive;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .summer-week-session-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
 .summer-week-session-button {
     border: none;
     border-radius: 20px;
-    padding: 14px 12px;
+    padding: 14px 16px;
     background: linear-gradient(160deg, #fff7ed 0%, #ffedd5 100%);
     color: #2f3240;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
     font-family: 'Comic Neue', cursive;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     box-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.14);
+    text-align: left;
 }
 
-.summer-week-session-button span,
-.summer-week-session-button strong {
+.summer-week-session-button strong,
+.summer-week-session-price {
     font-family: 'Fredoka', cursive;
 }
 
-.summer-week-session-button small {
+.summer-week-session-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.summer-week-session-copy strong {
+    font-size: 18px;
+    line-height: 1.1;
+}
+
+.summer-week-session-copy small {
     color: #52525b;
     font-size: 13px;
     font-weight: 700;
 }
 
-.summer-week-session-button strong {
-    font-size: 18px;
+.summer-week-session-price {
+    font-size: 20px;
     color: #c2410c;
+    white-space: nowrap;
 }
 
 .summer-week-session-button:hover {
@@ -3449,8 +3567,8 @@ body.movement-theme .custom-time-note {
     box-shadow: 0 16px 30px rgba(249, 115, 22, 0.24);
 }
 
-.summer-week-session-button.is-selected small,
-.summer-week-session-button.is-selected strong {
+.summer-week-session-button.is-selected .summer-week-session-copy small,
+.summer-week-session-button.is-selected .summer-week-session-price {
     color: #ffffff;
 }
 
@@ -3879,8 +3997,19 @@ body.movement-theme .custom-time-note {
         line-height: 1.32;
     }
 
+    .summer-camp-helper-list,
     .summer-camp-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summer-week-section-head {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .summer-week-section-note {
+        max-width: none;
+        text-align: left;
     }
 
     .summer-cart {
@@ -3894,18 +4023,38 @@ body.movement-theme .custom-time-note {
         grid-template-columns: 1fr;
     }
 
-    .summer-camp-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .summer-camp-grid--closed {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .summer-camp-grid--open {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 560px) {
-    .summer-camp-grid {
+    .summer-camp-helper-list,
+    .summer-camp-grid,
+    .summer-camp-grid--open,
+    .summer-camp-grid--closed {
         grid-template-columns: 1fr;
     }
 
-    .summer-week-session-grid {
+    .summer-week-section {
+        padding: 16px;
+    }
+
+    .summer-week-section-title {
+        font-size: 24px;
+    }
+
+    .summer-week-session-button {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .summer-week-session-price {
+        font-size: 18px;
     }
 
     .waiver-dialog {
