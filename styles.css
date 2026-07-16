@@ -3360,6 +3360,7 @@ body.movement-theme .custom-time-note {
 }
 
 .summer-week-preview {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3451,6 +3452,26 @@ body.movement-theme .custom-time-note {
 
 .summer-week-card.is-closed .summer-week-preview {
     background: #f4f4f5;
+}
+
+.summer-week-status-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(185, 28, 28, 0.92);
+    color: #ffffff;
+    font-family: 'Fredoka', cursive;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 18px rgba(127, 29, 29, 0.22);
 }
 
 .summer-week-headline {
@@ -3575,7 +3596,7 @@ body.movement-theme .custom-time-note {
 .summer-week-closed-pill {
     width: 100%;
     padding: 12px 16px;
-    background: linear-gradient(135deg, #94a3b8, #64748b);
+    background: linear-gradient(135deg, #b91c1c, #dc2626);
     color: #ffffff;
 }
 

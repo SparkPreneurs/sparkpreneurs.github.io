@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             card.innerHTML = `
                 <a class="summer-week-preview" href="../assets/week${week.id}.png" target="_blank" rel="noopener">
+                    ${week.closed ? '<span class="summer-week-status-badge">Ended</span>' : ''}
                     <img src="../assets/week${week.id}.png" alt="SparkPreneurs Summer Camp Week ${week.id} design" class="summer-week-image">
                 </a>
                 <div class="summer-week-body">
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             `}
                     </div>
                     ${week.closed
-                        ? '<div class="summer-week-closed-pill">Closed</div>'
+                        ? '<div class="summer-week-closed-pill">Ended</div>'
                         : `
                             <div class="summer-week-session-grid">
                                 <button class="summer-week-session-button" type="button" data-session="AM">
