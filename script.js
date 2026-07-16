@@ -535,9 +535,17 @@ document.addEventListener('DOMContentLoaded', function() {
         cards.forEach(card => {
             const weekId = card.dataset.weekId;
             const button = card.querySelector('[data-add-week]');
+            const isClosed = card.dataset.weekClosed === 'true';
             const isSelected = selectedWeeks.has(weekId);
 
             card.classList.toggle('is-selected', isSelected);
+            if (isClosed) {
+                button.disabled = true;
+                button.classList.remove('is-added');
+                button.textContent = 'Closed';
+                return;
+            }
+
             button.classList.toggle('is-added', isSelected);
             button.textContent = isSelected ? 'Added' : 'Add to Cart';
         });
@@ -585,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addWeek(weekId) {
         const card = summerShop.querySelector(`.summer-week-card[data-week-id="${weekId}"]`);
 
-        if (!card || selectedWeeks.has(weekId)) {
+        if (!card || card.dataset.weekClosed === 'true' || selectedWeeks.has(weekId)) {
             return;
         }
 

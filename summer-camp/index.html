@@ -120,23 +120,27 @@
 
     <script>
         const summerWeeks = [
-            { id: 1, date: 'July 6-10', price: 420 },
-            { id: 2, date: 'July 13-17', price: 420 },
-            { id: 3, date: 'July 20-24', price: 420 },
-            { id: 4, date: 'July 27-31', price: 420 },
-            { id: 5, date: 'August 4-7', price: 390 },
-            { id: 6, date: 'August 10-14', price: 420 },
-            { id: 7, date: 'August 17-21', price: 420 },
-            { id: 8, date: 'August 24-28', price: 420 }
+            { id: 1, date: 'July 6-10', price: 420, theme: 'Creative Explorers', closed: true },
+            { id: 2, date: 'July 13-17', price: 420, theme: 'Invent & Imagine', closed: true },
+            { id: 3, date: 'July 20-24', price: 420, theme: 'Mini Makers Lab', closed: true },
+            { id: 4, date: 'July 27-31', price: 420, theme: 'Color Splash Studio', closed: true },
+            { id: 5, date: 'August 4-7', price: 390, theme: 'Kitchen Creations' },
+            { id: 6, date: 'August 10-14', price: 420, theme: 'Movement & Mindfulness' },
+            { id: 7, date: 'August 17-21', price: 420, theme: '3D Storybook Makers' },
+            { id: 8, date: 'August 24-28', price: 420, theme: 'Dream House Designers' }
         ];
         const weekGrid = document.querySelector('[data-summer-week-grid]');
 
         summerWeeks.forEach(week => {
             const card = document.createElement('article');
             card.className = 'summer-week-card';
+            if (week.closed) {
+                card.classList.add('is-closed');
+                card.dataset.weekClosed = 'true';
+            }
             card.dataset.weekId = week.id;
             card.dataset.weekCode = `W${week.id}`;
-            card.dataset.weekName = `Week ${week.id} (${week.date})`;
+            card.dataset.weekName = `Week ${week.id}: ${week.theme} (${week.date})`;
             card.dataset.weekPriceCents = week.price * 100;
             card.innerHTML = `
                 <a class="summer-week-preview" href="../assets/week${week.id}.png" target="_blank" rel="noopener">
@@ -146,10 +150,11 @@
                     <div>
                         <p class="summer-week-label">Summer Week ${week.id}</p>
                         <h2 class="summer-week-title">Week ${week.id}</h2>
+                        <p class="summer-week-theme">${week.theme}</p>
                         <p class="summer-week-date">${week.date}</p>
                         <p class="summer-week-price">$${week.price}</p>
                     </div>
-                    <button class="summer-week-add" type="button" data-add-week="${week.id}">Add to Cart</button>
+                    <button class="summer-week-add${week.closed ? ' is-closed' : ''}" type="button" data-add-week="${week.id}"${week.closed ? ' disabled aria-disabled="true"' : ''}>${week.closed ? 'Closed' : 'Add to Cart'}</button>
                 </div>
             `;
             weekGrid.appendChild(card);

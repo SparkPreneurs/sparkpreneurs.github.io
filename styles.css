@@ -3308,6 +3308,14 @@ body.movement-theme .custom-time-note {
     font-family: 'Fredoka', cursive;
 }
 
+.summer-week-theme {
+    margin-top: 6px;
+    color: #7c3aed;
+    font-family: 'Fredoka', cursive;
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .summer-week-date {
     margin-top: 4px;
     font-family: 'Comic Neue', cursive;
@@ -3350,6 +3358,23 @@ body.movement-theme .custom-time-note {
 .summer-week-add.is-added {
     background: linear-gradient(135deg, #14b8a6, #2dd4bf);
     box-shadow: 0 14px 28px rgba(20, 184, 166, 0.22);
+}
+
+.summer-week-card.is-closed {
+    opacity: 0.86;
+}
+
+.summer-week-card.is-closed .summer-week-preview {
+    background: #f4f4f5;
+}
+
+.summer-week-add.is-closed,
+.summer-week-add:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #94a3b8, #64748b);
+    color: #ffffff;
+    box-shadow: none;
+    transform: none;
 }
 
 .summer-cart {
