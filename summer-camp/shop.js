@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     ${week.fourDay ? '<span class="summer-week-badge">4 days</span>' : ''}
                                 </div>
-                                <p class="summer-week-theme">${week.theme}</p>
                                 <p class="summer-week-date">${week.date}</p>
                                 <div class="summer-week-info-row">
                                     <span class="summer-week-info-pill">Morning 10 AM-12 PM</span>
@@ -95,14 +94,20 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <strong>Morning</strong>
                                         <small>${SESSION_TIMES.AM}</small>
                                     </span>
-                                    <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                    <span class="summer-week-session-action">
+                                        <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                        <span class="summer-week-session-cta">Add to Cart</span>
+                                    </span>
                                 </button>
                                 <button class="summer-week-session-button" type="button" data-session="PM">
                                     <span class="summer-week-session-copy">
                                         <strong>Afternoon</strong>
                                         <small>${SESSION_TIMES.PM}</small>
                                     </span>
-                                    <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                    <span class="summer-week-session-action">
+                                        <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                        <span class="summer-week-session-cta">Add to Cart</span>
+                                    </span>
                                 </button>
                             </div>
                         `}
@@ -163,7 +168,13 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.toggle('is-selected', hasSelection);
 
             card.querySelectorAll('[data-session]').forEach(button => {
-                button.classList.toggle('is-selected', selectedItems.has(`W${weekId}${button.dataset.session}`));
+                const isSelected = selectedItems.has(`W${weekId}${button.dataset.session}`);
+                const cta = button.querySelector('.summer-week-session-cta');
+                button.classList.toggle('is-selected', isSelected);
+
+                if (cta) {
+                    cta.textContent = isSelected ? 'Added' : 'Add to Cart';
+                }
             });
         });
     }
