@@ -3547,14 +3547,21 @@ body.movement-theme .custom-time-note {
     background: linear-gradient(160deg, #fff7ed 0%, #ffedd5 100%);
     color: #2f3240;
     cursor: pointer;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     font-family: 'Comic Neue', cursive;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     box-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.14);
     text-align: left;
+}
+
+.summer-week-session-top {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .summer-week-session-button strong,
@@ -3583,21 +3590,21 @@ body.movement-theme .custom-time-note {
     font-size: 20px;
     color: #c2410c;
     white-space: nowrap;
+    line-height: 1;
 }
 
-.summer-week-session-action {
+.summer-week-session-bottom {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .summer-week-session-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 104px;
-    padding: 6px 10px;
+    min-width: 112px;
+    padding: 7px 12px;
     border-radius: 999px;
     background: rgba(249, 115, 22, 0.14);
     color: #9a3412;
@@ -4107,11 +4114,11 @@ body.movement-theme .custom-time-note {
     }
 
     .summer-week-session-button {
-        grid-template-columns: 1fr;
         gap: 8px;
     }
 
-    .summer-week-session-action {
+    .summer-week-session-top {
+        flex-direction: column;
         align-items: flex-start;
     }
 

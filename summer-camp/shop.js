@@ -90,22 +90,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         : `
                             <div class="summer-week-session-grid">
                                 <button class="summer-week-session-button" type="button" data-session="AM">
-                                    <span class="summer-week-session-copy">
-                                        <strong>Morning</strong>
-                                        <small>${SESSION_TIMES.AM}</small>
-                                    </span>
-                                    <span class="summer-week-session-action">
+                                    <span class="summer-week-session-top">
+                                        <span class="summer-week-session-copy">
+                                            <strong>Morning</strong>
+                                            <small>${SESSION_TIMES.AM}</small>
+                                        </span>
                                         <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                    </span>
+                                    <span class="summer-week-session-bottom">
                                         <span class="summer-week-session-cta">Add to Cart</span>
                                     </span>
                                 </button>
                                 <button class="summer-week-session-button" type="button" data-session="PM">
-                                    <span class="summer-week-session-copy">
-                                        <strong>Afternoon</strong>
-                                        <small>${SESSION_TIMES.PM}</small>
-                                    </span>
-                                    <span class="summer-week-session-action">
+                                    <span class="summer-week-session-top">
+                                        <span class="summer-week-session-copy">
+                                            <strong>Afternoon</strong>
+                                            <small>${SESSION_TIMES.PM}</small>
+                                        </span>
                                         <span class="summer-week-session-price">${formatMoneyCents(week.sessionPriceCents)}</span>
+                                    </span>
+                                    <span class="summer-week-session-bottom">
                                         <span class="summer-week-session-cta">Add to Cart</span>
                                     </span>
                                 </button>
