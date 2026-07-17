@@ -7472,31 +7472,21 @@ body.program-detail-page .btn-secondary:hover {
 /* Header SP logo refresh */
 .header .nav-brand {
     min-width: 0;
-    gap: 10px;
+    gap: 0;
     text-decoration: none;
 }
 
-.header .logo {
-    width: 58px;
-    height: 58px;
-    object-fit: contain;
-}
-
-.header .brand-wordmark {
-    display: block;
-    width: clamp(142px, 16vw, 214px);
+.header .logo-website {
+    width: clamp(196px, 20vw, 260px);
     height: auto;
+    max-height: 74px;
     object-fit: contain;
 }
 
 @media (max-width: 1024px) {
-    .header .brand-wordmark {
-        width: 168px;
-    }
-
-    .header .logo {
-        width: 52px;
-        height: 52px;
+    .header .logo-website {
+        width: 214px;
+        max-height: 68px;
     }
 }
 
@@ -7505,13 +7495,9 @@ body.program-detail-page .btn-secondary:hover {
         min-width: 0;
     }
 
-    .header .brand-wordmark {
-        width: 150px;
-    }
-
-    .header .logo {
-        width: 48px;
-        height: 48px;
+    .header .logo-website {
+        width: 188px;
+        max-height: 62px;
     }
 }
 
