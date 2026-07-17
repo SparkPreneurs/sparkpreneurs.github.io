@@ -7161,26 +7161,19 @@ body.program-detail-page .btn-secondary:hover {
 .header .logo {
     width: 58px;
     height: 58px;
-    border-radius: 12px;
     object-fit: contain;
 }
 
-.header .brand-text {
-    display: inline-block;
-    color: #061c49;
-    background: none;
-    -webkit-text-fill-color: currentColor;
-    font-family: 'Fredoka', 'Nunito', cursive;
-    font-size: 25px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 1;
-    white-space: nowrap;
+.header .brand-wordmark {
+    display: block;
+    width: clamp(142px, 16vw, 214px);
+    height: auto;
+    object-fit: contain;
 }
 
 @media (max-width: 1024px) {
-    .header .brand-text {
-        font-size: 21px;
+    .header .brand-wordmark {
+        width: 168px;
     }
 
     .header .logo {
@@ -7194,8 +7187,8 @@ body.program-detail-page .btn-secondary:hover {
         min-width: 0;
     }
 
-    .header .brand-text {
-        font-size: 19px;
+    .header .brand-wordmark {
+        width: 150px;
     }
 
     .header .logo {
