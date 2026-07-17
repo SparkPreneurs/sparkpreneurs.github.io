@@ -5155,7 +5155,7 @@ section {
 
 .kids-youth-hero {
     position: relative;
-    padding: 132px 0 42px;
+    padding: 110px 0 26px;
     background: #061c49;
     overflow: hidden;
 }
@@ -5176,14 +5176,14 @@ section {
 
 .kids-youth-hero-overlay {
     background:
-        linear-gradient(90deg, rgba(6, 28, 73, 0.62) 0%, rgba(6, 28, 73, 0.4) 45%, rgba(6, 28, 73, 0.2) 100%),
-        linear-gradient(180deg, rgba(6, 28, 73, 0.08) 0%, rgba(6, 28, 73, 0.24) 40%, rgba(6, 28, 73, 0.78) 100%);
+        linear-gradient(90deg, rgba(6, 28, 73, 0.5) 0%, rgba(6, 28, 73, 0.28) 45%, rgba(6, 28, 73, 0.12) 100%),
+        linear-gradient(180deg, rgba(6, 28, 73, 0.05) 0%, rgba(6, 28, 73, 0.18) 42%, rgba(6, 28, 73, 0.62) 100%);
 }
 
 body.workshops-page .kids-youth-hero-overlay {
     background:
-        linear-gradient(90deg, rgba(6, 28, 73, 0.48) 0%, rgba(6, 28, 73, 0.28) 45%, rgba(6, 28, 73, 0.14) 100%),
-        linear-gradient(180deg, rgba(6, 28, 73, 0.08) 0%, rgba(6, 28, 73, 0.28) 42%, rgba(6, 28, 73, 0.86) 100%);
+        linear-gradient(90deg, rgba(6, 28, 73, 0.42) 0%, rgba(6, 28, 73, 0.22) 45%, rgba(6, 28, 73, 0.1) 100%),
+        linear-gradient(180deg, rgba(6, 28, 73, 0.05) 0%, rgba(6, 28, 73, 0.18) 42%, rgba(6, 28, 73, 0.66) 100%);
 }
 
 .kids-youth-hero-layout {
@@ -5197,7 +5197,7 @@ body.workshops-page .kids-youth-hero-overlay {
 
 .kids-youth-hero-layout--overlay {
     grid-template-columns: minmax(0, 720px);
-    min-height: 420px;
+    min-height: 320px;
     align-items: end;
 }
 
@@ -5210,24 +5210,24 @@ body.workshops-page .kids-youth-hero-overlay {
 }
 
 body.workshops-page .kids-youth-hero-layout--overlay {
-    grid-template-columns: minmax(0, 560px);
-    min-height: 392px;
+    grid-template-columns: minmax(0, 520px);
+    min-height: 300px;
 }
 
 body.workshops-page .kids-youth-hero-copy h1 {
-    font-size: clamp(28px, 4vw, 42px);
+    font-size: clamp(26px, 3.2vw, 36px);
 }
 
 body.workshops-page .kids-youth-tagline {
-    margin-top: 6px;
-    font-size: clamp(18px, 2.2vw, 26px);
+    margin-top: 4px;
+    font-size: clamp(17px, 1.9vw, 22px);
 }
 
 body.workshops-page .kids-youth-intro {
-    max-width: 470px;
-    margin-top: 8px;
-    font-size: 14px;
-    line-height: 1.45;
+    max-width: 430px;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .kids-youth-eyebrow,
@@ -5255,15 +5255,15 @@ body.workshops-page .kids-youth-intro {
 }
 
 .kids-youth-hero-copy h1 {
-    margin-top: 10px;
-    font-size: clamp(30px, 4.6vw, 48px);
+    margin-top: 8px;
+    font-size: clamp(28px, 3.8vw, 40px);
 }
 
 .kids-youth-tagline {
-    margin-top: 10px;
+    margin-top: 6px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(20px, 2.5vw, 30px);
-    font-weight: 600;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 500;
 }
 
 .kids-youth-intro,
@@ -5277,10 +5277,10 @@ body.workshops-page .kids-youth-intro {
 }
 
 .kids-youth-intro {
-    margin-top: 12px;
-    max-width: 620px;
-    font-size: 15px;
-    line-height: 1.55;
+    margin-top: 8px;
+    max-width: 540px;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .kids-youth-actions,
@@ -5288,12 +5288,12 @@ body.workshops-page .kids-youth-intro {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
-    margin-top: 20px;
+    margin-top: 16px;
 }
 
 .kids-youth-hero-copy--overlay .kids-youth-actions {
     margin-top: auto;
-    padding-top: 28px;
+    padding-top: 16px;
 }
 
 body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
@@ -5684,7 +5684,7 @@ body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
 
     .kids-youth-hero-layout--overlay {
         grid-template-columns: 1fr;
-        min-height: 360px;
+        min-height: 300px;
         align-items: end;
     }
 
@@ -5715,37 +5715,37 @@ body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
     }
 
     .kids-youth-hero {
-        padding: 122px 0 28px;
+        padding: 108px 0 22px;
     }
 
     body.workshops-page .kids-youth-hero-layout--overlay {
-        min-height: 336px;
+        min-height: 280px;
     }
 
     .kids-youth-hero-copy--overlay .kids-youth-actions {
-        margin-top: 20px;
+        margin-top: 14px;
         padding-top: 0;
     }
 
     body.workshops-page .kids-youth-hero-copy h1 {
-        font-size: clamp(26px, 7vw, 34px);
+        font-size: clamp(24px, 6vw, 30px);
     }
 
     body.workshops-page .kids-youth-tagline {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     body.workshops-page .kids-youth-intro {
-        font-size: 13px;
+        font-size: 12.5px;
         line-height: 1.4;
     }
 
     .kids-youth-hero-copy h1 {
-        font-size: clamp(28px, 7.2vw, 36px);
+        font-size: clamp(26px, 6.6vw, 32px);
     }
 
     .kids-youth-tagline {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .kids-youth-programs,
