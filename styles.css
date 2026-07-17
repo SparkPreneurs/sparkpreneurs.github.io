@@ -7151,6 +7151,59 @@ body.program-detail-page .btn-secondary:hover {
     }
 }
 
+/* Header SP logo refresh */
+.header .nav-brand {
+    min-width: 0;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.header .logo {
+    width: 58px;
+    height: 58px;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.header .brand-text {
+    display: inline-block;
+    color: #061c49;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    font-family: 'Fredoka', 'Nunito', cursive;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+    .header .brand-text {
+        font-size: 21px;
+    }
+
+    .header .logo {
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header .nav-brand {
+        min-width: 0;
+    }
+
+    .header .brand-text {
+        font-size: 19px;
+    }
+
+    .header .logo {
+        width: 48px;
+        height: 48px;
+    }
+}
+
 /* Book Your Event page */
 .event-page,
 .event-page-main {
