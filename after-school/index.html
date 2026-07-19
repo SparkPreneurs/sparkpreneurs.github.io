@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After School | SparkPreneurs</title>
+    <link rel="stylesheet" href="../styles.css?v=20260717-after-school">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="after-school-page">
+    <header class="header">
+        <nav class="nav">
+            <a class="nav-brand" href="../index.html">
+                <img src="../assets/logo-website.png?v=20260717-transparent" alt="SparkPreneurs" class="logo logo-website">
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#explore-sparkpreneurs" class="nav-link">Programs</a></li>
+                <li><a href="../camps/index.html" class="nav-link">Camps & Afterschool</a></li>
+                <li><a href="../index.html#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../book-your-event/index.html" class="nav-link">Book Your Event</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="../waiver/index.html" class="nav-link">Waiver</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="after-school-main">
+        <section class="after-school-hero">
+            <div class="container after-school-hero-grid">
+                <div class="after-school-hero-copy">
+                    <a class="summer-page-back" href="../camps/index.html">Back to programs</a>
+                    <p class="after-school-kicker">After School Program</p>
+                    <h1>Creative afternoons from school to pick-up.</h1>
+                    <p>Choose a weekly schedule, add it to your cart, and SparkPreneurs will confirm availability, pick-up options, and pricing before payment.</p>
+                    <div class="after-school-hero-facts" aria-label="After school program details">
+                        <span>3 PM-5 PM</span>
+                        <span>3, 4, or 5 days/week</span>
+                        <span>Neighbourhood school pick-up available from certain schools</span>
+                    </div>
+                </div>
+                <div class="after-school-hero-card" aria-hidden="true">
+                    <img src="../assets/sp-kids-activity.png" alt="">
+                </div>
+            </div>
+        </section>
+
+        <section class="after-school-shop" data-after-school-shop aria-labelledby="after-school-options-title">
+            <div class="container after-school-shop-grid">
+                <div class="after-school-options">
+                    <div class="after-school-section-head">
+                        <p class="after-school-kicker">Schedule Options</p>
+                        <h2 id="after-school-options-title">Pick the weekly rhythm that fits your family.</h2>
+                        <p>Each option runs from 3 PM to 5 PM. School pick-up is available from certain neighbourhood schools and will be confirmed after you send your request.</p>
+                    </div>
+
+                    <div class="after-school-plan-grid">
+                        <article class="after-school-plan" data-after-school-plan="3 days/week">
+                            <div>
+                                <p class="after-school-plan-label">Flexible</p>
+                                <h3>3 days/week</h3>
+                                <p>For families who want a lighter after-school schedule.</p>
+                            </div>
+                            <div class="after-school-plan-meta">
+                                <span>3 PM-5 PM</span>
+                                <span>Pick-up option available</span>
+                            </div>
+                            <button class="after-school-add" type="button" data-after-school-add="3 days/week">Add to Cart</button>
+                        </article>
+
+                        <article class="after-school-plan" data-after-school-plan="4 days/week">
+                            <div>
+                                <p class="after-school-plan-label">Balanced</p>
+                                <h3>4 days/week</h3>
+                                <p>For steady creative time through most of the school week.</p>
+                            </div>
+                            <div class="after-school-plan-meta">
+                                <span>3 PM-5 PM</span>
+                                <span>Pick-up option available</span>
+                            </div>
+                            <button class="after-school-add" type="button" data-after-school-add="4 days/week">Add to Cart</button>
+                        </article>
+
+                        <article class="after-school-plan" data-after-school-plan="5 days/week">
+                            <div>
+                                <p class="after-school-plan-label">Full Week</p>
+                                <h3>5 days/week</h3>
+                                <p>For families who need consistent weekday coverage.</p>
+                            </div>
+                            <div class="after-school-plan-meta">
+                                <span>3 PM-5 PM</span>
+                                <span>Pick-up option available</span>
+                            </div>
+                            <button class="after-school-add" type="button" data-after-school-add="5 days/week">Add to Cart</button>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="after-school-cart" aria-live="polite">
+                    <div class="after-school-cart-card">
+                        <p class="after-school-cart-label">Selected Option</p>
+                        <ul class="after-school-cart-list" data-after-school-cart-list>
+                            <li class="after-school-cart-empty">No option added yet.</li>
+                        </ul>
+                        <p class="after-school-cart-note">Pricing is not published here yet. SparkPreneurs will confirm price, available days, and eligible school pick-up before payment.</p>
+                        <div class="after-school-cart-actions">
+                            <a class="after-school-cart-request is-disabled" href="../index.html#contact" data-after-school-request>Request Booking Details</a>
+                            <button class="after-school-cart-clear" type="button" data-after-school-clear disabled>Clear Cart</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="program-detail-footer">
+        <div class="container">
+            <p>Questions about After School? Contact SparkPreneurs and we will help confirm schedule, pick-up, and registration details.</p>
+            <a class="btn-secondary" href="../index.html#contact">Contact Us</a>
+        </div>
+    </footer>
+
+    <script src="../script.js?v=20260707-light-bg"></script>
+    <script src="shop.js?v=20260717-after-school"></script>
+</body>
+</html>
