@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stripe Apps Script Registration"
+  short_description: "Build a period-specific registration backend"
+  default_prompt: "Use $stripe-apps-script-registration to start a new period-specific spreadsheet, Apps Script backend, and Stripe registration flow."
