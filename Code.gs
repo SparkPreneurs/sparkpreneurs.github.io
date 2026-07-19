@@ -5,11 +5,12 @@ const PRICING_SHEET_NAME = "Sheet2";
 const WAIVER_LOG_SHEET_NAME = "Waiver Submissions";
 const AGES_10_TO_14_PRICING_SHEET_NAME = "summer2026_ages10_14";
 const SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE = "summer2026_4_10_sessions";
+const ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE = "adult_hand_building_pottery";
 const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-06-15-1";
+const SCRIPT_VERSION = "2026-07-19-1";
 
 function doPost(e) {
   try {
@@ -25,7 +26,7 @@ function doPost(e) {
       return jsonResponse({
         success: true,
         version: SCRIPT_VERSION,
-        programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE]
+        programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
       });
     }
 
@@ -58,7 +59,7 @@ function doGet() {
     success: true,
     message: "SparkPreneurs registration endpoint is running.",
     version: SCRIPT_VERSION,
-    programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE]
+    programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
   });
 }
 
@@ -119,6 +120,8 @@ function setupSheet2SummerPrograms2026() {
     rows.push([SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, "W" + weekNumber + "AM", "Week " + weekNumber + " Morning: " + theme + " (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
     rows.push([SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon: " + theme + " (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
   });
+
+  rows.push([ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE, "HB4SUN", "Hand-Building Pottery: 4 Sunday Sessions (10:30 AM-12:30 PM)", 24000, true, "", "", "", 13]);
 
   sheet.clearContents();
   sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
@@ -219,7 +222,9 @@ function createCheckoutSession_(data) {
     ? "SparkPreneurs Summer Programs Ages 10-14 Registration"
     : (programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE
       ? "SparkPreneurs Summer Camp Ages 4-10 Registration"
-      : "SparkPreneurs Summer Camp Registration");
+      : (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE
+        ? "SparkPreneurs Hand-Building Pottery Registration"
+        : "SparkPreneurs Summer Camp Registration"));
   const checkoutSession = stripeRequest_("post", "/checkout/sessions", {
     mode: "payment",
     success_url: successUrl,
