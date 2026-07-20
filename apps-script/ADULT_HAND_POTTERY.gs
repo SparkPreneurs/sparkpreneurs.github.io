@@ -2,7 +2,7 @@ const SPREADSHEET_ID = "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM";
 const PROGRAM_CODE = "adult_hand_building_pottery";
 const PROGRAM_NAME = "Adult Hand Pottery";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-07-19-1";
+const SCRIPT_VERSION = "2026-07-19-2";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 
@@ -516,24 +516,21 @@ function validateReturnUrls_(successValue, cancelValue) {
 function validateReturnUrl_(value, kind) {
   const url = String(value || "").trim();
 
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.toLowerCase();
-    const allowedHost = host === "sparkpreneurs.ca" || host === "www.sparkpreneurs.ca";
-    const allowedPath = parsed.pathname === "/hand-building-pottery/" || parsed.pathname === "/hand-building-pottery/index.html";
-
-    if (parsed.protocol !== "https:" || !allowedHost || !allowedPath) {
-      throw new Error("not allowed");
-    }
-
-    if (kind === "success" && parsed.search.indexOf("session_id={CHECKOUT_SESSION_ID}") === -1) {
-      throw new Error("missing session placeholder");
-    }
-
-    return parsed.toString();
-  } catch (err) {
+  if (!/^https:\/\/(?:www\.)?sparkpreneurs\.ca\/hand-building-pottery\/?(?:\?[^#]*)?(?:#[\s\S]*)?$/.test(url)) {
     throw clientError_("Invalid payment return address.");
   }
+
+  const queryStart = url.indexOf("?");
+  const fragmentStart = url.indexOf("#");
+  const query = queryStart === -1
+    ? ""
+    : url.slice(queryStart + 1, fragmentStart === -1 ? url.length : fragmentStart);
+
+  if (kind === "success" && !/(?:^|&)session_id=\{CHECKOUT_SESSION_ID\}(?:&|$)/.test(query)) {
+    throw clientError_("Invalid payment return address.");
+  }
+
+  return url;
 }
 
 function parseRequest_(e) {
