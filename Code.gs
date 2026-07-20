@@ -3,7 +3,6 @@ const WAIVER_LOG_SPREADSHEET_ID = "1bXmWGjhS26CksGQheqqSFOKqWblAGVCZ2MbwMMjS720"
 const REGISTRATION_SHEET_NAME = "Sheet1";
 const PRICING_SHEET_NAME = "Sheet2";
 const WAIVER_LOG_SHEET_NAME = "Waiver Submissions";
-const AGES_10_TO_14_PRICING_SHEET_NAME = "summer2026_ages10_14";
 const SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE = "summer2026_4_10_sessions";
 const ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE = "adult_hand_building_pottery";
 const DEFAULT_PROGRAM_CODE = "summer2026";
@@ -26,7 +25,7 @@ function doPost(e) {
       return jsonResponse({
         success: true,
         version: SCRIPT_VERSION,
-        programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
+        programs: ["summer2026", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
       });
     }
 
@@ -59,7 +58,7 @@ function doGet() {
     success: true,
     message: "SparkPreneurs registration endpoint is running.",
     version: SCRIPT_VERSION,
-    programs: ["summer2026", "summer2026_10_14", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
+    programs: ["summer2026", SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE, ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE]
   });
 }
 
@@ -83,27 +82,6 @@ function setupSheet2SummerPrograms2026() {
     ["summer2026", "", "Bundle: any 4 weeks", "", "", 4, "", 120000, ""],
     ["summer2026", "", "Bundle: all 8 weeks", "", "", 8, "", 240000, ""]
   ];
-  const olderSummerWeeks = [
-    ["1", "July 6-10", 20000],
-    ["2", "July 13-17", 20000],
-    ["3", "July 20-24", 20000],
-    ["4", "July 27-31", 20000],
-    ["5", "August 4-7", 16000],
-    ["6", "August 10-14", 20000],
-    ["7", "August 17-21", 20000],
-    ["8", "August 24-28", 20000]
-  ];
-
-  olderSummerWeeks.forEach(function(week) {
-    const weekNumber = week[0];
-    const date = week[1];
-    const sessionPriceCents = week[2];
-
-    rows.push(["summer2026_10_14", "W" + weekNumber + "AM", "Week " + weekNumber + " Morning (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
-    rows.push(["summer2026_10_14", "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
-    rows.push(["summer2026_10_14", "W" + weekNumber + "MEAL", "Week " + weekNumber + " Meal (" + date + ")", 4500, true, "", "", "", ""]);
-  });
-
   const youngerSummerWeeks = [
     ["5", "August 4-7", "Fashion Week", 10500],
     ["6", "August 10-14", "Young Chef Creations 2", 10500],
@@ -122,39 +100,6 @@ function setupSheet2SummerPrograms2026() {
   });
 
   rows.push([ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE, "HB4SUN", "Hand-Building Pottery: 4 Sunday Sessions (10:30 AM-12:30 PM)", 24000, true, "", "", "", 13]);
-
-  sheet.clearContents();
-  sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
-  sheet.setFrozenRows(1);
-  sheet.autoResizeColumns(1, rows[0].length);
-}
-
-function setupSummer2026Ages10To14() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(AGES_10_TO_14_PRICING_SHEET_NAME) || ss.insertSheet(AGES_10_TO_14_PRICING_SHEET_NAME);
-  const rows = [
-    ["programCode", "weekCode", "weekName", "priceCents", "active", "minWeeks", "discountPercent", "bundlePriceCents", "taxRatePercent"]
-  ];
-  const weeks = [
-    ["1", "July 6-10", 20000],
-    ["2", "July 13-17", 20000],
-    ["3", "July 20-24", 20000],
-    ["4", "July 27-31", 20000],
-    ["5", "August 4-7", 16000],
-    ["6", "August 10-14", 20000],
-    ["7", "August 17-21", 20000],
-    ["8", "August 24-28", 20000]
-  ];
-
-  weeks.forEach(function(week) {
-    const weekNumber = week[0];
-    const date = week[1];
-    const sessionPriceCents = week[2];
-
-    rows.push(["summer2026_10_14", "W" + weekNumber + "AM", "Week " + weekNumber + " Morning (" + date + ", 10 AM-12 PM)", sessionPriceCents, true, "", "", "", 13]);
-    rows.push(["summer2026_10_14", "W" + weekNumber + "PM", "Week " + weekNumber + " Afternoon (" + date + ", 1-3 PM)", sessionPriceCents, true, "", "", "", ""]);
-    rows.push(["summer2026_10_14", "W" + weekNumber + "MEAL", "Week " + weekNumber + " Meal (" + date + ")", 4500, true, "", "", "", ""]);
-  });
 
   sheet.clearContents();
   sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
@@ -218,13 +163,11 @@ function createCheckoutSession_(data) {
     return week.weekName;
   }).join(", ");
   const checkoutDescription = sanitizeText_(weekList, 500);
-  const productName = programCode === "summer2026_10_14"
-    ? "SparkPreneurs Summer Programs Ages 10-14 Registration"
-    : (programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE
+  const productName = programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE
       ? "SparkPreneurs Summer Camp Ages 4-10 Registration"
       : (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE
         ? "SparkPreneurs Hand-Building Pottery Registration"
-        : "SparkPreneurs Summer Camp Registration"));
+        : "SparkPreneurs Summer Camp Registration");
   const checkoutSession = stripeRequest_("post", "/checkout/sessions", {
     mode: "payment",
     success_url: successUrl,
@@ -414,9 +357,7 @@ function calculateExpectedPricing_(pricingSheet, selectedWeeks, programCode) {
 }
 
 function getPricingSheetName_(programCode) {
-  return programCode === "summer2026_10_14"
-    ? AGES_10_TO_14_PRICING_SHEET_NAME
-    : PRICING_SHEET_NAME;
+  return PRICING_SHEET_NAME;
 }
 
 function calculateDiscountedSubtotal_(values, headers, selectedPricing, regularSubtotalCents, programCode) {
@@ -909,7 +850,7 @@ function normalizeSelectedWeeks_(selectedWeeks) {
 }
 
 function validateProgramSelections_(selectedWeeks, programCode) {
-  if (programCode !== "summer2026_10_14" && programCode !== SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE) {
+  if (programCode !== SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE) {
     return;
   }
 
@@ -927,18 +868,6 @@ function validateProgramSelections_(selectedWeeks, programCode) {
   if (sessionCount === 0) {
     throw new Error("Choose at least one morning or afternoon session.");
   }
-
-  selectedWeeks.forEach(function(code) {
-    if (programCode !== "summer2026_10_14") {
-      return;
-    }
-
-    const match = code.match(/^W([1-8])MEAL$/);
-
-    if (match && !selected["W" + match[1] + "AM"] && !selected["W" + match[1] + "PM"]) {
-      throw new Error("A meal requires a selected session in Week " + match[1] + ".");
-    }
-  });
 }
 
 function sanitizeSessionId_(sessionId) {

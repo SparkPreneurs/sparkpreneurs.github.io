@@ -4338,286 +4338,6 @@ body.movement-theme .custom-time-note {
     white-space: normal;
 }
 
-.older-summer-banner {
-    padding: 104px 0 48px;
-    background: linear-gradient(135deg, #f5f3ff 0%, #ecfeff 100%);
-}
-
-.older-summer-banner .summer-camp-head {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.summer-programs-page .summer-camp-title {
-    white-space: normal;
-}
-
-.older-summer-banner .summer-camp-text {
-    max-width: 900px;
-}
-
-.older-summer-hero {
-    position: relative;
-    width: 100%;
-    height: 260px;
-    border: 8px solid rgba(255, 255, 255, 0.9);
-    border-radius: 28px;
-    box-shadow: 0 20px 44px rgba(47, 50, 64, 0.16);
-    overflow: hidden;
-}
-
-.older-summer-hero-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-
-.older-summer-schedule {
-    width: min(100%, 980px);
-    margin-right: auto;
-    margin-left: auto;
-    border: 1px solid rgba(139, 92, 246, 0.12);
-    border-radius: 28px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 18px 40px rgba(47, 50, 64, 0.1);
-    overflow: hidden;
-}
-
-.older-summer-schedule-head {
-    padding: 20px 22px 14px;
-}
-
-.older-summer-schedule-head h2 {
-    margin-top: 4px;
-    color: #2f3240;
-    font-family: 'Fredoka', cursive;
-    font-size: 28px;
-}
-
-.older-summer-schedule-head > p:last-child {
-    margin-top: 5px;
-    color: #52525b;
-    font-family: 'Comic Neue', cursive;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.older-summer-schedule-scroll-note {
-    display: none;
-}
-
-.older-summer-schedule-table-wrap {
-    border-top: 1px solid rgba(139, 92, 246, 0.12);
-    overflow-x: auto;
-}
-
-.older-summer-schedule-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 7px;
-    padding: 5px 10px 11px;
-    table-layout: fixed;
-}
-
-.older-summer-schedule-table th,
-.older-summer-schedule-table td {
-    border-radius: 14px;
-    padding: 11px 8px;
-    text-align: center;
-}
-
-.older-summer-schedule-table thead th {
-    background: linear-gradient(135deg, #8b5cf6, #14b8a6);
-    color: #ffffff;
-    font-family: 'Fredoka', cursive;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.older-summer-schedule-table thead th:first-child {
-    width: 120px;
-    background: #2f3240;
-}
-
-.older-summer-schedule-table tbody th {
-    background: #f3e8ff;
-    color: #6d28d9;
-    font-family: 'Fredoka', cursive;
-}
-
-.older-summer-schedule-table tbody th span,
-.older-summer-schedule-table tbody th small {
-    display: block;
-}
-
-.older-summer-schedule-table tbody th small {
-    margin-top: 4px;
-    color: #71717a;
-    font-family: 'Comic Neue', cursive;
-    font-size: 12px;
-}
-
-.older-summer-schedule-table td {
-    background: #faf5ff;
-    color: #3f3f46;
-    font-family: 'Comic Neue', cursive;
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.older-summer-schedule-table tbody tr:nth-child(2) td {
-    background: #ecfeff;
-}
-
-.older-summer-activity-icon {
-    display: block;
-    margin-bottom: 4px;
-    font-family: sans-serif;
-    font-size: 21px;
-    line-height: 1;
-}
-
-.older-summer-schedule-table-wrap:focus-visible {
-    outline: 3px solid rgba(139, 92, 246, 0.45);
-    outline-offset: -3px;
-}
-
-.older-summer-schedule-table-wrap::-webkit-scrollbar {
-    height: 10px;
-}
-
-.older-summer-schedule-table-wrap::-webkit-scrollbar-thumb {
-    border: 2px solid #ffffff;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #8b5cf6, #14b8a6);
-}
-
-.older-summer-schedule-table-wrap::-webkit-scrollbar-track {
-    background: #f4f4f5;
-}
-
-.older-summer-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.older-summer-week-card {
-    padding: 22px;
-    border: 1px solid rgba(139, 92, 246, 0.12);
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 18px 40px rgba(47, 50, 64, 0.1);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.older-summer-week-card.is-selected {
-    border-color: rgba(139, 92, 246, 0.48);
-    box-shadow: 0 20px 44px rgba(139, 92, 246, 0.16);
-}
-
-.older-summer-week-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 14px;
-}
-
-.older-summer-week-head h2 {
-    color: #2f3240;
-    font-family: 'Fredoka', cursive;
-    font-size: 26px;
-}
-
-.older-summer-four-day {
-    flex-shrink: 0;
-    border-radius: 999px;
-    background: #fef3c7;
-    color: #92400e;
-    font-family: 'Fredoka', cursive;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 7px 10px;
-}
-
-.older-summer-session-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 18px;
-}
-
-.older-session-button {
-    display: grid;
-    gap: 3px;
-    border: 1px solid rgba(6, 28, 73, 0.18);
-    border-radius: 18px;
-    background: #f6f8fb;
-    color: #3f3f46;
-    cursor: pointer;
-    font-family: 'Fredoka', cursive;
-    padding: 13px 10px;
-    text-align: left;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.older-session-button small {
-    font-family: 'Comic Neue', cursive;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.older-session-button strong {
-    margin-top: 3px;
-}
-
-.older-session-button.is-selected {
-    border-color: transparent;
-    background-color: #061C49 !important;
-    background-image: none !important;
-    color: #ffffff !important;
-}
-
-.older-session-button:hover {
-    transform: translateY(-1px);
-}
-
-.older-summer-meal {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 9px;
-    margin-top: 14px;
-    border-radius: 16px;
-    background: #fff7ed;
-    color: #3f3f46;
-    cursor: pointer;
-    font-family: 'Comic Neue', cursive;
-    font-weight: 700;
-    padding: 12px;
-}
-
-.older-summer-meal input {
-    width: 18px;
-    height: 18px;
-    accent-color: #f97316;
-}
-
-.older-summer-meal:has(input:disabled) {
-    cursor: not-allowed;
-    opacity: 0.55;
-}
-
-.older-summer-meal-note {
-    margin-top: 7px;
-    color: #71717a;
-    font-family: 'Comic Neue', cursive;
-    font-size: 13px;
-    font-weight: 700;
-}
-
 @media (max-width: 768px) {
     .summer-program-selector {
         padding: 96px 0 44px;
@@ -4635,44 +4355,6 @@ body.movement-theme .custom-time-note {
 
     .summer-preview-hero {
         padding: 110px 0 56px;
-    }
-
-    .older-summer-banner {
-        padding: 92px 0 32px;
-    }
-
-    .older-summer-hero {
-        height: 150px;
-        border-width: 5px;
-        border-radius: 22px;
-    }
-
-    .older-summer-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .older-summer-schedule-head {
-        padding: 22px 20px 16px;
-    }
-
-    .older-summer-schedule-scroll-note {
-        display: block;
-        margin: 0 20px 10px;
-        color: #6d28d9;
-        font-family: 'Comic Neue', cursive;
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-    .older-summer-schedule-table {
-        min-width: 700px;
-        border-spacing: 6px;
-        padding: 4px 8px 10px;
-    }
-
-    .older-summer-schedule-table th,
-    .older-summer-schedule-table td {
-        padding: 10px 7px;
     }
 }
 
@@ -4728,10 +4410,9 @@ h4,
 .cta-content h2,
 .program-detail-hero .detail-text h1,
 .summer-camp-title,
-.summer-programs-page .summer-camp-title,
 .detail-card h2,
 .info-block h3,
-.older-summer-schedule-head h2 {
+.summer-week-section-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 700;
     letter-spacing: 0;
@@ -4975,8 +4656,7 @@ section {
 .why-text h2,
 .cta-content h2,
 .program-detail-hero .detail-text h1,
-.summer-camp-title,
-.summer-programs-page .summer-camp-title {
+.summer-camp-title {
     color: var(--ink);
     background: none;
     -webkit-text-fill-color: currentColor;
@@ -5019,8 +4699,6 @@ section {
 .info-block,
 .summer-cart-card,
 .summer-week-card,
-.older-summer-week-card,
-.older-summer-schedule,
 .about-insight {
     border-radius: 8px;
     border: 1px solid var(--line);
@@ -5819,8 +5497,7 @@ body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
 }
 
 .program-detail-page,
-.summer-camp-page,
-.summer-programs-page {
+.summer-camp-page {
     background: var(--cream);
     color: var(--ink);
 }
@@ -5837,8 +5514,7 @@ body.program-detail-page .info-block {
 .music-hero,
 .robotics-hero,
 .movement-hero,
-.summer-camp-banner,
-.older-summer-banner {
+.summer-camp-banner {
     background: var(--cream) !important;
     color: var(--ink);
     padding-top: 150px;
@@ -6005,8 +5681,7 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .program-detail-hero,
-    .summer-camp-banner,
-    .older-summer-banner {
+    .summer-camp-banner {
         padding-top: 122px;
     }
 
