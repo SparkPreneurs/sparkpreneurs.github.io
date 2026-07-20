@@ -7441,11 +7441,19 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .hand-building-pottery-page .hand-building-class-card {
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+    display: block;
 }
 
 .hand-building-pottery-page .hand-building-class-card .summer-week-body {
-    min-height: 230px;
+    min-height: 0;
+    gap: 18px;
+}
+
+.hand-building-pottery-page .hand-building-class-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 230px);
+    gap: 20px;
+    align-items: start;
 }
 
 .hand-building-pottery-page .hand-building-class-card .summer-week-title {
@@ -7453,17 +7461,21 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .hand-building-pottery-page .hand-building-class-card .summer-week-preview {
-    order: 2;
+    aspect-ratio: 1;
     min-height: 0;
-    max-height: 250px;
-    border-right: 0;
-    border-left: 1px solid rgba(6, 28, 73, 0.08);
+    max-height: none;
+    padding: 12px;
+    border: 1px solid rgba(6, 28, 73, 0.12);
+    border-radius: 20px;
+    background: linear-gradient(180deg, #fffaf2 0%, #fff2df 100%);
+    box-shadow: 0 12px 28px rgba(6, 28, 73, 0.1);
 }
 
 .hand-building-pottery-page .hand-building-class-card .summer-week-image {
-    max-width: 210px;
-    max-height: 210px;
-    margin: auto;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    border-radius: 14px;
 }
 
 @media (max-width: 768px) {
@@ -7504,25 +7516,13 @@ body.program-detail-page .btn-secondary:hover {
         align-items: center;
     }
 
-    .hand-building-pottery-page .hand-building-class-card {
+    .hand-building-pottery-page .hand-building-class-main {
         grid-template-columns: 1fr;
-    }
-
-    .hand-building-pottery-page .hand-building-class-card .summer-week-body {
-        min-height: 0;
-    }
-
-    .hand-building-pottery-page .hand-building-class-card .summer-week-preview {
-        aspect-ratio: 4 / 3;
-        max-height: 190px;
-        border-left: 0;
-        border-top: 1px solid rgba(6, 28, 73, 0.08);
-        border-bottom: 0;
+        gap: 16px;
     }
 
     .hand-building-pottery-page .hand-building-class-card .summer-week-image {
-        max-width: 170px;
-        max-height: 160px;
+        max-height: none;
     }
 }
 
