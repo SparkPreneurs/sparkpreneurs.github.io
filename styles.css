@@ -7281,6 +7281,12 @@ body.program-detail-page .btn-secondary:hover {
     background: linear-gradient(180deg, rgba(255, 244, 178, 0) 48%, #fde047 48%);
 }
 
+.summer-camp-page .summer-week-section-note--offer-time {
+    margin-top: 10px;
+    color: #111827;
+    text-align: left;
+}
+
 .summer-camp-page .summer-week-session-price-old {
     color: #dc2626;
     font-size: 18px;
