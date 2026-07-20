@@ -240,6 +240,36 @@ Do not combine this with test setup.
 7. Run final browser checks, syntax checks, secret scans, and repository status checks.
 8. Commit and push only the intended website and period-backend files when requested or when repository instructions require publishing.
 
+## GitHub Pages deployment recovery
+
+After publishing a registration-page change, check the GitHub Pages workflow before treating the live site as updated:
+
+```powershell
+gh run list --repo SparkPreneurs/sparkpreneurs.github.io --limit 5
+gh run view <run-id> --repo SparkPreneurs/sparkpreneurs.github.io --log-failed
+```
+
+If `gh` is not recognized, give the user only this recovery step:
+
+```text
+1. Install GitHub CLI from https://cli.github.com/.
+2. Open a new terminal and run `gh auth login`, then complete the sign-in prompts for GitHub.com.
+3. Restart the terminal or Codex session so `gh` is available.
+
+Tell me when that is complete. Do not send any GitHub token or password.
+```
+
+After the user confirms, run `gh --version` and `gh auth status` yourself before returning to the failed deployment. Do not guess from a stale custom-domain page or repeatedly ask the user to reinstall the CLI.
+
+If the failed log shows a GitHub API `5xx` error while GitHub Pages or Jekyll calls the repository Pages API, the source build did not prove a code error. Rerun only the failed jobs, then watch the rerun:
+
+```powershell
+gh run rerun <run-id> --repo SparkPreneurs/sparkpreneurs.github.io --failed
+gh run watch <run-id> --repo SparkPreneurs/sparkpreneurs.github.io --exit-status
+```
+
+If a rerun fails with the same repository-file error, inspect and fix that file. If it fails again with a GitHub API `5xx`, report the external outage evidence and wait before trying another rerun.
+
 ## Repair workflow
 
 For an existing broken flow, inspect before changing anything:
