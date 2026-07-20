@@ -3601,8 +3601,8 @@ body.movement-theme .custom-time-note {
 }
 
 .summer-week-session-price-old {
-    color: #78716c;
-    font-size: 0.72em;
+    color: #dc2626;
+    font-size: 0.82em;
     font-weight: 700;
     text-decoration: line-through;
     text-decoration-thickness: 2px;
@@ -3652,7 +3652,7 @@ body.movement-theme .custom-time-note {
 }
 
 .summer-week-session-button.is-selected .summer-week-session-price-old {
-    color: rgba(255, 255, 255, 0.74);
+    color: #ff6b6b;
 }
 
 .summer-week-session-button.is-selected .summer-week-session-cta {
@@ -6626,6 +6626,13 @@ body.program-detail-page .btn-secondary:hover {
     font-size: clamp(28px, 3.2vw, 38px);
 }
 
+.summer-camp-page .summer-week-section-title--offer {
+    display: inline;
+    color: #b45309;
+    background: linear-gradient(180deg, rgba(255, 244, 178, 0) 48%, #fde047 48%);
+    font-weight: 800;
+}
+
 .summer-camp-page .summer-week-section-note {
     max-width: 360px;
     font-size: 22px;
@@ -6754,9 +6761,9 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .summer-camp-page .summer-week-session-price-old {
-    color: #8a6f51;
+    color: #dc2626;
     font-family: 'Fredoka', sans-serif;
-    font-size: 17px;
+    font-size: 20px;
     text-decoration-color: currentColor;
 }
 
@@ -6783,7 +6790,7 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-old {
-    color: rgba(255, 255, 255, 0.72);
+    color: #ff6b6b;
 }
 
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-new {
@@ -7231,8 +7238,8 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .summer-camp-page .summer-week-session-price-old {
-    color: #6f7786;
-    font-size: 15px;
+    color: #dc2626;
+    font-size: 18px;
 }
 
 .summer-camp-page .summer-week-session-price-new {
@@ -7257,7 +7264,7 @@ body.program-detail-page .btn-secondary:hover {
 }
 
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-old {
-    color: rgba(255, 255, 255, 0.72);
+    color: #ff6b6b;
 }
 
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-new {
@@ -7267,6 +7274,20 @@ body.program-detail-page .btn-secondary:hover {
 .summer-camp-page .summer-week-section--closed {
     padding-top: 8px;
     border-top: 1px solid rgba(6, 28, 73, 0.12);
+}
+
+.summer-camp-page .summer-week-section-title--offer {
+    color: #b45309;
+    background: linear-gradient(180deg, rgba(255, 244, 178, 0) 48%, #fde047 48%);
+}
+
+.summer-camp-page .summer-week-session-price-old {
+    color: #dc2626;
+    font-size: 18px;
+}
+
+.summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-old {
+    color: #ff6b6b;
 }
 
 .summer-camp-page .summer-week-card--closed {
