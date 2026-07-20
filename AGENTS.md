@@ -115,6 +115,7 @@ Run browser checks after changing layouts, responsive behavior, forms, buttons, 
 - Tell the user plainly what is unavailable, why it blocks the current task, and the exact step they need to take. Give one small step at a time and wait for their confirmation.
 - Keep the original task paused at the failed check. Once the user confirms the tool works, resume from that exact point rather than restarting the work.
 - Do not create project files while preparing a missing test dependency. Keep any user-requested setup command outside the repository.
+- Exception: if the same tool failure recurs after the user reports completing the requested recovery step, record the repeated failure and continue the original task with the best available alternative. State that the blocked tool was not verified; do not ask the user to repeat the same ineffective step.
 
 Use these user setup steps when they match the blocker:
 
