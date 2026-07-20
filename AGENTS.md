@@ -145,6 +145,8 @@ Minimum UI verification:
 
 For registration and payment changes, follow the skill's complete test order. Do not test a deployed endpoint until the user has copied the period-specific `.gs` file, run the required setup and authorization functions, deployed a new Web App version, and sent the `/exec` URL.
 
+For registration button readiness, run `npm install` once, then use `npm run test:pottery-checkout` for Adult Hand Pottery or `npm run test:registration-readiness -- --help` to adapt the root test script for another page. This test uses only `ping` requests and cart clicks; it never creates a Stripe Checkout Session or writes a registration.
+
 Summarize checks in plain language, for example: `I checked the phone-size layout and the registration button stays visible.`
 
 ## Code Checks
