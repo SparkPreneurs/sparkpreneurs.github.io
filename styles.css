@@ -3600,6 +3600,18 @@ body.movement-theme .custom-time-note {
     line-height: 1;
 }
 
+.summer-week-session-price-old {
+    color: #78716c;
+    font-size: 0.72em;
+    font-weight: 700;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.summer-week-session-price-new {
+    color: inherit;
+}
+
 .summer-week-session-bottom {
     display: flex;
     align-items: center;
@@ -3637,6 +3649,10 @@ body.movement-theme .custom-time-note {
 .summer-week-session-button.is-selected .summer-week-session-copy small,
 .summer-week-session-button.is-selected .summer-week-session-price {
     color: #ffffff;
+}
+
+.summer-week-session-button.is-selected .summer-week-session-price-old {
+    color: rgba(255, 255, 255, 0.74);
 }
 
 .summer-week-session-button.is-selected .summer-week-session-cta {
@@ -6728,8 +6744,24 @@ body.program-detail-page .btn-secondary:hover {
 
 .summer-camp-page .summer-week-session-price {
     color: #d97706;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
     font-family: 'Lora', serif;
     font-size: 28px;
+    line-height: 1;
+}
+
+.summer-camp-page .summer-week-session-price-old {
+    color: #8a6f51;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    text-decoration-color: currentColor;
+}
+
+.summer-camp-page .summer-week-session-price-new {
+    color: #d97706;
 }
 
 .summer-camp-page .summer-week-session-cta {
@@ -6747,6 +6779,14 @@ body.program-detail-page .btn-secondary:hover {
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-copy small,
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price,
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-cta {
+    color: #ffffff;
+}
+
+.summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-old {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-new {
     color: #ffffff;
 }
 
@@ -7180,9 +7220,23 @@ body.program-detail-page .btn-secondary:hover {
 
 .summer-camp-page .summer-week-session-price {
     color: #061c49;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
     font-family: 'Fredoka', sans-serif;
     font-size: 22px;
     font-weight: 700;
+    line-height: 1;
+}
+
+.summer-camp-page .summer-week-session-price-old {
+    color: #6f7786;
+    font-size: 15px;
+}
+
+.summer-camp-page .summer-week-session-price-new {
+    color: #061c49;
 }
 
 .summer-camp-page .summer-week-session-button:hover {
@@ -7199,6 +7253,14 @@ body.program-detail-page .btn-secondary:hover {
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-copy strong,
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-copy small,
 .summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price {
+    color: #ffffff;
+}
+
+.summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-old {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.summer-camp-page .summer-week-session-button.is-selected .summer-week-session-price-new {
     color: #ffffff;
 }
 
