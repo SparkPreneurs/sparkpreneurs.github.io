@@ -106,22 +106,27 @@ If the user asks only to inspect, map, explain, or diagnose a flow, use the skil
 
 ## Browser Checks
 
-Run browser checks after changing layouts, responsive behavior, forms, buttons, carts, payment flows, images, or navigation. Do not ask the user to install or run testing tools.
+Run browser checks after changing layouts, responsive behavior, forms, buttons, carts, payment flows, images, or navigation.
 
-If Playwright is not ready, install Chromium:
+### Required Tool Blockers
+
+- Before a check, confirm that every required tool is available and starts correctly. This includes Playwright, a browser runtime, Node, Python, and any task-specific dependency.
+- If a required tool is missing, cannot be installed, cannot start, or fails before it can perform the required check, pause the current task. Do not silently skip the check, substitute another tool, or claim verification passed.
+- Tell the user plainly what is unavailable, why it blocks the current task, and the exact step they need to take. Give one small step at a time and wait for their confirmation.
+- Keep the original task paused at the failed check. Once the user confirms the tool works, resume from that exact point rather than restarting the work.
+- Do not create project files while preparing a missing test dependency. Keep any user-requested setup command outside the repository.
+
+Use these user setup steps when they match the blocker:
 
 ```powershell
+# Install the Playwright browser required for browser checks.
 npx playwright install chromium
+
+# Confirm that Python is installed and available in a new terminal.
+python --version
 ```
 
-If an inline script cannot find Playwright, install it in a temporary folder outside the repository:
-
-```powershell
-$tmp = Join-Path $env:TEMP 'sparkpreneurs-pw-check'
-New-Item -ItemType Directory -Force -Path $tmp | Out-Null
-npm install --prefix $tmp --no-save playwright
-$env:NODE_PATH = Join-Path $tmp 'node_modules'
-```
+If either command is not recognized or fails, ask the user to install the missing program, restart their terminal or Codex session, run the command again, and report the result before continuing.
 
 Use a local file URL for quick static checks:
 
