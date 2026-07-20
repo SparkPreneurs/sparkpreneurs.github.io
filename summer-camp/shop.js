@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: '2', date: 'July 13-17', theme: '3D Storybook Makers', sessionPriceCents: 10500, closed: true },
         { id: '3', date: 'July 20-24', theme: 'Around the World', sessionPriceCents: 10500, closed: true },
         { id: '4', date: 'July 27-31', theme: 'Dream House Designers', sessionPriceCents: 10500, closed: true },
-        { id: '5', date: 'August 4-7', theme: 'Fashion Week', sessionPriceCents: 10500, fourDay: true },
+        { id: '5', date: 'August 4-7', theme: 'Fashion Week', sessionPriceCents: 8400, fourDay: true },
         { id: '6', date: 'August 10-14', theme: 'Young Chef Creations 2', sessionPriceCents: 10500 },
         { id: '7', date: 'August 17-21', theme: '3D Storybook Makers', sessionPriceCents: 10500 },
         { id: '8', date: 'August 24-28', theme: 'Dream House Designers', sessionPriceCents: 10500 }
@@ -49,10 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return `$${Math.round(cents / 100)}`;
     }
 
-    function salePriceMarkup(newPriceCents) {
+    function salePriceMarkup(newPriceCents, oldPriceCents) {
         return `
             <span class="summer-week-session-price">
-                <span class="summer-week-session-price-old">${formatWholeDollarCents(newPriceCents * 2)}</span>
+                <span class="summer-week-session-price-old">${formatWholeDollarCents(oldPriceCents)}</span>
                 <span class="summer-week-session-price-new">${formatWholeDollarCents(newPriceCents)}</span>
             </span>
         `;
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <strong>Morning</strong>
                                             <small>${SESSION_TIMES.AM}</small>
                                         </span>
-                                        ${salePriceMarkup(week.sessionPriceCents)}
+                                        ${salePriceMarkup(week.sessionPriceCents, 21000)}
                                     </span>
                                 </button>
                                 <button class="summer-week-session-button" type="button" data-session="PM">
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <strong>Afternoon</strong>
                                             <small>${SESSION_TIMES.PM}</small>
                                         </span>
-                                        ${salePriceMarkup(week.sessionPriceCents)}
+                                        ${salePriceMarkup(week.sessionPriceCents, 21000)}
                                     </span>
                                 </button>
                                 <button class="summer-week-session-button summer-week-session-button--full" type="button" data-session="FULL">
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <strong>Full Day</strong>
                                             <small>${SESSION_TIMES.FULL}</small>
                                         </span>
-                                        ${salePriceMarkup(week.sessionPriceCents * 2)}
+                                        ${salePriceMarkup(week.sessionPriceCents * 2, 42000)}
                                     </span>
                                 </button>
                             </div>
