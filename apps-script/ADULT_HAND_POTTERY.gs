@@ -2,7 +2,7 @@ const SPREADSHEET_ID = "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM";
 const PROGRAM_CODE = "adult_hand_building_pottery";
 const PROGRAM_NAME = "Adult Hand Pottery";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-07-19-2";
+const SCRIPT_VERSION = "2026-07-20-1";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 
@@ -435,12 +435,15 @@ function verifyPaidSession_(session, attempt, activeMode) {
 }
 
 function normalizeRegistration_(data) {
-  return Object.assign({
+  return {
     studentName: requireText_(data.studentName, "participant name", 100),
     parentName: requireText_(data.parentName, "contact name", 100),
     parentEmail: sanitizeEmail_(data.parentEmail, "contact email"),
-    phone: requireText_(data.phone, "phone", 40)
-  }, normalizeWaiver_(data));
+    phone: requireText_(data.phone, "phone", 40),
+    waiverAccepted: false,
+    waiverVersion: "",
+    waiverSignedDate: ""
+  };
 }
 
 function normalizeWaiver_(data) {

@@ -10,7 +10,7 @@ const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-07-19-1";
+const SCRIPT_VERSION = "2026-07-20-1";
 
 function doPost(e) {
   try {
@@ -192,7 +192,7 @@ function createCheckoutSession_(data) {
   const selectedWeeks = normalizeSelectedWeeks_(data.selectedWeeks);
   validateProgramSelections_(selectedWeeks, programCode);
   const displayedAmountCents = normalizeCents_(data.displayedAmountCents, "displayedAmountCents");
-  const registration = normalizeRegistration_(data);
+  const registration = normalizeRegistration_(data, programCode);
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const pricingSheetName = getPricingSheetName_(programCode);
   const pricingSheet = ss.getSheetByName(pricingSheetName);
@@ -246,9 +246,9 @@ function createCheckoutSession_(data) {
     "metadata[parentName]": registration.parentName,
     "metadata[parentEmail]": registration.parentEmail,
     "metadata[phone]": registration.phone,
-    "metadata[waiverAccepted]": "true",
-    "metadata[waiverVersion]": registration.waiverVersion,
-    "metadata[waiverSignedDate]": registration.waiverSignedDate,
+    "metadata[waiverAccepted]": registration.waiverAccepted ? "true" : "false",
+    "metadata[waiverVersion]": registration.waiverVersion || "",
+    "metadata[waiverSignedDate]": registration.waiverSignedDate || "",
     "metadata[expectedAmountCents]": String(pricing.totalCents),
     "payment_intent_data[metadata][orderId]": orderId,
     "payment_intent_data[metadata][programCode]": programCode,
@@ -266,40 +266,42 @@ function createCheckoutSession_(data) {
     createdAt: new Date().toISOString()
   });
 
-  logWaiverSubmission_({
-    submissionSource: "checkout",
-    submittedAt: new Date(),
-    programCode: programCode,
-    orderId: orderId,
-    stripeSessionId: checkoutSession.id,
-    studentName: registration.studentName,
-    parentName: registration.parentName,
-    parentEmail: registration.parentEmail,
-    phone: registration.phone,
-    waiverChildFullName: registration.waiverChildFullName,
-    childDateOfBirth: registration.childDateOfBirth,
-    waiverParentGuardianFullName: registration.waiverParentGuardianFullName,
-    waiverParentPhone: registration.waiverParentPhone,
-    waiverParentEmail: registration.waiverParentEmail,
-    emergencyContactName: registration.emergencyContactName,
-    emergencyContactPhone: registration.emergencyContactPhone,
-    emergencyContactRelationship: registration.emergencyContactRelationship,
-    medicalInformation: registration.medicalInformation,
-    medicalInformationConfirmed: registration.medicalInformationConfirmed,
-    waiverAcknowledged: registration.waiverAcknowledged,
-    photoConsent: registration.photoConsent,
-    authorizedPickup1Name: registration.authorizedPickup1Name,
-    authorizedPickup1Phone: registration.authorizedPickup1Phone,
-    authorizedPickup2Name: registration.authorizedPickup2Name,
-    authorizedPickup2Phone: registration.authorizedPickup2Phone,
-    authorizedPickup3Name: registration.authorizedPickup3Name,
-    authorizedPickup3Phone: registration.authorizedPickup3Phone,
-    waiverConfirmationName: registration.waiverConfirmationName,
-    electronicSignature: registration.electronicSignature,
-    waiverSignedDate: registration.waiverSignedDate,
-    waiverVersion: registration.waiverVersion,
-    waiverAccepted: registration.waiverAccepted
-  });
+  if (registration.waiverAccepted) {
+    logWaiverSubmission_({
+      submissionSource: "checkout",
+      submittedAt: new Date(),
+      programCode: programCode,
+      orderId: orderId,
+      stripeSessionId: checkoutSession.id,
+      studentName: registration.studentName,
+      parentName: registration.parentName,
+      parentEmail: registration.parentEmail,
+      phone: registration.phone,
+      waiverChildFullName: registration.waiverChildFullName,
+      childDateOfBirth: registration.childDateOfBirth,
+      waiverParentGuardianFullName: registration.waiverParentGuardianFullName,
+      waiverParentPhone: registration.waiverParentPhone,
+      waiverParentEmail: registration.waiverParentEmail,
+      emergencyContactName: registration.emergencyContactName,
+      emergencyContactPhone: registration.emergencyContactPhone,
+      emergencyContactRelationship: registration.emergencyContactRelationship,
+      medicalInformation: registration.medicalInformation,
+      medicalInformationConfirmed: registration.medicalInformationConfirmed,
+      waiverAcknowledged: registration.waiverAcknowledged,
+      photoConsent: registration.photoConsent,
+      authorizedPickup1Name: registration.authorizedPickup1Name,
+      authorizedPickup1Phone: registration.authorizedPickup1Phone,
+      authorizedPickup2Name: registration.authorizedPickup2Name,
+      authorizedPickup2Phone: registration.authorizedPickup2Phone,
+      authorizedPickup3Name: registration.authorizedPickup3Name,
+      authorizedPickup3Phone: registration.authorizedPickup3Phone,
+      waiverConfirmationName: registration.waiverConfirmationName,
+      electronicSignature: registration.electronicSignature,
+      waiverSignedDate: registration.waiverSignedDate,
+      waiverVersion: registration.waiverVersion,
+      waiverAccepted: registration.waiverAccepted
+    });
+  }
 
   return {
     success: true,
@@ -780,13 +782,21 @@ function parseRequest_(e) {
   return JSON.parse(e.postData.contents);
 }
 
-function normalizeRegistration_(data) {
+function normalizeRegistration_(data, programCode) {
   const registration = {
     studentName: requireText_(data.studentName, "studentName", 100),
     parentName: requireText_(data.parentName, "parentName", 100),
     parentEmail: sanitizeEmail_(data.parentEmail),
     phone: requireText_(data.phone, "phone", 40)
   };
+
+  if (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE) {
+    registration.waiverAccepted = false;
+    registration.waiverVersion = "";
+    registration.waiverSignedDate = "";
+    return registration;
+  }
+
   const waiver = normalizeWaiver_(data);
 
   Object.keys(waiver).forEach(function(key) {

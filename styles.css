@@ -7440,6 +7440,32 @@ body.program-detail-page .btn-secondary:hover {
     color: #ffffff;
 }
 
+.hand-building-pottery-page .hand-building-class-card {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+}
+
+.hand-building-pottery-page .hand-building-class-card .summer-week-body {
+    min-height: 230px;
+}
+
+.hand-building-pottery-page .hand-building-class-card .summer-week-title {
+    white-space: normal;
+}
+
+.hand-building-pottery-page .hand-building-class-card .summer-week-preview {
+    order: 2;
+    min-height: 0;
+    max-height: 250px;
+    border-right: 0;
+    border-left: 1px solid rgba(6, 28, 73, 0.08);
+}
+
+.hand-building-pottery-page .hand-building-class-card .summer-week-image {
+    max-width: 210px;
+    max-height: 210px;
+    margin: auto;
+}
+
 @media (max-width: 768px) {
     .summer-camp-page .summer-camp-price-strip {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -7476,6 +7502,27 @@ body.program-detail-page .btn-secondary:hover {
     .summer-camp-page .summer-week-card--open .summer-week-session-top {
         flex-direction: row;
         align-items: center;
+    }
+
+    .hand-building-pottery-page .hand-building-class-card {
+        grid-template-columns: 1fr;
+    }
+
+    .hand-building-pottery-page .hand-building-class-card .summer-week-body {
+        min-height: 0;
+    }
+
+    .hand-building-pottery-page .hand-building-class-card .summer-week-preview {
+        aspect-ratio: 4 / 3;
+        max-height: 190px;
+        border-left: 0;
+        border-top: 1px solid rgba(6, 28, 73, 0.08);
+        border-bottom: 0;
+    }
+
+    .hand-building-pottery-page .hand-building-class-card .summer-week-image {
+        max-width: 170px;
+        max-height: 160px;
     }
 }
 
