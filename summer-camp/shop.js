@@ -135,13 +135,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function makeSessionItem(week, session) {
-        const sessionLabel = session === 'AM' ? 'Morning' : 'Afternoon';
+        const sessionLabel = session === 'AM'
+            ? 'Morning'
+            : (session === 'PM' ? 'Afternoon' : 'Full Day');
+        const sessionTime = session === 'FULL'
+            ? `${SESSION_TIMES.AM} and ${SESSION_TIMES.PM}`
+            : SESSION_TIMES[session];
+        const selectedCodes = session === 'FULL'
+            ? [`W${week.id}AM`, `W${week.id}PM`]
+            : [`W${week.id}${session}`];
 
         return {
             code: `W${week.id}${session}`,
             weekId: week.id,
-            name: `Week ${week.id} ${sessionLabel}: ${week.theme} (${week.date}, ${SESSION_TIMES[session]})`,
-            priceCents: week.sessionPriceCents
+            session,
+            selectedCodes,
+            name: `Week ${week.id} ${sessionLabel}: ${week.theme} (${week.date}, ${sessionTime})`,
+            priceCents: week.sessionPriceCents * selectedCodes.length
         };
     }
 
@@ -172,13 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const weekId = card.dataset.weekId;
-            const hasSelection = selectedItems.has(`W${weekId}AM`) || selectedItems.has(`W${weekId}PM`);
+            const selectedItem = selectedItems.get(weekId);
+            const hasSelection = Boolean(selectedItem);
             card.classList.toggle('is-selected', hasSelection);
 
             card.querySelectorAll('[data-session]').forEach(button => {
-                const isSelected = button.dataset.session === 'FULL'
-                    ? selectedItems.has(`W${weekId}AM`) && selectedItems.has(`W${weekId}PM`)
-                    : selectedItems.has(`W${weekId}${button.dataset.session}`);
+                const isSelected = selectedItem && selectedItem.session === button.dataset.session;
                 const cta = button.querySelector('.summer-week-session-cta');
                 button.classList.toggle('is-selected', isSelected);
                 button.setAttribute('aria-pressed', String(isSelected));
@@ -220,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name.textContent = `${entry.name} - ${formatMoneyCents(entry.priceCents)}`;
             removeButton.className = 'summer-cart-remove';
             removeButton.type = 'button';
-            removeButton.dataset.removeSessionItem = entry.code;
+            removeButton.dataset.removeSessionItem = entry.weekId;
             removeButton.textContent = 'Remove';
             item.append(name, removeButton);
             cartList.appendChild(item);
@@ -242,12 +251,12 @@ document.addEventListener('DOMContentLoaded', function() {
         renderCart();
     }
 
-    function removeItem(code) {
-        if (!selectedItems.has(code)) {
+    function removeItem(weekId) {
+        if (!selectedItems.has(weekId)) {
             return;
         }
 
-        selectedItems.delete(code);
+        selectedItems.delete(weekId);
         updateShop();
     }
 
@@ -377,31 +386,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (button.dataset.session === 'FULL') {
-            const morningItem = makeSessionItem(week, 'AM');
-            const afternoonItem = makeSessionItem(week, 'PM');
-            const hasFullDay = selectedItems.has(morningItem.code) && selectedItems.has(afternoonItem.code);
-
-            if (hasFullDay) {
-                selectedItems.delete(morningItem.code);
-                selectedItems.delete(afternoonItem.code);
-            } else {
-                selectedItems.set(morningItem.code, morningItem);
-                selectedItems.set(afternoonItem.code, afternoonItem);
-            }
-
-            updateShop();
-            return;
-        }
-
         const item = makeSessionItem(week, button.dataset.session);
+        const selectedItem = selectedItems.get(week.id);
 
-        if (selectedItems.has(item.code)) {
-            removeItem(item.code);
+        if (selectedItem && selectedItem.session === item.session) {
+            removeItem(week.id);
             return;
         }
 
-        selectedItems.set(item.code, item);
+        selectedItems.set(week.id, item);
         updateShop();
     });
 
@@ -467,12 +460,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await postToAppsScript({
                 action: 'createCheckoutSession',
                 programCode,
-                selectedWeeks: entries.map(entry => entry.code),
-                selectedWeekDetails: entries.map(entry => ({
-                    code: entry.code,
+                selectedWeeks: entries.flatMap(entry => entry.selectedCodes),
+                selectedWeekDetails: entries.flatMap(entry => entry.selectedCodes.map(code => ({
+                    code,
                     name: entry.name,
-                    displayedPriceCents: entry.priceCents
-                })),
+                    displayedPriceCents: entry.priceCents / entry.selectedCodes.length
+                }))),
                 displayedAmountCents: totals.totalCents,
                 successUrl: `${pageUrl}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
                 cancelUrl: `${pageUrl}?payment=canceled#summer-camp`,
