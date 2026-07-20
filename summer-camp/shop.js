@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const HST_RATE = 0.13;
     const SESSION_TIMES = {
         AM: '10 AM-12 PM',
-        PM: '1-3 PM'
+        PM: '1-3 PM',
+        FULL: '10:00 AM - 3:00 PM'
     };
     const openGrid = shop.querySelector('[data-summer-open-grid]');
     const closedGrid = shop.querySelector('[data-summer-closed-grid]');
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <span class="summer-week-session-top">
                                         <span class="summer-week-session-copy">
                                             <strong>Full Day</strong>
-                                            <small>${SESSION_TIMES.AM} and ${SESSION_TIMES.PM}</small>
+                                            <small>${SESSION_TIMES.FULL}</small>
                                         </span>
                                         ${salePriceMarkup(week.sessionPriceCents * 2)}
                                     </span>
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ? 'Morning'
             : (session === 'PM' ? 'Afternoon' : 'Full Day');
         const sessionTime = session === 'FULL'
-            ? `${SESSION_TIMES.AM} and ${SESSION_TIMES.PM}`
+            ? SESSION_TIMES.FULL
             : SESSION_TIMES[session];
         const selectedCodes = session === 'FULL'
             ? [`W${week.id}AM`, `W${week.id}PM`]
