@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusEl = shop.querySelector('[data-hand-building-cart-status]');
     const appsScriptUrl = shop.dataset.appsScriptUrl || '';
     const programCode = shop.dataset.programCode || 'adult_hand_building_pottery';
+    const returnPageUrl = 'https://sparkpreneurs.ca/hand-building-pottery/';
     let selected = false;
     let isSubmitting = false;
     let backendReady = false;
@@ -262,7 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const totals = calculateTotals();
-        const pageUrl = `${window.location.origin}${window.location.pathname}`;
+        // Checkout returns must stay on the approved HTTPS site even if a visitor used an old HTTP link.
+        const pageUrl = returnPageUrl;
 
         isSubmitting = true;
         purchaseButton.disabled = true;
