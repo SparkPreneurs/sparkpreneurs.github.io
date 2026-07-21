@@ -5880,6 +5880,19 @@ body.program-detail-page .btn-secondary:hover {
     font-size: 13px;
 }
 
+.after-school-plan-price {
+    margin: 0 0 16px;
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.after-school-plan-price span {
+    color: rgba(6, 28, 73, 0.66);
+    font-size: 15px;
+}
+
 .after-school-add,
 .after-school-cart-request,
 .after-school-cart-clear,
@@ -5945,9 +5958,103 @@ body.program-detail-page .btn-secondary:hover {
     font-weight: 700;
 }
 
+.after-school-cart-item-price {
+    color: #c55a11;
+    font-family: 'Fredoka', cursive;
+    font-size: 18px;
+}
+
+.after-school-cart-totals {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(6, 28, 73, 0.06);
+}
+
+.after-school-cart-totals[hidden] {
+    display: none;
+}
+
+.after-school-cart-totals div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    color: rgba(6, 28, 73, 0.78);
+    font-family: 'Lora', serif;
+    font-size: 14px;
+}
+
+.after-school-cart-totals strong,
+.after-school-cart-total span {
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+}
+
+.after-school-cart-total {
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(6, 28, 73, 0.12);
+    font-size: 17px !important;
+}
+
+.after-school-registration-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.after-school-registration-form label {
+    display: grid;
+    gap: 6px;
+    color: #061c49;
+    font-family: 'Fredoka', cursive;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.after-school-registration-form input {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid rgba(6, 28, 73, 0.18);
+    border-radius: 14px;
+    padding: 10px 12px;
+    background: #fffdf9;
+    color: #061c49;
+    font: 600 15px 'Lora', serif;
+}
+
+.after-school-registration-form input:focus {
+    border-color: #061c49;
+    outline: 3px solid rgba(6, 28, 73, 0.12);
+}
+
 .after-school-cart-note {
     margin-top: 16px;
     font-size: 13px;
+}
+
+.after-school-cart-status {
+    min-height: 22px;
+    margin: 12px 0 0;
+    color: rgba(6, 28, 73, 0.78);
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.after-school-cart-status[data-status="error"] {
+    color: #b91c1c;
+}
+
+.after-school-cart-status[data-status="success"] {
+    color: #166534;
+}
+
+.after-school-cart-status[data-status="warning"],
+.after-school-cart-status[data-status="pending"] {
+    color: #9a3412;
 }
 
 .after-school-cart-actions {

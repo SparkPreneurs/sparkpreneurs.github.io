@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>After School | SparkPreneurs</title>
-    <link rel="stylesheet" href="../styles.css?v=20260720-after-school-facts">
+    <link rel="stylesheet" href="../styles.css?v=20260721-after-school-checkout">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="after-school-page">
@@ -38,7 +38,7 @@
                     <a class="summer-page-back" href="../camps/index.html">Back to programs</a>
                     <p class="after-school-kicker">After School Program</p>
                     <h1>Creative afternoons from school to pick-up.</h1>
-                    <p>Choose a weekly schedule, add it to your cart, and SparkPreneurs will confirm availability, pick-up options, and pricing before payment.</p>
+                    <p>Choose a weekly schedule, add it to your cart, and continue to secure payment. School pick-up is available from certain neighbourhood schools.</p>
                     <div class="after-school-hero-facts" aria-label="After school program details">
                         <span>3 PM-5 PM</span>
                         <span>3, 4, or 5 days/week</span>
@@ -51,17 +51,17 @@
             </div>
         </section>
 
-        <section class="after-school-shop" data-after-school-shop aria-labelledby="after-school-options-title">
+        <section class="after-school-shop" data-after-school-shop data-program-code="after_school_program" data-apps-script-url="https://script.google.com/macros/s/AKfycbxS5Sije9rB8Mz-VxwVmijgKim1itJNRNuZBiea5cMRrCBWFeCL4tW1muGU8vFVKU-r/exec" aria-labelledby="after-school-options-title">
             <div class="container after-school-shop-grid">
                 <div class="after-school-options">
                     <div class="after-school-section-head">
                         <p class="after-school-kicker">Schedule Options</p>
                         <h2 id="after-school-options-title">Pick the weekly rhythm that fits your family.</h2>
-                        <p>Each option runs from 3 PM to 5 PM. School pick-up is available from certain neighbourhood schools and will be confirmed after you send your request.</p>
+                        <p>Each option runs from 3 PM to 5 PM. School pick-up is available from certain neighbourhood schools and can be confirmed with SparkPreneurs.</p>
                     </div>
 
                     <div class="after-school-plan-grid">
-                        <article class="after-school-plan" data-after-school-plan="3 days/week">
+                        <article class="after-school-plan" data-after-school-plan="3 days/week" data-after-school-code="AFTER3" data-after-school-price="7200">
                             <div>
                                 <p class="after-school-plan-label">Flexible</p>
                                 <h3>3 days/week</h3>
@@ -71,10 +71,11 @@
                                 <span>3 PM-5 PM</span>
                                 <span>Pick-up option available</span>
                             </div>
+                            <p class="after-school-plan-price">$72/week <span>+ HST</span></p>
                             <button class="after-school-add" type="button" data-after-school-add="3 days/week">Add to Cart</button>
                         </article>
 
-                        <article class="after-school-plan" data-after-school-plan="4 days/week">
+                        <article class="after-school-plan" data-after-school-plan="4 days/week" data-after-school-code="AFTER4" data-after-school-price="8800">
                             <div>
                                 <p class="after-school-plan-label">Balanced</p>
                                 <h3>4 days/week</h3>
@@ -84,10 +85,11 @@
                                 <span>3 PM-5 PM</span>
                                 <span>Pick-up option available</span>
                             </div>
+                            <p class="after-school-plan-price">$88/week <span>+ HST</span></p>
                             <button class="after-school-add" type="button" data-after-school-add="4 days/week">Add to Cart</button>
                         </article>
 
-                        <article class="after-school-plan" data-after-school-plan="5 days/week">
+                        <article class="after-school-plan" data-after-school-plan="5 days/week" data-after-school-code="AFTER5" data-after-school-price="10000">
                             <div>
                                 <p class="after-school-plan-label">Full Week</p>
                                 <h3>5 days/week</h3>
@@ -97,6 +99,7 @@
                                 <span>3 PM-5 PM</span>
                                 <span>Pick-up option available</span>
                             </div>
+                            <p class="after-school-plan-price">$100/week <span>+ HST</span></p>
                             <button class="after-school-add" type="button" data-after-school-add="5 days/week">Add to Cart</button>
                         </article>
                     </div>
@@ -108,9 +111,42 @@
                         <ul class="after-school-cart-list" data-after-school-cart-list>
                             <li class="after-school-cart-empty">No option added yet.</li>
                         </ul>
-                        <p class="after-school-cart-note">Pricing is not published here yet. SparkPreneurs will confirm price, available days, and eligible school pick-up before payment.</p>
+                        <div class="after-school-cart-totals" data-after-school-cart-totals hidden>
+                            <div>
+                                <span>Subtotal</span>
+                                <strong data-after-school-subtotal>$0.00</strong>
+                            </div>
+                            <div>
+                                <span>HST</span>
+                                <strong data-after-school-hst>$0.00</strong>
+                            </div>
+                            <div class="after-school-cart-total">
+                                <span>Total</span>
+                                <strong data-after-school-total>$0.00</strong>
+                            </div>
+                        </div>
+                        <form class="after-school-registration-form" data-after-school-registration-form>
+                            <label>
+                                Student name
+                                <input type="text" name="studentName" autocomplete="name" required>
+                            </label>
+                            <label>
+                                Parent name
+                                <input type="text" name="parentName" autocomplete="name" required>
+                            </label>
+                            <label>
+                                Parent email
+                                <input type="email" name="parentEmail" autocomplete="email" required>
+                            </label>
+                            <label>
+                                Phone
+                                <input type="tel" name="phone" autocomplete="tel" required>
+                            </label>
+                        </form>
+                        <p class="after-school-cart-note">Only one weekly option can be checked out at a time. Eligible school pick-up can be confirmed with SparkPreneurs.</p>
+                        <p class="after-school-cart-status" data-after-school-cart-status role="status" aria-live="polite"></p>
                         <div class="after-school-cart-actions">
-                            <a class="after-school-cart-request is-disabled" href="../index.html#contact" data-after-school-request>Request Booking Details</a>
+                            <button class="after-school-cart-request is-disabled" type="button" data-after-school-checkout disabled>Continue to Secure Payment</button>
                             <button class="after-school-cart-clear" type="button" data-after-school-clear disabled>Clear Cart</button>
                         </div>
                     </div>
@@ -127,6 +163,6 @@
     </footer>
 
     <script src="../script.js?v=20260707-light-bg"></script>
-    <script src="shop.js?v=20260717-after-school"></script>
+    <script src="shop.js?v=20260721-after-school-checkout"></script>
 </body>
 </html>
