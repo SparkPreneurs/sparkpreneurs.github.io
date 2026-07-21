@@ -61,7 +61,7 @@ const DEFAULT_PRODUCTS = [
     startTime: "3 PM",
     endTime: "5 PM",
     priceCents: 7200,
-    taxRatePercent: 0,
+    taxRatePercent: 13,
     active: true,
     capacity: ""
   },
@@ -74,7 +74,7 @@ const DEFAULT_PRODUCTS = [
     startTime: "3 PM",
     endTime: "5 PM",
     priceCents: 8800,
-    taxRatePercent: 0,
+    taxRatePercent: 13,
     active: true,
     capacity: ""
   },
@@ -87,7 +87,7 @@ const DEFAULT_PRODUCTS = [
     startTime: "3 PM",
     endTime: "5 PM",
     priceCents: 10000,
-    taxRatePercent: 0,
+    taxRatePercent: 13,
     active: true,
     capacity: ""
   }
