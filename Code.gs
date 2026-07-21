@@ -731,7 +731,7 @@ function normalizeRegistration_(data, programCode) {
     phone: requireText_(data.phone, "phone", 40)
   };
 
-  if (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE) {
+  if (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE || programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE) {
     registration.waiverAccepted = false;
     registration.waiverVersion = "";
     registration.waiverSignedDate = "";

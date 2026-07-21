@@ -289,19 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    async function collectWaiverData(registrationData) {
-        if (!window.SparkPreneursWaiver) {
-            throw new Error('The required waiver could not be opened. Please refresh the page and try again.');
-        }
-
-        return window.SparkPreneursWaiver.collect({
-            childName: registrationData.studentName,
-            parentName: registrationData.parentName,
-            parentEmail: registrationData.parentEmail,
-            phone: registrationData.phone
-        });
-    }
-
     async function postToAppsScript(payload) {
         const response = await fetch(appsScriptUrl, {
             method: 'POST',
@@ -447,20 +434,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        let waiverData;
-
-        try {
-            waiverData = await collectWaiverData(registrationData);
-        } catch (error) {
-            setStatus(error.message, 'error');
-            return;
-        }
-
-        if (!waiverData) {
-            setStatus('Please complete and sign the required waiver before payment.', 'warning');
-            return;
-        }
-
         const totals = calculateTotals();
         const pageUrl = `${window.location.origin}${window.location.pathname}`;
 
@@ -483,8 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayedAmountCents: totals.totalCents,
                 successUrl: `${pageUrl}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
                 cancelUrl: `${pageUrl}?payment=canceled#summer-camp`,
-                ...registrationData,
-                ...waiverData
+                ...registrationData
             });
 
             if (!result.checkoutUrl) {
