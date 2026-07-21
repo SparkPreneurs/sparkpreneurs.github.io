@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(appsScriptUrl);
             const result = await response.json();
-            backendReady = Boolean(result.success && result.programCode === programCode);
-            setStatus(backendReady ? '' : 'Secure checkout will be available after the payment update is deployed.', backendReady ? '' : 'warning');
+            backendReady = Boolean(result.success && result.programCode === programCode && result.stripeMode === 'live');
+            setStatus(backendReady ? '' : 'Secure checkout is in test mode and will be available after live payment is enabled.', backendReady ? '' : 'warning');
         } catch (error) {
             backendReady = false;
             setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs to register.', 'warning');
