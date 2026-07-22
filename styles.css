@@ -8247,4 +8247,19 @@ body.program-detail-page .btn-secondary:hover {
     }
 }
 
+/* Keep linked program pages aligned with the home page on phones. */
+@media (max-width: 768px) {
+    body.kids-youth-page :is(h1, h2, h3, h4, .kids-youth-card-title),
+    body.adult-art-page :is(h1, h2, h3, h4),
+    body.movement-theme :is(h1, h2, h3, h4) {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    body.kids-youth-page :is(p, li, span, a, button, label, input, select, textarea),
+    body.adult-art-page :is(p, li, span, a, button, label, input, select, textarea),
+    body.movement-theme :is(p, li, span, a, button, label, input, select, textarea, .detail-tagline) {
+        font-family: 'Lora', Georgia, serif;
+    }
+}
+
 
