@@ -47,6 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    function syncSharedCart() {
+        if (!window.SparkPreneursCart) return;
+        window.SparkPreneursCart.setProgram({
+            id: 'hand-building-pottery',
+            title: 'Hand-Building Pottery',
+            checkoutUrl: `${window.location.pathname}#hand-building-pottery`,
+            items: selected ? [{ id: CLASS_ITEM.code, name: CLASS_ITEM.name, priceCents: CLASS_ITEM.priceCents }] : []
+        });
+    }
+
     function setStatus(message, type = '') {
         statusEl.textContent = message;
         statusEl.dataset.status = type;
@@ -67,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             totalsPanel.hidden = true;
             purchaseButton.disabled = true;
             clearButton.disabled = true;
+            syncSharedCart();
             return;
         }
 
@@ -90,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         grandTotalEl.textContent = formatMoneyCents(totals.totalCents);
         purchaseButton.disabled = isSubmitting || !backendReady;
         clearButton.disabled = isSubmitting;
+        syncSharedCart();
     }
 
     function getRegistrationData() {
@@ -217,6 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
         render();
     });
 
+    window.addEventListener('sparkpreneurs-cart-item-removed', function(event) {
+        if (event.detail.programId !== 'hand-building-pottery') return;
+        selected = false;
+        render();
+    });
+
     purchaseButton.addEventListener('click', async function() {
         if (!backendReady) {
             setStatus('Secure checkout will be available after the payment update is deployed.', 'warning');
@@ -275,6 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const savedProgram = window.SparkPreneursCart && window.SparkPreneursCart.getProgram('hand-building-pottery');
+    selected = Boolean(savedProgram && savedProgram.items.some(item => item.id === CLASS_ITEM.code));
     render();
     verifyReturnedPayment();
     checkBackendReady();

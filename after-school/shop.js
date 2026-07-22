@@ -39,6 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    function syncSharedCart() {
+        if (!window.SparkPreneursCart) return;
+        window.SparkPreneursCart.setProgram({
+            id: 'after-school',
+            title: 'After School',
+            checkoutUrl: `${window.location.pathname}#after-school`,
+            items: selectedPlan ? [{ id: selectedPlan.code, name: `${selectedPlan.name} (3 PM-5 PM)`, priceCents: selectedPlan.priceCents }] : []
+        });
+    }
+
     function setStatus(message, type = '') {
         if (!statusEl) {
             return;
@@ -163,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkoutButton.disabled = true;
             checkoutButton.classList.add('is-disabled');
             clearButton.disabled = true;
+            syncSharedCart();
             return;
         }
 
@@ -191,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutButton.disabled = !backendReady || isSubmitting;
         checkoutButton.classList.toggle('is-disabled', !backendReady || isSubmitting);
         clearButton.disabled = isSubmitting;
+        syncSharedCart();
     }
 
     shop.addEventListener('click', function(event) {
@@ -216,6 +228,12 @@ document.addEventListener('DOMContentLoaded', function() {
     clearButton.addEventListener('click', function() {
         selectedPlan = null;
         setStatus('');
+        render();
+    });
+
+    window.addEventListener('sparkpreneurs-cart-item-removed', function(event) {
+        if (event.detail.programId !== 'after-school') return;
+        selectedPlan = null;
         render();
     });
 
@@ -270,6 +288,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const savedProgram = window.SparkPreneursCart && window.SparkPreneursCart.getProgram('after-school');
+    if (savedProgram && savedProgram.items[0]) {
+        const savedCard = shop.querySelector(`[data-after-school-code="${savedProgram.items[0].id}"]`);
+        if (savedCard) selectedPlan = getPlanFromCard(savedCard);
+    }
     render();
     verifyReturnedPayment();
     checkBackendReady();

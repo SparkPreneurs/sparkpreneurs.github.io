@@ -180,6 +180,20 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    function syncSharedCart() {
+        if (!window.SparkPreneursCart) return;
+        window.SparkPreneursCart.setProgram({
+            id: 'summer-camp',
+            title: 'Summer Camp',
+            checkoutUrl: `${window.location.pathname}#summer-camp-booking`,
+            items: Array.from(selectedItems.values()).map(item => ({
+                id: item.code,
+                name: item.name,
+                priceCents: item.priceCents
+            }))
+        });
+    }
+
     function setStatus(message, type = '') {
         if (!statusEl) {
             return;
@@ -230,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cartList.innerHTML = '<li class="summer-cart-empty">No sessions added yet.</li>';
             totalsPanel.hidden = true;
             purchaseButton.disabled = true;
+            syncSharedCart();
             return;
         }
 
@@ -254,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hstEl.textContent = formatMoneyCents(totals.hstCents);
         grandTotalEl.textContent = formatMoneyCents(totals.totalCents);
         purchaseButton.disabled = isSubmitting || !backendReady;
+        syncSharedCart();
     }
 
     function updateShop() {
@@ -409,6 +425,12 @@ document.addEventListener('DOMContentLoaded', function() {
         removeItem(removeButton.dataset.removeSessionItem);
     });
 
+    window.addEventListener('sparkpreneurs-cart-item-removed', function(event) {
+        if (event.detail.programId !== 'summer-camp') return;
+        const item = Array.from(selectedItems.values()).find(entry => entry.code === event.detail.itemId);
+        if (item) removeItem(item.weekId);
+    });
+
     clearButton.addEventListener('click', function() {
         selectedItems.clear();
         updateShop();
@@ -474,6 +496,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     buildWeekCards();
+    const savedProgram = window.SparkPreneursCart && window.SparkPreneursCart.getProgram('summer-camp');
+    if (savedProgram) {
+        savedProgram.items.forEach(savedItem => {
+            const weekId = String(savedItem.id).match(/^W(\d+)(AM|PM|FULL)$/);
+            const week = weekId && getWeek(weekId[1]);
+            if (week && !week.closed) selectedItems.set(week.id, makeSessionItem(week, weekId[2]));
+        });
+    }
     syncCards();
     renderCart();
     verifyReturnedPayment();
