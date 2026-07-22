@@ -8883,4 +8883,11 @@ body .adult-art-form-field textarea {
     }
 }
 
+/* Keep the After School card action aligned with the Summer Camp action. */
+.kids-youth-card-action--camp-style {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+}
+
 
