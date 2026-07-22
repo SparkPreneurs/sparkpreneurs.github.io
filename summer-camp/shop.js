@@ -186,11 +186,13 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'summer-camp',
             title: 'Summer Camp',
             checkoutUrl: `${window.location.pathname}#summer-camp-booking`,
-            items: Array.from(selectedItems.values()).map(item => ({
-                id: item.code,
-                name: item.name,
-                priceCents: item.priceCents
-            }))
+            items: Array.from(selectedItems.values()).flatMap(item => item.selectedCodes.map(code => ({
+                id: code,
+                name: item.selectedCodes.length === 2
+                    ? item.name.replace('Full Day', code.endsWith('AM') ? 'Morning' : 'Afternoon')
+                    : item.name,
+                priceCents: item.priceCents / item.selectedCodes.length
+            })))
         });
     }
 
@@ -427,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('sparkpreneurs-cart-item-removed', function(event) {
         if (event.detail.programId !== 'summer-camp') return;
-        const item = Array.from(selectedItems.values()).find(entry => entry.code === event.detail.itemId);
+        const item = Array.from(selectedItems.values()).find(entry => entry.selectedCodes.includes(event.detail.itemId));
         if (item) removeItem(item.weekId);
     });
 
@@ -498,10 +500,16 @@ document.addEventListener('DOMContentLoaded', function() {
     buildWeekCards();
     const savedProgram = window.SparkPreneursCart && window.SparkPreneursCart.getProgram('summer-camp');
     if (savedProgram) {
+        const savedByWeek = {};
         savedProgram.items.forEach(savedItem => {
-            const weekId = String(savedItem.id).match(/^W(\d+)(AM|PM|FULL)$/);
-            const week = weekId && getWeek(weekId[1]);
-            if (week && !week.closed) selectedItems.set(week.id, makeSessionItem(week, weekId[2]));
+            const match = String(savedItem.id).match(/^W(\d+)(AM|PM)$/);
+            if (match) (savedByWeek[match[1]] ||= []).push(match[2]);
+        });
+        Object.keys(savedByWeek).forEach(weekId => {
+            const week = getWeek(weekId);
+            if (!week || week.closed) return;
+            const sessions = savedByWeek[weekId];
+            selectedItems.set(week.id, makeSessionItem(week, sessions.includes('AM') && sessions.includes('PM') ? 'FULL' : sessions[0]));
         });
     }
     syncCards();

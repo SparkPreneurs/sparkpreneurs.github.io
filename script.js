@@ -2,7 +2,7 @@
 (function() {
     if (window.SparkPreneursCart || document.querySelector('script[data-shared-cart-script]')) return;
     const sharedCartScript = document.createElement('script');
-    sharedCartScript.src = new URL('shared-cart.js', document.currentScript.src).href;
+    sharedCartScript.src = new URL('shared-cart.js?v=20260722-unified', document.currentScript.src).href;
     sharedCartScript.dataset.sharedCartScript = 'true';
     document.head.appendChild(sharedCartScript);
 }());
