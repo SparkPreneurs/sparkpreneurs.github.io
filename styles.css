@@ -5609,7 +5609,19 @@ body.program-detail-page .btn-secondary:hover {
     }
 
     .nav-link {
+        font-family: 'Lora', Georgia, serif;
         font-size: 18px;
+    }
+
+    .hero-intro-name,
+    .hero-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .hero-subtitle,
+    .hero .btn-primary,
+    .hero .btn-secondary {
+        font-family: 'Lora', Georgia, serif;
     }
 
     .hero {
