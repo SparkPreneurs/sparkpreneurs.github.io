@@ -5140,8 +5140,8 @@ body.workshops-page .kids-youth-hero-copy--overlay .kids-youth-actions {
 }
 
 .kids-youth-card-tag--coming {
-    background: #ffedd5;
-    color: #9a3412;
+    background: var(--color-accent);
+    color: #ffffff;
 }
 
 .kids-youth-card-tags {
