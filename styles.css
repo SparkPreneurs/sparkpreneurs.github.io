@@ -1,4 +1,5 @@
 @import url("shared-cart.css?v=20260722-unified");
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap');
 
 /* Section Styles */
 .section-header {
@@ -4373,6 +4374,34 @@ body.movement-theme .custom-time-note {
     --sage: #667c6b;
     --line: rgba(41, 35, 31, 0.14);
     --shadow-soft: 0 20px 55px rgba(70, 55, 40, 0.12);
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Lora', Georgia, serif;
+    --color-primary: #061c49;
+    --color-secondary: #0a2d72;
+    --color-accent: #b85f3e;
+    --color-text: #29231f;
+    --color-muted: #594d43;
+    --color-background: #f7eadb;
+    --color-surface: #fff6ec;
+    --color-border: rgba(41, 35, 31, 0.14);
+    --container-width: 1320px;
+    --container-padding-desktop: 28px;
+    --container-padding-tablet: 24px;
+    --container-padding-mobile: 20px;
+    --section-spacing-desktop: 72px;
+    --section-spacing-tablet: 56px;
+    --section-spacing-mobile: 40px;
+    --radius-small: 8px;
+    --radius-medium: 12px;
+    --radius-card: 16px;
+    --radius-button: 8px;
+    --shadow-small: 0 8px 20px rgba(41, 35, 31, 0.08);
+    --shadow-card: 0 18px 38px rgba(41, 35, 31, 0.14);
+    --shadow-hover: 0 26px 54px rgba(41, 35, 31, 0.2);
+    --hero-height-home: 760px;
+    --hero-height-page-desktop: 420px;
+    --hero-height-page-tablet: 360px;
+    --hero-height-page-mobile: 320px;
 }
 
 body {
@@ -8249,18 +8278,530 @@ body.program-detail-page .btn-secondary:hover {
     }
 }
 
-/* Keep every page aligned with the home page on phones. */
+/* Unified Home-page design system for every route. */
+html {
+    background: var(--color-background);
+}
+
+body {
+    min-width: 320px;
+    font-family: var(--font-body);
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+body :is(h1, h2, h3, h4, h5, h6, [class*="title"]:not([class*="subtitle"]), [class*="heading"]) {
+    font-family: var(--font-heading) !important;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+body :is(p, li, span, a, button, label, input, select, textarea, option, td, th, [class*="subtitle"], [class*="tagline"], [class*="description"], [class*="label"], [class*="badge"], [class*="chip"], [class*="kicker"], [class*="eyebrow"]) {
+    font-family: var(--font-body) !important;
+}
+
+.container {
+    width: min(100%, var(--container-width));
+    max-width: var(--container-width);
+    padding-inline: var(--container-padding-desktop);
+}
+
+.header {
+    background: rgba(247, 234, 219, 0.94);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+}
+
+.nav {
+    min-height: 82px;
+    max-width: var(--container-width);
+    padding: 4px var(--container-padding-desktop);
+}
+
+.nav-menu {
+    gap: clamp(18px, 2.1vw, 32px);
+}
+
+.nav-link {
+    color: var(--color-text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+    color: var(--color-accent);
+}
+
+:is(.btn-primary, .cta-button, .program-button, .summer-selector-button, .summer-cart-purchase, .after-school-cart-request, .after-school-add, .adult-art-card-button, .kids-youth-card-action, .event-page-button-primary, .about-link-button) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-button);
+    background: var(--color-primary);
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:is(.btn-secondary, .btn-outline, .summer-cart-clear, .after-school-cart-clear, .event-page-button-secondary) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-button);
+    background: transparent;
+    color: var(--color-primary);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:is(.btn-primary, .cta-button, .program-button, .summer-selector-button, .summer-cart-purchase, .after-school-cart-request, .after-school-add, .adult-art-card-button, .event-page-button-primary, .about-link-button):hover:not(:disabled),
+:is(.btn-secondary, .btn-outline, .summer-cart-clear, .after-school-cart-clear, .event-page-button-secondary):hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-small);
+}
+
+:is(a, button, input, select, textarea):focus-visible {
+    outline: 3px solid rgba(184, 95, 62, 0.35);
+    outline-offset: 3px;
+}
+
+:is(.program-card, .kids-youth-card, .adult-art-card, .summer-week-card, .after-school-plan, .event-page-card, .event-page-panel, .about-page-card, .detail-card, .info-block, .summer-cart-card, .after-school-cart-card, .adult-art-interest-shell, .kids-youth-interest-shell) {
+    border-color: var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+:is(.program-card, .kids-youth-card, .adult-art-card, .summer-week-card, .after-school-plan, .event-page-card, .about-page-card):hover {
+    box-shadow: var(--shadow-hover);
+}
+
+:is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+    min-height: 48px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    background: #ffffff;
+    color: var(--color-text);
+    font-family: var(--font-body) !important;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+:is(input:not([type="checkbox"]):not([type="radio"]), select, textarea):focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(184, 95, 62, 0.15);
+    outline: none;
+}
+
+.footer,
+.program-detail-footer {
+    margin-top: 0;
+    padding: 48px 0 24px;
+    background: #c6d29b;
+    color: #243116;
+}
+
+.footer :is(p, a, h4),
+.program-detail-footer :is(p, a, h4) {
+    color: #243116;
+}
+
+.program-detail-footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.program-detail-footer p {
+    max-width: 760px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.page-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: var(--hero-height-page-desktop);
+    padding: 120px 0 44px;
+}
+
+.page-hero--adult-art {
+    display: flex;
+    align-items: flex-end;
+    min-height: 420px;
+    padding: 70px 0 44px;
+    overflow: hidden;
+    color: #ffffff;
+    background:
+        linear-gradient(90deg, rgba(6, 28, 73, 0.84) 0%, rgba(6, 28, 73, 0.58) 48%, rgba(6, 28, 73, 0.2) 100%),
+        url('assets/sp-studio-adult.png') center / cover no-repeat;
+}
+
+.page-hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+}
+
+.page-hero__eyebrow {
+    margin: 0 0 8px;
+    color: #f2d9be;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.page-hero__content h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(40px, 4.8vw, 60px);
+    line-height: 1;
+}
+
+.page-hero__tagline {
+    margin: 12px 0 0;
+    color: #ffffff;
+    font-size: clamp(19px, 2vw, 24px);
+    font-weight: 700;
+}
+
+.page-hero__lead {
+    max-width: 660px;
+    margin: 12px 0 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.page-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.page-hero--adult-art .btn-secondary {
+    border-color: rgba(255, 255, 255, 0.8);
+    color: #ffffff !important;
+}
+
+.kids-youth-hero.page-hero {
+    min-height: var(--hero-height-page-desktop);
+    padding: 106px 0 34px;
+}
+
+.kids-youth-hero.page-hero .kids-youth-hero-layout--overlay {
+    min-height: 280px;
+}
+
+.program-detail-hero.page-hero {
+    display: flex;
+    align-items: center;
+    min-height: 360px;
+    padding: 70px 0 44px;
+}
+
+.about-page-hero.page-hero,
+.event-page-hero.page-hero,
+.after-school-hero.page-hero {
+    min-height: 0;
+    padding: 72px 0 44px;
+}
+
+.about-page-hero.page-hero,
+.event-page-hero.page-hero {
+    padding-top: 100px;
+}
+
+.waiver-page-hero.page-hero--minimal {
+    min-height: 0;
+    padding: 116px 0 48px;
+}
+
+.summer-camp-banner,
+.hand-building-pottery-page .summer-camp-banner {
+    padding-top: 122px;
+    padding-bottom: 56px;
+}
+
+.after-school-hero-card img {
+    aspect-ratio: 16 / 10;
+}
+
+.event-page-photo img,
+.about-page-photo img {
+    aspect-ratio: 16 / 9;
+}
+
+.program-detail-snapshot {
+    padding: 0 0 48px;
+}
+
+.program-detail-snapshot-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(300px, 0.7fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.program-detail-summary {
+    padding: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.program-detail-summary .detail-highlights {
+    margin: 0 0 20px;
+}
+
+.program-detail-summary .detail-intro {
+    margin: 0;
+}
+
+.adult-art-programs {
+    padding-top: 56px;
+}
+
+@keyframes sparkle-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.sparkle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+    transform: scale(0);
+    animation: sparkle-animation 0.6s linear;
+    pointer-events: none;
+}
+
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding-inline: var(--container-padding-tablet);
+    }
+
+    .nav-menu {
+        gap: 18px;
+    }
+
+    .page-hero {
+        min-height: var(--hero-height-page-tablet);
+        padding-top: 112px;
+    }
+
+    .kids-youth-hero.page-hero .kids-youth-hero-layout--overlay {
+        min-height: 240px;
+    }
+}
+
 @media (max-width: 768px) {
-    body {
-        font-family: 'Lora', Georgia, serif !important;
+    .container {
+        padding-inline: var(--container-padding-mobile);
     }
 
-    body :is(h1, h2, h3, h4, h5, h6, [class*="title"], [class*="heading"]) {
-        font-family: 'Cormorant Garamond', Georgia, serif !important;
+    .nav {
+        min-height: 70px;
+        padding-inline: var(--container-padding-mobile);
     }
 
-    body :is(p, li, span, a, button, label, input, select, textarea, option, td, th, [class*="subtitle"], [class*="tagline"], [class*="description"], [class*="label"], [class*="badge"], [class*="chip"], [class*="kicker"], [class*="eyebrow"]) {
-        font-family: 'Lora', Georgia, serif !important;
+    .nav-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: var(--container-padding-mobile);
+        left: var(--container-padding-mobile);
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        padding: 10px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-card);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-card);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .nav-menu .nav-link {
+        display: block;
+        min-height: 44px;
+        padding: 12px 10px;
+    }
+
+    .page-hero {
+        min-height: var(--hero-height-page-mobile);
+        padding: 100px 0 30px;
+    }
+
+    .page-hero__content h1 {
+        font-size: clamp(34px, 10vw, 44px);
+    }
+
+    .page-hero__lead {
+        font-size: 16px;
+    }
+
+    .page-hero__actions,
+    .page-hero__actions :is(.btn-primary, .btn-secondary) {
+        width: 100%;
+    }
+
+    .page-hero--adult-art {
+        align-items: center;
+        min-height: var(--hero-height-page-mobile);
+        padding: 20px 0;
+    }
+
+    .page-hero--adult-art .page-hero__eyebrow {
+        margin-bottom: 4px;
+        font-size: 12px;
+    }
+
+    .page-hero--adult-art .page-hero__content h1 {
+        font-size: 34px;
+    }
+
+    .page-hero--adult-art .page-hero__tagline {
+        margin-top: 6px;
+        font-size: 19px;
+    }
+
+    .page-hero--adult-art .page-hero__lead {
+        margin-top: 6px;
+        font-size: 15px;
+        line-height: 1.42;
+    }
+
+    .page-hero--adult-art .page-hero__actions {
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .page-hero--adult-art .page-hero__actions :is(.btn-primary, .btn-secondary) {
+        min-height: 44px;
+        padding-block: 10px;
+    }
+
+    .kids-youth-hero.page-hero {
+        min-height: 320px;
+        padding: 94px 0 28px;
+    }
+
+    .kids-youth-hero.page-hero .kids-youth-hero-layout--overlay {
+        min-height: 198px;
+    }
+
+    .program-detail-hero.page-hero,
+    .about-page-hero.page-hero,
+    .event-page-hero.page-hero,
+    .after-school-hero.page-hero,
+    .waiver-page-hero.page-hero--minimal {
+        min-height: 0;
+        padding: 36px 0 28px;
+    }
+
+    .about-page-hero.page-hero,
+    .event-page-hero.page-hero {
+        padding-top: 92px;
+    }
+
+    .program-detail-hero.page-hero {
+        display: block;
+        min-height: 0;
+    }
+
+    .program-detail-hero.page-hero .detail-text h1 {
+        margin-bottom: 6px;
+        font-size: 36px;
+    }
+
+    .program-detail-hero.page-hero .detail-tagline {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .program-detail-hero.page-hero .detail-intro {
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .program-detail-snapshot {
+        padding-bottom: 32px;
+    }
+
+    .program-detail-snapshot-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .program-detail-summary,
+    .program-detail-snapshot .detail-card {
+        padding: 20px;
+    }
+
+    .summer-camp-banner,
+    .hand-building-pottery-page .summer-camp-banner {
+        padding: 96px 0 40px;
+    }
+
+    .after-school-hero-card img {
+        aspect-ratio: 16 / 8;
+    }
+
+    .about-page-photo,
+    .event-page-photo,
+    .after-school-hero-card {
+        display: none;
+    }
+
+    .adult-art-programs {
+        padding-top: 36px;
+    }
+
+    .program-detail-footer .container {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .program-detail-footer .btn-secondary {
+        width: 100%;
     }
 }
 
