@@ -8541,6 +8541,24 @@ body :is(p, li, span, a, button, label, input, select, textarea, option, td, th,
     aspect-ratio: 16 / 10;
 }
 
+.after-school-page .after-school-hero-copy h1 {
+    font-family: var(--font-heading) !important;
+    font-size: 54px;
+    line-height: 1;
+}
+
+.after-school-page .after-school-hero-copy > p,
+.after-school-page .after-school-section-head p,
+.after-school-page .after-school-plan p {
+    font-family: var(--font-body) !important;
+    font-size: 19px;
+}
+
+.after-school-page .after-school-section-head h2,
+.after-school-page .after-school-plan h3 {
+    font-family: var(--font-heading) !important;
+}
+
 .event-page-photo img,
 .about-page-photo img {
     aspect-ratio: 16 / 9;
@@ -8785,6 +8803,16 @@ button {
         aspect-ratio: 16 / 8;
     }
 
+    .after-school-page .after-school-hero-copy h1 {
+        font-size: 38px;
+    }
+
+    .after-school-page .after-school-hero-copy > p,
+    .after-school-page .after-school-section-head p,
+    .after-school-page .after-school-plan p {
+        font-size: 16px;
+    }
+
     .about-page-photo,
     .event-page-photo,
     .after-school-hero-card {
@@ -8888,6 +8916,25 @@ body .adult-art-form-field textarea {
     background: var(--color-primary);
     border-color: var(--color-primary);
     color: #ffffff;
+}
+
+/* Match the Home hero's responsive heading scale on After School. */
+@media (max-width: 1024px) {
+    .after-school-page .after-school-hero-copy h1 {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .after-school-page .after-school-hero-copy h1 {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 480px) {
+    .after-school-page .after-school-hero-copy h1 {
+        font-size: 32px;
+    }
 }
 
 
