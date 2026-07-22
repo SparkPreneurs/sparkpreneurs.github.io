@@ -8805,4 +8805,82 @@ button {
     }
 }
 
+/* Compact shared layout for the existing interest forms. */
+:is(.adult-art-interest-section, .kids-youth-interest) {
+    padding: 28px 0;
+}
+
+:is(.adult-art-interest-shell, .kids-youth-interest-shell) {
+    width: min(100%, 960px);
+    margin-inline: auto;
+    padding: 22px 24px;
+}
+
+:is(.adult-art-section-head--form, .kids-youth-interest-shell .kids-youth-section-head) {
+    margin-bottom: 16px;
+}
+
+:is(.adult-art-section-head--form, .kids-youth-interest-shell .kids-youth-section-head) h2 {
+    font-size: clamp(24px, 2.6vw, 30px);
+}
+
+:is(.adult-art-interest-form, .kids-youth-interest-form) {
+    gap: 14px;
+}
+
+:is(.adult-art-form-grid, .kids-youth-form-grid) {
+    gap: 12px;
+}
+
+:is(.adult-art-form-field, .kids-youth-form-field) {
+    gap: 5px;
+}
+
+body :is(.adult-art-form-field input, .adult-art-form-field select, .adult-art-form-field textarea, .kids-youth-form-field input, .kids-youth-form-field select, .kids-youth-form-field textarea) {
+    min-height: 44px;
+    padding: 9px 12px;
+    font-size: 15px;
+}
+
+body .adult-art-form-field textarea {
+    height: 82px;
+    min-height: 82px;
+}
+
+:is(.adult-art-form-check, .kids-youth-form-check) {
+    gap: 8px;
+}
+
+:is(.adult-art-form-check span, .kids-youth-form-check span) {
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+:is(.adult-art-form-submit, .kids-youth-form-submit) {
+    min-height: 44px;
+    padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+    :is(.adult-art-interest-section, .kids-youth-interest) {
+        padding: 24px 0;
+    }
+
+    :is(.adult-art-interest-shell, .kids-youth-interest-shell) {
+        padding: 18px;
+    }
+
+    :is(.adult-art-section-head--form, .kids-youth-interest-shell .kids-youth-section-head) {
+        margin-bottom: 12px;
+    }
+
+    :is(.adult-art-form-grid, .kids-youth-form-grid) {
+        gap: 10px;
+    }
+
+    :is(.adult-art-interest-form, .kids-youth-interest-form) {
+        gap: 12px;
+    }
+}
+
 
