@@ -8937,4 +8937,495 @@ body .adult-art-form-field textarea {
     }
 }
 
+/* Summer Zumba registration page */
+.zumba-page {
+    background: var(--cream);
+    color: var(--ink);
+}
+
+.zumba-page main {
+    overflow: hidden;
+}
+
+.zumba-page .hamburger {
+    padding: 2px;
+    border: 0;
+    background: transparent;
+}
+
+.zumba-page .hamburger:focus-visible {
+    outline: 3px solid rgba(184, 95, 62, 0.32);
+    outline-offset: 4px;
+}
+
+.zumba-hero {
+    padding: 154px 0 78px;
+    background:
+        radial-gradient(circle at 82% 18%, rgba(184, 95, 62, 0.2), transparent 34%),
+        linear-gradient(135deg, #fff6ec 0%, #f7eadb 58%, #f1d6c3 100%);
+}
+
+.zumba-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr);
+    gap: 64px;
+    align-items: center;
+}
+
+.zumba-hero-copy {
+    max-width: 660px;
+}
+
+.zumba-kicker,
+.zumba-option-label,
+.zumba-schedule-label,
+.zumba-cart-label {
+    color: var(--terracotta);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.zumba-hero-copy h1 {
+    margin: 14px 0 18px;
+    color: var(--aubergine);
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 600;
+    line-height: 0.94;
+}
+
+.zumba-hero-lead {
+    max-width: 40rem;
+    color: var(--muted-ink);
+    font-size: 1.125rem;
+    line-height: 1.7;
+}
+
+.zumba-hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0 28px;
+}
+
+.zumba-hero-facts span {
+    padding: 9px 13px;
+    border: 1px solid rgba(6, 28, 73, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.68);
+    color: var(--aubergine);
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.zumba-hero-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.zumba-hero-photo {
+    position: relative;
+    min-height: 500px;
+    overflow: hidden;
+    border: 1px solid rgba(6, 28, 73, 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+.zumba-hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(6, 28, 73, 0.22));
+    pointer-events: none;
+}
+
+.zumba-hero-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+.zumba-schedule,
+.zumba-registration {
+    padding: 88px 0;
+}
+
+.zumba-schedule {
+    background: #fffaf4;
+}
+
+.zumba-section-head {
+    max-width: 760px;
+    margin-bottom: 32px;
+}
+
+.zumba-section-head h2 {
+    margin: 8px 0 12px;
+    color: var(--aubergine);
+    font-family: var(--font-heading);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1;
+}
+
+.zumba-section-head > p:last-child {
+    color: var(--muted-ink);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}
+
+.zumba-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.zumba-schedule-card,
+.zumba-option-card,
+.zumba-cart-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: #fffdf9;
+    box-shadow: var(--shadow-soft);
+}
+
+.zumba-schedule-card {
+    padding: 28px;
+}
+
+.zumba-schedule-card--note {
+    background: var(--aubergine);
+}
+
+.zumba-schedule-card h3,
+.zumba-option-card h3 {
+    margin: 8px 0 12px;
+    color: var(--aubergine);
+    font-family: var(--font-heading);
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    line-height: 1.05;
+}
+
+.zumba-schedule-card ul {
+    padding-left: 20px;
+    color: var(--muted-ink);
+    line-height: 1.75;
+}
+
+.zumba-schedule-card--note h3,
+.zumba-schedule-card--note p {
+    color: #ffffff;
+}
+
+.zumba-registration {
+    background: linear-gradient(180deg, var(--cream) 0%, #f3dfcf 100%);
+}
+
+.zumba-shop-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    gap: 32px;
+    align-items: start;
+}
+
+.zumba-option-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.zumba-option-card {
+    display: flex;
+    min-height: 330px;
+    padding: 26px;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.zumba-option-card:hover,
+.zumba-option-card.is-selected {
+    transform: translateY(-3px);
+    border-color: var(--terracotta);
+    box-shadow: var(--shadow-hover);
+}
+
+.zumba-option-card > div > p:last-child {
+    color: var(--muted-ink);
+    line-height: 1.6;
+}
+
+.zumba-option-footer {
+    margin-top: 26px;
+}
+
+.zumba-option-price {
+    margin-bottom: 14px;
+    color: var(--aubergine);
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.zumba-option-price span {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.zumba-add,
+.zumba-checkout {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 20px;
+    border: 1px solid var(--aubergine);
+    border-radius: var(--radius-button);
+    background: var(--aubergine);
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.zumba-add:hover,
+.zumba-checkout:hover:not(:disabled) {
+    background: var(--brand-blue-hover);
+    border-color: var(--brand-blue-hover);
+    transform: translateY(-2px);
+}
+
+.zumba-add.is-added {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+}
+
+.zumba-cart {
+    position: sticky;
+    top: 106px;
+}
+
+.zumba-cart-card {
+    padding: 26px;
+}
+
+.zumba-cart-list {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.zumba-cart-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    border-radius: var(--radius-button);
+    background: var(--cream-soft);
+    color: var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+}
+
+.zumba-cart-empty {
+    color: var(--muted-ink);
+}
+
+.zumba-remove {
+    border: 0;
+    background: transparent;
+    color: var(--terracotta);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.zumba-cart-totals {
+    display: grid;
+    gap: 8px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.zumba-cart-totals > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--muted-ink);
+}
+
+.zumba-cart-total {
+    padding-top: 5px;
+    color: var(--aubergine) !important;
+    font-size: 1.125rem;
+}
+
+.zumba-form {
+    display: grid;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.zumba-form label {
+    display: grid;
+    gap: 7px;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.zumba-form input,
+.zumba-form select {
+    width: 100%;
+    min-height: 50px;
+    padding: 11px 12px;
+    border: 1px solid rgba(6, 28, 73, 0.2);
+    border-radius: var(--radius-button);
+    background: #ffffff;
+    color: var(--ink);
+    font-size: 16px;
+}
+
+.zumba-form input:focus,
+.zumba-form select:focus {
+    outline: none;
+    border-color: var(--aubergine);
+    box-shadow: 0 0 0 3px rgba(184, 95, 62, 0.16);
+}
+
+.zumba-form select:disabled {
+    background: #f3eee8;
+    color: #786e66;
+}
+
+.zumba-cart-note,
+.zumba-cart-status {
+    margin-top: 16px;
+    color: var(--muted-ink);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+.zumba-cart-status:empty {
+    display: none;
+}
+
+.zumba-cart-status[data-status="success"] {
+    color: #24613b;
+}
+
+.zumba-cart-status[data-status="error"],
+.zumba-cart-status[data-status="warning"] {
+    color: #9b3d2a;
+}
+
+.zumba-cart-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.zumba-clear {
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 1px solid rgba(6, 28, 73, 0.28);
+    border-radius: var(--radius-button);
+    background: transparent;
+    color: var(--aubergine);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.zumba-checkout:disabled,
+.zumba-clear:disabled {
+    cursor: not-allowed;
+    opacity: 0.52;
+}
+
+@media (max-width: 960px) {
+    .zumba-hero-grid,
+    .zumba-shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .zumba-hero-photo {
+        min-height: 430px;
+    }
+
+    .zumba-hero-photo img {
+        min-height: 430px;
+    }
+
+    .zumba-cart {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .zumba-hero {
+        padding: 132px 0 58px;
+    }
+
+    .zumba-hero-grid {
+        gap: 36px;
+    }
+
+    .zumba-hero-copy h1 {
+        font-size: clamp(2.75rem, 15vw, 4.25rem);
+    }
+
+    .zumba-hero-photo,
+    .zumba-hero-photo img {
+        min-height: 340px;
+    }
+
+    .zumba-schedule,
+    .zumba-registration {
+        padding: 68px 0;
+    }
+
+    .zumba-schedule-grid,
+    .zumba-option-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .zumba-option-card {
+        min-height: 0;
+    }
+}
+
+@media (max-width: 430px) {
+    .zumba-hero-facts {
+        display: grid;
+    }
+
+    .zumba-hero-action {
+        width: 100%;
+    }
+
+    .zumba-hero-photo,
+    .zumba-hero-photo img {
+        min-height: 280px;
+    }
+
+    .zumba-schedule-card,
+    .zumba-option-card,
+    .zumba-cart-card {
+        padding: 20px;
+    }
+}
+
 

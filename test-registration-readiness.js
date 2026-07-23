@@ -25,7 +25,8 @@ function printUsage() {
     --program=adult_hand_building_pottery \\
     --shop=[data-hand-building-shop] \\
     --add=[data-hand-building-add] \\
-    --purchase=[data-hand-building-purchase]
+    --purchase=[data-hand-building-purchase] \\
+    --mode=test
 
 The test opens the local page, checks a mocked and the real ping response,
 adds the item to the cart, and confirms the payment button becomes enabled.
@@ -39,7 +40,8 @@ function parseOptions(args) {
     program: 'programCode',
     shop: 'shopSelector',
     add: 'addSelector',
-    purchase: 'purchaseSelector'
+    purchase: 'purchaseSelector',
+    mode: 'stripeMode'
   };
 
   for (let index = 0; index < args.length; index += 1) {
@@ -54,7 +56,14 @@ function parseOptions(args) {
       throw new Error(`Unexpected argument: ${argument}`);
     }
 
-    const [rawName, inlineValue] = argument.slice(2).split('=', 2);
+    const separatorIndex = argument.indexOf('=');
+    const rawName = argument.slice(
+      2,
+      separatorIndex === -1 ? argument.length : separatorIndex
+    );
+    const inlineValue = separatorIndex === -1
+      ? undefined
+      : argument.slice(separatorIndex + 1);
     const optionName = aliases[rawName];
 
     if (!optionName) {
@@ -74,10 +83,22 @@ function parseOptions(args) {
     options[optionName] = value;
   }
 
-  for (const optionName of Object.values(aliases)) {
+  for (const optionName of [
+    'page',
+    'programCode',
+    'shopSelector',
+    'addSelector',
+    'purchaseSelector'
+  ]) {
     if (!options[optionName]) {
       throw new Error(`Missing required option: --${optionName.replace('Code', '')}`);
     }
+  }
+
+  options.stripeMode = options.stripeMode || 'test';
+
+  if (!['test', 'live'].includes(options.stripeMode)) {
+    throw new Error('--mode must be either test or live.');
   }
 
   const pagePath = path.resolve(REPOSITORY_ROOT, options.page);
@@ -144,7 +165,7 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
           programCode: options.programCode,
           programs: [options.programCode],
           version: 'mocked-readiness-check',
-          stripeMode: 'test'
+          stripeMode: options.stripeMode
         })
       });
     });
