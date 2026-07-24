@@ -26,7 +26,8 @@ function printUsage() {
     --shop=[data-hand-building-shop] \\
     --add=[data-hand-building-add] \\
     --purchase=[data-hand-building-purchase] \\
-    --mode=test
+    --mode=test \\
+    --version=mocked-readiness-check
 
 The test opens the local page, checks a mocked and the real ping response,
 adds the item to the cart, and confirms the payment button becomes enabled.
@@ -41,7 +42,8 @@ function parseOptions(args) {
     shop: 'shopSelector',
     add: 'addSelector',
     purchase: 'purchaseSelector',
-    mode: 'stripeMode'
+    mode: 'stripeMode',
+    version: 'scriptVersion'
   };
 
   for (let index = 0; index < args.length; index += 1) {
@@ -96,6 +98,7 @@ function parseOptions(args) {
   }
 
   options.stripeMode = options.stripeMode || 'test';
+  options.scriptVersion = options.scriptVersion || 'mocked-readiness-check';
 
   if (!['test', 'live'].includes(options.stripeMode)) {
     throw new Error('--mode must be either test or live.');
@@ -164,7 +167,7 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
           success: true,
           programCode: options.programCode,
           programs: [options.programCode],
-          version: 'mocked-readiness-check',
+          version: options.scriptVersion,
           stripeMode: options.stripeMode
         })
       });

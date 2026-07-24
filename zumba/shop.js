@@ -12,49 +12,48 @@ document.addEventListener('DOMContentLoaded', function() {
             code: 'ZUMBA_SINGLE',
             name: 'Zumba Single Session',
             priceCents: 3500,
-            schedules: [
-                'TUESDAY_MORNING',
-                'THURSDAY_MORNING',
-                'MONDAY_EVENING',
-                'WEDNESDAY_EVENING',
-                'SATURDAY_MORNING'
-            ]
+            sessionCount: 1
         },
         ZUMBA_4: {
             code: 'ZUMBA_4',
-            name: 'Zumba 4-Session Pass (Once Weekly Promo)',
+            name: 'Zumba Summer Promotion - 4 Sessions',
             priceCents: 12000,
-            schedules: [
-                'TUESDAY_MORNING',
-                'THURSDAY_MORNING',
-                'MONDAY_EVENING',
-                'WEDNESDAY_EVENING',
-                'SATURDAY_MORNING'
-            ]
-        },
-        ZUMBA_7: {
-            code: 'ZUMBA_7',
-            name: 'Zumba 7-Session Pass',
-            priceCents: 17500,
-            schedules: ['FLEXIBLE_7']
+            sessionCount: 4
         },
         ZUMBA_8: {
             code: 'ZUMBA_8',
-            name: 'Zumba 8-Session Pass (Twice Weekly Promo)',
+            name: 'Zumba Summer Promotion - 8 Sessions',
             priceCents: 19000,
-            schedules: ['TUE_THU_MORNING', 'MON_WED_EVENING']
+            sessionCount: 8
         }
     };
-    const SCHEDULES = {
-        TUESDAY_MORNING: 'Tuesday, 10:30 AM-11:30 AM',
-        THURSDAY_MORNING: 'Thursday, 10:30 AM-11:30 AM',
-        MONDAY_EVENING: 'Monday, 5:30 PM-6:30 PM',
-        WEDNESDAY_EVENING: 'Wednesday, 5:30 PM-6:30 PM',
-        SATURDAY_MORNING: 'Saturday, 10:30 AM-11:30 AM',
-        FLEXIBLE_7: 'Flexible 7-session pass across listed class times',
-        TUE_THU_MORNING: 'Tuesday and Thursday, 10:30 AM-11:30 AM',
-        MON_WED_EVENING: 'Monday and Wednesday, 5:30 PM-6:30 PM'
-    };
+    const CLASS_TIMES = [
+        ['AUG01_SAT_1030', 'Saturday, August 1', '10:30 AM-11:30 AM'],
+        ['AUG03_MON_1730', 'Monday, August 3', '5:30 PM-6:30 PM'],
+        ['AUG04_TUE_1030', 'Tuesday, August 4', '10:30 AM-11:30 AM'],
+        ['AUG05_WED_1730', 'Wednesday, August 5', '5:30 PM-6:30 PM'],
+        ['AUG06_THU_1030', 'Thursday, August 6', '10:30 AM-11:30 AM'],
+        ['AUG08_SAT_1030', 'Saturday, August 8', '10:30 AM-11:30 AM'],
+        ['AUG10_MON_1730', 'Monday, August 10', '5:30 PM-6:30 PM'],
+        ['AUG11_TUE_1030', 'Tuesday, August 11', '10:30 AM-11:30 AM'],
+        ['AUG12_WED_1730', 'Wednesday, August 12', '5:30 PM-6:30 PM'],
+        ['AUG13_THU_1030', 'Thursday, August 13', '10:30 AM-11:30 AM'],
+        ['AUG15_SAT_1030', 'Saturday, August 15', '10:30 AM-11:30 AM'],
+        ['AUG17_MON_1730', 'Monday, August 17', '5:30 PM-6:30 PM'],
+        ['AUG18_TUE_1030', 'Tuesday, August 18', '10:30 AM-11:30 AM'],
+        ['AUG19_WED_1730', 'Wednesday, August 19', '5:30 PM-6:30 PM'],
+        ['AUG20_THU_1030', 'Thursday, August 20', '10:30 AM-11:30 AM'],
+        ['AUG22_SAT_1030', 'Saturday, August 22', '10:30 AM-11:30 AM'],
+        ['AUG24_MON_1730', 'Monday, August 24', '5:30 PM-6:30 PM'],
+        ['AUG25_TUE_1030', 'Tuesday, August 25', '10:30 AM-11:30 AM'],
+        ['AUG26_WED_1730', 'Wednesday, August 26', '5:30 PM-6:30 PM'],
+        ['AUG27_THU_1030', 'Thursday, August 27', '10:30 AM-11:30 AM'],
+        ['AUG29_SAT_1030', 'Saturday, August 29', '10:30 AM-11:30 AM'],
+        ['AUG31_MON_1730', 'Monday, August 31', '5:30 PM-6:30 PM'],
+        ['SEP01_TUE_1030', 'Tuesday, September 1', '10:30 AM-11:30 AM'],
+        ['SEP02_WED_1730', 'Wednesday, September 2', '5:30 PM-6:30 PM'],
+        ['SEP03_THU_1030', 'Thursday, September 3', '10:30 AM-11:30 AM']
+    ];
 
     const optionCards = Array.from(shop.querySelectorAll('[data-zumba-option]'));
     const addButtons = Array.from(shop.querySelectorAll('[data-zumba-add]'));
@@ -64,13 +63,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const hstEl = shop.querySelector('[data-zumba-hst]');
     const totalEl = shop.querySelector('[data-zumba-total]');
     const form = shop.querySelector('[data-zumba-form]');
-    const scheduleSelect = shop.querySelector('[data-zumba-schedule]');
+    const timePicker = shop.querySelector('[data-zumba-time-picker]');
+    const timeHelp = shop.querySelector('[data-zumba-time-help]');
+    const timeOptions = shop.querySelector('[data-zumba-time-options]');
     const checkoutButton = shop.querySelector('[data-zumba-checkout]');
     const clearButton = shop.querySelector('[data-zumba-clear]');
     const statusEl = shop.querySelector('[data-zumba-status]');
     const appsScriptUrl = shop.dataset.appsScriptUrl || '';
     const programCode = shop.dataset.programCode || 'august_september_2026_zumba';
     let selectedCode = '';
+    let selectedClassTimes = new Set();
     let backendReady = false;
     let isSubmitting = false;
     let hasCheckoutReturnStatus = false;
@@ -99,36 +101,55 @@ document.addEventListener('DOMContentLoaded', function() {
         statusEl.dataset.status = type;
     }
 
-    function renderScheduleChoices() {
+    function updateTimeHelp() {
         const product = PRODUCTS[selectedCode];
-        const previousValue = scheduleSelect.value;
-        scheduleSelect.innerHTML = '';
 
         if (!product) {
-            const option = document.createElement('option');
-            option.value = '';
-            option.textContent = 'Add a pass first';
-            scheduleSelect.appendChild(option);
-            scheduleSelect.disabled = true;
+            timeHelp.textContent = 'Add a pass first.';
             return;
         }
 
-        const prompt = document.createElement('option');
-        prompt.value = '';
-        prompt.textContent = 'Choose a class schedule';
-        scheduleSelect.appendChild(prompt);
+        const remaining = product.sessionCount - selectedClassTimes.size;
 
-        product.schedules.forEach(function(scheduleCode) {
-            const option = document.createElement('option');
-            option.value = scheduleCode;
-            option.textContent = SCHEDULES[scheduleCode];
-            scheduleSelect.appendChild(option);
+        if (remaining === 0) {
+            timeHelp.textContent = `${product.sessionCount} of ${product.sessionCount} class times selected.`;
+            return;
+        }
+
+        timeHelp.textContent = `Choose ${remaining} more class time${remaining === 1 ? '' : 's'} (${selectedClassTimes.size} of ${product.sessionCount} selected).`;
+    }
+
+    function renderTimeChoices() {
+        const product = PRODUCTS[selectedCode];
+        timeOptions.innerHTML = '';
+        timePicker.disabled = !product;
+
+        if (!product) {
+            updateTimeHelp();
+            return;
+        }
+
+        CLASS_TIMES.forEach(function(classTime) {
+            const [code, date, time] = classTime;
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            const copy = document.createElement('span');
+            const dateEl = document.createElement('strong');
+            const timeEl = document.createElement('small');
+
+            label.className = 'zumba-time-option';
+            input.type = 'checkbox';
+            input.value = code;
+            input.checked = selectedClassTimes.has(code);
+            input.dataset.zumbaTime = code;
+            dateEl.textContent = date;
+            timeEl.textContent = time;
+            copy.append(dateEl, timeEl);
+            label.append(input, copy);
+            timeOptions.appendChild(label);
         });
 
-        scheduleSelect.disabled = false;
-        scheduleSelect.value = product.schedules.includes(previousValue)
-            ? previousValue
-            : '';
+        updateTimeHelp();
     }
 
     function render() {
@@ -155,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             totalsPanel.hidden = true;
             checkoutButton.disabled = true;
             clearButton.disabled = true;
-            renderScheduleChoices();
+            renderTimeChoices();
             return;
         }
 
@@ -177,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         totalEl.textContent = formatMoney(totals.totalCents);
         clearButton.disabled = isSubmitting;
         checkoutButton.disabled = isSubmitting || !backendReady;
-        renderScheduleChoices();
+        renderTimeChoices();
     }
 
     async function postToAppsScript(payload) {
@@ -216,15 +237,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 action: 'ping',
                 programCode
             });
-            backendReady = result.programCode === programCode &&
+            backendReady = result.version === '2026-07-23-4' &&
+                result.programCode === programCode &&
                 result.stripeMode === 'live';
 
             if (backendReady && !hasCheckoutReturnStatus) {
                 setStatus('');
-            } else {
-                if (!backendReady) {
-                    setStatus('Secure checkout is not ready for this Zumba session yet.', 'warning');
-                }
+            } else if (!backendReady) {
+                setStatus('Secure checkout is being updated for the Summer Zumba promotion.', 'warning');
             }
         } catch (error) {
             setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs to register.', 'warning');
@@ -238,22 +258,25 @@ document.addEventListener('DOMContentLoaded', function() {
             return null;
         }
 
-        const values = new FormData(form);
-        const scheduleChoice = String(values.get('scheduleChoice') || '').trim();
         const product = PRODUCTS[selectedCode];
 
-        if (!product || !product.schedules.includes(scheduleChoice)) {
-            scheduleSelect.focus();
-            setStatus('Please choose the class schedule for this pass.', 'warning');
+        if (!product || selectedClassTimes.size !== product.sessionCount) {
+            timePicker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setStatus(
+                `Please choose exactly ${product ? product.sessionCount : 0} class time${product && product.sessionCount === 1 ? '' : 's'}.`,
+                'warning'
+            );
             return null;
         }
+
+        const values = new FormData(form);
 
         return {
             studentName: String(values.get('studentName') || '').trim(),
             parentName: String(values.get('parentName') || '').trim(),
             parentEmail: String(values.get('parentEmail') || '').trim(),
             phone: String(values.get('phone') || '').trim(),
-            scheduleChoice
+            selectedClassTimes: Array.from(selectedClassTimes)
         };
     }
 
@@ -291,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             selectedCode = '';
+            selectedClassTimes.clear();
             render();
             setStatus('Payment verified. Your Summer Zumba registration has been received.', 'success');
         } catch (error) {
@@ -304,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             const code = button.dataset.zumbaAdd;
             selectedCode = selectedCode === code ? '' : code;
+            selectedClassTimes.clear();
 
             if (backendReady) {
                 setStatus('');
@@ -313,17 +338,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    timeOptions.addEventListener('change', function(event) {
+        const checkbox = event.target.closest('[data-zumba-time]');
+        const product = PRODUCTS[selectedCode];
+
+        if (!checkbox || !product) {
+            return;
+        }
+
+        if (checkbox.checked && selectedClassTimes.size >= product.sessionCount) {
+            checkbox.checked = false;
+            setStatus(
+                `This pass includes ${product.sessionCount} class time${product.sessionCount === 1 ? '' : 's'}. Remove one before choosing another.`,
+                'warning'
+            );
+            return;
+        }
+
+        if (checkbox.checked) {
+            selectedClassTimes.add(checkbox.value);
+        } else {
+            selectedClassTimes.delete(checkbox.value);
+        }
+
+        if (selectedClassTimes.size === product.sessionCount) {
+            setStatus('');
+        }
+        updateTimeHelp();
+    });
+
     cartList.addEventListener('click', function(event) {
         if (!event.target.closest('[data-zumba-remove]')) {
             return;
         }
 
         selectedCode = '';
+        selectedClassTimes.clear();
         render();
     });
 
     clearButton.addEventListener('click', function() {
         selectedCode = '';
+        selectedClassTimes.clear();
         setStatus('');
         render();
     });
@@ -349,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const totals = calculateTotals();
         isSubmitting = true;
         checkoutButton.textContent = 'Opening Secure Payment...';
-        setStatus('Checking your pass and secure total...', 'pending');
+        setStatus('Checking your pass, class times, and secure total...', 'pending');
         render();
 
         try {

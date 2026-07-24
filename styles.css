@@ -9136,9 +9136,36 @@ body .adult-art-form-field textarea {
     align-items: start;
 }
 
+.zumba-promotion-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    border-radius: var(--radius-card);
+    background: var(--aubergine);
+    color: #ffffff;
+}
+
+.zumba-promotion-banner span {
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: var(--terracotta);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.zumba-promotion-banner strong {
+    font-size: 1rem;
+    text-align: right;
+}
+
 .zumba-option-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
@@ -9174,6 +9201,18 @@ body .adult-art-form-field textarea {
     font-size: 2.25rem;
     font-weight: 700;
     line-height: 1;
+}
+
+.zumba-original-price {
+    margin-bottom: 6px;
+    color: #c9362b;
+    font-family: var(--font-heading);
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: line-through;
+    text-decoration-color: #c9362b;
+    text-decoration-thickness: 3px;
 }
 
 .zumba-option-price span {
@@ -9310,6 +9349,85 @@ body .adult-art-form-field textarea {
     color: #786e66;
 }
 
+.zumba-time-picker {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.zumba-time-picker legend {
+    margin-bottom: 7px;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.zumba-time-picker:disabled {
+    opacity: 0.7;
+}
+
+.zumba-time-help {
+    margin-bottom: 10px;
+    color: var(--muted-ink);
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.zumba-time-options {
+    display: grid;
+    gap: 8px;
+    max-height: 330px;
+    padding: 4px 8px 4px 2px;
+    overflow-y: auto;
+}
+
+.zumba-form .zumba-time-option {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    padding: 11px;
+    border: 1px solid rgba(6, 28, 73, 0.14);
+    border-radius: var(--radius-button);
+    background: #fffaf4;
+    cursor: pointer;
+}
+
+.zumba-form .zumba-time-option:has(input:checked) {
+    border-color: var(--terracotta);
+    background: #fff0e5;
+    box-shadow: 0 0 0 2px rgba(184, 95, 62, 0.12);
+}
+
+.zumba-form .zumba-time-option input {
+    width: 18px;
+    height: 18px;
+    min-height: 18px;
+    margin-top: 2px;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    accent-color: var(--terracotta);
+}
+
+.zumba-time-option span {
+    display: grid;
+    gap: 2px;
+}
+
+.zumba-time-option strong {
+    color: var(--ink);
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.zumba-time-option small {
+    color: var(--muted-ink);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
 .zumba-cart-note,
 .zumba-cart-status {
     margin-top: 16px;
@@ -9372,6 +9490,10 @@ body .adult-art-form-field textarea {
     .zumba-cart {
         position: static;
     }
+
+    .zumba-option-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
@@ -9400,6 +9522,15 @@ body .adult-art-form-field textarea {
     .zumba-schedule-grid,
     .zumba-option-grid {
         grid-template-columns: 1fr;
+    }
+
+    .zumba-promotion-banner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .zumba-promotion-banner strong {
+        text-align: left;
     }
 
     .zumba-option-card {

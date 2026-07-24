@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Register for Summer Zumba at SparkPreneurs, running August 1 to September 3, 2026.">
     <title>Summer Zumba 2026 | SparkPreneurs</title>
-    <link rel="stylesheet" href="../styles.css?v=20260723-zumba">
+    <link rel="stylesheet" href="../styles.css?v=20260723-zumba-promotion">
 </head>
 <body class="zumba-page">
     <header class="header">
@@ -57,7 +57,7 @@
                 <div class="zumba-section-head">
                     <p class="zumba-kicker">Class Times</p>
                     <h2 id="zumba-schedule-title">Choose a rhythm that works for you.</h2>
-                    <p>Once-weekly passes use one regular class time. The seven-session pass is flexible, while the eight-session promotion follows a twice-weekly schedule.</p>
+                    <p>Choose individual class dates that work for you. A single session includes one date, the four-session pass includes any four dates, and the eight-session pass includes any eight dates.</p>
                 </div>
                 <div class="zumba-schedule-grid">
                     <article class="zumba-schedule-card">
@@ -79,8 +79,8 @@
                     </article>
                     <article class="zumba-schedule-card zumba-schedule-card--note">
                         <p class="zumba-schedule-label">Pass Options</p>
-                        <h3>Once or twice weekly</h3>
-                        <p>Select your pass below and the matching schedule choices will appear in the registration form.</p>
+                        <h3>Pick your own dates</h3>
+                        <p>Select a pass below, then choose any 1, 4, or 8 available class times in the registration form.</p>
                     </article>
                 </div>
             </div>
@@ -95,12 +95,17 @@
                         <p>Prices below are before HST. Your total is checked securely before Stripe opens.</p>
                     </div>
 
+                    <div class="zumba-promotion-banner">
+                        <span>Summer Promotion</span>
+                        <strong>Choose your pass and your preferred class dates.</strong>
+                    </div>
+
                     <div class="zumba-option-grid">
                         <article class="zumba-option-card" data-zumba-option="ZUMBA_SINGLE">
                             <div>
-                                <p class="zumba-option-label">Try One Class</p>
+                                <p class="zumba-option-label">Summer Promotion</p>
                                 <h3>Single Session</h3>
-                                <p>Choose any one regular morning or evening class time.</p>
+                                <p>Choose any one available morning or evening class time.</p>
                             </div>
                             <div class="zumba-option-footer">
                                 <p class="zumba-option-price">$35 <span>+ HST</span></p>
@@ -110,35 +115,25 @@
 
                         <article class="zumba-option-card" data-zumba-option="ZUMBA_4">
                             <div>
-                                <p class="zumba-option-label">Once Weekly Promo</p>
+                                <p class="zumba-option-label">Summer Promotion</p>
                                 <h3>4-Session Pass</h3>
-                                <p>Choose one regular weekly class time for four sessions.</p>
+                                <p>Choose any four available class times across the summer schedule.</p>
                             </div>
                             <div class="zumba-option-footer">
+                                <p class="zumba-original-price">$140</p>
                                 <p class="zumba-option-price">$120 <span>+ HST</span></p>
                                 <button class="zumba-add" type="button" data-zumba-add="ZUMBA_4">Add to Cart</button>
                             </div>
                         </article>
 
-                        <article class="zumba-option-card" data-zumba-option="ZUMBA_7">
-                            <div>
-                                <p class="zumba-option-label">Flexible Pass</p>
-                                <h3>7 Sessions</h3>
-                                <p>Attend seven sessions across the listed class times.</p>
-                            </div>
-                            <div class="zumba-option-footer">
-                                <p class="zumba-option-price">$175 <span>+ HST</span></p>
-                                <button class="zumba-add" type="button" data-zumba-add="ZUMBA_7">Add to Cart</button>
-                            </div>
-                        </article>
-
                         <article class="zumba-option-card" data-zumba-option="ZUMBA_8">
                             <div>
-                                <p class="zumba-option-label">Twice Weekly Promo</p>
+                                <p class="zumba-option-label">Summer Promotion</p>
                                 <h3>8-Session Pass</h3>
-                                <p>Choose Monday/Wednesday evenings or Tuesday/Thursday mornings.</p>
+                                <p>Choose any eight available class times across the summer schedule.</p>
                             </div>
                             <div class="zumba-option-footer">
+                                <p class="zumba-original-price">$280</p>
                                 <p class="zumba-option-price">$190 <span>+ HST</span></p>
                                 <button class="zumba-add" type="button" data-zumba-add="ZUMBA_8">Add to Cart</button>
                             </div>
@@ -184,12 +179,11 @@
                                 <span>Phone</span>
                                 <input type="tel" name="phone" autocomplete="tel" required>
                             </label>
-                            <label>
-                                <span>Class schedule</span>
-                                <select name="scheduleChoice" data-zumba-schedule required disabled>
-                                    <option value="">Add a pass first</option>
-                                </select>
-                            </label>
+                            <fieldset class="zumba-time-picker" data-zumba-time-picker disabled>
+                                <legend>Choose class times</legend>
+                                <p class="zumba-time-help" data-zumba-time-help>Add a pass first.</p>
+                                <div class="zumba-time-options" data-zumba-time-options></div>
+                            </fieldset>
                         </form>
 
                         <p class="zumba-cart-note">Registration is confirmed only after Stripe verifies payment.</p>
@@ -229,6 +223,6 @@
     </footer>
 
     <script src="../script.js?v=20260707-light-bg"></script>
-    <script src="shop.js?v=20260723-zumba"></script>
+    <script src="shop.js?v=20260723-zumba-promotion"></script>
 </body>
 </html>

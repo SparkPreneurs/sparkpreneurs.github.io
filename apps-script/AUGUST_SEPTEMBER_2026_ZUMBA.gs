@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p3fnyQ_srxmjI6_yLR9uuboibxZ_UVruw2us9PaiUOc";
 const PROGRAM_CODE = "august_september_2026_zumba";
 const PROGRAM_NAME = "August-September 2026 - Zumba";
-const SCRIPT_VERSION = "2026-07-23-3";
+const SCRIPT_VERSION = "2026-07-23-4";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
@@ -26,22 +26,44 @@ const REGISTRATION_HEADERS = ATTEMPT_HEADERS.concat([
   "paidAt", "stripePaymentIntentId", "stripePaymentStatus", "registrationStatus"
 ]);
 
-const SCHEDULES = {
-  TUESDAY_MORNING: "Tuesday, 10:30 AM-11:30 AM",
-  THURSDAY_MORNING: "Thursday, 10:30 AM-11:30 AM",
-  MONDAY_EVENING: "Monday, 5:30 PM-6:30 PM",
-  WEDNESDAY_EVENING: "Wednesday, 5:30 PM-6:30 PM",
-  SATURDAY_MORNING: "Saturday, 10:30 AM-11:30 AM",
-  FLEXIBLE_7: "Flexible 7-session pass across the listed class times",
-  TUE_THU_MORNING: "Tuesday and Thursday, 10:30 AM-11:30 AM",
-  MON_WED_EVENING: "Monday and Wednesday, 5:30 PM-6:30 PM"
+const CLASS_TIMES = {
+  AUG01_SAT_1030: "Saturday, August 1, 10:30 AM-11:30 AM",
+  AUG03_MON_1730: "Monday, August 3, 5:30 PM-6:30 PM",
+  AUG04_TUE_1030: "Tuesday, August 4, 10:30 AM-11:30 AM",
+  AUG05_WED_1730: "Wednesday, August 5, 5:30 PM-6:30 PM",
+  AUG06_THU_1030: "Thursday, August 6, 10:30 AM-11:30 AM",
+  AUG08_SAT_1030: "Saturday, August 8, 10:30 AM-11:30 AM",
+  AUG10_MON_1730: "Monday, August 10, 5:30 PM-6:30 PM",
+  AUG11_TUE_1030: "Tuesday, August 11, 10:30 AM-11:30 AM",
+  AUG12_WED_1730: "Wednesday, August 12, 5:30 PM-6:30 PM",
+  AUG13_THU_1030: "Thursday, August 13, 10:30 AM-11:30 AM",
+  AUG15_SAT_1030: "Saturday, August 15, 10:30 AM-11:30 AM",
+  AUG17_MON_1730: "Monday, August 17, 5:30 PM-6:30 PM",
+  AUG18_TUE_1030: "Tuesday, August 18, 10:30 AM-11:30 AM",
+  AUG19_WED_1730: "Wednesday, August 19, 5:30 PM-6:30 PM",
+  AUG20_THU_1030: "Thursday, August 20, 10:30 AM-11:30 AM",
+  AUG22_SAT_1030: "Saturday, August 22, 10:30 AM-11:30 AM",
+  AUG24_MON_1730: "Monday, August 24, 5:30 PM-6:30 PM",
+  AUG25_TUE_1030: "Tuesday, August 25, 10:30 AM-11:30 AM",
+  AUG26_WED_1730: "Wednesday, August 26, 5:30 PM-6:30 PM",
+  AUG27_THU_1030: "Thursday, August 27, 10:30 AM-11:30 AM",
+  AUG29_SAT_1030: "Saturday, August 29, 10:30 AM-11:30 AM",
+  AUG31_MON_1730: "Monday, August 31, 5:30 PM-6:30 PM",
+  SEP01_TUE_1030: "Tuesday, September 1, 10:30 AM-11:30 AM",
+  SEP02_WED_1730: "Wednesday, September 2, 5:30 PM-6:30 PM",
+  SEP03_THU_1030: "Thursday, September 3, 10:30 AM-11:30 AM"
+};
+
+const SESSION_COUNTS = {
+  ZUMBA_SINGLE: 1,
+  ZUMBA_4: 4,
+  ZUMBA_8: 8
 };
 
 const DEFAULT_PRODUCTS = [
   product_("ZUMBA_SINGLE", "Zumba Single Session", 3500),
-  product_("ZUMBA_4", "Zumba 4-Session Pass (Once Weekly Promo)", 12000),
-  product_("ZUMBA_7", "Zumba 7-Session Pass", 17500),
-  product_("ZUMBA_8", "Zumba 8-Session Pass (Twice Weekly Promo)", 19000)
+  product_("ZUMBA_4", "Zumba Summer Promotion - 4 Sessions", 12000),
+  product_("ZUMBA_8", "Zumba Summer Promotion - 8 Sessions", 19000)
 ];
 
 function product_(itemCode, itemName, priceCents) {
@@ -108,6 +130,26 @@ function setupPeriodWorkbook() {
     " trusted products for version " + SCRIPT_VERSION + ".";
 }
 
+function applySummerPromotionCatalogUpdate() {
+  const spreadsheet = getSpreadsheet_();
+  const products = ensureSheet_(
+    spreadsheet, PRODUCTS_SHEET_NAME, PRODUCT_HEADERS);
+
+  DEFAULT_PRODUCTS.forEach(function(product) {
+    upsertByKey_(products, "itemCode", product.itemCode, product);
+  });
+
+  if (readByKey_(products, "itemCode", "ZUMBA_7")) {
+    upsertByKey_(products, "itemCode", "ZUMBA_7", {
+      programCode: PROGRAM_CODE,
+      active: false
+    });
+  }
+
+  return "Summer promotion catalog updated: $35 single, $120 for 4 " +
+    "sessions, $190 for 8 sessions, and the 7-session pass is inactive.";
+}
+
 function authorizeRequiredServices() {
   setupPeriodWorkbook();
   const config = getStripeConfig_();
@@ -130,7 +172,8 @@ function createCheckoutSession_(data) {
   const registration = normalizeRegistration_(data);
   const itemCode = normalizeSingleItemCode_(data.selectedItemCodes || data.items || data.itemCode);
   const pricing = calculateTrustedPricing_(itemCode);
-  validateScheduleForProduct_(registration.scheduleChoice, pricing.item.itemCode);
+  const selectedClassTimes = normalizeSelectedClassTimes_(
+    data.selectedClassTimes, pricing.item.itemCode);
   const displayedAmountCents = normalizeCents_(data.displayedAmountCents, "displayedAmountCents");
 
   if (displayedAmountCents !== pricing.totalCents) {
@@ -164,7 +207,9 @@ function createCheckoutSession_(data) {
     parentName: registration.parentName,
     parentEmail: registration.parentEmail,
     phone: registration.phone,
-    scheduleChoice: registration.scheduleChoice,
+    scheduleChoice: selectedClassTimes.map(function(code) {
+      return CLASS_TIMES[code];
+    }).join(" | "),
     lastError: ""
   };
 
@@ -339,17 +384,11 @@ function readActiveProducts_() {
 }
 
 function normalizeRegistration_(data) {
-  const scheduleChoice = String(data.scheduleChoice || "")
-    .trim().toUpperCase();
-  if (!SCHEDULES[scheduleChoice]) {
-    throw clientError_("Please choose a Zumba class time.");
-  }
   return {
     studentName: requireText_(data.studentName, "participant name", 100),
     parentName: requireText_(data.parentName, "contact name", 100),
     parentEmail: sanitizeEmail_(data.parentEmail),
-    phone: requireText_(data.phone, "phone", 40),
-    scheduleChoice: scheduleChoice
+    phone: requireText_(data.phone, "phone", 40)
   };
 }
 
@@ -373,25 +412,31 @@ function normalizeSingleItemCode_(value) {
   return codes[0];
 }
 
-function validateScheduleForProduct_(scheduleChoice, itemCode) {
-  const onceWeekly = [
-    "TUESDAY_MORNING", "THURSDAY_MORNING", "MONDAY_EVENING",
-    "WEDNESDAY_EVENING", "SATURDAY_MORNING"
-  ];
-  if ((itemCode === "ZUMBA_SINGLE" || itemCode === "ZUMBA_4") &&
-      onceWeekly.indexOf(scheduleChoice) === -1) {
-    throw clientError_(
-      "Choose one weekly Zumba class time for this registration option.");
+function normalizeSelectedClassTimes_(value, itemCode) {
+  const expectedCount = SESSION_COUNTS[itemCode];
+  if (!expectedCount) {
+    throw clientError_("The selected Zumba option is no longer available.");
   }
-  if (itemCode === "ZUMBA_7" && scheduleChoice !== "FLEXIBLE_7") {
+  if (!Array.isArray(value) || value.length !== expectedCount) {
     throw clientError_(
-      "The 7-session pass uses the flexible class schedule.");
+      "Choose exactly " + expectedCount + " class time" +
+      (expectedCount === 1 ? "." : "s."));
   }
-  if (itemCode === "ZUMBA_8" &&
-      ["TUE_THU_MORNING", "MON_WED_EVENING"].indexOf(scheduleChoice) === -1) {
-    throw clientError_(
-      "The 8-session pass requires a twice-weekly Monday/Wednesday or Tuesday/Thursday schedule.");
-  }
+
+  const classTimes = value.map(function(item) {
+    return String(item || "").trim().toUpperCase();
+  });
+  const unique = {};
+  classTimes.forEach(function(code) {
+    if (!/^[A-Z0-9_]+$/.test(code) || !CLASS_TIMES[code]) {
+      throw clientError_("One or more selected class times are not available.");
+    }
+    if (unique[code]) {
+      throw clientError_("Choose each class time only once.");
+    }
+    unique[code] = true;
+  });
+  return classTimes;
 }
 
 function verifyPaidSession_(session, attempt, mode) {
