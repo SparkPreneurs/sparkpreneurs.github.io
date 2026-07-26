@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 action: 'ping',
                 programCode
             });
-            backendReady = result.version === '2026-07-23-4' &&
+            backendReady = result.version === '2026-07-26-5' &&
                 result.programCode === programCode &&
                 result.stripeMode === 'live';
 
