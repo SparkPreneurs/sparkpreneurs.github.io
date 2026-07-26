@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ['SEP02_WED_1730', 'Wednesday, September 2', '5:30 PM-6:30 PM'],
         ['SEP03_THU_1030', 'Thursday, September 3', '10:30 AM-11:30 AM']
     ];
+    const isAvailableClassTime = code => /^AUG(0[1-9]|1[0-9]|2[0-8])_/.test(code);
 
     const optionCards = Array.from(shop.querySelectorAll('[data-zumba-option]'));
     const addButtons = Array.from(shop.querySelectorAll('[data-zumba-add]'));
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        timeHelp.textContent = `Choose ${remaining} more class time${remaining === 1 ? '' : 's'} (${selectedClassTimes.size} of ${product.sessionCount} selected).`;
+        timeHelp.textContent = `August 1-28 is the available four-week window. Choose ${remaining} more class time${remaining === 1 ? '' : 's'} (${selectedClassTimes.size} of ${product.sessionCount} selected).`;
     }
 
     function renderTimeChoices() {
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         CLASS_TIMES.forEach(function(classTime) {
             const [code, date, time] = classTime;
+            const available = isAvailableClassTime(code);
             const label = document.createElement('label');
             const input = document.createElement('input');
             const copy = document.createElement('span');
@@ -141,7 +143,12 @@ document.addEventListener('DOMContentLoaded', function() {
             input.type = 'checkbox';
             input.value = code;
             input.checked = selectedClassTimes.has(code);
+            input.disabled = !available;
             input.dataset.zumbaTime = code;
+            if (!available) {
+                label.classList.add('is-disabled');
+                input.setAttribute('aria-label', `${date}, ${time} (September registration not open)`);
+            }
             dateEl.textContent = date;
             timeEl.textContent = time;
             copy.append(dateEl, timeEl);

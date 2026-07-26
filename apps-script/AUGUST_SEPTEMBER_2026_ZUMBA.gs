@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p3fnyQ_srxmjI6_yLR9uuboibxZ_UVruw2us9PaiUOc";
 const PROGRAM_CODE = "august_september_2026_zumba";
 const PROGRAM_NAME = "August-September 2026 - Zumba";
-const SCRIPT_VERSION = "2026-07-23-4";
+const SCRIPT_VERSION = "2026-07-26-5";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
@@ -72,7 +72,7 @@ function product_(itemCode, itemName, priceCents) {
     itemCode: itemCode,
     itemName: itemName,
     startDate: "2026-08-01",
-    endDate: "2026-09-03",
+    endDate: "2026-08-28",
     startTime: "",
     endTime: "",
     priceCents: priceCents,
@@ -428,7 +428,8 @@ function normalizeSelectedClassTimes_(value, itemCode) {
   });
   const unique = {};
   classTimes.forEach(function(code) {
-    if (!/^[A-Z0-9_]+$/.test(code) || !CLASS_TIMES[code]) {
+    if (!/^[A-Z0-9_]+$/.test(code) || !CLASS_TIMES[code] ||
+        !isAvailableClassTime_(code)) {
       throw clientError_("One or more selected class times are not available.");
     }
     if (unique[code]) {
@@ -437,6 +438,12 @@ function normalizeSelectedClassTimes_(value, itemCode) {
     unique[code] = true;
   });
   return classTimes;
+}
+
+function isAvailableClassTime_(code) {
+  // The first promotion window is four consecutive weeks in August.
+  // September remains listed for future planning but cannot be purchased yet.
+  return /^AUG(0[1-9]|1[0-9]|2[0-8])_/.test(String(code || ""));
 }
 
 function verifyPaidSession_(session, attempt, mode) {
