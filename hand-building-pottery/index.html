@@ -42,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="summer-camp-shop hand-building-shop" data-hand-building-shop data-program-code="adult_hand_building_pottery" data-apps-script-url="https://script.google.com/macros/s/AKfycbzWwIOtp24F5RQ3odxFT6XNBtey0uYEbZFG5RZ3xRfuoFqbS-5RNvATNwy4EPyxckSF/exec">
+                <div class="summer-camp-shop hand-building-shop" data-course-registration data-checkout-mode="sessions" data-program-code="adult_hand_building_pottery" data-item-code="HB4SUN" data-item-name="Hand-Building Pottery: 4 Sunday Sessions (10:30 AM-12:30 PM)" data-price-cents="24000" data-tax-rate-percent="13" data-apps-script-url="https://script.google.com/macros/s/AKfycbzWwIOtp24F5RQ3odxFT6XNBtey0uYEbZFG5RZ3xRfuoFqbS-5RNvATNwy4EPyxckSF/exec" data-return-url="https://sparkpreneurs.ca/hand-building-pottery/" data-course-anchor="hand-building-pottery" data-requires-waiver="false">
                     <div class="summer-camp-options">
                         <section class="summer-week-section" aria-labelledby="hand-building-class-title">
                             <div class="summer-week-section-head">
@@ -53,7 +53,7 @@
                                 <p class="summer-week-section-note">10:30 AM-12:30 PM</p>
                             </div>
 
-                            <article class="summer-week-card summer-week-card--open hand-building-class-card" data-class-code="HB4SUN">
+                            <article class="summer-week-card summer-week-card--open hand-building-class-card" data-course-card data-class-code="HB4SUN">
                                 <div class="summer-week-body">
                                     <div class="hand-building-class-main">
                                         <div>
@@ -67,7 +67,7 @@
                                             <img src="../assets/pottery-2.jpg" alt="Hand-building pottery at SparkPreneurs" class="summer-week-image">
                                         </a>
                                     </div>
-                                    <button class="summer-week-add" type="button" data-hand-building-add>Add to Cart</button>
+                                    <button class="summer-week-add" type="button" data-course-add>Add to Cart</button>
                                 </div>
                             </article>
                         </section>
@@ -76,24 +76,24 @@
                     <aside class="summer-cart" aria-live="polite">
                         <div class="summer-cart-card">
                             <p class="summer-cart-label">Complete Your Registration</p>
-                            <ul class="summer-cart-list" data-hand-building-cart-list>
+                            <ul class="summer-cart-list" data-course-cart-list>
                                 <li class="summer-cart-empty">No class added yet.</li>
                             </ul>
-                            <div class="summer-cart-totals" data-hand-building-cart-totals hidden>
+                            <div class="summer-cart-totals" data-course-cart-totals hidden>
                                 <div class="summer-cart-total-row">
                                     <span>Subtotal</span>
-                                    <strong data-hand-building-subtotal>$0.00</strong>
+                                    <strong data-course-subtotal>$0.00</strong>
                                 </div>
                                 <div class="summer-cart-total-row">
-                                    <span>HST 13%</span>
-                                    <strong data-hand-building-hst>$0.00</strong>
+                                    <span data-course-tax-label>HST 13%</span>
+                                    <strong data-course-tax>$0.00</strong>
                                 </div>
                                 <div class="summer-cart-total-row summer-cart-grand-total">
                                     <span>Total</span>
-                                    <strong data-hand-building-grand-total>$0.00</strong>
+                                    <strong data-course-grand-total>$0.00</strong>
                                 </div>
                             </div>
-                            <form class="summer-registration-form" data-hand-building-registration-form novalidate>
+                            <form class="summer-registration-form" data-course-registration-form novalidate>
                                 <label class="summer-form-field">
                                     <span>Participant name</span>
                                     <input type="text" name="studentName" autocomplete="name" required>
@@ -112,10 +112,10 @@
                                 </label>
                             </form>
                             <p class="summer-cart-note">Registration is confirmed after payment is verified.</p>
-                            <p class="summer-cart-status" data-hand-building-cart-status role="status" aria-live="polite"></p>
+                            <p class="summer-cart-status" data-course-status role="status" aria-live="polite"></p>
                             <div class="summer-cart-actions">
-                                <button class="summer-cart-purchase" type="button" data-hand-building-purchase>Continue to Secure Payment</button>
-                                <button class="summer-cart-clear" type="button" data-hand-building-clear>Clear Cart</button>
+                                <button class="summer-cart-purchase" type="button" data-course-purchase>Continue to Secure Payment</button>
+                                <button class="summer-cart-clear" type="button" data-course-clear>Clear Cart</button>
                             </div>
                         </div>
                     </aside>
@@ -133,6 +133,6 @@
 
     <script src="../script.js?v=20260707-light-bg"></script>
     <script src="../shared-cart.js?v=20260722-unified"></script>
-    <script src="shop.js?v=20260720-hand-building-pottery-framed-photo"></script>
+    <script src="../course-registration.js?v=20260801-shared-course-registration"></script>
 </body>
 </html>

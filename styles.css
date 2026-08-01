@@ -8937,6 +8937,453 @@ body .adult-art-form-field textarea {
     }
 }
 
+/* Kids & Youth 3D Printing program page */
+.kids-3d-printing-page main {
+    overflow: clip;
+}
+
+.kids-3d-printing-page .section-space {
+    padding: var(--section-spacing-desktop) 0;
+}
+
+.kids-3d-printing-page .printing-hero {
+    display: flex;
+    align-items: flex-end;
+    min-height: 420px;
+    overflow: hidden;
+    padding: 70px 0 44px;
+    color: #ffffff;
+}
+
+.printing-hero__image,
+.printing-hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.printing-hero__image {
+    z-index: -2;
+    display: block;
+    object-fit: cover;
+    object-position: 58% center;
+}
+
+.printing-hero__overlay {
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(6, 28, 73, 0.9) 0%, rgba(6, 28, 73, 0.66) 49%, rgba(6, 28, 73, 0.22) 100%);
+}
+
+.kids-3d-printing-page .printing-hero__content {
+    max-width: 700px;
+}
+
+.kids-3d-printing-page .printing-hero .btn-secondary {
+    border-color: rgba(255, 255, 255, 0.84);
+    color: #ffffff !important;
+}
+
+.kids-3d-printing-page .printing-section-label {
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.kids-3d-printing-page .printing-section-heading h2,
+.kids-3d-printing-page .printing-experience h2,
+.kids-3d-printing-page .printing-final-cta h2 {
+    margin: 8px 0 0;
+    color: var(--color-primary);
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1;
+}
+
+.kids-3d-printing-page .printing-section-heading > p:last-child {
+    max-width: 690px;
+    margin: 12px auto 0;
+    color: var(--color-muted);
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.kids-3d-printing-page .printing-section-heading--center {
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.kids-3d-printing-page .printing-overview {
+    background: var(--color-surface);
+}
+
+.kids-3d-printing-page .printing-overview__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+    gap: clamp(28px, 6vw, 88px);
+    align-items: center;
+}
+
+.kids-3d-printing-page .printing-overview__copy {
+    max-width: 700px;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.kids-3d-printing-page .printing-information {
+    background: var(--color-background);
+}
+
+.kids-3d-printing-page .printing-information-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+}
+
+.kids-3d-printing-page .printing-information-card {
+    min-height: 132px;
+    padding: 22px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.kids-3d-printing-page .printing-information-card dt {
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.kids-3d-printing-page .printing-information-card dd {
+    margin: 10px 0 0;
+    color: var(--color-primary);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.kids-3d-printing-page .printing-learning {
+    background: #ffffff;
+}
+
+.kids-3d-printing-page .printing-learning-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 18px;
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kids-3d-printing-page .printing-learning-grid li {
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.kids-3d-printing-page .printing-learning-grid li::before {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    margin-right: 11px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    content: '';
+}
+
+.kids-3d-printing-page .printing-experience {
+    background: var(--color-background);
+}
+
+.kids-3d-printing-page .printing-experience__panel,
+.kids-3d-printing-page .printing-final-cta__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+    gap: clamp(24px, 6vw, 76px);
+    align-items: center;
+    padding: clamp(28px, 4vw, 48px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+}
+
+.kids-3d-printing-page .printing-experience__panel > p,
+.kids-3d-printing-page .printing-final-cta__panel p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 17px;
+    line-height: 1.65;
+}
+
+.kids-3d-printing-page .printing-registration {
+    background: #ffffff;
+}
+
+.kids-3d-printing-page .printing-registration__shop {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+    gap: 32px;
+}
+
+.kids-3d-printing-page .printing-registration__shop .summer-week-section {
+    padding: 0;
+}
+
+.kids-3d-printing-page .printing-class-card {
+    display: block;
+}
+
+.kids-3d-printing-page .printing-class-card .summer-week-body {
+    gap: 20px;
+}
+
+.kids-3d-printing-page .printing-class-card__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 250px);
+    gap: 22px;
+    align-items: start;
+}
+
+.kids-3d-printing-page .printing-class-card .summer-week-title {
+    white-space: normal;
+}
+
+.kids-3d-printing-page .printing-class-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    object-fit: cover;
+    object-position: 58% center;
+}
+
+.kids-3d-printing-page .printing-registration__cart {
+    top: 106px;
+}
+
+.kids-3d-printing-page .printing-registration__cart .summer-cart-card {
+    background: var(--color-surface);
+}
+
+.kids-3d-printing-page .summer-cart-status[data-status='success'] {
+    color: #166534;
+}
+
+.kids-3d-printing-page .summer-cart-status[data-status='warning'] {
+    color: #8a4b12;
+}
+
+.kids-3d-printing-page .summer-cart-status[data-status='error'] {
+    color: #a22820;
+}
+
+.kids-3d-printing-page .printing-final-cta {
+    background: var(--color-background);
+}
+
+.kids-3d-printing-page .printing-final-cta__panel {
+    grid-template-columns: minmax(0, 1fr) auto;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.kids-3d-printing-page .printing-final-cta__panel :is(h2, p) {
+    color: #ffffff;
+}
+
+.kids-3d-printing-page .printing-final-cta__panel .printing-section-label {
+    color: #f2d9be;
+}
+
+.kids-3d-printing-page .printing-final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.kids-3d-printing-page .printing-final-cta__actions .btn-primary {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: var(--color-primary);
+}
+
+.kids-3d-printing-page .printing-final-cta__actions .btn-secondary {
+    border-color: rgba(255, 255, 255, 0.85);
+    color: #ffffff !important;
+}
+
+@media (max-width: 1024px) {
+    .kids-3d-printing-page .section-space {
+        padding: var(--section-spacing-tablet) 0;
+    }
+
+    .kids-3d-printing-page .printing-hero {
+        min-height: 360px;
+    }
+
+    .kids-3d-printing-page .printing-overview__grid,
+    .kids-3d-printing-page .printing-experience__panel {
+        grid-template-columns: 1fr;
+    }
+
+    .kids-3d-printing-page .printing-overview__grid {
+        gap: 20px;
+    }
+
+    .kids-3d-printing-page .printing-information-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .kids-3d-printing-page .printing-registration__shop {
+        grid-template-columns: 1fr;
+    }
+
+    .kids-3d-printing-page .printing-registration__cart {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .kids-3d-printing-page .section-space {
+        padding: var(--section-spacing-mobile) 0;
+    }
+
+    .kids-3d-printing-page .printing-hero {
+        align-items: flex-start;
+        min-height: 320px;
+        padding: 76px 0 18px;
+    }
+
+    .kids-3d-printing-page .printing-hero__image {
+        object-position: 64% center;
+    }
+
+    .kids-3d-printing-page .printing-hero__overlay {
+        background: linear-gradient(90deg, rgba(6, 28, 73, 0.88) 0%, rgba(6, 28, 73, 0.65) 65%, rgba(6, 28, 73, 0.38) 100%);
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__eyebrow {
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__content h1 {
+        font-size: clamp(36px, 10vw, 44px);
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__lead {
+        margin-top: 8px;
+        font-size: 16px;
+        line-height: 1.45;
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__actions {
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__actions :is(.btn-primary, .btn-secondary) {
+        min-height: 44px;
+        padding-block: 10px;
+    }
+
+    .kids-3d-printing-page .printing-overview__copy {
+        font-size: 16px;
+        line-height: 1.65;
+    }
+
+    .kids-3d-printing-page .printing-section-heading--center {
+        margin-bottom: 24px;
+    }
+
+    .kids-3d-printing-page .printing-class-card__main {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .kids-3d-printing-page .printing-class-card__image {
+        aspect-ratio: 16 / 9;
+        object-position: 63% center;
+    }
+
+    .kids-3d-printing-page .printing-final-cta__panel {
+        grid-template-columns: 1fr;
+    }
+
+    .kids-3d-printing-page .printing-final-cta__actions {
+        justify-content: stretch;
+    }
+
+    .kids-3d-printing-page .printing-final-cta__actions :is(.btn-primary, .btn-secondary) {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .kids-3d-printing-page .printing-information-grid,
+    .kids-3d-printing-page .printing-learning-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .kids-3d-printing-page .printing-information-card {
+        min-height: 0;
+        padding: 18px;
+    }
+
+    .kids-3d-printing-page .printing-information-card dd {
+        font-size: 17px;
+    }
+
+    .kids-3d-printing-page .printing-learning-grid {
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .kids-3d-printing-page .printing-learning-grid li {
+        min-height: 52px;
+        padding: 12px 14px;
+    }
+
+    .kids-3d-printing-page .printing-registration__shop .summer-week-section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .kids-3d-printing-page .printing-registration__shop .summer-week-section-note {
+        max-width: none;
+        text-align: left;
+    }
+}
+
+@media (max-width: 375px) {
+    .kids-3d-printing-page .printing-hero {
+        padding: 76px 0 12px;
+    }
+
+    .kids-3d-printing-page .printing-hero .page-hero__eyebrow {
+        display: none;
+    }
+}
+
 /* Summer Zumba registration page */
 .zumba-page {
     background: var(--cream);
