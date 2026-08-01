@@ -8984,6 +8984,10 @@ body .adult-art-form-field textarea {
     margin-left: max(0px, calc((100vw - var(--container-width)) / 2));
 }
 
+.kids-3d-printing-page .printing-hero__content h1 {
+    font-variant-numeric: lining-nums;
+}
+
 .kids-3d-printing-page .printing-hero .btn-secondary {
     border-color: rgba(255, 255, 255, 0.84);
     color: #ffffff !important;
