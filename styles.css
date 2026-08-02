@@ -9233,6 +9233,61 @@ body .adult-art-form-field textarea {
     color: #a22820;
 }
 
+.kids-3d-printing-page .course-payment-success-dialog {
+    width: min(440px, calc(100vw - 32px));
+    max-width: none;
+    margin: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: 0 24px 64px rgba(6, 28, 73, 0.24);
+    color: var(--color-text);
+    padding: 0;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog::backdrop {
+    background: rgba(6, 28, 73, 0.58);
+    backdrop-filter: blur(3px);
+}
+
+.kids-3d-printing-page .course-payment-success-dialog__content {
+    padding: clamp(28px, 7vw, 40px);
+    text-align: center;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog__eyebrow {
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog h2 {
+    margin: 10px 0 12px;
+    color: var(--color-primary);
+    font-size: clamp(26px, 6vw, 34px);
+    line-height: 1.08;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog__content > p:not(.course-payment-success-dialog__eyebrow) {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog .btn-primary {
+    min-height: 44px;
+    margin-top: 24px;
+}
+
+.kids-3d-printing-page .course-payment-success-dialog .btn-primary:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
 .kids-3d-printing-page .printing-final-cta {
     background: var(--color-background);
 }

@@ -27,6 +27,9 @@
         const purchaseButton = shop.querySelector('[data-course-purchase]');
         const clearButton = shop.querySelector('[data-course-clear]');
         const statusEl = shop.querySelector('[data-course-status]');
+        const successDialog = document.querySelector('[data-course-success-dialog]');
+        const successDialogMessage = successDialog?.querySelector('[data-course-success-message]');
+        const successDialogClose = successDialog?.querySelector('[data-course-success-close]');
         let selected = false;
         let isSubmitting = false;
         let backendReady = false;
@@ -60,6 +63,22 @@
 
         function replaceCheckoutQuery() {
             window.history.replaceState({}, document.title, `${window.location.pathname}#${anchorId}`);
+        }
+
+        function showPaymentSuccess(message) {
+            if (!successDialog) return false;
+
+            if (successDialogMessage) {
+                successDialogMessage.textContent = message;
+            }
+
+            if (typeof successDialog.showModal === 'function') {
+                if (!successDialog.open) successDialog.showModal();
+            } else {
+                successDialog.setAttribute('open', '');
+            }
+
+            return true;
         }
 
         function render() {
@@ -195,7 +214,12 @@
             try {
                 const result = await postToAppsScript({ action: 'verifyCheckoutSession', stripeSessionId: sessionId });
                 if (result.paymentStatus !== 'paid') throw new Error('Payment could not be verified yet. Please contact SparkPreneurs.');
-                setStatus(result.message || 'Payment verified. Your registration has been received.', 'success');
+                const successMessage = result.message || 'Payment verified. Your registration has been received.';
+                if (showPaymentSuccess(successMessage)) {
+                    setStatus('', '');
+                } else {
+                    setStatus(successMessage, 'success');
+                }
             } catch (error) {
                 setStatus(error.message || 'Payment could not be verified yet. Please contact SparkPreneurs.', 'error');
             } finally {
@@ -218,6 +242,14 @@
         clearButton.addEventListener('click', function() {
             selected = false;
             render();
+        });
+
+        successDialogClose?.addEventListener('click', function() {
+            if (typeof successDialog.close === 'function') {
+                successDialog.close();
+            } else {
+                successDialog.removeAttribute('open');
+            }
         });
 
         purchaseButton.addEventListener('click', async function() {
