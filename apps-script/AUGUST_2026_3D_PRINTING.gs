@@ -6,7 +6,7 @@ const STRIPE_METADATA_PROGRAM = "kids_3d_printing";
 const PROGRAM_CATEGORY = "kids_youth";
 const PROGRAM_SESSIONS = "6";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-01-3d-printing-1";
+const SCRIPT_VERSION = "2026-08-01-3d-printing-2";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 
@@ -512,7 +512,7 @@ function normalizeSelectedItemCodes_(value) {
 
   const code = String(value[0] || "").trim().toUpperCase();
 
-  if (!/^[A-Z0-9_-]{1,20}$/.test(code)) {
+  if (!/^[A-Z0-9_-]{1,64}$/.test(code)) {
     throw clientError_("Invalid class selection.");
   }
 
