@@ -12,6 +12,7 @@
         const returnPageUrl = String(shop.dataset.returnUrl || '').trim();
         const anchorId = String(shop.dataset.courseAnchor || 'registration').trim();
         const requiredStripeMode = String(shop.dataset.requiredStripeMode || '').trim().toLowerCase();
+        const checkoutReturnStatus = new URLSearchParams(window.location.search).get('payment');
         const taxRate = Number(shop.dataset.taxRatePercent || 0) / 100;
         const requiresWaiver = shop.dataset.requiresWaiver === 'true';
         const addButton = shop.querySelector('[data-course-add]');
@@ -146,7 +147,9 @@
             try {
                 const result = await postToAppsScript({ action: 'ping' });
                 backendReady = Array.isArray(result.programs) && result.programs.includes(programCode) && (!requiredStripeMode || result.stripeMode === requiredStripeMode);
-                setStatus(backendReady ? '' : 'Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', backendReady ? '' : 'warning');
+                if (!backendReady || !checkoutReturnStatus) {
+                    setStatus(backendReady ? '' : 'Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', backendReady ? '' : 'warning');
+                }
             } catch (error) {
                 backendReady = false;
                 setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', 'warning');
