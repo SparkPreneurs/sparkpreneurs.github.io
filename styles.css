@@ -9555,12 +9555,50 @@ body .adult-art-form-field textarea {
 }
 
 .zumba-hero-copy h1 {
-    margin: 14px 0 18px;
+    margin: 0;
     color: var(--aubergine);
     font-family: var(--font-heading);
     font-size: clamp(2.5rem, 3.5vw, 3.5rem);
     font-weight: 600;
     line-height: 1;
+}
+
+.zumba-hero-subtitle {
+    margin: 12px 0 0;
+    color: var(--muted-ink);
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.4;
+}
+
+.zumba-hero-schedule-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.zumba-hero-schedule-item {
+    padding: 11px 0 11px 15px;
+    border-left: 3px solid var(--terracotta);
+}
+
+.zumba-hero-schedule-time {
+    margin-top: 4px;
+    color: var(--aubergine);
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.zumba-hero-schedule-item > p:last-child {
+    margin-top: 4px;
+    color: var(--muted-ink);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+}
+
+.zumba-hero-schedule-item--passes {
+    border-left-color: var(--aubergine);
 }
 
 .zumba-hero-lead {
@@ -9605,13 +9643,8 @@ body .adult-art-form-field textarea {
     display: block;
 }
 
-.zumba-schedule,
 .zumba-registration {
     padding: 72px 0;
-}
-
-.zumba-schedule {
-    background: #fffaf4;
 }
 
 .zumba-section-head {
@@ -9634,13 +9667,6 @@ body .adult-art-form-field textarea {
     line-height: 1.65;
 }
 
-.zumba-schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-}
-
-.zumba-schedule-card,
 .zumba-option-card,
 .zumba-cart-card {
     border: 1px solid var(--line);
@@ -9649,32 +9675,12 @@ body .adult-art-form-field textarea {
     box-shadow: var(--shadow-soft);
 }
 
-.zumba-schedule-card {
-    padding: 28px;
-}
-
-.zumba-schedule-card--note {
-    background: var(--aubergine);
-}
-
-.zumba-schedule-card h3,
 .zumba-option-card h3 {
     margin: 8px 0 12px;
     color: var(--aubergine);
     font-family: var(--font-heading);
     font-size: clamp(1.45rem, 2vw, 1.85rem);
     line-height: 1.05;
-}
-
-.zumba-schedule-card ul {
-    padding-left: 20px;
-    color: var(--muted-ink);
-    line-height: 1.75;
-}
-
-.zumba-schedule-card--note h3,
-.zumba-schedule-card--note p {
-    color: #ffffff;
 }
 
 .zumba-registration {
@@ -10068,12 +10074,10 @@ body .adult-art-form-field textarea {
         min-height: 280px;
     }
 
-    .zumba-schedule,
     .zumba-registration {
         padding: 56px 0;
     }
 
-    .zumba-schedule-grid,
     .zumba-option-grid {
         grid-template-columns: 1fr;
     }
@@ -10102,7 +10106,6 @@ body .adult-art-form-field textarea {
         min-height: 240px;
     }
 
-    .zumba-schedule-card,
     .zumba-option-card,
     .zumba-cart-card {
         padding: 20px;
