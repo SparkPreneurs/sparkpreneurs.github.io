@@ -193,7 +193,8 @@ document.addEventListener('DOMContentLoaded', function() {
         hstEl.textContent = formatMoney(totals.hstCents);
         totalEl.textContent = formatMoney(totals.totalCents);
         clearButton.disabled = isSubmitting;
-        checkoutButton.disabled = isSubmitting || !backendReady;
+        const hasExactClassSelection = selectedClassTimes.size === product.sessionCount;
+        checkoutButton.disabled = isSubmitting || !backendReady || !hasExactClassSelection;
         renderTimeChoices();
     }
 
@@ -233,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 action: 'ping',
                 programCode
             });
-            backendReady = result.version === '2026-07-26-5' &&
+            backendReady = result.version === '2026-08-03-1' &&
                 result.programCode === programCode &&
                 result.stripeMode === 'live';
 
@@ -360,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedClassTimes.size === product.sessionCount) {
             setStatus('');
         }
-        updateTimeHelp();
+        render();
     });
 
     cartList.addEventListener('click', function(event) {
