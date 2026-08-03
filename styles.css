@@ -9739,12 +9739,6 @@ body .adult-art-form-field textarea {
     text-decoration-thickness: 3px;
 }
 
-.zumba-option-price span {
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
 .zumba-add,
 .zumba-checkout {
     width: 100%;
