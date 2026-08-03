@@ -9577,74 +9577,6 @@ body .adult-art-form-field textarea {
     text-decoration: none;
 }
 
-.zumba-hero-details {
-    display: grid;
-    grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.55fr);
-    gap: 24px;
-    margin-top: 32px;
-    padding: 20px;
-    border: 1px solid rgba(6, 28, 73, 0.12);
-    border-radius: var(--radius-card);
-    background: rgba(255, 253, 249, 0.8);
-    box-shadow: var(--shadow-soft);
-}
-
-.zumba-hero-details__intro {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.zumba-hero-details .zumba-hero-lead {
-    max-width: none;
-}
-
-.zumba-hero-details .zumba-hero-action {
-    margin-top: 18px;
-}
-
-.zumba-hero-schedule {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.zumba-hero-schedule-card {
-    min-width: 0;
-    padding: 16px;
-    border: 1px solid rgba(6, 28, 73, 0.12);
-    border-radius: var(--radius-medium);
-    background: #ffffff;
-}
-
-.zumba-hero-schedule-card h2 {
-    margin: 7px 0 6px;
-    color: var(--aubergine);
-    font-family: var(--font-heading);
-    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
-    line-height: 1.08;
-}
-
-.zumba-hero-schedule-card > p:last-child {
-    color: var(--muted-ink);
-    font-size: 0.875rem;
-    line-height: 1.45;
-}
-
-.zumba-hero-schedule-card--passes {
-    border-color: var(--aubergine);
-    background: var(--aubergine);
-}
-
-.zumba-hero-schedule-card--passes :is(.zumba-schedule-label, h2, p) {
-    color: #ffffff;
-}
-
-.zumba-hero-schedule-card--passes > p:last-child {
-    color: #ffffff;
-}
-
 .zumba-hero-photo {
     position: relative;
     width: 100%;
@@ -9673,8 +9605,13 @@ body .adult-art-form-field textarea {
     display: block;
 }
 
+.zumba-schedule,
 .zumba-registration {
     padding: 72px 0;
+}
+
+.zumba-schedule {
+    background: #fffaf4;
 }
 
 .zumba-section-head {
@@ -9697,6 +9634,13 @@ body .adult-art-form-field textarea {
     line-height: 1.65;
 }
 
+.zumba-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.zumba-schedule-card,
 .zumba-option-card,
 .zumba-cart-card {
     border: 1px solid var(--line);
@@ -9705,12 +9649,32 @@ body .adult-art-form-field textarea {
     box-shadow: var(--shadow-soft);
 }
 
+.zumba-schedule-card {
+    padding: 28px;
+}
+
+.zumba-schedule-card--note {
+    background: var(--aubergine);
+}
+
+.zumba-schedule-card h3,
 .zumba-option-card h3 {
     margin: 8px 0 12px;
     color: var(--aubergine);
     font-family: var(--font-heading);
     font-size: clamp(1.45rem, 2vw, 1.85rem);
     line-height: 1.05;
+}
+
+.zumba-schedule-card ul {
+    padding-left: 20px;
+    color: var(--muted-ink);
+    line-height: 1.75;
+}
+
+.zumba-schedule-card--note h3,
+.zumba-schedule-card--note p {
+    color: #ffffff;
 }
 
 .zumba-registration {
@@ -10068,18 +10032,13 @@ body .adult-art-form-field textarea {
     }
 
     .zumba-hero-photo {
-        max-width: 480px;
-        min-height: 0;
-        height: 300px;
+        max-width: 560px;
+        min-height: 320px;
         justify-self: start;
     }
 
     .zumba-hero-photo img {
-        min-height: 0;
-    }
-
-    .zumba-hero-details {
-        grid-template-columns: 1fr;
+        min-height: 320px;
     }
 
     .zumba-cart {
@@ -10106,17 +10065,15 @@ body .adult-art-form-field textarea {
 
     .zumba-hero-photo,
     .zumba-hero-photo img {
-        min-height: 0;
+        min-height: 280px;
     }
 
-    .zumba-hero-photo {
-        height: 260px;
-    }
-
+    .zumba-schedule,
     .zumba-registration {
         padding: 56px 0;
     }
 
+    .zumba-schedule-grid,
     .zumba-option-grid {
         grid-template-columns: 1fr;
     }
@@ -10136,37 +10093,16 @@ body .adult-art-form-field textarea {
 }
 
 @media (max-width: 430px) {
-    .zumba-hero-details {
-        gap: 18px;
-        padding: 16px;
-    }
-
-    .zumba-hero-schedule {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
-
-    .zumba-hero-schedule-card {
-        padding: 14px;
-    }
-
-    .zumba-hero-schedule-card--passes {
-        grid-column: 1 / -1;
-    }
-
     .zumba-hero-action {
         width: 100%;
     }
 
     .zumba-hero-photo,
     .zumba-hero-photo img {
-        min-height: 0;
+        min-height: 240px;
     }
 
-    .zumba-hero-photo {
-        height: 220px;
-    }
-
+    .zumba-schedule-card,
     .zumba-option-card,
     .zumba-cart-card {
         padding: 20px;
