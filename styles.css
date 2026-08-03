@@ -9608,13 +9608,6 @@ body .adult-art-form-field textarea {
     line-height: 1.6;
 }
 
-.zumba-hero-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-
 .zumba-hero-photo {
     position: relative;
     width: 100%;
@@ -10097,10 +10090,6 @@ body .adult-art-form-field textarea {
 }
 
 @media (max-width: 430px) {
-    .zumba-hero-action {
-        width: 100%;
-    }
-
     .zumba-hero-photo,
     .zumba-hero-photo img {
         min-height: 240px;
