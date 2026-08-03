@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p3fnyQ_srxmjI6_yLR9uuboibxZ_UVruw2us9PaiUOc";
 const PROGRAM_CODE = "august_september_2026_zumba";
 const PROGRAM_NAME = "August-September 2026 - Zumba";
-const SCRIPT_VERSION = "2026-07-26-5";
+const SCRIPT_VERSION = "2026-08-03-1";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
@@ -27,31 +27,20 @@ const REGISTRATION_HEADERS = ATTEMPT_HEADERS.concat([
 ]);
 
 const CLASS_TIMES = {
-  AUG01_SAT_1030: "Saturday, August 1, 10:30 AM-11:30 AM",
-  AUG03_MON_1730: "Monday, August 3, 5:30 PM-6:30 PM",
-  AUG04_TUE_1030: "Tuesday, August 4, 10:30 AM-11:30 AM",
-  AUG05_WED_1730: "Wednesday, August 5, 5:30 PM-6:30 PM",
-  AUG06_THU_1030: "Thursday, August 6, 10:30 AM-11:30 AM",
-  AUG08_SAT_1030: "Saturday, August 8, 10:30 AM-11:30 AM",
-  AUG10_MON_1730: "Monday, August 10, 5:30 PM-6:30 PM",
-  AUG11_TUE_1030: "Tuesday, August 11, 10:30 AM-11:30 AM",
-  AUG12_WED_1730: "Wednesday, August 12, 5:30 PM-6:30 PM",
-  AUG13_THU_1030: "Thursday, August 13, 10:30 AM-11:30 AM",
-  AUG15_SAT_1030: "Saturday, August 15, 10:30 AM-11:30 AM",
-  AUG17_MON_1730: "Monday, August 17, 5:30 PM-6:30 PM",
-  AUG18_TUE_1030: "Tuesday, August 18, 10:30 AM-11:30 AM",
-  AUG19_WED_1730: "Wednesday, August 19, 5:30 PM-6:30 PM",
-  AUG20_THU_1030: "Thursday, August 20, 10:30 AM-11:30 AM",
-  AUG22_SAT_1030: "Saturday, August 22, 10:30 AM-11:30 AM",
-  AUG24_MON_1730: "Monday, August 24, 5:30 PM-6:30 PM",
-  AUG25_TUE_1030: "Tuesday, August 25, 10:30 AM-11:30 AM",
-  AUG26_WED_1730: "Wednesday, August 26, 5:30 PM-6:30 PM",
-  AUG27_THU_1030: "Thursday, August 27, 10:30 AM-11:30 AM",
-  AUG29_SAT_1030: "Saturday, August 29, 10:30 AM-11:30 AM",
-  AUG31_MON_1730: "Monday, August 31, 5:30 PM-6:30 PM",
-  SEP01_TUE_1030: "Tuesday, September 1, 10:30 AM-11:30 AM",
-  SEP02_WED_1730: "Wednesday, September 2, 5:30 PM-6:30 PM",
-  SEP03_THU_1030: "Thursday, September 3, 10:30 AM-11:30 AM"
+  AUG19_WED_1200: "Wednesday, August 19, 12:00 PM-1:00 PM",
+  AUG20_THU_1730: "Thursday, August 20, 5:30 PM-6:30 PM",
+  AUG21_FRI_1200: "Friday, August 21, 12:00 PM-1:00 PM",
+  AUG22_SAT_1100: "Saturday, August 22, 11:00 AM-12:00 PM",
+  AUG25_TUE_1730: "Tuesday, August 25, 5:30 PM-6:30 PM",
+  AUG26_WED_1200: "Wednesday, August 26, 12:00 PM-1:00 PM",
+  AUG27_THU_1730: "Thursday, August 27, 5:30 PM-6:30 PM",
+  AUG28_FRI_1200: "Friday, August 28, 12:00 PM-1:00 PM",
+  AUG29_SAT_1100: "Saturday, August 29, 11:00 AM-12:00 PM",
+  SEP01_TUE_1730: "Tuesday, September 1, 5:30 PM-6:30 PM",
+  SEP02_WED_1200: "Wednesday, September 2, 12:00 PM-1:00 PM",
+  SEP03_THU_1730: "Thursday, September 3, 5:30 PM-6:30 PM",
+  SEP04_FRI_1200: "Friday, September 4, 12:00 PM-1:00 PM",
+  SEP05_SAT_1100: "Saturday, September 5, 11:00 AM-12:00 PM"
 };
 
 const SESSION_COUNTS = {
@@ -71,8 +60,8 @@ function product_(itemCode, itemName, priceCents) {
     programCode: PROGRAM_CODE,
     itemCode: itemCode,
     itemName: itemName,
-    startDate: "2026-08-01",
-    endDate: "2026-08-28",
+    startDate: "2026-08-19",
+    endDate: "2026-09-05",
     startTime: "",
     endTime: "",
     priceCents: priceCents,
@@ -146,8 +135,9 @@ function applySummerPromotionCatalogUpdate() {
     });
   }
 
-  return "Summer promotion catalog updated: $35 single, $120 for 4 " +
-    "sessions, $190 for 8 sessions, and the 7-session pass is inactive.";
+  return "Summer promotion catalog updated for August 19-September 5: " +
+    "$35 single, $120 for 4 sessions, $190 for 8 sessions, and the " +
+    "7-session pass is inactive.";
 }
 
 function authorizeRequiredServices() {
@@ -441,9 +431,7 @@ function normalizeSelectedClassTimes_(value, itemCode) {
 }
 
 function isAvailableClassTime_(code) {
-  // The first promotion window is four consecutive weeks in August.
-  // September remains listed for future planning but cannot be purchased yet.
-  return /^AUG(0[1-9]|1[0-9]|2[0-8])_/.test(String(code || ""));
+  return Boolean(CLASS_TIMES[String(code || "").trim().toUpperCase()]);
 }
 
 function verifyPaidSession_(session, attempt, mode) {
