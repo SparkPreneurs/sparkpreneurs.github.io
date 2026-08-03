@@ -9687,33 +9687,6 @@ body .adult-art-form-field textarea {
     align-items: start;
 }
 
-.zumba-promotion-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 20px;
-    padding: 18px 20px;
-    border-radius: var(--radius-card);
-    background: var(--aubergine);
-    color: #ffffff;
-}
-
-.zumba-promotion-banner span {
-    padding: 7px 11px;
-    border-radius: 999px;
-    background: var(--terracotta);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-}
-
-.zumba-promotion-banner strong {
-    font-size: 1rem;
-    text-align: right;
-}
-
 .zumba-option-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -10073,15 +10046,6 @@ body .adult-art-form-field textarea {
 
     .zumba-option-grid {
         grid-template-columns: 1fr;
-    }
-
-    .zumba-promotion-banner {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .zumba-promotion-banner strong {
-        text-align: left;
     }
 
     .zumba-option-card {
