@@ -23,9 +23,9 @@ function printUsage() {
   node test-registration-readiness.js \\
     --page=hand-building-pottery/index.html \\
     --program=adult_hand_building_pottery \\
-    --shop=[data-hand-building-shop] \\
-    --add=[data-hand-building-add] \\
-    --purchase=[data-hand-building-purchase] \\
+    --shop=[data-course-registration] \\
+    --add=[data-course-add] \\
+    --purchase=[data-course-purchase] \\
     --mode=test \\
     --version=mocked-readiness-check
 

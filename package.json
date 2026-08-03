@@ -5,7 +5,7 @@
   "description": "Local browser checks for SparkPreneurs registration pages.",
   "scripts": {
     "test:registration-readiness": "node test-registration-readiness.js",
-    "test:pottery-checkout": "npm run test:registration-readiness -- --page=hand-building-pottery/index.html --program=adult_hand_building_pottery --shop=[data-hand-building-shop] --add=[data-hand-building-add] --purchase=[data-hand-building-purchase]"
+    "test:pottery-checkout": "npm run test:registration-readiness -- --page=hand-building-pottery/index.html --program=adult_hand_building_pottery --shop=[data-course-registration] --add=[data-course-add] --purchase=[data-course-purchase]"
   },
   "devDependencies": {
     "playwright": "1.61.1"
