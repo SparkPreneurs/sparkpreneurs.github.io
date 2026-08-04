@@ -9184,12 +9184,18 @@ body .adult-art-form-field textarea {
     padding: 0;
 }
 
+.kids-3d-printing-page .printing-registration__shop .summer-week-section-head {
+    align-items: end;
+    margin-bottom: 18px;
+}
+
 .kids-3d-printing-page .printing-class-card {
     display: block;
 }
 
 .kids-3d-printing-page .printing-class-card .summer-week-body {
-    gap: 20px;
+    gap: 18px;
+    padding: 20px;
 }
 
 .kids-3d-printing-page .printing-class-card__main {
@@ -9213,12 +9219,86 @@ body .adult-art-form-field textarea {
     object-position: 58% center;
 }
 
+.kids-3d-printing-page .printing-schedule {
+    margin-top: 18px;
+    padding: 16px;
+    border: 1px solid rgba(194, 65, 12, 0.18);
+    border-radius: 16px;
+    background: #fffaf5;
+}
+
+.kids-3d-printing-page .printing-schedule__title {
+    margin: 0 0 10px;
+    color: var(--color-primary);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.kids-3d-printing-page .printing-schedule__list {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kids-3d-printing-page .printing-schedule__list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.35;
+}
+
+.kids-3d-printing-page .printing-schedule__list strong {
+    color: var(--color-primary);
+    font-weight: 800;
+    text-align: right;
+}
+
+.kids-3d-printing-page .printing-schedule__note {
+    margin: 12px 0 0;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
 .kids-3d-printing-page .printing-registration__cart {
     top: 106px;
 }
 
 .kids-3d-printing-page .printing-registration__cart .summer-cart-card {
-    background: var(--color-surface);
+    background: #fffaf5;
+    border: 1px solid rgba(194, 65, 12, 0.16);
+    box-shadow: 0 14px 34px rgba(47, 50, 64, 0.1);
+}
+
+.kids-3d-printing-page .printing-registration__cart .summer-cart-label {
+    margin-bottom: 16px;
+}
+
+.kids-3d-printing-page .printing-registration__cart .summer-cart-empty {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--color-muted);
+    font-size: 16px;
+}
+
+.kids-3d-printing-page .printing-registration__cart .summer-form-field {
+    gap: 7px;
+    color: var(--color-primary);
+    font-size: 16px;
+}
+
+.kids-3d-printing-page .printing-registration__cart .summer-form-field input {
+    min-height: 52px;
+    border-color: rgba(6, 28, 73, 0.16);
 }
 
 .kids-3d-printing-page .summer-cart-status[data-status='success'] {
@@ -9438,6 +9518,10 @@ body .adult-art-form-field textarea {
         gap: 16px;
     }
 
+    .kids-3d-printing-page .printing-schedule {
+        margin-top: 16px;
+    }
+
     .kids-3d-printing-page .printing-class-card__image {
         aspect-ratio: 16 / 9;
         object-position: 63% center;
@@ -9490,6 +9574,10 @@ body .adult-art-form-field textarea {
     .kids-3d-printing-page .printing-registration__shop .summer-week-section-note {
         max-width: none;
         text-align: left;
+    }
+
+    .kids-3d-printing-page .printing-registration__shop .summer-week-section-head {
+        margin-bottom: 14px;
     }
 }
 
