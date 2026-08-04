@@ -186,9 +186,9 @@
                 <div class="printing-section-heading printing-section-heading--center">
                     <p class="printing-section-label">Registration</p>
                     <h2 id="pottery-wheel-registration-title">Reserve Your Place</h2>
-                    <p>Choose a cohort, complete your details, and continue to secure payment once registration is connected.</p>
+                    <p>Choose a cohort, complete your details, and continue to secure payment.</p>
                 </div>
-                <div class="summer-camp-shop printing-registration__shop pottery-wheel-registration__shop" data-pottery-wheel-registration>
+                <div class="summer-camp-shop printing-registration__shop pottery-wheel-registration__shop" data-pottery-wheel-registration data-apps-script-url="https://script.google.com/macros/s/AKfycbwFjroZMc49w0S5ARgEY1X-pB-ZSkVnzlLEwtXm_re_tUUx9SfgPX3t4t8B2AG_yW31/exec" data-program-code="august_september_2026_pottery_wheel" data-required-stripe-mode="test">
                     <section class="summer-week-section" aria-labelledby="pottery-wheel-selection-title">
                         <div class="summer-week-section-head">
                             <div>
@@ -220,9 +220,9 @@
                                 <label class="summer-form-field"><span>Phone</span><input type="tel" name="phone" autocomplete="tel" required></label>
                                 <label class="summer-form-field"><span>Experience level</span><select name="experienceLevel" required><option value="">Choose one</option><option value="beginner">Beginner</option><option value="some-experience">Some experience</option><option value="experienced">Experienced</option></select></label>
                                 <label class="summer-form-field"><span>Message <em>(optional)</em></span><textarea name="message" rows="3"></textarea></label>
-                                <label class="pottery-wheel-consent"><input type="checkbox" name="consent" value="yes" required><span>I agree to the registration and privacy terms. A full waiver will be collected before secure payment.</span></label>
+                                <label class="pottery-wheel-consent"><input type="checkbox" name="consent" value="yes" required><span>I agree to the registration and privacy terms.</span></label>
                             </form>
-                            <p class="summer-cart-note">Your cohort is not held until payment is verified. Secure checkout will be connected in the next setup step.</p>
+                            <p class="summer-cart-note">Your cohort is not held until payment is verified.</p>
                             <p class="summer-cart-status" data-pottery-wheel-status role="status" aria-live="polite"></p>
                             <div class="summer-cart-actions">
                                 <button class="summer-cart-purchase" type="button" data-pottery-wheel-submit disabled>Continue to Secure Payment</button>
@@ -268,6 +268,6 @@
     </footer>
 
     <script src="../script.js?v=20260707-light-bg"></script>
-    <script src="shop.js?v=20260804-pottery-wheel"></script>
+    <script src="shop.js?v=20260804-pottery-wheel-checkout"></script>
 </body>
 </html>
