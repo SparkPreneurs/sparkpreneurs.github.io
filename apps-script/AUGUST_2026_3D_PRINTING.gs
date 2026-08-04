@@ -6,9 +6,10 @@ const STRIPE_METADATA_PROGRAM = "kids_3d_printing";
 const PROGRAM_CATEGORY = "kids_youth";
 const PROGRAM_SESSIONS = "6";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-3d-printing-3";
+const SCRIPT_VERSION = "2026-08-04-3d-printing-4";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 const PRODUCTS_SHEET_NAME = "Products";
 const ATTEMPTS_SHEET_NAME = "Checkout Attempts";
@@ -310,14 +311,15 @@ function verifyCheckoutSession_(stripeSessionId) {
       lastError: ""
     });
 
-    upsertByColumn_(registrations, REGISTRATION_HEADERS, "stripeSessionId", sessionId, registration);
-    attempt.updatedAt = paidAt;
-    attempt.status = "PAID_VERIFIED";
-    attempt.lastError = "";
-    upsertByColumn_(attempts, ATTEMPT_HEADERS, "stripeSessionId", sessionId, attempt);
+      upsertByColumn_(registrations, REGISTRATION_HEADERS, "stripeSessionId", sessionId, registration);
+      attempt.updatedAt = paidAt;
+      attempt.status = "PAID_VERIFIED";
+      attempt.lastError = "";
+      upsertByColumn_(attempts, ATTEMPT_HEADERS, "stripeSessionId", sessionId, attempt);
+      sendEnrollmentNotificationSafely_(registration, PROGRAM_NAME, paidAt);
 
-    return { alreadyRecorded: false };
-  });
+      return { alreadyRecorded: false };
+    });
 
   return {
     success: true,
@@ -854,6 +856,68 @@ function clientError_(message) {
 
 function logError_(err) {
   console.log("3D Printing request failed: " + String(err && err.message ? err.message : err));
+}
+
+function sendEnrollmentNotificationSafely_(registration, programName, paidAt) {
+  try {
+    sendEnrollmentNotification_({
+      programName: programName,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: registration.selectedItemNames,
+      amountCents: registration.expectedAmountCents,
+      paidAt: paidAt,
+      orderId: registration.orderId,
+      stripeSessionId: registration.stripeSessionId
+    });
+  } catch (error) {
+    console.log("3D Printing enrollment email failed: " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const lines = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + String(details.programName || PROGRAM_NAME),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ];
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + String(details.programName || PROGRAM_NAME),
+    body: lines.join("\n")
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse_(object) {

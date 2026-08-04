@@ -1,10 +1,11 @@
 const SPREADSHEET_ID = "1p7PlK3wy4JEiJJSq6cL8cXmYk6JhN5jFk1xd21IhiyA";
 const PROGRAM_CODE = "summer_2026_unified_cart_checkout";
 const PROGRAM_NAME = "Summer 2026 - Unified Cart Checkout";
-const SCRIPT_VERSION = "2026-07-22-1";
+const SCRIPT_VERSION = "2026-08-04-1";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 50000;
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 const PRODUCTS_SHEET_NAME = "Products";
 const ATTEMPTS_SHEET_NAME = "Checkout Attempts";
@@ -401,7 +402,12 @@ function writeDestinationRegistrations_(session, attempt, items, registrations, 
       stripePaymentStatus: "paid",
       registrationStatus: "PAID_VERIFIED"
     });
-    upsertByKey_(ensureDestinationRegistrationSheet_(programCode), "stripeSessionId", session.id, record);
+    const destinationSheet = ensureDestinationRegistrationSheet_(programCode);
+    const existing = readByKey_(destinationSheet, "stripeSessionId", session.id);
+    upsertByKey_(destinationSheet, "stripeSessionId", session.id, record);
+    if (!existing) {
+      sendEnrollmentNotificationSafely_(programCode, record, paidAt);
+    }
   });
 }
 
@@ -681,6 +687,68 @@ function clientError_(message) {
   const error = new Error(message);
   error.isPublic = true;
   return error;
+}
+
+function sendEnrollmentNotificationSafely_(programCode, registration, paidAt) {
+  try {
+    sendEnrollmentNotification_({
+      programName: PROGRAMS[programCode] ? PROGRAMS[programCode].name : programCode,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: registration.selectedItemNames,
+      amountCents: registration.expectedAmountCents,
+      paidAt: paidAt,
+      orderId: registration.orderId,
+      stripeSessionId: registration.stripeSessionId
+    });
+  } catch (error) {
+    console.error("Unified cart enrollment email failed for " + programCode + ": " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const body = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + String(details.programName || ""),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ].join("\n");
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + String(details.programName || "SparkPreneurs"),
+    body: body
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse_(data) {

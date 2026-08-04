@@ -9,7 +9,8 @@ const DEFAULT_PROGRAM_CODE = "summer2026";
 const DEFAULT_CURRENCY = "cad";
 const DEFAULT_TAX_RATE_PERCENT = 13;
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
-const SCRIPT_VERSION = "2026-07-20-1";
+const SCRIPT_VERSION = "2026-08-04-1";
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 function doPost(e) {
   try {
@@ -442,15 +443,21 @@ function finalizePaidRegistration_(session) {
   const selectedWeekNames = pending ? pending.selectedWeekNames : sanitizeText_(metadata.selectedWeekNames, 500);
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const registrationSheet = ss.getSheetByName(REGISTRATION_SHEET_NAME);
+  const programCode = pending ? pending.programCode : sanitizeText_(metadata.programCode || DEFAULT_PROGRAM_CODE, 40);
+  const paidAt = new Date();
+  const paidAtIso = paidAt.toISOString();
 
   if (!registrationSheet) {
     throw new Error("Missing registration sheet: " + REGISTRATION_SHEET_NAME);
   }
 
+  const headers = ensureRegistrationHeaders_(registrationSheet);
+  const existingRow = findRowByColumnValue_(registrationSheet, headers.indexOf("stripeSessionId") + 1, sessionId);
+
   upsertRegistrationRow_(registrationSheet, {
     createdAt: pending ? pending.createdAt : "",
-    paidAt: new Date(),
-    programCode: pending ? pending.programCode : sanitizeText_(metadata.programCode || DEFAULT_PROGRAM_CODE, 40),
+    paidAt: paidAt,
+    programCode: programCode,
     studentName: registration.studentName,
     parentName: registration.parentName,
     parentEmail: registration.parentEmail,
@@ -492,6 +499,21 @@ function finalizePaidRegistration_(session) {
   });
 
   deletePendingRegistration_(sessionId);
+
+  if (!existingRow) {
+    sendEnrollmentNotificationSafely_({
+      programCode: programCode,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: selectedWeekNames,
+      amountCents: expectedAmountCents,
+      paidAt: paidAtIso,
+      orderId: metadata.orderId || (pending && pending.orderId) || "",
+      stripeSessionId: sessionId
+    });
+  }
 }
 
 function upsertRegistrationRow_(sheet, rowData) {
@@ -986,6 +1008,70 @@ function loadPendingRegistration_(sessionId) {
 
 function deletePendingRegistration_(sessionId) {
   PropertiesService.getScriptProperties().deleteProperty("pending_" + sessionId);
+}
+
+function sendEnrollmentNotificationSafely_(details) {
+  try {
+    sendEnrollmentNotification_(details);
+  } catch (error) {
+    console.log("Enrollment email failed: " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const body = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + programNameFromCode_(details.programCode),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ].join("\n");
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + programNameFromCode_(details.programCode),
+    body: body
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function programNameFromCode_(programCode) {
+  if (programCode === SUMMER_CAMP_4_TO_10_SESSIONS_PROGRAM_CODE) {
+    return "Summer Camp";
+  }
+  if (programCode === ADULT_HAND_BUILDING_POTTERY_PROGRAM_CODE) {
+    return "Hand-Building Pottery";
+  }
+  if (programCode === DEFAULT_PROGRAM_CODE) {
+    return "SparkPreneurs Summer Camp";
+  }
+  return String(programCode || "SparkPreneurs");
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse(obj) {

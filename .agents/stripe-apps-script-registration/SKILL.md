@@ -105,6 +105,7 @@ The generated file must include at least:
 - `authorizeRequiredServices()` to verify spreadsheet and Stripe access.
 - `createCheckoutSession_(data)`.
 - `verifyCheckoutSession_(stripeSessionId)`.
+- `sendEnrollmentNotification_()` or an equivalent helper that emails SparkPreneurs only after the first paid registration write.
 - Stripe retrieval before any paid registration write.
 - Input normalization, strict limits, formula-injection protection, trusted pricing, safe return URLs, locks, and idempotent writes.
 - Dynamic Stripe `price_data` calculated from the trusted `Products` tab.
@@ -145,6 +146,7 @@ STRIPE_SECRET_KEY_TEST=<test secret key>
 STRIPE_SECRET_KEY_LIVE=<live secret key, added only at live launch>
 STRIPE_WEBHOOK_TOKEN_TEST=<optional random test token>
 STRIPE_WEBHOOK_TOKEN_LIVE=<optional random live token>
+ENROLLMENT_NOTIFICATION_EMAILS=sparkpreneurs.ca@gmail.com
 ```
 
 Guide the user through test properties only:
@@ -295,6 +297,7 @@ Do not call the flow complete until all applicable checks pass:
 - Only active known products are accepted.
 - Unpaid sessions never create paid registrations.
 - Paid registration writes are locked and idempotent by Stripe session ID.
+- Enrollment notification emails are sent only after the first paid registration write.
 - Waiver and medical details remain in the period spreadsheet and are not sent to Stripe metadata.
 - The deployed version matches the repository version.
 - The frontend endpoint and product codes match the period backend.
