@@ -9594,8 +9594,20 @@ body .adult-art-form-field textarea {
     z-index: 2;
 }
 
+.pottery-wheel-page .printing-hero {
+    min-height: 420px;
+}
+
+@media (max-width: 1024px) {
+    .pottery-wheel-page .printing-hero {
+        min-height: 360px;
+        padding: 88px 0 28px;
+    }
+}
+
 @media (max-width: 600px) {
     .pottery-wheel-page .printing-hero {
+        min-height: 0;
         padding: 68px 0 20px;
     }
 
