@@ -9591,6 +9591,244 @@ body .adult-art-form-field textarea {
     }
 }
 
+/* Pottery Wheel course page additions reuse the 3D Printing program-page system. */
+.pottery-wheel-page .printing-hero__image {
+    z-index: 0;
+}
+
+.pottery-wheel-page .printing-hero__overlay {
+    z-index: 1;
+}
+
+.pottery-wheel-page .printing-hero__content {
+    z-index: 2;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card {
+    position: relative;
+    min-height: 0;
+    padding: 22px;
+    cursor: pointer;
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card::after {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #ffffff;
+    content: '✓';
+    font-size: 15px;
+    font-weight: 800;
+    opacity: 0;
+    transform: scale(0.75);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card:is(.is-selected, :has(.pottery-wheel-cohort-input:checked)) {
+    border-color: var(--color-primary);
+    background: #fffaf5;
+    box-shadow: 0 18px 38px rgba(6, 28, 73, 0.16);
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card:is(.is-selected, :has(.pottery-wheel-cohort-input:checked))::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card:has(.pottery-wheel-cohort-input:focus-visible) {
+    outline: 3px solid rgba(184, 95, 62, 0.35);
+    outline-offset: 3px;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-input,
+.pottery-wheel-page .pottery-wheel-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding-right: 28px;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-head > span:first-child,
+.pottery-wheel-page .pottery-wheel-cohort-card strong {
+    display: grid;
+    gap: 5px;
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-card strong {
+    color: var(--color-primary);
+    font-size: 21px;
+    line-height: 1.15;
+}
+
+.pottery-wheel-page .pottery-wheel-availability,
+.pottery-wheel-page .pottery-wheel-select-label {
+    color: var(--color-primary);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.pottery-wheel-page .pottery-wheel-availability::before {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    content: '';
+}
+
+.pottery-wheel-page .pottery-wheel-cohort-time {
+    display: block;
+    margin-top: 18px;
+    color: var(--color-primary);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.pottery-wheel-page .pottery-wheel-date-label {
+    display: block;
+    margin-top: 16px;
+    color: var(--color-muted);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.pottery-wheel-page .pottery-wheel-date-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 12px;
+    margin-top: 9px;
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.pottery-wheel-page .pottery-wheel-select-label {
+    display: block;
+    margin-top: 18px;
+}
+
+.pottery-wheel-page .pottery-wheel-section-note,
+.pottery-wheel-page .pottery-wheel-processing-note {
+    max-width: 780px;
+    margin: 22px auto 0;
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.pottery-wheel-page .pottery-wheel-processing-note {
+    margin: 12px 0 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+.pottery-wheel-page .pottery-wheel-registration__shop .summer-week-section {
+    padding: 0;
+}
+
+.pottery-wheel-page .pottery-wheel-selection-card .summer-week-body {
+    min-height: 224px;
+}
+
+.pottery-wheel-page .pottery-wheel-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.pottery-wheel-page .pottery-wheel-form-grid + .summer-form-field {
+    margin-top: 12px;
+}
+
+.pottery-wheel-page .summer-registration-form > .summer-form-field + .summer-form-field,
+.pottery-wheel-page .summer-registration-form > .pottery-wheel-consent {
+    margin-top: 12px;
+}
+
+.pottery-wheel-page .summer-form-field select,
+.pottery-wheel-page .summer-form-field textarea {
+    width: 100%;
+}
+
+.pottery-wheel-page .summer-form-field textarea {
+    resize: vertical;
+}
+
+.pottery-wheel-page .summer-form-field em {
+    font-style: normal;
+    font-weight: 400;
+}
+
+.pottery-wheel-page .pottery-wheel-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.pottery-wheel-page .pottery-wheel-consent input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+    .pottery-wheel-page .pottery-wheel-cohort-grid,
+    .pottery-wheel-page .pottery-wheel-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .pottery-wheel-page .pottery-wheel-cohort-card {
+        padding: 18px;
+    }
+
+    .pottery-wheel-page .pottery-wheel-date-list {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Summer Zumba registration page */
 .zumba-page {
     background: var(--cream);
