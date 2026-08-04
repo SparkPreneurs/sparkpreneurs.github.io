@@ -9596,7 +9596,7 @@ body .adult-art-form-field textarea {
 
 @media (max-width: 600px) {
     .pottery-wheel-page .printing-hero {
-        padding: 72px 0 24px;
+        padding: 68px 0 20px;
     }
 
     .pottery-wheel-page .printing-hero__overview {
@@ -9611,7 +9611,7 @@ body .adult-art-form-field textarea {
 
 @media (max-width: 375px) {
     .pottery-wheel-page .printing-hero {
-        padding: 64px 0 20px;
+        padding: 60px 0 16px;
     }
 }
 
