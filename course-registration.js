@@ -14,7 +14,6 @@
         const requiredStripeMode = String(shop.dataset.requiredStripeMode || '').trim().toLowerCase();
         const checkoutReturnStatus = new URLSearchParams(window.location.search).get('payment');
         const taxRate = Number(shop.dataset.taxRatePercent || 0) / 100;
-        const requiresWaiver = shop.dataset.requiresWaiver === 'true';
         const addButton = shop.querySelector('[data-course-add]');
         const classCard = shop.querySelector('[data-course-card]');
         const cartList = shop.querySelector('[data-course-cart-list]');
@@ -177,23 +176,6 @@
             render();
         }
 
-        async function collectWaiverData(registrationData) {
-            if (!requiresWaiver) return {};
-            if (!window.SparkPreneursWaiver) {
-                throw new Error('The required waiver could not be opened. Please refresh the page and try again.');
-            }
-
-            return window.SparkPreneursWaiver.collect({
-                childName: registrationData.studentName,
-                parentName: registrationData.parentName,
-                parentEmail: registrationData.parentEmail,
-                phone: registrationData.phone
-            }, {
-                kicker: 'Required Before 3D Printing Checkout',
-                submitLabel: 'Sign Waiver & Continue to Secure Payment'
-            });
-        }
-
         async function verifyReturnedPayment() {
             const params = new URLSearchParams(window.location.search);
             const sessionId = params.get('session_id');
@@ -269,19 +251,6 @@
                 return;
             }
 
-            let waiverData;
-            try {
-                waiverData = await collectWaiverData(registrationData);
-            } catch (error) {
-                setStatus(error.message || 'The waiver could not be opened. Please try again.', 'error');
-                return;
-            }
-
-            if (waiverData === null) {
-                setStatus('Please complete and sign the required waiver before payment.', 'warning');
-                return;
-            }
-
             const totals = calculateTotals();
             isSubmitting = true;
             purchaseButton.disabled = true;
@@ -299,8 +268,7 @@
                     displayedAmountCents: totals.totalCents,
                     successUrl: `${returnPageUrl}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
                     cancelUrl: `${returnPageUrl}?payment=canceled#${anchorId}`,
-                    ...registrationData,
-                    ...waiverData
+                    ...registrationData
                 });
                 const checkoutUrl = new URL(result.checkoutUrl);
                 if (checkoutUrl.protocol !== 'https:' || checkoutUrl.hostname !== 'checkout.stripe.com') {

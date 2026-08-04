@@ -2,7 +2,7 @@ const SPREADSHEET_ID = "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM";
 const PROGRAM_CODE = "adult_hand_building_pottery";
 const PROGRAM_NAME = "Adult Hand Pottery";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-07-20-1";
+const SCRIPT_VERSION = "2026-08-04-1";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 
@@ -440,58 +440,29 @@ function normalizeRegistration_(data) {
     parentName: requireText_(data.parentName, "contact name", 100),
     parentEmail: sanitizeEmail_(data.parentEmail, "contact email"),
     phone: requireText_(data.phone, "phone", 40),
+    waiverChildFullName: "",
+    childDateOfBirth: "",
+    waiverParentGuardianFullName: "",
+    waiverParentPhone: "",
+    waiverParentEmail: "",
+    emergencyContactName: "",
+    emergencyContactPhone: "",
+    emergencyContactRelationship: "",
+    medicalInformation: "",
+    medicalInformationConfirmed: false,
+    waiverAcknowledged: false,
+    photoConsent: "",
+    authorizedPickup1Name: "",
+    authorizedPickup1Phone: "",
+    authorizedPickup2Name: "",
+    authorizedPickup2Phone: "",
+    authorizedPickup3Name: "",
+    authorizedPickup3Phone: "",
+    waiverConfirmationName: "",
+    electronicSignature: "",
     waiverAccepted: false,
     waiverVersion: "",
     waiverSignedDate: ""
-  };
-}
-
-function normalizeWaiver_(data) {
-  if (!isTruthy_(data.waiverAccepted)) {
-    throw clientError_("The waiver must be completed before payment.");
-  }
-
-  if (!isTruthy_(data.medicalInformationConfirmed)) {
-    throw clientError_("Medical and emergency information must be confirmed.");
-  }
-
-  if (!isTruthy_(data.waiverAcknowledged)) {
-    throw clientError_("The waiver must be acknowledged.");
-  }
-
-  const photoConsent = safeText_(data.photoConsent, 3).toLowerCase();
-
-  if (photoConsent !== "yes" && photoConsent !== "no") {
-    throw clientError_("Choose yes or no for photo and video consent.");
-  }
-
-  const pickup2 = normalizeOptionalPickup_(data.authorizedPickup2Name, data.authorizedPickup2Phone, 2);
-  const pickup3 = normalizeOptionalPickup_(data.authorizedPickup3Name, data.authorizedPickup3Phone, 3);
-
-  return {
-    waiverChildFullName: requireText_(data.waiverChildFullName, "participant full name", 100),
-    childDateOfBirth: requireDate_(data.childDateOfBirth, "date of birth"),
-    waiverParentGuardianFullName: requireText_(data.waiverParentGuardianFullName, "participant or guardian full name", 100),
-    waiverParentPhone: requireText_(data.waiverParentPhone, "waiver phone", 40),
-    waiverParentEmail: sanitizeEmail_(data.waiverParentEmail, "waiver email"),
-    emergencyContactName: requireText_(data.emergencyContactName, "emergency contact name", 100),
-    emergencyContactPhone: requireText_(data.emergencyContactPhone, "emergency contact phone", 40),
-    emergencyContactRelationship: requireText_(data.emergencyContactRelationship, "emergency contact relationship", 80),
-    medicalInformation: requireText_(data.medicalInformation, "medical information", 2000),
-    medicalInformationConfirmed: true,
-    waiverAcknowledged: true,
-    photoConsent: photoConsent,
-    authorizedPickup1Name: requireText_(data.authorizedPickup1Name, "authorized person 1 name", 100),
-    authorizedPickup1Phone: requireText_(data.authorizedPickup1Phone, "authorized person 1 phone", 40),
-    authorizedPickup2Name: pickup2.name,
-    authorizedPickup2Phone: pickup2.phone,
-    authorizedPickup3Name: pickup3.name,
-    authorizedPickup3Phone: pickup3.phone,
-    waiverConfirmationName: requireText_(data.waiverConfirmationName, "waiver confirmation name", 100),
-    electronicSignature: requireText_(data.electronicSignature, "electronic signature", 100),
-    waiverSignedDate: requireDate_(data.waiverSignedDate, "waiver date"),
-    waiverVersion: requireText_(data.waiverVersion, "waiver version", 40),
-    waiverAccepted: true
   };
 }
 
