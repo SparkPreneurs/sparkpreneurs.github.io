@@ -9594,6 +9594,27 @@ body .adult-art-form-field textarea {
     z-index: 2;
 }
 
+@media (max-width: 600px) {
+    .pottery-wheel-page .printing-hero {
+        padding: 72px 0 24px;
+    }
+
+    .pottery-wheel-page .printing-hero__overview {
+        margin-top: 10px;
+    }
+
+    .pottery-wheel-page .printing-hero__overview p:last-child {
+        font-size: 15px;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 375px) {
+    .pottery-wheel-page .printing-hero {
+        padding: 64px 0 20px;
+    }
+}
+
 .pottery-wheel-page .pottery-wheel-cohort-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
