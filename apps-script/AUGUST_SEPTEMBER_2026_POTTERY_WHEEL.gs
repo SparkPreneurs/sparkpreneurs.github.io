@@ -7,7 +7,7 @@ const PROGRAM_CATEGORY = "adult_programs";
 const PROGRAM_TYPE = "class";
 const PROGRAM_SESSIONS = "4";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-pottery-wheel-3";
+const SCRIPT_VERSION = "2026-08-04-pottery-wheel-4";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -809,6 +809,13 @@ function requireSheet_(ss, name) {
 
 function ensureSheetHeaders_(sheet, headers) {
   if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    return;
+  }
+
+  // A newly created tab can contain an incomplete first row without any
+  // registrations. Restore its canonical headers safely before validation.
+  if (sheet.getLastRow() === 1) {
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     return;
   }
