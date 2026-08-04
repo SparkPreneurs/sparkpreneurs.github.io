@@ -7,9 +7,10 @@ const PROGRAM_CATEGORY = "adult_programs";
 const PROGRAM_TYPE = "class";
 const PROGRAM_SESSIONS = "4";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-pottery-wheel-1";
+const SCRIPT_VERSION = "2026-08-04-pottery-wheel-2";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 const PRODUCTS_SHEET_NAME = "Products";
 const ATTEMPTS_SHEET_NAME = "Checkout Attempts";
@@ -333,6 +334,7 @@ function verifyCheckoutSession_(stripeSessionId) {
     attempt.status = "PAID_VERIFIED";
     attempt.lastError = "";
     upsertByColumn_(attempts, ATTEMPT_HEADERS, "stripeSessionId", sessionId, attempt);
+    sendEnrollmentNotificationSafely_(registration, PROGRAM_NAME, paidAt);
     return { alreadyRecorded: false };
   });
 
@@ -874,6 +876,10 @@ function normalizeProductDate_(value, itemCode) {
 }
 
 function normalizeTime_(value, fieldName) {
+  if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value.getTime())) {
+    return Utilities.formatDate(value, Session.getScriptTimeZone(), "HH:mm");
+  }
+
   const time = safeText_(value, 5);
 
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
@@ -930,6 +936,68 @@ function clientError_(message) {
 
 function logError_(err) {
   console.log("Pottery Wheel request failed: " + String(err && err.message ? err.message : err));
+}
+
+function sendEnrollmentNotificationSafely_(registration, programName, paidAt) {
+  try {
+    sendEnrollmentNotification_({
+      programName: programName,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: registration.selectedItemNames,
+      amountCents: registration.expectedAmountCents,
+      paidAt: paidAt,
+      orderId: registration.orderId,
+      stripeSessionId: registration.stripeSessionId
+    });
+  } catch (error) {
+    console.log("Pottery Wheel enrollment email failed: " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const lines = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + String(details.programName || PROGRAM_NAME),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ];
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + String(details.programName || PROGRAM_NAME),
+    body: lines.join("\n")
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse_(object) {
