@@ -7,7 +7,7 @@ const PROGRAM_CATEGORY = "adult_programs";
 const PROGRAM_TYPE = "class";
 const PROGRAM_SESSIONS = "4";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-pottery-wheel-2";
+const SCRIPT_VERSION = "2026-08-04-pottery-wheel-3";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -563,23 +563,55 @@ function validateReturnUrls_(successValue, cancelValue) {
 
 function validateReturnUrl_(value, kind) {
   const text = String(value || "").trim();
-  let url;
+  const match = text.match(/^(https):\/\/([^\/?#]+)(\/[^?#]*)(\?[^#]*)?(?:#.*)?$/i);
 
-  try {
-    url = new URL(text);
-  } catch (err) {
+  if (!match) {
     throw clientError_("Invalid payment return address.");
   }
 
-  if (url.protocol !== "https:" || ["sparkpreneurs.ca", "www.sparkpreneurs.ca"].indexOf(url.hostname) === -1 || ["/pottery-wheel", "/pottery-wheel/"].indexOf(url.pathname) === -1 || url.username || url.password || url.port) {
+  const protocol = String(match[1] || "").toLowerCase();
+  const hostname = String(match[2] || "").toLowerCase();
+  const pathname = String(match[3] || "");
+  const query = String(match[4] || "");
+
+  if (protocol !== "https" || ["sparkpreneurs.ca", "www.sparkpreneurs.ca"].indexOf(hostname) === -1 || ["/pottery-wheel", "/pottery-wheel/"].indexOf(pathname) === -1) {
     throw clientError_("Invalid payment return address.");
   }
 
-  if (kind === "success" && url.searchParams.get("session_id") !== "{CHECKOUT_SESSION_ID}") {
+  if (kind === "success" && getQueryParameter_(query, "session_id") !== "{CHECKOUT_SESSION_ID}") {
     throw clientError_("Invalid payment return address.");
   }
 
-  return url.toString();
+  return text;
+}
+
+function getQueryParameter_(query, expectedName) {
+  const pairs = String(query || "").replace(/^\?/, "").split("&");
+  let foundValue = null;
+
+  for (let index = 0; index < pairs.length; index++) {
+    if (!pairs[index]) continue;
+
+    const separator = pairs[index].indexOf("=");
+    const rawName = separator === -1 ? pairs[index] : pairs[index].slice(0, separator);
+    const rawValue = separator === -1 ? "" : pairs[index].slice(separator + 1);
+    let name;
+    let value;
+
+    try {
+      name = decodeURIComponent(rawName.replace(/\+/g, " "));
+      value = decodeURIComponent(rawValue.replace(/\+/g, " "));
+    } catch (err) {
+      return null;
+    }
+
+    if (name === expectedName) {
+      if (foundValue !== null) return null;
+      foundValue = value;
+    }
+  }
+
+  return foundValue;
 }
 
 function parseRequest_(e) {
