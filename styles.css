@@ -8445,7 +8445,7 @@ body :is(p, li, span, a, button, label, input, select, textarea, option, td, th,
     padding: 112px 0 48px;
     overflow: hidden;
     color: #ffffff;
-    background: var(--color-primary);
+    background: var(--color-secondary);
 }
 
 .adult-art-hero__image,
@@ -8457,7 +8457,7 @@ body :is(p, li, span, a, button, label, input, select, textarea, option, td, th,
 }
 
 .adult-art-hero__image {
-    z-index: -2;
+    z-index: 0;
     display: block;
     left: auto;
     width: 38%;
@@ -8466,8 +8466,8 @@ body :is(p, li, span, a, button, label, input, select, textarea, option, td, th,
 }
 
 .adult-art-hero__overlay {
-    z-index: -1;
-    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary) 54%, rgba(6, 28, 73, 0.84) 72%, rgba(6, 28, 73, 0.34) 100%);
+    z-index: 1;
+    background: linear-gradient(90deg, rgba(10, 45, 114, 0) 0%, rgba(10, 45, 114, 0) 52%, rgba(6, 28, 73, 0.34) 72%, rgba(6, 28, 73, 0.1) 100%);
 }
 
 .page-hero__content {
@@ -8480,6 +8480,7 @@ body :is(p, li, span, a, button, label, input, select, textarea, option, td, th,
     max-width: 700px;
     margin-right: 0;
     margin-left: max(0px, calc((100vw - var(--container-width)) / 2));
+    z-index: 2;
 }
 
 .page-hero__eyebrow {
@@ -8749,7 +8750,7 @@ button {
     }
 
     .adult-art-hero__overlay {
-        background: linear-gradient(90deg, rgba(6, 28, 73, 0.94) 0%, rgba(6, 28, 73, 0.76) 74%, rgba(6, 28, 73, 0.56) 100%);
+        background: linear-gradient(90deg, rgba(6, 28, 73, 0.72) 0%, rgba(6, 28, 73, 0.54) 74%, rgba(6, 28, 73, 0.28) 100%);
     }
 
     .page-hero--adult-art .page-hero__eyebrow {
