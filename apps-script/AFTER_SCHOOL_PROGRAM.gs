@@ -2,9 +2,10 @@ const SPREADSHEET_ID = "1ptQXLvpebEHRiENXX-Sr5c7WE4r5MURd2MIMc95jBpk";
 const PROGRAM_CODE = "after_school_program";
 const PROGRAM_NAME = "After School Program";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-07-21-1";
+const SCRIPT_VERSION = "2026-08-04-1";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 const PRODUCTS_SHEET_NAME = "Products";
 const ATTEMPTS_SHEET_NAME = "Checkout Attempts";
@@ -245,6 +246,30 @@ function verifyCheckoutSession_(data) {
     throw clientError_("Paid amount does not match the registration total.");
   }
 
+  const registrationsSheet = getSpreadsheet_().getSheetByName(REGISTRATIONS_SHEET_NAME);
+  const existing = registrationsSheet
+    ? readRows_(registrationsSheet, REGISTRATION_HEADERS).filter(function(row) {
+        return String(row.stripeSessionId || "") === sessionId;
+      }).slice(-1)[0]
+    : null;
+
+  if (existing) {
+    updateAttemptByOrderId_(attempt.orderId, {
+      updatedAt: nowIso_(),
+      status: "PAID",
+      lastError: ""
+    });
+    return {
+      success: true,
+      paid: true,
+      orderId: attempt.orderId,
+      programName: PROGRAM_NAME,
+      selectedItemNames: attempt.selectedItemNames,
+      amountPaidCents: expectedAmountCents,
+      alreadyRecorded: true
+    };
+  }
+
   const paymentIntent = typeof session.payment_intent === "object" && session.payment_intent
     ? session.payment_intent
     : {};
@@ -266,6 +291,7 @@ function verifyCheckoutSession_(data) {
     status: "PAID",
     lastError: ""
   });
+  sendEnrollmentNotificationSafely_(registration, paidAt);
 
   return {
     success: true,
@@ -663,6 +689,68 @@ function publicErrorMessage_(error) {
     return error.message;
   }
   return "Something went wrong. Please try again or contact SparkPreneurs.";
+}
+
+function sendEnrollmentNotificationSafely_(registration, paidAt) {
+  try {
+    sendEnrollmentNotification_({
+      programName: PROGRAM_NAME,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: registration.selectedItemNames,
+      amountCents: registration.expectedAmountCents,
+      paidAt: paidAt,
+      orderId: registration.orderId,
+      stripeSessionId: registration.stripeSessionId
+    });
+  } catch (error) {
+    console.log("After School enrollment email failed: " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const body = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + String(details.programName || PROGRAM_NAME),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ].join("\n");
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + String(details.programName || PROGRAM_NAME),
+    body: body
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse_(data) {

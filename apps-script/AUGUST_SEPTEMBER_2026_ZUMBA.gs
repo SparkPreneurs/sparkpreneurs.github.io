@@ -1,10 +1,11 @@
 const SPREADSHEET_ID = "1p3fnyQ_srxmjI6_yLR9uuboibxZ_UVruw2us9PaiUOc";
 const PROGRAM_CODE = "august_september_2026_zumba";
 const PROGRAM_NAME = "August-September 2026 - Zumba";
-const SCRIPT_VERSION = "2026-08-03-1";
+const SCRIPT_VERSION = "2026-08-04-1";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
+const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
 
 const PRODUCTS_SHEET_NAME = "Products";
 const ATTEMPTS_SHEET_NAME = "Checkout Attempts";
@@ -289,6 +290,7 @@ function verifyCheckoutSession_(data) {
       status: "PAID_VERIFIED",
       lastError: ""
     });
+    sendEnrollmentNotificationSafely_(registration, paidAt);
 
     return {
       success: true,
@@ -796,6 +798,70 @@ function clientError_(message) {
   const error = new Error(message);
   error.isPublic = true;
   return error;
+}
+
+function sendEnrollmentNotificationSafely_(registration, paidAt) {
+  try {
+    sendEnrollmentNotification_({
+      programName: PROGRAM_NAME,
+      participantName: registration.studentName,
+      contactName: registration.parentName,
+      contactEmail: registration.parentEmail,
+      phone: registration.phone,
+      selectedItemNames: registration.selectedItemNames,
+      scheduleChoice: registration.scheduleChoice,
+      amountCents: registration.expectedAmountCents,
+      paidAt: paidAt,
+      orderId: registration.orderId,
+      stripeSessionId: registration.stripeSessionId
+    });
+  } catch (error) {
+    console.log("Zumba enrollment email failed: " + String(error && error.message ? error.message : error));
+  }
+}
+
+function sendEnrollmentNotification_(details) {
+  const recipients = getEnrollmentNotificationRecipients_();
+  if (!recipients) return;
+
+  const body = [
+    "A new paid registration was received.",
+    "",
+    "Program: " + String(details.programName || PROGRAM_NAME),
+    "Participant: " + String(details.participantName || ""),
+    "Contact: " + String(details.contactName || ""),
+    "Email: " + String(details.contactEmail || ""),
+    "Phone: " + String(details.phone || ""),
+    "Selection: " + String(details.selectedItemNames || ""),
+    "Class times: " + String(details.scheduleChoice || ""),
+    "Amount paid: " + formatMoneyCents_(details.amountCents),
+    "Paid at: " + String(details.paidAt || ""),
+    "Order ID: " + String(details.orderId || ""),
+    "Stripe session ID: " + String(details.stripeSessionId || "")
+  ].join("\n");
+
+  const message = {
+    to: recipients,
+    subject: "New paid registration: " + String(details.programName || PROGRAM_NAME),
+    body: body
+  };
+
+  if (String(details.contactEmail || "").trim()) {
+    message.replyTo = String(details.contactEmail).trim();
+  }
+
+  MailApp.sendEmail(message);
+}
+
+function getEnrollmentNotificationRecipients_() {
+  return String(
+    PropertiesService.getScriptProperties().getProperty("ENROLLMENT_NOTIFICATION_EMAILS") ||
+    DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS
+  ).trim();
+}
+
+function formatMoneyCents_(value) {
+  return "CAD $" + (Number(value || 0) / 100).toFixed(2);
 }
 
 function jsonResponse_(data) {
