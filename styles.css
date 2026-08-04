@@ -9220,7 +9220,7 @@ body .adult-art-form-field textarea {
 }
 
 .kids-3d-printing-page .printing-schedule {
-    margin-top: 18px;
+    margin-top: 30px;
     padding: 16px;
     border: 1px solid rgba(194, 65, 12, 0.18);
     border-radius: 16px;
@@ -9228,8 +9228,8 @@ body .adult-art-form-field textarea {
 }
 
 .kids-3d-printing-page .printing-schedule__title {
-    margin: 0 0 10px;
-    color: var(--color-primary);
+    margin: 0 0 18px;
+    color: #123a6f;
     font-size: 15px;
     font-weight: 800;
     letter-spacing: 0.04em;
@@ -9245,19 +9245,9 @@ body .adult-art-form-field textarea {
 }
 
 .kids-3d-printing-page .printing-schedule__list li {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
     color: var(--color-muted);
     font-size: 16px;
     line-height: 1.35;
-}
-
-.kids-3d-printing-page .printing-schedule__list strong {
-    color: var(--color-primary);
-    font-weight: 800;
-    text-align: right;
 }
 
 .kids-3d-printing-page .printing-schedule__note {
