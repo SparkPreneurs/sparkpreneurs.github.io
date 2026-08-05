@@ -1,6 +1,13 @@
 (function() {
     'use strict';
 
+    const scheduleSection = document.querySelector('#schedule');
+    const registrationSection = document.querySelector('#registration');
+
+    if (scheduleSection && registrationSection && scheduleSection.nextElementSibling !== registrationSection) {
+        scheduleSection.insertAdjacentElement('afterend', registrationSection);
+    }
+
     const registration = document.querySelector('[data-pottery-wheel-registration]');
     const cohortInputs = Array.from(document.querySelectorAll('[data-pottery-wheel-cohorts] input[type="radio"]'));
 
