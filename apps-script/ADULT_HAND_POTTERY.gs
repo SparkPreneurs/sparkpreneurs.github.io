@@ -2,7 +2,7 @@ const SPREADSHEET_ID = "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM";
 const PROGRAM_CODE = "adult_hand_building_pottery";
 const PROGRAM_NAME = "Adult Hand Pottery";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-05-1";
+const SCRIPT_VERSION = "2026-08-05-2";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -129,11 +129,28 @@ function setupPeriodWorkbook() {
   ensureSheetHeaders_(attempts, ATTEMPT_HEADERS);
   ensureSheetHeaders_(registrations, REGISTRATION_HEADERS);
 
-  if (products.getLastRow() === 1) {
-    products.getRange(2, 1, 1, PRODUCT_HEADERS.length).setValues([[
+  seedMissingProducts_(products);
+
+  [products, attempts, registrations].forEach(function(sheet) {
+    sheet.setFrozenRows(1);
+    sheet.autoResizeColumns(1, sheet.getLastColumn());
+  });
+
+  return "Adult Hand Pottery workbook is ready for version " + SCRIPT_VERSION + ".";
+}
+
+function seedMissingProducts_(products) {
+  const values = products.getDataRange().getValues();
+  const headers = values[0].map(function(value) {
+    return String(value).trim();
+  });
+  const indexes = headerIndexes_(headers);
+  const existingCodes = {};
+  const productRows = [
+    [
       PROGRAM_CODE,
       "HB4SUN",
-      "Adult Hand Pottery: Any 4 Sunday Sessions",
+      "Hand-Building Pottery: 4 Sunday Sessions (10:30 AM-12:30 PM)",
       "",
       "",
       "10:30 AM",
@@ -142,15 +159,50 @@ function setupPeriodWorkbook() {
       13,
       true,
       ""
-    ]]);
-  }
+    ],
+    [
+      PROGRAM_CODE,
+      "HB4MON",
+      "Hand-Building Pottery: 4 Monday Evening Sessions (5:30 PM-7:30 PM)",
+      "",
+      "",
+      "5:30 PM",
+      "7:30 PM",
+      19500,
+      13,
+      true,
+      ""
+    ],
+    [
+      PROGRAM_CODE,
+      "HB4WED",
+      "Hand-Building Pottery: 4 Wednesday Evening Sessions (5:30 PM-7:30 PM)",
+      "",
+      "",
+      "5:30 PM",
+      "7:30 PM",
+      19500,
+      13,
+      true,
+      ""
+    ]
+  ];
 
-  [products, attempts, registrations].forEach(function(sheet) {
-    sheet.setFrozenRows(1);
-    sheet.autoResizeColumns(1, sheet.getLastColumn());
+  values.slice(1).forEach(function(row) {
+    if (String(row[indexes.programCode] || "").trim() !== PROGRAM_CODE) {
+      return;
+    }
+
+    existingCodes[String(row[indexes.itemCode] || "").trim().toUpperCase()] = true;
   });
 
-  return "Adult Hand Pottery workbook is ready for version " + SCRIPT_VERSION + ".";
+  const missingRows = productRows.filter(function(row) {
+    return !existingCodes[row[indexes.itemCode]];
+  });
+
+  if (missingRows.length) {
+    products.getRange(products.getLastRow() + 1, 1, missingRows.length, PRODUCT_HEADERS.length).setValues(missingRows);
+  }
 }
 
 function authorizeRequiredServices() {
@@ -470,7 +522,7 @@ function normalizeRegistration_(data) {
 
 function normalizeSelectedItemCodes_(value) {
   if (!Array.isArray(value) || value.length !== 1) {
-    throw clientError_("Choose the four-session pottery class before payment.");
+    throw clientError_("Choose one four-session pottery class before payment.");
   }
 
   const code = String(value[0] || "").trim().toUpperCase();
