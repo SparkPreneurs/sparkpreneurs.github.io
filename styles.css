@@ -3422,6 +3422,37 @@ body.movement-theme .custom-time-note {
     color: #2f3240;
 }
 
+.summer-week-price--offer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+}
+
+.summer-week-price-original {
+    color: #7f1d1d;
+    font-size: 16px;
+}
+
+.summer-week-price-original s {
+    text-decoration-thickness: 2px;
+}
+
+.summer-week-price-sale {
+    color: #b45309;
+    font-size: 24px;
+}
+
+.summer-week-price-offer {
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    font-family: 'Comic Neue', cursive;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .summer-week-add,
 .summer-cart-purchase,
 .summer-cart-clear,

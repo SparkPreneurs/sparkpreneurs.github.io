@@ -2,7 +2,7 @@ const SPREADSHEET_ID = "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM";
 const PROGRAM_CODE = "adult_hand_building_pottery";
 const PROGRAM_NAME = "Adult Hand Pottery";
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-2";
+const SCRIPT_VERSION = "2026-08-05-1";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -138,7 +138,7 @@ function setupPeriodWorkbook() {
       "",
       "10:30 AM",
       "12:30 PM",
-      24000,
+      19500,
       13,
       true,
       ""
