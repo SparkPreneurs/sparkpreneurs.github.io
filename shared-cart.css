@@ -34,8 +34,8 @@
 .shared-cart-checkout:disabled { cursor: not-allowed; opacity: .55; }
 .shared-cart-security-note { color: #4d5870; font-size: .85rem; line-height: 1.45; }
 body.shared-cart-open { overflow: hidden; }
-.summer-camp-page .summer-cart, .hand-building-pottery-page .summer-cart, .after-school-page .after-school-cart { display: none !important; }
-.summer-camp-page .summer-camp-shop, .hand-building-pottery-page .summer-camp-shop { grid-template-columns: minmax(0, 1fr) !important; }
+.summer-camp-page .summer-cart, .after-school-page .after-school-cart { display: none !important; }
+.summer-camp-page .summer-camp-shop { grid-template-columns: minmax(0, 1fr) !important; }
 .after-school-page .after-school-shop-grid { grid-template-columns: minmax(0, 1fr) !important; }
 @media (max-width: 768px) {
     .shared-cart-nav-item { width: 100%; margin: .25rem 0 0; }

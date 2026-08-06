@@ -186,7 +186,7 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
       throw new Error(`The shop selector does not contain data-apps-script-url: ${options.shopSelector}`);
     }
 
-    await page.locator(options.addSelector).click({ timeout: PAGE_TIMEOUT_MS });
+    await page.locator(options.addSelector).first().click({ timeout: PAGE_TIMEOUT_MS });
     await page.waitForFunction(
       (purchaseSelector) => {
         const purchaseButton = document.querySelector(purchaseSelector);

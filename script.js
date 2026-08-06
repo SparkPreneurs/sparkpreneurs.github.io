@@ -1,5 +1,6 @@
 // Shared cart is loaded on every page; program pages register their selections separately.
 (function() {
+    if (document.body && document.body.hasAttribute('data-disable-shared-cart')) return;
     if (window.SparkPreneursCart || document.querySelector('script[data-shared-cart-script]')) return;
     const sharedCartScript = document.createElement('script');
     sharedCartScript.src = new URL('shared-cart.js?v=20260722-unified', document.currentScript.src).href;
