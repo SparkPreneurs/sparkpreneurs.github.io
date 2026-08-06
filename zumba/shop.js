@@ -41,7 +41,17 @@ document.addEventListener('DOMContentLoaded', function() {
         ['SEP02_WED_1200', 'Wednesday, September 2', '12:00 PM-1:00 PM'],
         ['SEP03_THU_1730', 'Thursday, September 3', '5:30 PM-6:30 PM'],
         ['SEP04_FRI_1200', 'Friday, September 4', '12:00 PM-1:00 PM'],
-        ['SEP05_SAT_1100', 'Saturday, September 5', '11:00 AM-12:00 PM']
+        ['SEP05_SAT_1100', 'Saturday, September 5', '11:00 AM-12:00 PM'],
+        ['SEP08_TUE_1730', 'Tuesday, September 8', '5:30 PM-6:30 PM'],
+        ['SEP09_WED_1200', 'Wednesday, September 9', '12:00 PM-1:00 PM'],
+        ['SEP10_THU_1730', 'Thursday, September 10', '5:30 PM-6:30 PM'],
+        ['SEP11_FRI_1200', 'Friday, September 11', '12:00 PM-1:00 PM'],
+        ['SEP12_SAT_1100', 'Saturday, September 12', '11:00 AM-12:00 PM'],
+        ['SEP15_TUE_1730', 'Tuesday, September 15', '5:30 PM-6:30 PM'],
+        ['SEP16_WED_1200', 'Wednesday, September 16', '12:00 PM-1:00 PM'],
+        ['SEP17_THU_1730', 'Thursday, September 17', '5:30 PM-6:30 PM'],
+        ['SEP18_FRI_1200', 'Friday, September 18', '12:00 PM-1:00 PM'],
+        ['SEP19_SAT_1100', 'Saturday, September 19', '11:00 AM-12:00 PM']
     ];
     const isAvailableClassTime = code => CLASS_TIMES.some(classTime => classTime[0] === code);
 
@@ -106,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        timeHelp.textContent = `August 19-September 5 is the available class window. Choose ${remaining} more class time${remaining === 1 ? '' : 's'} (${selectedClassTimes.size} of ${product.sessionCount} selected).`;
+        timeHelp.textContent = `August 19-September 19 is the available class window. Choose ${remaining} more class time${remaining === 1 ? '' : 's'} (${selectedClassTimes.size} of ${product.sessionCount} selected).`;
     }
 
     function renderTimeChoices() {

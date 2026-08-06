@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p3fnyQ_srxmjI6_yLR9uuboibxZ_UVruw2us9PaiUOc";
 const PROGRAM_CODE = "august_september_2026_zumba";
 const PROGRAM_NAME = "August-September 2026 - Zumba";
-const SCRIPT_VERSION = "2026-08-04-1";
+const SCRIPT_VERSION = "2026-08-06-1";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
@@ -41,7 +41,17 @@ const CLASS_TIMES = {
   SEP02_WED_1200: "Wednesday, September 2, 12:00 PM-1:00 PM",
   SEP03_THU_1730: "Thursday, September 3, 5:30 PM-6:30 PM",
   SEP04_FRI_1200: "Friday, September 4, 12:00 PM-1:00 PM",
-  SEP05_SAT_1100: "Saturday, September 5, 11:00 AM-12:00 PM"
+  SEP05_SAT_1100: "Saturday, September 5, 11:00 AM-12:00 PM",
+  SEP08_TUE_1730: "Tuesday, September 8, 5:30 PM-6:30 PM",
+  SEP09_WED_1200: "Wednesday, September 9, 12:00 PM-1:00 PM",
+  SEP10_THU_1730: "Thursday, September 10, 5:30 PM-6:30 PM",
+  SEP11_FRI_1200: "Friday, September 11, 12:00 PM-1:00 PM",
+  SEP12_SAT_1100: "Saturday, September 12, 11:00 AM-12:00 PM",
+  SEP15_TUE_1730: "Tuesday, September 15, 5:30 PM-6:30 PM",
+  SEP16_WED_1200: "Wednesday, September 16, 12:00 PM-1:00 PM",
+  SEP17_THU_1730: "Thursday, September 17, 5:30 PM-6:30 PM",
+  SEP18_FRI_1200: "Friday, September 18, 12:00 PM-1:00 PM",
+  SEP19_SAT_1100: "Saturday, September 19, 11:00 AM-12:00 PM"
 };
 
 const SESSION_COUNTS = {
@@ -62,7 +72,7 @@ function product_(itemCode, itemName, priceCents) {
     itemCode: itemCode,
     itemName: itemName,
     startDate: "2026-08-19",
-    endDate: "2026-09-05",
+    endDate: "2026-09-19",
     startTime: "",
     endTime: "",
     priceCents: priceCents,
@@ -136,7 +146,7 @@ function applySummerPromotionCatalogUpdate() {
     });
   }
 
-  return "Summer promotion catalog updated for August 19-September 5: " +
+  return "Summer promotion catalog updated for August 19-September 19: " +
     "$35 single, $120 for 4 sessions, $190 for 8 sessions, and the " +
     "7-session pass is inactive.";
 }
