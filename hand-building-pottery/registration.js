@@ -72,6 +72,21 @@
             window.history.replaceState({}, document.title, `${window.location.pathname}#${anchorId}`);
         }
 
+        function revealCartOnSmallScreen() {
+            if (!window.matchMedia('(max-width: 1024px)').matches) return;
+
+            window.requestAnimationFrame(function() {
+                const cart = shop.querySelector('.summer-cart');
+
+                if (cart) {
+                    cart.scrollIntoView({
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        }
+
         function render() {
             const item = selectedItem();
             const totals = calculateTotals(item);
@@ -205,6 +220,7 @@
                 selectedItemCode = selectedItemCode === choice.code ? '' : choice.code;
                 if (backendReady) setStatus('', '');
                 render();
+                if (selectedItemCode === choice.code) revealCartOnSmallScreen();
             });
         });
 
