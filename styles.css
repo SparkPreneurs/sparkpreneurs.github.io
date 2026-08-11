@@ -8969,6 +8969,109 @@ body .adult-art-form-field textarea {
     }
 }
 
+/* After School early bird pricing */
+.after-school-page .after-school-promotion {
+    margin: -2px 0 20px;
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-small) var(--radius-small) 0;
+    padding: 10px 14px;
+    background: rgba(184, 95, 62, 0.08);
+}
+
+.after-school-page .after-school-promotion p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.after-school-page .after-school-promotion .after-school-promotion-label {
+    margin-bottom: 2px;
+    color: var(--color-accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.after-school-page .after-school-plan-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+}
+
+.after-school-page .after-school-early-bird-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    border: 1px solid rgba(184, 95, 62, 0.28);
+    border-radius: 999px;
+    padding: 4px 9px;
+    background: rgba(184, 95, 62, 0.1);
+    color: var(--color-accent);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.after-school-page .after-school-plan-pricing {
+    margin: 0 0 16px;
+}
+
+.after-school-page .after-school-plan .after-school-plan-regular-price {
+    margin: 0 0 2px;
+    color: var(--color-muted);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.after-school-page .after-school-plan-regular-price-value {
+    margin-left: 3px;
+    color: var(--color-muted);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+}
+
+.after-school-page .after-school-plan .after-school-plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin: 0;
+    color: var(--color-primary);
+    font-size: clamp(25px, 2.1vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+}
+
+.after-school-page .after-school-plan-price .after-school-plan-price-tax {
+    color: var(--color-muted);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .after-school-page .after-school-promotion {
+        margin-bottom: 16px;
+    }
+
+    .after-school-page .after-school-plan .after-school-plan-price {
+        font-size: 27px;
+    }
+
+    .after-school-page .after-school-add {
+        width: 100%;
+    }
+}
+
 /* Kids & Youth 3D Printing program page */
 .kids-3d-printing-page main {
     overflow: clip;
