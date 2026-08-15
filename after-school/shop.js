@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             card.classList.toggle('is-selected', Boolean(isSelected));
 
             const button = card.querySelector('[data-after-school-add]');
-            button.textContent = isSelected ? 'Added' : 'Add to Cart';
+            button.textContent = isSelected ? 'Selected' : 'Select This Option';
             button.setAttribute('aria-pressed', String(Boolean(isSelected)));
 
             const minimumPrice = card.querySelector('[data-after-school-minimum-price]');
