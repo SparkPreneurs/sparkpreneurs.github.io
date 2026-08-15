@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p7PlK3wy4JEiJJSq6cL8cXmYk6JhN5jFk1xd21IhiyA";
 const PROGRAM_CODE = "summer_2026_unified_cart_checkout";
 const PROGRAM_NAME = "Summer 2026 - Unified Cart Checkout";
-const SCRIPT_VERSION = "2026-08-04-1";
+const SCRIPT_VERSION = "2026-08-15-2";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 50000;
@@ -24,6 +24,13 @@ const PROGRAMS = {
     name: "Hand-Building Pottery",
     spreadsheetId: "13EdVfWfHS3rBctFPeHo8lDwBnL67ZbkaBuJh2T1JVXM"
   }
+};
+
+const CLOSED_SUMMER_ITEM_CODES = {
+  W7AM: true,
+  W7PM: true,
+  W8AM: true,
+  W8PM: true
 };
 
 const PRODUCT_HEADERS = [
@@ -322,7 +329,7 @@ function readActiveProducts_() {
   rows.forEach(function(row) {
     const programCode = safeText_(row.programCode, 80);
     const itemCode = safeText_(row.itemCode, 40).toUpperCase();
-    if (!PROGRAMS[programCode] || !itemCode || !isTruthy_(row.active)) return;
+    if (!PROGRAMS[programCode] || !itemCode || CLOSED_SUMMER_ITEM_CODES[itemCode] || !isTruthy_(row.active)) return;
     const capacityText = String(row.capacity === undefined ? "" : row.capacity).trim();
     const capacity = capacityText === "" ? null : normalizeNonNegativeInteger_(row.capacity, "capacity");
     products[itemKey_({ programCode: programCode, itemCode: itemCode })] = {
