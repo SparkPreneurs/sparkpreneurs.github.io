@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'after-school',
             title: 'After School',
             checkoutUrl: `${window.location.pathname}#after-school`,
-            items: selectedPlan ? [{ id: selectedPlan.code, name: `${selectedPlan.name} (${MINIMUM_WEEKS} weeks, 3 PM-5 PM)`, priceCents: selectedPlan.weeklyPriceCents * MINIMUM_WEEKS }] : []
+            items: []
         });
     }
 
@@ -295,11 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const savedProgram = window.SparkPreneursCart && window.SparkPreneursCart.getProgram('after-school');
-    if (savedProgram && savedProgram.items[0]) {
-        const savedCard = shop.querySelector(`[data-after-school-code="${savedProgram.items[0].id}"]`);
-        if (savedCard) selectedPlan = getPlanFromCard(savedCard);
-    }
+    syncSharedCart();
     render();
     verifyReturnedPayment();
     checkBackendReady();
