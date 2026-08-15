@@ -7,7 +7,6 @@
     const CHECKOUT_PROGRAM_CODE = 'summer_2026_unified_cart_checkout';
     const PROGRAM_CONFIG = {
         'summer-camp': { programCode: 'summer2026_4_10_sessions', title: 'Summer Camp' },
-        'after-school': { programCode: 'after_school_program', title: 'After School' },
         'hand-building-pottery': { programCode: 'adult_hand_building_pottery', title: 'Hand-Building Pottery' }
     };
     const REQUIRED_PROGRAM_CODES = Object.values(PROGRAM_CONFIG).map(program => program.programCode);
@@ -21,7 +20,12 @@
     function readCart() {
         try {
             const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
-            return saved && Array.isArray(saved.programs) ? saved : { programs: [] };
+            const cart = saved && Array.isArray(saved.programs) ? saved : { programs: [] };
+            const programs = cart.programs.filter(program => PROGRAM_CONFIG[program.id]);
+            if (programs.length !== cart.programs.length) {
+                window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ programs }));
+            }
+            return { programs };
         } catch (error) {
             return { programs: [] };
         }
