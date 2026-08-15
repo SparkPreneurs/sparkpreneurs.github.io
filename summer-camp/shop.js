@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: '2', date: 'July 13-17', theme: '3D Storybook Makers', sessionPriceCents: 10500, closed: true },
         { id: '3', date: 'July 20-24', theme: 'Around the World', sessionPriceCents: 10500, closed: true },
         { id: '4', date: 'July 27-31', theme: 'Dream House Designers', sessionPriceCents: 10500, closed: true },
-        { id: '5', date: 'August 4-7', theme: 'Fashion Week', sessionPriceCents: 8400, fourDay: true },
-        { id: '6', date: 'August 10-14', theme: 'Young Chef Creations 2', sessionPriceCents: 10500 },
-        { id: '7', date: 'August 17-21', theme: '3D Storybook Makers', sessionPriceCents: 10500, closed: true },
-        { id: '8', date: 'August 24-28', theme: 'Dream House Designers', sessionPriceCents: 10500, closed: true }
+        { id: '5', date: 'August 4-7', theme: 'Fashion Week', sessionPriceCents: 8400, fourDay: true, closed: true },
+        { id: '6', date: 'August 10-14', theme: 'Young Chef Creations 2', sessionPriceCents: 10500, closed: true },
+        { id: '7', date: 'August 17-21', theme: '3D Storybook Makers', sessionPriceCents: 10500 },
+        { id: '8', date: 'August 24-28', theme: 'Dream House Designers', sessionPriceCents: 10500 }
     ];
     const HST_RATE = 0.13;
     const SESSION_TIMES = {

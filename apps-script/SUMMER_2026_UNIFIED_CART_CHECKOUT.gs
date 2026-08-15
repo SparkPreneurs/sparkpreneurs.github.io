@@ -1,7 +1,7 @@
 const SPREADSHEET_ID = "1p7PlK3wy4JEiJJSq6cL8cXmYk6JhN5jFk1xd21IhiyA";
 const PROGRAM_CODE = "summer_2026_unified_cart_checkout";
 const PROGRAM_NAME = "Summer 2026 - Unified Cart Checkout";
-const SCRIPT_VERSION = "2026-08-15-2";
+const SCRIPT_VERSION = "2026-08-15-3";
 const CURRENCY = "cad";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 50000;
@@ -27,10 +27,10 @@ const PROGRAMS = {
 };
 
 const CLOSED_SUMMER_ITEM_CODES = {
-  W7AM: true,
-  W7PM: true,
-  W8AM: true,
-  W8PM: true
+  W5AM: true,
+  W5PM: true,
+  W6AM: true,
+  W6PM: true
 };
 
 const PRODUCT_HEADERS = [
