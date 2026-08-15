@@ -341,15 +341,20 @@
 
     function initializeCart() {
         if (document.querySelector('[data-shared-cart-open]')) return;
-        const navItem = document.createElement('li');
-        navItem.className = 'shared-cart-nav-item';
+        const navItem = document.createElement('button');
+        navItem.type = 'button';
+        navItem.dataset.sharedCartOpen = '';
+        navItem.className = 'shared-cart-button';
+        navItem.setAttribute('aria-label', 'Open cart');
         navItem.innerHTML = `
-            <button class="shared-cart-button" type="button" data-shared-cart-open aria-label="Open cart">
+            <span>
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H7M10 20a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm9 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
                 <span>Cart</span><span class="shared-cart-count" data-shared-cart-count hidden>0</span>
-            </button>`;
-        const navMenu = document.getElementById('nav-menu');
-        if (navMenu) navMenu.appendChild(navItem);
+            </span>`;
+        const nav = document.querySelector('.nav');
+        const hamburger = document.getElementById('hamburger');
+        if (nav && hamburger) nav.insertBefore(navItem, hamburger);
+        else if (nav) nav.appendChild(navItem);
         else document.body.appendChild(navItem);
 
         const shell = document.createElement('div');

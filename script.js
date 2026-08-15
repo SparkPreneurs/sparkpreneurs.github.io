@@ -3,7 +3,7 @@
     if (document.body && document.body.hasAttribute('data-disable-shared-cart')) return;
     if (window.SparkPreneursCart || document.querySelector('script[data-shared-cart-script]')) return;
     const sharedCartScript = document.createElement('script');
-    sharedCartScript.src = new URL('shared-cart.js?v=20260722-unified', document.currentScript.src).href;
+    sharedCartScript.src = new URL('shared-cart.js?v=20260815-mobile-cart', document.currentScript.src).href;
     sharedCartScript.dataset.sharedCartScript = 'true';
     document.head.appendChild(sharedCartScript);
 }());
@@ -30,7 +30,50 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    initializeMobilePageCart();
 });
+
+function initializeMobilePageCart() {
+    const cart = document.querySelector('[data-course-registration] .summer-cart, [data-pottery-wheel-registration] .summer-cart, .zumba-cart');
+    const nav = document.querySelector('.nav');
+    const hamburger = document.getElementById('hamburger');
+    if (!cart || !nav || !hamburger || document.querySelector('[data-after-school-nav-cart], [data-mobile-page-cart]')) return;
+
+    const button = document.createElement('button');
+    button.className = 'mobile-page-cart-button';
+    button.type = 'button';
+    button.dataset.mobilePageCart = '';
+    button.setAttribute('aria-label', 'View registration cart');
+    button.innerHTML = '<span>Cart</span><span class="mobile-page-cart-count" hidden>1</span>';
+    nav.insertBefore(button, hamburger);
+
+    const hasSelection = () => Boolean(cart.querySelector('.summer-cart-item, .zumba-cart-item, [data-course-cart-list] li:not(.summer-cart-empty), [data-zumba-cart-list] li:not(.zumba-cart-empty)') || document.querySelector('[data-pottery-wheel-cohorts] input:checked'));
+    const update = () => {
+        const selected = hasSelection();
+        button.classList.toggle('has-items', selected);
+        button.querySelector('.mobile-page-cart-count').hidden = !selected;
+        button.disabled = !selected;
+    };
+    const focusCart = () => {
+        cart.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        button.classList.remove('is-adding');
+        void button.offsetWidth;
+        button.classList.add('is-adding');
+        window.setTimeout(() => button.classList.remove('is-adding'), 1300);
+    };
+    button.addEventListener('click', focusCart);
+    document.addEventListener('click', event => {
+        if (!event.target.closest('[data-course-add], [data-zumba-add]')) return;
+        window.setTimeout(() => { update(); if (hasSelection()) focusCart(); }, 80);
+    });
+    document.addEventListener('change', event => {
+        if (!event.target.matches('input[type="radio"], input[type="checkbox"]')) return;
+        window.setTimeout(() => { update(); if (hasSelection()) focusCart(); }, 80);
+    });
+    new MutationObserver(update).observe(cart, { childList: true, subtree: true, attributes: true });
+    update();
+}
 
 function scrollToSection(target) {
     const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
