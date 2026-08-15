@@ -16,11 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkoutButton = shop.querySelector('[data-after-school-checkout]');
     const clearButton = shop.querySelector('[data-after-school-clear]');
     const statusEl = shop.querySelector('[data-after-school-cart-status]');
+    const navCartButton = document.querySelector('[data-after-school-nav-cart]');
+    const navCartCount = document.querySelector('[data-after-school-nav-cart-count]');
+    const navCartTotal = document.querySelector('[data-after-school-nav-cart-total]');
     const appsScriptUrl = shop.dataset.appsScriptUrl || '';
     const programCode = shop.dataset.programCode || 'after_school_program';
     let selectedPlan = null;
     let backendReady = false;
     let isSubmitting = false;
+    let cartMotionTimer = null;
 
     function formatMoneyCents(cents) {
         return (cents / 100).toLocaleString('en-CA', {
@@ -76,6 +80,49 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth',
             block: 'start'
         });
+    }
+
+    function updateHeaderCart() {
+        if (!navCartButton) {
+            return;
+        }
+
+        const hasSelection = Boolean(selectedPlan);
+        const totals = calculateTotals();
+
+        navCartButton.disabled = !hasSelection;
+        navCartButton.classList.toggle('has-items', hasSelection);
+        navCartButton.setAttribute(
+            'aria-label',
+            hasSelection
+                ? `View After School cart. One option selected. Total ${formatMoneyCents(totals.totalCents)}.`
+                : 'View After School cart. No option selected.'
+        );
+
+        if (navCartCount) {
+            navCartCount.hidden = !hasSelection;
+            navCartCount.textContent = hasSelection ? '1' : '0';
+        }
+
+        if (navCartTotal) {
+            navCartTotal.hidden = !hasSelection;
+            navCartTotal.textContent = formatMoneyCents(totals.totalCents);
+        }
+    }
+
+    function playCartMotion() {
+        if (!navCartButton || !selectedPlan) {
+            return;
+        }
+
+        window.clearTimeout(cartMotionTimer);
+        navCartButton.classList.remove('is-adding');
+        void navCartButton.offsetWidth;
+        navCartButton.classList.add('is-adding');
+
+        cartMotionTimer = window.setTimeout(function() {
+            navCartButton.classList.remove('is-adding');
+        }, 1300);
     }
 
     function getRegistrationData() {
@@ -191,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkoutButton.disabled = true;
             checkoutButton.classList.add('is-disabled');
             clearButton.disabled = true;
+            updateHeaderCart();
             syncSharedCart();
             return;
         }
@@ -220,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutButton.disabled = !backendReady || isSubmitting;
         checkoutButton.classList.toggle('is-disabled', !backendReady || isSubmitting);
         clearButton.disabled = isSubmitting;
+        updateHeaderCart();
         syncSharedCart();
     }
 
@@ -230,10 +279,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (addButton) {
             const card = addButton.closest('[data-after-school-plan]');
             const plan = getPlanFromCard(card);
-            selectedPlan = selectedPlan && selectedPlan.code === plan.code ? null : plan;
+            const isRemovingCurrentPlan = selectedPlan && selectedPlan.code === plan.code;
+            selectedPlan = isRemovingCurrentPlan ? null : plan;
             setStatus('');
             render();
-            showCartOnSmallScreens();
+            if (!isRemovingCurrentPlan) {
+                playCartMotion();
+                showCartOnSmallScreens();
+            }
             return;
         }
 
@@ -242,6 +295,17 @@ document.addEventListener('DOMContentLoaded', function() {
             setStatus('');
             render();
         }
+    });
+
+    navCartButton?.addEventListener('click', function() {
+        if (!selectedPlan) {
+            return;
+        }
+
+        shop.querySelector('.after-school-cart')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
     });
 
     clearButton.addEventListener('click', function() {
