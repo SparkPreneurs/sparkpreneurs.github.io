@@ -67,6 +67,17 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    function showCartOnSmallScreens() {
+        if (!selectedPlan || !window.matchMedia('(max-width: 1024px)').matches) {
+            return;
+        }
+
+        shop.querySelector('.after-school-cart')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
     function getRegistrationData() {
         if (!registrationForm.reportValidity()) {
             return null;
@@ -222,6 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedPlan = selectedPlan && selectedPlan.code === plan.code ? null : plan;
             setStatus('');
             render();
+            showCartOnSmallScreens();
             return;
         }
 

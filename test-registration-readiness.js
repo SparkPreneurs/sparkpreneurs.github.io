@@ -152,8 +152,9 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
     await page.route('**/exec', async (route) => {
       const request = route.request();
       const body = parseRequestBody(request);
+      const isHealthRequest = request.method() === 'GET' || body?.action === 'ping';
 
-      if (request.method() !== 'POST' || body?.action !== 'ping') {
+      if (!isHealthRequest) {
         await route.abort('blockedbyclient');
         return;
       }
@@ -167,6 +168,7 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
           success: true,
           programCode: options.programCode,
           programs: [options.programCode],
+          minimumWeeks: 4,
           version: options.scriptVersion,
           stripeMode: options.stripeMode
         })
@@ -202,9 +204,11 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
       viewportWidth: window.innerWidth,
       documentWidth: document.documentElement.scrollWidth
     }));
-    const pingRequests = appScriptRequests.filter((request) => request.body?.action === 'ping');
+    const readinessRequests = appScriptRequests.filter((request) => {
+      return request.method === 'GET' || request.body?.action === 'ping';
+    });
 
-    if (!purchaseEnabled || pingRequests.length === 0) {
+    if (!purchaseEnabled || readinessRequests.length === 0) {
       throw new Error('The checkout readiness ping did not enable the purchase button.');
     }
 
@@ -221,7 +225,7 @@ async function runReadinessCheck(browser, options, viewport, useMockBackend) {
       purchaseEnabled,
       status: status || '',
       dimensions,
-      pingRequestCount: pingRequests.length,
+      readinessRequestCount: readinessRequests.length,
       nonFatalPageErrors: pageErrors
     };
   } finally {
