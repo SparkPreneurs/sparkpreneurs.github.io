@@ -1,8 +1,9 @@
 const SPREADSHEET_ID = "1ptQXLvpebEHRiENXX-Sr5c7WE4r5MURd2MIMc95jBpk";
 const PROGRAM_CODE = "after_school_program";
 const PROGRAM_NAME = "After School Program";
+const MINIMUM_WEEKS = 4;
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-08-04-1";
+const SCRIPT_VERSION = "2026-08-15-1";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -100,6 +101,7 @@ function doGet() {
     message: "After School Program registration endpoint is running.",
     programCode: PROGRAM_CODE,
     programName: PROGRAM_NAME,
+    minimumWeeks: MINIMUM_WEEKS,
     version: SCRIPT_VERSION,
     stripeMode: getStripeMode_()
   });
@@ -111,7 +113,19 @@ function doPost(event) {
     const data = JSON.parse(body || "{}");
     const action = String(data.action || "").trim();
 
+    if (action === "ping") {
+      return jsonResponse_({
+        success: true,
+        programCode: PROGRAM_CODE,
+        programName: PROGRAM_NAME,
+        minimumWeeks: MINIMUM_WEEKS,
+        version: SCRIPT_VERSION,
+        stripeMode: getStripeMode_()
+      });
+    }
+
     if (action === "createCheckoutSession") {
+      requireProgramCode_(data.programCode);
       return jsonResponse_(createCheckoutSession_(data));
     }
 
@@ -314,6 +328,7 @@ function createStripeCheckoutSession_(orderId, pricing, registration, urls) {
     "metadata[programName]": PROGRAM_NAME,
     "metadata[orderId]": orderId,
     "metadata[selectedItemCodes]": pricing.itemCodes.join(","),
+    "metadata[minimumWeeks]": String(MINIMUM_WEEKS),
     "metadata[studentName]": registration.studentName,
     "payment_intent_data[metadata][programCode]": PROGRAM_CODE,
     "payment_intent_data[metadata][orderId]": orderId
@@ -342,13 +357,16 @@ function calculateTrustedPricing_(selectedItemCodes) {
     if (!product) {
       throw clientError_("Selected option is no longer available.");
     }
-    const subtotalCents = toInteger_(product.priceCents);
+    const weeklyPriceCents = toInteger_(product.priceCents);
+    const subtotalCents = weeklyPriceCents * MINIMUM_WEEKS;
     const taxRate = Number(product.taxRatePercent || 0);
     const taxCents = Math.round(subtotalCents * taxRate / 100);
 
     return {
       itemCode: product.itemCode,
-      itemName: product.itemName,
+      itemName: product.itemName + " (" + MINIMUM_WEEKS + " weeks)",
+      weeklyPriceCents: weeklyPriceCents,
+      weeks: MINIMUM_WEEKS,
       subtotalCents: subtotalCents,
       taxCents: taxCents,
       totalCents: subtotalCents + taxCents
@@ -412,6 +430,12 @@ function validateReturnUrls_(successValue, cancelValue) {
     successUrl: validateReturnUrl_(successValue, "success"),
     cancelUrl: validateReturnUrl_(cancelValue, "cancel")
   };
+}
+
+function requireProgramCode_(value) {
+  if (String(value || "").trim() !== PROGRAM_CODE) {
+    throw clientError_("Registration program does not match this checkout.");
+  }
 }
 
 function validateReturnUrl_(value, kind) {

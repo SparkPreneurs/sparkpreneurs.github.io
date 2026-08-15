@@ -37,7 +37,7 @@
                     <a class="summer-page-back" href="../camps/index.html">Back to programs</a>
                     <p class="after-school-kicker">After School Program</p>
                     <h1>Creative afternoons from school to pick-up.</h1>
-                    <p>Choose a weekly schedule, add it to your cart, and continue to secure payment. School pick-up is available from certain neighbourhood schools.</p>
+                    <p>Choose a weekly schedule, add it to your cart, and continue to secure payment. A minimum purchase of 4 weeks is required for every option, and checkout automatically includes all 4 weeks. School pick-up is available from certain neighbourhood schools.</p>
                 </div>
                 <div class="after-school-hero-card" aria-hidden="true">
                     <img src="../assets/sp-kids-activity.png" alt="">
@@ -45,18 +45,19 @@
             </div>
         </section>
 
-        <section class="after-school-shop" data-after-school-shop data-program-code="after_school_program" data-apps-script-url="https://script.google.com/macros/s/AKfycbxS5Sije9rB8Mz-VxwVmijgKim1itJNRNuZBiea5cMRrCBWFeCL4tW1muGU8vFVKU-r/exec" aria-labelledby="after-school-options-title">
+        <section class="after-school-shop" data-after-school-shop data-program-code="after_school_program" data-minimum-weeks="4" data-apps-script-url="https://script.google.com/macros/s/AKfycbwtCEfAlRW_uljANPNBRf8X0ZuRLc_lpzdh4uowBp4P4mIQmJnqYS3grjiIwkG7hWlS/exec" aria-labelledby="after-school-options-title">
             <div class="container after-school-shop-grid">
                 <div class="after-school-options">
                     <div class="after-school-section-head">
                         <p class="after-school-kicker">Schedule Options</p>
                         <h2 id="after-school-options-title">Pick the weekly rhythm that fits your family.</h2>
-                        <p>Each option runs from 3 PM to 5 PM. School pick-up is available from certain neighbourhood schools and can be confirmed with SparkPreneurs.</p>
+                        <p>Each option runs from 3 PM to 5 PM. Every option requires a minimum 4-week purchase; the checkout total is automatically calculated for all 4 weeks. School pick-up is available from certain neighbourhood schools and can be confirmed with SparkPreneurs.</p>
                     </div>
 
                     <div class="after-school-promotion" aria-label="Early bird pricing">
                         <p class="after-school-promotion-label">Early Bird Pricing</p>
                         <p>Register early and save on your weekly After-School Program.</p>
+                        <p><strong>4-week minimum purchase:</strong> prices are shown per week, and your cart automatically includes 4 weeks.</p>
                     </div>
 
                     <div class="after-school-plan-grid">
@@ -76,6 +77,7 @@
                             <div class="after-school-plan-pricing">
                                 <p class="after-school-plan-regular-price">Regular <span class="after-school-plan-regular-price-value">$84/week</span></p>
                                 <p class="after-school-plan-price">$72/week <span class="after-school-plan-price-tax">+ HST</span></p>
+                                <p class="after-school-plan-minimum" data-after-school-minimum-price></p>
                             </div>
                             <button class="after-school-add" type="button" data-after-school-add="3 days/week">Add to Cart</button>
                         </article>
@@ -96,6 +98,7 @@
                             <div class="after-school-plan-pricing">
                                 <p class="after-school-plan-regular-price">Regular <span class="after-school-plan-regular-price-value">$104/week</span></p>
                                 <p class="after-school-plan-price">$88/week <span class="after-school-plan-price-tax">+ HST</span></p>
+                                <p class="after-school-plan-minimum" data-after-school-minimum-price></p>
                             </div>
                             <button class="after-school-add" type="button" data-after-school-add="4 days/week">Add to Cart</button>
                         </article>
@@ -116,6 +119,7 @@
                             <div class="after-school-plan-pricing">
                                 <p class="after-school-plan-regular-price">Regular <span class="after-school-plan-regular-price-value">$120/week</span></p>
                                 <p class="after-school-plan-price">$100/week <span class="after-school-plan-price-tax">+ HST</span></p>
+                                <p class="after-school-plan-minimum" data-after-school-minimum-price></p>
                             </div>
                             <button class="after-school-add" type="button" data-after-school-add="5 days/week">Add to Cart</button>
                         </article>
@@ -130,7 +134,7 @@
                         </ul>
                         <div class="after-school-cart-totals" data-after-school-cart-totals hidden>
                             <div>
-                                <span>Subtotal</span>
+                                <span>Subtotal (4 weeks)</span>
                                 <strong data-after-school-subtotal>$0.00</strong>
                             </div>
                             <div>
@@ -160,7 +164,7 @@
                                 <input type="tel" name="phone" autocomplete="tel" required>
                             </label>
                         </form>
-                        <p class="after-school-cart-note">Only one weekly option can be checked out at a time. Eligible school pick-up can be confirmed with SparkPreneurs.</p>
+                        <p class="after-school-cart-note">Only one weekly option can be checked out at a time. A minimum purchase of 4 weeks is required, and the total above includes all 4 weeks. Eligible school pick-up can be confirmed with SparkPreneurs.</p>
                         <p class="after-school-cart-status" data-after-school-cart-status role="status" aria-live="polite"></p>
                         <div class="after-school-cart-actions">
                             <button class="after-school-cart-request is-disabled" type="button" data-after-school-checkout disabled>Continue to Secure Payment</button>
@@ -181,6 +185,6 @@
 
     <script src="../script.js?v=20260707-light-bg"></script>
     <script src="../shared-cart.js?v=20260722-unified"></script>
-    <script src="shop.js?v=20260721-after-school-checkout"></script>
+    <script src="shop.js?v=20260815-after-school-four-week-minimum"></script>
 </body>
 </html>

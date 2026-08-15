@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const HST_RATE = 0.13;
+    const MINIMUM_WEEKS = Number(shop.dataset.minimumWeeks || 4);
     const cartList = shop.querySelector('[data-after-school-cart-list]');
     const totalsPanel = shop.querySelector('[data-after-school-cart-totals]');
     const subtotalEl = shop.querySelector('[data-after-school-subtotal]');
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateTotals() {
-        const subtotalCents = selectedPlan ? selectedPlan.priceCents : 0;
+        const subtotalCents = selectedPlan ? selectedPlan.weeklyPriceCents * MINIMUM_WEEKS : 0;
         const hstCents = Math.round(subtotalCents * HST_RATE);
 
         return {
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'after-school',
             title: 'After School',
             checkoutUrl: `${window.location.pathname}#after-school`,
-            items: selectedPlan ? [{ id: selectedPlan.code, name: `${selectedPlan.name} (3 PM-5 PM)`, priceCents: selectedPlan.priceCents }] : []
+            items: selectedPlan ? [{ id: selectedPlan.code, name: `${selectedPlan.name} (${MINIMUM_WEEKS} weeks, 3 PM-5 PM)`, priceCents: selectedPlan.weeklyPriceCents * MINIMUM_WEEKS }] : []
         });
     }
 
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return {
             code: card.dataset.afterSchoolCode,
             name: card.dataset.afterSchoolPlan,
-            priceCents: Number(card.dataset.afterSchoolPrice || 0)
+            weeklyPriceCents: Number(card.dataset.afterSchoolPrice || 0)
         };
     }
 
@@ -114,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(appsScriptUrl);
             const result = await response.json();
-            backendReady = Boolean(result.success && result.programCode === programCode && result.stripeMode === 'live');
-            setStatus(backendReady ? '' : 'Secure checkout is in test mode and will be available after live payment is enabled.', backendReady ? '' : 'warning');
+            backendReady = Boolean(result.success && result.programCode === programCode && Number(result.minimumWeeks) === MINIMUM_WEEKS && result.stripeMode === 'live');
+            setStatus(backendReady ? '' : 'Secure checkout is being updated for the 4-week minimum. Please try again shortly or contact SparkPreneurs.', backendReady ? '' : 'warning');
         } catch (error) {
             backendReady = false;
             setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs to register.', 'warning');
@@ -163,6 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const button = card.querySelector('[data-after-school-add]');
             button.textContent = isSelected ? 'Added' : 'Add to Cart';
             button.setAttribute('aria-pressed', String(Boolean(isSelected)));
+
+            const minimumPrice = card.querySelector('[data-after-school-minimum-price]');
+            if (minimumPrice) {
+                const weeklyPriceCents = Number(card.dataset.afterSchoolPrice || 0);
+                minimumPrice.textContent = `${MINIMUM_WEEKS}-week minimum: ${formatMoneyCents(weeklyPriceCents * MINIMUM_WEEKS)} + HST`;
+            }
         });
 
         cartList.innerHTML = '';
@@ -185,9 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         item.className = 'after-school-cart-item';
         itemName.className = 'after-school-cart-item-name';
-        itemName.textContent = `${selectedPlan.name} from 3 PM-5 PM`;
+        itemName.textContent = `${selectedPlan.name} — ${MINIMUM_WEEKS} weeks from 3 PM-5 PM`;
         itemPrice.className = 'after-school-cart-item-price';
-        itemPrice.textContent = formatMoneyCents(selectedPlan.priceCents);
+        itemPrice.textContent = formatMoneyCents(totals.subtotalCents);
         removeButton.className = 'after-school-cart-remove';
         removeButton.type = 'button';
         removeButton.textContent = 'Remove';
