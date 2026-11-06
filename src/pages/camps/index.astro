@@ -2,8 +2,11 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-
-const summerCampUrl = '/camps/summer-camp/';
+import { winterCamp, winterCampEmail } from '../../data/winter-camp';
+import { paDayCamp } from '../../data/pa-day-camp';
+import { Image } from 'astro:assets';
+import paDayHero from '../../assets/camps/pa-day-camp-hero.png';
+import winterHero from '../../assets/camps/winter-camp-hero.png';
 
 const campActivities = [
   { number: '01', title: 'Create', detail: 'Explore art and creative projects through hands-on making.' },
@@ -18,7 +21,7 @@ const campActivities = [
 >
   <a class="programs-skip-link" href="#current-camp">Skip to current camp</a>
 
-  <SiteHeader current="camps" variant="programs" ctaHref={summerCampUrl} ctaLabel="View Summer Camp Status" />
+  <SiteHeader current="camps" variant="programs" ctaHref={winterCamp.href} ctaLabel="Explore Winter Camp" />
 
   <main class="camps-page">
     <section class="camps-hero" aria-labelledby="camps-title">
@@ -28,16 +31,17 @@ const campActivities = [
           <div class="camps-hero-copy">
             <span class="eyebrow">SCHOOL-BREAK PROGRAMS · MIDTOWN TORONTO</span>
             <h1 id="camps-title">Creative days beyond the <em>school day.</em></h1>
-            <p>Explore the currently supported Summer Camp path, then confirm the session-specific ages, dates, hours, and family essentials before registering.</p>
+            <p>Make room for creativity during the school break. Explore our PA Day, Christmas, and Winter Break camps.</p>
             <div class="button-row">
-              <a class="button button-primary" href={summerCampUrl}>View Summer Camp Status <span aria-hidden="true">→</span></a>
+              <a class="button button-primary" href={winterCamp.href}>Explore Winter Camp <span aria-hidden="true">→</span></a>
+              <a class="button button-ghost" href="#current-camp">View All Camps <span aria-hidden="true">↓</span></a>
             </div>
           </div>
           <div class="camps-hero-visual" aria-hidden="true">
             <figure class="camps-hero-main"><img src="/images/kids.jpg" alt="Children enjoying a creative camp activity at SparkPreneurs" /></figure>
             <figure class="camps-hero-small"><img src="/images/gallery-kids-clay.jpg" alt="Children proudly showing their handmade clay projects" /></figure>
             <span>✦</span>
-            <p><strong>Summer</strong><small>Current camp season</small></p>
+            <p><strong>Winter</strong><small>December 2026 camps</small></p>
           </div>
         </div>
       </div>
@@ -54,21 +58,25 @@ const campActivities = [
     <section id="current-camp" class="camps-current" aria-labelledby="current-camp-title">
       <div class="programs-shell">
         <div class="camps-section-heading">
-          <div><span class="eyebrow">CURRENT CAMP PATH</span><h2 id="current-camp-title">Summer Camp.</h2></div>
-          <p>Summer Camp is the only camp offering currently supported by the content inventory. Other school-break camp pages will be added only when real sessions are confirmed.</p>
+          <div><span class="eyebrow">FIND YOUR NEXT SCHOOL BREAK</span><h2 id="current-camp-title">A season for making.</h2></div>
+          <p>From a single PA day to a week of winter making, find a creative break that fits your family.</p>
         </div>
         <article class="camps-feature-card">
-          <div class="camps-feature-image"><img src="/images/hero-collage.jpg" alt="Children and adults creating together at SparkPreneurs" loading="lazy" /><span>2026 sessions ended</span></div>
+          <div class="camps-feature-image"><Image src={paDayHero} alt="Children painting colourful artwork together at creative camp" widths={[480, 800, 1200]} sizes="(max-width: 780px) 90vw, 45vw" format="webp" quality={80} loading="lazy" /><span>TDSB elementary · 2026–27</span></div>
+          <div class="camps-feature-copy"><span class="eyebrow">A CREATIVE DAY OFF</span><h3>PA Day Camp</h3><p>Clay, creative crafts, and music make a school day off a day to remember. Select one PA day or several.</p><dl><div><dt>Camp day</dt><dd>8 AM–3 PM · $85/day</dd></div><div><dt>With extended care</dt><dd>8 AM–5 PM · $105/day</dd></div><div><dt>Choose your dates</dt><dd>TDSB elementary PA days · Studio confirms availability</dd></div></dl><a class="button button-secondary" href={paDayCamp.href}>Explore PA Day Camp <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="camps-feature-card">
+          <div class="camps-feature-image"><Image src={winterHero} alt="Children making snowflakes and painting winter ornaments at creative camp" widths={[480, 800, 1200]} sizes="(max-width: 780px) 90vw, 45vw" format="webp" quality={80} loading="lazy" /><span>December 2026 · Ages 4–12</span></div>
           <div class="camps-feature-copy">
-            <span class="eyebrow">CREATIVE SUMMER DAYS</span>
-            <h3>Summer Camp</h3>
-            <p>Creative school-break days that bring together art, hands-on making, movement, and time with other young makers.</p>
+            <span class="eyebrow">CHRISTMAS & WINTER BREAK</span>
+            <h3>Winter Camp</h3>
+            <p>Creative crafts, clay, and 3D printing bring a little extra magic to the winter school break. Choose one of two four-day camps.</p>
             <dl>
-              <div><dt>Audience</dt><dd>Children · confirm age by session</dd></div>
-              <div><dt>Format</dt><dd>Seasonal camp</dd></div>
-              <div><dt>Location</dt><dd>3445 Yonge St., Toronto</dd></div>
+              <div><dt>Christmas Camp</dt><dd>December 21–24, 2026</dd></div>
+              <div><dt>Winter Break Camp</dt><dd>December 28–31, 2026</dd></div>
+              <div><dt>Camp day & extra care</dt><dd>8 AM–3 PM · Extended-care details vary by date</dd></div>
             </dl>
-            <a class="button button-secondary" href={summerCampUrl}>View Summer Camp Details <span aria-hidden="true">→</span></a>
+            <a class="button button-secondary" href={winterCamp.href}>View Winter Camp Details <span aria-hidden="true">→</span></a>
           </div>
         </article>
       </div>
@@ -76,7 +84,7 @@ const campActivities = [
 
     <section class="camps-experience" aria-labelledby="camp-experience-title">
       <div class="programs-shell camps-experience-layout">
-        <div><span class="eyebrow">THE SUPPORTED EXPERIENCE</span><h2 id="camp-experience-title">Create, move, and connect.</h2><p>Current source material supports these broad experience areas. Exact themes, projects, and daily timing should be confirmed for each camp session.</p></div>
+        <div><span class="eyebrow">THE CAMP EXPERIENCE</span><h2 id="camp-experience-title">Create, move, and connect.</h2><p>School breaks are a chance to explore something new. Discover the activities, ages, and schedule on each camp’s detail page.</p></div>
         <ol>
           {campActivities.map((activity) => <li><span>{activity.number}</span><div><h3>{activity.title}</h3><p>{activity.detail}</p></div></li>)}
         </ol>
@@ -96,11 +104,12 @@ const campActivities = [
 
     <section class="camps-faq" aria-labelledby="camp-faq-title">
       <div class="programs-shell camps-faq-layout">
-        <div><span class="eyebrow">CAMP QUESTIONS</span><h2 id="camp-faq-title">Before you register.</h2><p>Use the current Summer Camp page for available sessions and ask the studio about anything not clearly specified.</p></div>
+        <div><span class="eyebrow">CAMP QUESTIONS</span><h2 id="camp-faq-title">Before you register.</h2><p>Explore each camp’s dates and details, then ask the studio for help choosing the right option.</p></div>
         <div class="camps-faq-list">
-          <details><summary>What ages can attend Summer Camp?</summary><p>The current detail page references ages 4–10, but older content mentions another range. Confirm the eligible ages for the exact session before registering.</p></details>
+          <details><summary>What ages can attend?</summary><p>Winter Camp is for ages 4–12. Contact the studio to confirm age suitability for PA Day Camp.</p></details>
+          <details><summary>When is Winter Camp?</summary><p>Christmas Camp runs December 21–24, 2026, and Winter Break Camp runs December 28–31, 2026. Both weeks have the same pricing: $320 per four-day week or $85 per day, before applicable taxes. Camp hours are 8 AM–3 PM, with extended care from 3–5 PM on December 21–23 and 28–30. <a href={winterCamp.href}>Explore Winter Camp.</a></p></details>
           <details><summary>What does a camp day include?</summary><p>The supported overview includes art, creativity, hands-on making, movement, and social time. Exact projects, themes, and daily schedules must be confirmed by session.</p></details>
-          <details><summary>Are PA Day or March Break camps available?</summary><p>No separate current offerings are supported by the available content. SparkPreneurs can confirm whether another school-break session is planned.</p></details>
+          <details><summary>Are other school-break camps available?</summary><p>Contact SparkPreneurs to ask about future PA Day, March Break, and other school-break camp dates.</p></details>
           <details><summary>Where does camp take place?</summary><p>Camp is associated with the SparkPreneurs studio at 3445 Yonge Street, Second Floor, Toronto. Confirm any session-specific location details before attending.</p></details>
         </div>
       </div>
@@ -108,13 +117,17 @@ const campActivities = [
 
     <section class="programs-help" aria-labelledby="camp-help-title">
       <div class="programs-shell">
-        <div><span class="eyebrow">LOOKING AHEAD?</span><h2 id="camp-help-title">Review the latest Summer Camp status.</h2><p>The 2026 sessions have ended. Review the completed offering, then ask SparkPreneurs when the next dates are confirmed.</p></div>
-        <a class="button button-light" href={summerCampUrl}>View Summer Camp Details →</a>
+        <div><span class="eyebrow">MAKE IT A CREATIVE WINTER</span><h2 id="camp-help-title">Join us this December.</h2><p>Email us with your child’s age and preferred camp. We’ll help with pricing, availability, and registration.</p></div>
+        <a class="button button-light" href={winterCampEmail()}>Ask About Winter Camp →</a>
       </div>
     </section>
   </main>
 
   <SiteFooter />
+
+  <style>
+    .camps-feature-card + .camps-feature-card { margin-top: 30px; }
+  </style>
 
   <script>
     const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');

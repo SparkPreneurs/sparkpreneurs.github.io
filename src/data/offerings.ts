@@ -1,4 +1,6 @@
 import type { Offering } from './content-models';
+import { winterCamp, winterCampEmail } from './winter-camp';
+import { paDayCamp, paDayLabel, paDayEmail } from './pa-day-camp';
 
 const location = 'yonge-studio' as const;
 const reviewed = '2026-08-23';
@@ -23,6 +25,26 @@ const afterSchoolSources = [
 ] as const;
 
 export const offerings: Offering[] = [
+  ...paDayCamp.dates.map((date): Offering => ({
+    id: `pa-day-camp-${date}`, programId: 'pa-day-camp', programCode: null, itemCode: null,
+    label: paDayLabel(date), status: 'upcoming', startDate: date, endDate: date, sessionDates: [date],
+    dayOfWeek: new Intl.DateTimeFormat('en-CA', { weekday: 'long', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`)),
+    startTime: '08:00', endTime: '15:00', numberOfSessions: 1, duration: 'One PA day',
+    minimumAge: null, maximumAge: null, price: 8500, currency: 'CAD', taxDisplay: 'Confirm applicable tax with the studio',
+    displayDataLastSynced: '2026-11-06', includedItems: ['Clay', 'Creative crafts', 'Music'],
+    registrationMode: 'inquiry', registrationUrl: paDayEmail, location,
+    businessNotes: 'TDSB 2026–27 elementary PA day. Studio confirms camp availability and age suitability. $85 for 8 AM–3 PM or $105 for 8 AM–5 PM, per child per day. Registration by email.',
+  })),
+  ...winterCamp.sessions.map((session): Offering => ({
+    id: `winter-camp-2026-${session.id}`, programId: 'winter-camp', programCode: null, itemCode: null,
+    label: session.title, status: 'upcoming', startDate: session.startDate, endDate: session.endDate,
+    sessionDates: session.dayNumbers.map(day => `2026-12-${day}`), dayOfWeek: 'Monday–Thursday',
+    startTime: '08:00', endTime: '15:00', numberOfSessions: 4, duration: 'Four camp days',
+    minimumAge: 4, maximumAge: 12, price: session.priceCents, currency: 'CAD', taxDisplay: 'Before applicable taxes',
+    displayDataLastSynced: '2026-11-06', includedItems: ['Creative crafts', 'Clay', '3D printing'],
+    registrationMode: 'inquiry', registrationUrl: winterCampEmail(`${session.title}, ${session.dates}`), location,
+    businessNotes: `${session.title}: $85/day, $320 per four-day week, extended care ${session.careHours} on December ${session.careDays.join(', ')} at $20/day; one week with all available care $380. ${session.foodNote} ${session.pickupNote} Prices per child, before applicable taxes.`,
+  })),
   {
     id: '3d-printing-six-sessions', programId: '3d-printing', programCode: 'august_2026_3d_printing',
     itemCode: 'KIDS_3D_PRINTING_6_SESSION', label: 'Kids 3D Printing - 6 Sessions', status: 'open',

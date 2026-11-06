@@ -8,6 +8,7 @@ globalThis.createRegistrationDiscount = (form, options) => {
   let supported = false;
   let quote = null;
   let busy = false;
+  const unavailableMessage = 'Discount codes are temporarily unavailable. Remove the code to continue without a discount, or contact SparkPreneurs.';
   const snapshot = payload => ({ ...payload, programCode: options.programCode,
     email: String(payload.email || payload.parentEmail || '').trim().toLowerCase(),
     discountCode: input.value.trim().toUpperCase() });
@@ -15,6 +16,7 @@ globalThis.createRegistrationDiscount = (form, options) => {
   const reset = () => { quote = null; summary.hidden = true; status.textContent = ''; };
   const setStatus = (message, type) => { status.textContent = message; status.dataset.status = type; };
   const fetchQuote = async payload => {
+    if (!supported) throw new Error(unavailableMessage);
     if (busy) throw new Error('Please wait while your discount is checked.');
     const data = snapshot(payload);
     if (!data.selectedItemCodes?.length || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw new Error('Choose a registration option and enter your email before applying a code.');
@@ -36,16 +38,20 @@ globalThis.createRegistrationDiscount = (form, options) => {
     } catch (error) { reset(); setStatus(error.message || 'The discount could not be checked.', 'error'); throw error; }
     finally { busy = false; button.disabled = false; }
   };
-  button.addEventListener('click', () => { if (supported) fetchQuote(options.selection()).catch(() => {}); });
+  button.addEventListener('click', () => {
+    if (!supported) { setStatus(unavailableMessage, 'error'); return; }
+    fetchQuote(options.selection()).catch(error => setStatus(error.message || 'The discount could not be checked.', 'error'));
+  });
   form.addEventListener('input', reset);
   form.addEventListener('change', reset);
   // Schedule/cart controls can live outside the contact form.
   document.addEventListener('change', () => { if (quote && quote.key !== key(snapshot(options.selection()))) reset(); });
   return {
-    setSupported(value) { supported = value === true; panel.hidden = !supported; if (!supported) reset(); },
+    setSupported(value) { supported = value === true; if (!supported) reset(); },
     async checkoutPayload(payload) {
       const data = snapshot(payload);
-      if (!supported || !data.discountCode) return { ...payload, discountCode: '' };
+      if (!data.discountCode) return { ...payload, discountCode: '' };
+      if (!supported) throw new Error(unavailableMessage);
       if (!quote || quote.key !== key(data)) {
         await fetchQuote(payload);
         throw new Error('Review your discounted total, then continue to secure payment again.');

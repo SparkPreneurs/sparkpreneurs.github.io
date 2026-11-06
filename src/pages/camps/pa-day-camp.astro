@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { Image } from 'astro:assets';
+import hero from '../../assets/camps/pa-day-camp-hero.png';
+import clay from '../../assets/camps/pa-day-camp-clay.png';
+import music from '../../assets/camps/pa-day-camp-music.png';
+import { paDayCamp, paDayLabel, paDayEmail } from '../../data/pa-day-camp';
+
+const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-CA', { ...options, timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`));
+---
+
+<BaseLayout title="PA Day Camp | SparkPreneurs Toronto" description="Turn a school day off into a creative day of clay, crafts, and music. Choose PA days, select 8 AM–3 PM or 8 AM–5 PM, and request enrollment at SparkPreneurs in Toronto.">
+  <a class="programs-skip-link" href="#pa-dates">Skip to PA day selection</a>
+  <SiteHeader current="camps" variant="programs" ctaHref="#pa-dates" ctaLabel="Choose PA Days" />
+  <main class="camps-page pa-camp-page" data-pa-camp data-email={paDayCamp.email}>
+    <section class="camps-hero" aria-labelledby="pa-title">
+      <div class="programs-shell camps-hero-grid">
+        <div class="camps-hero-copy">
+          <span class="eyebrow">PA DAY CAMP · MIDTOWN TORONTO</span>
+          <h1 id="pa-title">A day off school.<br />A day full of <em>discovery.</em></h1>
+          <p>Clay, creative crafts, and music turn a PA day into something to look forward to. A fun, hands-on day at our Yonge Street studio.</p>
+          <div class="button-row"><a class="button button-primary" href="#pa-dates">Choose Your PA Days <span aria-hidden="true">→</span></a><a class="button button-ghost" href="#pa-enrollment">Review Your Booking</a></div>
+        </div>
+        <div class="camps-hero-visual" aria-label="Creative PA Day Camp activities">
+          <figure class="camps-hero-main"><Image src={hero} alt="Children painting colourful artwork together in a bright creative camp studio" widths={[480, 800, 1200]} sizes="(max-width: 780px) 90vw, 45vw" format="webp" quality={80} loading="eager" fetchpriority="high" /></figure>
+          <figure class="camps-hero-small"><Image src={clay} alt="A child shaping a small clay cat at a wooden craft table" widths={[240, 480, 640]} sizes="(max-width: 560px) 130px, 200px" format="webp" quality={80} loading="eager" /></figure>
+          <figure class="camps-hero-small pa-hero-music"><Image src={music} alt="Children exploring music with a xylophone and hand drum" widths={[240, 480, 640]} sizes="(max-width: 560px) 130px, 170px" format="webp" quality={80} loading="eager" /></figure>
+          <span aria-hidden="true">&#10022;</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="camps-experience pa-experience" aria-labelledby="pa-activities-title">
+      <div class="programs-shell camps-experience-layout">
+        <div><span class="eyebrow">A DAY MADE FOR MAKING</span><h2 id="pa-activities-title">Little hands.<br />Big possibilities.</h2><p>A creative change of pace, with room to explore, play, and make something your own.</p></div>
+        <ol>{paDayCamp.activities.map((activity, index) => <li><span>0{index + 1}</span><div><h3>{activity.title}</h3><p>{activity.description}</p></div></li>)}</ol>
+      </div>
+    </section>
+
+    <section class="pa-booking programs-shell" id="pa-booking" aria-labelledby="pa-booking-title">
+      <div class="pa-booking-heading"><h2 id="pa-booking-title">Make their next day off a good one.</h2><p>Choose one PA day or several. Pick the hours you need for each date.</p></div>
+      <div class="pa-tabs" role="tablist" aria-label="PA Day Camp booking and payment">
+        <button id="pa-dates-tab" type="button" role="tab" aria-selected="true" aria-controls="pa-dates" data-pa-tab="pa-dates">1. Choose PA days</button>
+        <button id="pa-enrollment-tab" type="button" role="tab" aria-selected="false" aria-controls="pa-enrollment" tabindex="-1" data-pa-tab="pa-enrollment">2. Details &amp; payment</button>
+      </div>
+      <section id="pa-dates" role="tabpanel" aria-labelledby="pa-dates-tab" tabindex="0" data-pa-panel>
+        <div class="pa-date-intro"><p><strong>TDSB elementary · {paDayCamp.schoolYear}</strong><br />All days start at 8 AM. Select your dates and choose a pickup time.</p></div>
+        <div class="pa-date-list">
+          {paDayCamp.dates.map(date => (
+            <article class="pa-date" data-pa-day data-date={date} data-label={paDayLabel(date)}>
+              <label class="pa-date-choice" for={`pa-${date}`}>
+                <input id={`pa-${date}`} type="checkbox" data-pa-select aria-label={`Select ${paDayLabel(date)}`} />
+                <span class="pa-date-description"><svg class="pa-date-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" /><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2" /></svg><strong>{datePart(date, { month: 'short', day: 'numeric' })}</strong><small>{datePart(date, { weekday: 'short', year: 'numeric' })}</small></span>
+              </label>
+              <div class="pa-date-option" data-pa-time-picker>
+                <span class="pa-time-label" id={`pa-time-label-${date}`}>Time &amp; price</span>
+                <select id={`pa-hours-${date}`} aria-label={`Camp time and price for ${paDayLabel(date)}`} disabled hidden>{paDayCamp.options.map(option => <option value={option.id} data-price={option.priceCents} data-label={`${option.label} · ${option.hours}`}>{option.id === 'standard' ? '8:00 AM - 3:00 PM' : '8:00 AM - 5:00 PM'} · ${option.priceCents / 100}</option>)}</select>
+                <button class="pa-time-trigger" id={`pa-time-trigger-${date}`} type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls={`pa-time-menu-${date}`} aria-label={`Choose camp time for ${paDayLabel(date)}`} data-pa-time-trigger disabled><span><span data-pa-time-text>8:00 AM - 3:00 PM</span><strong data-pa-time-price>$85</strong></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+                <div class="pa-time-menu" id={`pa-time-menu-${date}`} role="listbox" aria-label={`Camp time for ${paDayLabel(date)}`} data-pa-time-menu hidden>{paDayCamp.options.map((option, index) => <button type="button" role="option" aria-selected={index === 0 ? 'true' : 'false'} tabindex="-1" data-pa-time-option={option.id}><span>{option.id === 'standard' ? '8:00 AM - 3:00 PM' : '8:00 AM - 5:00 PM'}</span><strong>${option.priceCents / 100}</strong><small>{option.label}</small></button>)}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p data-pa-no-dates hidden>New PA day dates are coming. <a href={paDayEmail}>Email us for the next camp.</a></p>
+        <p class="pa-calendar-note">PA days vary by school board and school. Check your child’s calendar before choosing dates. Looking for another date? <a href={paDayEmail}>Ask the studio.</a></p>
+        <div class="pa-selection-footer"><div role="status" aria-live="polite"><span data-pa-count>0 days selected</span><strong><span data-pa-selection-total>$0.00</span><small> camp subtotal · CAD</small></strong></div><button class="button button-secondary" type="button" data-pa-next disabled>Continue to Payment <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="pa-enrollment" role="tabpanel" aria-labelledby="pa-enrollment-tab" tabindex="0" data-pa-panel hidden>
+        <div class="pa-enrollment-grid">
+          <form class="pa-form" data-pa-form>
+            <p class="pa-form-intro">One child per registration. All fields required unless marked optional.</p>
+            <fieldset><legend>Your young maker</legend><div class="pa-form-row pa-child-row"><label>Child’s full name<input name="studentName" autocomplete="section-child name" maxlength="100" required /></label><label>Age<input name="studentAge" type="number" inputmode="numeric" min="1" max="99" step="1" required /></label></div><label>Child’s school<input name="school" maxlength="150" autocomplete="off" required /></label></fieldset>
+            <fieldset><legend>Parent or guardian</legend><label>Full name<input name="parentName" autocomplete="section-parent name" maxlength="100" required /></label><div class="pa-form-row"><label>Email address<input name="parentEmail" type="email" autocomplete="email" maxlength="120" required /></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" maxlength="40" required /></label></div></fieldset>
+            <details class="pa-code"><summary>Have a discount or referral code?</summary><label>Code (optional)<input name="discountCode" maxlength="40" autocomplete="off" autocapitalize="characters" /></label><p>The studio will confirm any discount with your registration.</p></details>
+            <div class="pa-submit"><button class="button button-primary" type="submit" data-pa-submit disabled>Email My Registration <span aria-hidden="true">→</span></button><p>This opens a draft in your email app. Send it to request enrollment; the studio will confirm your place and payment details.</p><p role="status" aria-live="polite" data-pa-status></p><a href={paDayEmail} data-pa-email-link hidden>Open my registration email again ↗</a></div>
+          </form>
+          <aside class="pa-cart" aria-labelledby="pa-cart-title"><div class="pa-cart-heading"><h3 id="pa-cart-title">Your booking</h3><a href="#pa-dates">Edit dates ↗</a></div><p class="pa-cart-caption">1 child · Prices in CAD</p><ul data-pa-items><li>Choose your PA days to start your booking.</li></ul><div class="pa-cart-total" data-pa-summary hidden><span>Camp subtotal</span><strong data-pa-subtotal>$0.00</strong></div><p class="pa-tax-note">The studio will confirm any applicable tax and discounts before payment.</p><button class="pa-clear" type="button" data-pa-clear hidden>Remove all dates</button><div class="pa-studio"><span>YOUR CREATIVE DAY STARTS HERE</span><a href="https://www.google.com/maps/search/?api=1&query=3445+Yonge+Street+Toronto" target="_blank" rel="noopener">{paDayCamp.address} ↗</a></div></aside>
+        </div>
+      </section>
+      <noscript><p>Date selection needs JavaScript. <a href={paDayEmail}>Email the studio to register for PA Day Camp.</a></p></noscript>
+    </section>
+
+    <section class="camps-faq" aria-labelledby="pa-faq-title"><div class="programs-shell camps-faq-layout"><div><span class="eyebrow">GOOD TO KNOW</span><h2 id="pa-faq-title">A few PA day<br />questions.</h2><p>Need a hand? <a href={paDayEmail}>Email the studio.</a></p></div><div class="camps-faq-list">
+      <details><summary>What happens at PA Day Camp?</summary><p>A fun and creative day of hands-on activities, including clay, creative crafts, and music.</p></details>
+      <details><summary>How much is each day?</summary><p>Camp from 8 AM–3 PM is $85 per child per day. Camp from 8 AM–5 PM is $105 per child per day. Select different hours for different dates if you need to. The studio will confirm any applicable tax and discounts.</p></details>
+      <details><summary>Are these PA days the same across Canada?</summary><p>No. PA days depend on your school board and school. The dates shown come from the <a href={paDayCamp.boardCalendarUrl} target="_blank" rel="noopener">TDSB 2026–27 elementary calendar</a>. Check your child’s calendar; a school PA day does not guarantee camp availability.</p></details>
+      <details><summary>Can I book more than one PA day?</summary><p>Yes. Select several dates and choose your preferred hours for each. Your booking adds them together. Complete a separate registration for another child.</p></details>
+      <details><summary>How do I enroll and pay?</summary><p>Choose your days, enter your details, and select Email My Registration. Send the draft email to {paDayCamp.email}. The studio will confirm availability, age suitability, what to bring, and payment instructions. A draft email alone does not reserve a place.</p></details>
+    </div></div></section>
+  </main>
+  <SiteFooter />
+  <script>import '../../scripts/pa-day-camp.js';</script>
+  <script>
+    const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    const close = () => { button?.setAttribute('aria-expanded', 'false'); menu?.classList.remove('is-open'); };
+    button?.addEventListener('click', () => { const open = button.getAttribute('aria-expanded') !== 'true'; button.setAttribute('aria-expanded', String(open)); menu?.classList.toggle('is-open', open); });
+    menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') { close(); button.focus(); } });
+  </script>
+  <style>
+    .pa-camp-page { --camp-green: var(--ink); --camp-green-deep: var(--ink); }
+    .pa-hero-music { top: 85px; right: 0; bottom: auto; width: 170px; height: 155px; transform: rotate(-4deg); }
+    .pa-experience { padding: 44px 0; }
+    .pa-experience .camps-experience-layout { gap: 48px; align-items: center; }
+    .pa-experience h2 { font-size: clamp(28px, 3vw, 36px); }
+    .pa-experience .camps-experience-layout > div > p { max-width: 360px; font-size: 14px; }
+    .pa-experience li { padding: 14px 0; gap: 14px; }
+    .pa-experience li > span { width: 30px; height: 30px; }
+    .pa-experience h3 { font-size: 19px; }
+    .pa-booking { margin-block: 40px; padding: 32px; border: 1px solid var(--kraft); border-top: 4px solid var(--ink); border-radius: 20px; background: var(--paper-alt); box-shadow: 0 10px 30px #1e3a5f08; }
+    .pa-booking-heading { margin-bottom: 20px; }
+    .pa-booking-heading h2 { margin: 0 0 10px; font-size: clamp(28px, 3.5vw, 40px); }
+    .pa-booking-heading p { margin: 0; color: var(--muted); font-size: 14px; }
+    .pa-tabs { display: flex; gap: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+    .pa-tabs button { min-height: 48px; padding: 12px 16px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--muted); font-size: 14px; font-weight: 700; cursor: pointer; }
+    .pa-tabs button[aria-selected="true"] { border-bottom-color: var(--orange); color: var(--ink); }
+    .pa-camp-page [hidden] { display: none !important; }
+    .pa-camp-page :is(input, select, button, a, summary, [role="tabpanel"]):focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+    .pa-camp-page button:disabled { cursor: not-allowed; opacity: .5; }
+    .pa-date-intro { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .pa-date-intro p { margin: 0; color: var(--muted); font-size: 12px; }
+    .pa-date-intro strong { color: var(--ink); font-size: 13px; }
+    .pa-date-intro a, .pa-calendar-note a, .pa-cart-heading a { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .pa-date-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .pa-date { display: grid; gap: 10px; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: white; transition: border-color .15s, box-shadow .15s; }
+    .pa-date:hover { border-color: var(--ink); }
+    .pa-date.is-selected { border-color: var(--ink); box-shadow: inset 0 3px 0 var(--orange); }
+    .pa-date-choice { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: start; gap: 8px; min-width: 0; min-height: 44px; cursor: pointer; }
+    .pa-date-choice input { width: 19px; height: 19px; margin: 0; flex-shrink: 0; accent-color: var(--ink); }
+    .pa-date-description { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: 2px 6px; }
+    .pa-date-icon { color: var(--orange-deep); }
+    .pa-date-description small { grid-column: 2; }
+    .pa-date-description strong { color: var(--ink); font-size: 21px; line-height: 1.2; letter-spacing: -.03em; }
+    .pa-date-description small { color: var(--muted); font-size: 11px; }
+    .pa-date-option { position: relative; display: grid; min-width: 0; gap: 5px; }
+    .pa-time-label { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .pa-time-trigger { display: flex; align-items: center; justify-content: space-between; gap: 6px; width: 100%; min-height: 54px; padding: 9px 10px; border: 1px solid #9fb5c8; border-radius: 8px; background: var(--paper); color: var(--ink); text-align: left; cursor: pointer; }
+    .pa-time-trigger > span { display: grid; gap: 3px; min-width: 0; }
+    .pa-time-trigger [data-pa-time-text] { font-size: 11px; font-weight: 600; line-height: 1.4; }
+    .pa-time-trigger strong { font-size: 13px; }
+    .pa-time-trigger svg { flex-shrink: 0; transition: transform .15s; }
+    .pa-time-trigger[aria-expanded="true"] { border-color: var(--ink); background: white; }
+    .pa-time-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .pa-time-menu { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 10; display: grid; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 10px 26px #14284226; }
+    .pa-time-menu button { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 6px; width: 100%; min-height: 62px; padding: 9px 8px; border: 1px solid transparent; border-radius: 6px; background: white; color: var(--ink); text-align: left; cursor: pointer; }
+    .pa-time-menu button > span { font-size: 11px; font-weight: 600; line-height: 1.5; }
+    .pa-time-menu button > strong { align-self: center; font-size: 12px; }
+    .pa-time-menu button > small { grid-column: 1 / -1; color: var(--muted); font-size: 10px; }
+    .pa-time-menu button:hover, .pa-time-menu button:focus-visible { background: var(--paper-alt); }
+    .pa-time-menu button[aria-selected="true"] { border-color: var(--kraft); background: var(--paper-alt); box-shadow: inset 3px 0 0 var(--orange); }
+    .pa-date:has(.pa-time-trigger[aria-expanded="true"]) { position: relative; z-index: 2; }
+    .pa-date-option > label { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .pa-date-option select { appearance: none; -webkit-appearance: none; display: block; box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 11px 38px 11px 14px; border: 1px solid #9fb5c8; border-radius: 8px; background-color: white; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%231e3a5f' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; line-height: 1.4; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    .pa-date-option select:hover:not(:disabled) { border-color: var(--ink); }
+    .pa-date-option select:focus-visible { border-color: var(--ink); box-shadow: 0 0 0 3px #1e3a5f12; }
+    .pa-date-option select:disabled { border-color: var(--line); background-color: var(--paper-alt); color: var(--muted); opacity: .7; cursor: not-allowed; }
+    .pa-date-option select option { background: white; color: var(--ink); font-weight: 400; }
+    .pa-date-option select { padding-inline: 10px 28px; background-position: right 7px center; font-size: 12px; }
+    .pa-calendar-note { margin: 16px 0 0; color: var(--muted); font-size: 12px; }
+    .pa-selection-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--kraft); }
+    .pa-selection-footer > div { display: grid; gap: 3px; color: var(--ink); }
+    .pa-selection-footer [data-pa-count] { color: var(--muted); font-size: 12px; }
+    .pa-selection-footer strong { font-size: 22px; }
+    .pa-selection-footer strong small { font-size: 11px; font-weight: 400; }
+    .pa-selection-footer button { border: 0; }
+    .pa-enrollment-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); gap: 28px; align-items: start; }
+    .pa-form { display: grid; gap: 18px; min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .pa-form-intro { margin: 0; color: var(--muted); font-size: 12px; }
+    .pa-form fieldset { display: grid; gap: 12px; min-width: 0; margin: 0; padding: 0; border: 0; }
+    .pa-form legend { margin-bottom: 10px; color: var(--ink); font-size: 18px; font-weight: 800; }
+    .pa-form label { display: grid; min-width: 0; gap: 6px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .pa-form input { width: 100%; min-width: 0; min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); font: inherit; font-size: 16px; font-weight: 400; }
+    .pa-form input:focus { border-color: var(--ink); background: white; }
+    .pa-form-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+    .pa-child-row { grid-template-columns: minmax(0, 1fr) 80px; }
+    .pa-code { padding-block: 12px; border-block: 1px solid var(--line); }
+    .pa-code summary { min-height: 28px; color: var(--ink); font-size: 13px; font-weight: 700; cursor: pointer; }
+    .pa-code label { margin-top: 12px; }
+    .pa-code p, .pa-submit p { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+    .pa-submit button { width: 100%; min-height: 48px; border: 0; }
+    .pa-submit a { color: var(--ink); font-size: 12px; text-decoration: underline; }
+    .pa-cart { min-width: 0; padding: 24px; border: 1px solid var(--line); border-top: 4px solid var(--ink); border-radius: 12px; background: white; }
+    .pa-cart-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .pa-cart-heading h3 { margin: 0; font-size: 23px; }
+    .pa-cart-caption { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+    .pa-cart ul { display: grid; gap: 0; margin: 12px 0; padding: 0; list-style: none; }
+    .pa-cart :global(.pa-cart-item) { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .pa-cart :global(.pa-cart-item strong) { color: var(--ink); font-size: 13px; }
+    .pa-cart :global(.pa-cart-item b) { color: var(--ink); font-size: 14px; text-align: right; }
+    .pa-cart :global(.pa-cart-item span) { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+    .pa-cart :global(.pa-cart-item button), .pa-clear { grid-column: 1 / -1; justify-self: start; min-height: 32px; padding: 4px 0; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 11px; text-decoration: underline; cursor: pointer; }
+    .pa-cart :global(.pa-cart-item button:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .pa-cart :global(.pa-cart-empty) { padding: 20px 12px; border: 1px dashed var(--kraft); border-radius: 8px; color: var(--muted); font-size: 13px; text-align: center; }
+    .pa-cart-total { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 18px; padding: 16px; border-radius: 8px; background: var(--ink); color: white; font-size: 14px; }
+    .pa-cart-total strong { font-size: 19px; }
+    .pa-tax-note { color: var(--muted); font-size: 11px; }
+    .pa-studio { display: grid; gap: 7px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line); }
+    .pa-studio span { color: var(--orange-deep); font-size: 9px; font-weight: 800; letter-spacing: .05em; }
+    .pa-studio a { color: var(--muted); font-size: 12px; text-decoration: underline; }
+    .camps-faq a { color: var(--ink); text-decoration: underline; }
+    @media (max-width: 980px) {
+      .pa-date-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 780px) {
+      .pa-experience { padding: 32px 0; }
+      .pa-experience .camps-experience-layout { gap: 22px; }
+      .pa-booking { margin-block: 28px; padding: 22px 18px; border-radius: 16px; }
+      .pa-enrollment-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+      .pa-cart { grid-row: 1; }
+      .pa-form { padding: 18px; }
+      .pa-tabs { gap: 8px; }
+      .pa-tabs button { flex: 1; padding-inline: 8px; font-size: 13px; }
+    }
+    @media (max-width: 560px) {
+      .pa-hero-music { top: 75px; width: 130px; height: 105px; }
+      .pa-date-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .pa-date { padding: 10px; }
+      .pa-date-intro { align-items: start; flex-direction: column; gap: 10px; }
+      .pa-selection-footer { align-items: stretch; flex-direction: column; gap: 14px; }
+      .pa-form-row:not(.pa-child-row) { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</BaseLayout>

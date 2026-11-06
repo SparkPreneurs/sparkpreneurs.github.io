@@ -99,11 +99,13 @@ export const toProgramCard = (program: Program): ProgramCardRecord => {
   };
 };
 
-export const programCards = programs.map(toProgramCard);
+// Keep Summer Camp's page and data for its next season, but hide it from listings for now.
+const visiblePrograms = programs.filter(program => program.id !== 'summer-camp');
+export const programCards = visiblePrograms.map(toProgramCard);
 export const kidsYouthProgramCards = programCards.filter((program) => program.audience === 'kids-youth');
 export const adultProgramCards = programCards.filter((program) => program.audience === 'adults');
 
-export const programCatalog = programs.map((program) => ({
+export const programCatalog = visiblePrograms.map((program) => ({
   program,
   offerings: offerings.filter((offering) => offering.programId === program.id),
 }));

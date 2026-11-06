@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import RegistrationDiscount from '../../components/RegistrationDiscount.astro';
+import { Image } from 'astro:assets';
+import winterHero from '../../assets/camps/winter-camp-hero.png';
+import winterClay from '../../assets/camps/winter-camp-clay.png';
+import winterPrinting from '../../assets/camps/winter-camp-3d-printing.png';
+import { winterCamp, winterCampEmail, winterCampCheckout } from '../../data/winter-camp';
+
+const registrationUrl = winterCampEmail();
+const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(cents / 100);
+---
+
+<BaseLayout title="Winter Camp Ages 4–12 | SparkPreneurs Toronto" description="Creative crafts, clay, and 3D printing for ages 4–12. Christmas Camp December 21–24 and Winter Break Camp December 28–31, 2026, in Toronto. Register by email.">
+  <a class="programs-skip-link" href="#winter-dates">Skip to camp dates</a>
+  <SiteHeader current="camps" variant="programs" ctaHref={registrationUrl} ctaLabel="Register by Email" />
+
+  <main class="camps-page winter-camp-page" data-winter-shop data-endpoint={winterCampCheckout.endpoint} data-program-code={winterCampCheckout.programCode} data-stripe-mode={winterCampCheckout.stripeMode} data-tax-rate={winterCampCheckout.taxRatePercent ?? ''} data-tax-included={String(winterCampCheckout.taxIncluded)}>
+    <section class="camps-hero" aria-labelledby="winter-title">
+      <div class="programs-shell">
+        <div class="camps-hero-grid">
+          <div class="camps-hero-copy">
+            <span class="eyebrow">WINTER CAMP · {winterCamp.ageLabel.toUpperCase()}</span>
+            <h1 id="winter-title">A little winter magic. A whole lot of <em>making.</em></h1>
+            <p>Fill the school break with creative crafts, clay, and 3D printing. Two four-day camps for curious young makers at our Midtown Toronto studio.</p>
+            <div class="button-row">
+              <a class="button button-primary" href="#winter-dates">Explore Camp Dates <span aria-hidden="true">→</span></a>
+              <a class="button button-ghost" href="#winter-registration">Review Your Cart</a>
+            </div>
+          </div>
+          <div class="camps-hero-visual" aria-label="Creative Winter Camp activities">
+            <figure class="camps-hero-main">
+              <Image src={winterHero} alt="Children making paper snowflakes and painting winter ornaments at a craft table" widths={[480, 800, 1200]} sizes="(max-width: 780px) 90vw, 45vw" format="webp" quality={80} loading="eager" fetchpriority="high" />
+            </figure>
+            <figure class="camps-hero-small">
+              <Image src={winterClay} alt="Children shaping clay stars and a small winter tree with an instructor" widths={[240, 480, 640]} sizes="(max-width: 560px) 130px, 200px" format="webp" quality={80} loading="eager" />
+            </figure>
+            <figure class="camps-hero-small winter-hero-printing">
+              <Image src={winterPrinting} alt="Two children and an instructor watching a winter star inside an enclosed 3D printer" widths={[240, 480, 640]} sizes="(max-width: 560px) 130px, 170px" format="webp" quality={80} loading="eager" />
+            </figure>
+            <span aria-hidden="true">&#10022;</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="camps-experience" aria-labelledby="winter-activities-title">
+      <div class="programs-shell camps-experience-layout">
+        <div><span class="eyebrow">A BREAK MADE FOR MAKING</span><h2 id="winter-activities-title">Craft it.<br />Shape it.<br />Print it.</h2><p>Three ways to explore creativity, all part of Winter Camp. A school break with room for imagination and hands-on discovery.</p></div>
+        <ol>{winterCamp.activities.map((activity, index) => <li><span>0{index + 1}</span><div><h3>{activity.title}</h3><p>{activity.description}</p></div></li>)}</ol>
+      </div>
+    </section>
+
+    <div class="winter-booking programs-shell" data-winter-booking>
+      <div class="winter-booking-heading"><h2>Book your winter camp.</h2><p>Two weeks to choose from, with the same pricing each week. Book one week or both for your child.</p></div>
+      <div class="winter-booking-tabs" role="tablist" aria-label="Camp enrollment" data-winter-tabs hidden>
+        <button id="winter-camps-tab" type="button" role="tab" aria-controls="winter-dates" aria-selected="true" data-winter-tab="winter-dates">1. Choose camps</button>
+        <button id="winter-details-tab" type="button" role="tab" aria-controls="winter-registration" aria-selected="false" tabindex="-1" data-winter-tab="winter-registration">2. Details &amp; payment</button>
+      </div>
+      <div class="winter-booking-columns">
+    <section id="winter-dates" class="camps-current" aria-labelledby="winter-dates-title">
+      <div class="programs-shell">
+        <h2 id="winter-dates-title" class="sr-only">Dates &amp; camp options</h2>
+        <div class="winter-date-grid">
+          {winterCamp.sessions.map(session => (
+            <article class="winter-date-card" aria-labelledby={`${session.id}-title`} data-winter-item data-code={session.code} data-name={session.title} data-dates={session.dates} data-price={session.priceCents ?? ''} data-daily-price={session.dailyPriceCents ?? ''} data-care-price={session.carePriceCents ?? ''} data-care-days={session.careDays.join(',')}>
+              <h3 id={`${session.id}-title`}>{session.title}</h3>
+              <p class="winter-date-range"><time datetime={session.startDate}>December {session.dayNumbers[0]}</time>–<time datetime={session.endDate}>{session.dayNumbers[3]}, 2026</time></p>
+              <p class="winter-session-hours">Mon–Thu · {winterCamp.hours} · Ages 4–12</p>
+              {session.priceCents !== null && <div class="winter-booking-options">
+                <fieldset class="winter-package-options">
+                  <legend class="sr-only">Choose your camp option</legend>
+                  <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="package" data-winter-option checked /><span><strong>One week · four-day camp</strong><small>All four days, 8 AM–3 PM</small></span><b>{money(session.priceCents)}<small>/week</small></b></label>
+                  {session.carePriceCents !== null && session.careDays.length > 0 && <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="package-care" data-winter-option /><span><strong>One week + extended care</strong><small>Four days + care on Dec {session.careDays.join(', ')}</small></span><b>{money(session.priceCents + session.carePriceCents * session.careDays.length)}<small>/week</small></b></label>}
+                  {session.dailyPriceCents !== null && <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="daily" data-winter-option /><span><strong>Individual days</strong><small>Choose the days that suit you</small></span><b>{money(session.dailyPriceCents)}<small>/day</small></b></label>}
+                </fieldset>
+                <fieldset class="winter-daily-options" data-winter-daily hidden>
+                  <legend>Choose your days</legend>
+                  {session.dayNumbers.map(day => <div class="winter-day-option"><label><input type="checkbox" value={day} data-winter-day />December {day} <span>{money(session.dailyPriceCents!)}</span></label>{session.careDays.includes(day) && <label class="winter-day-care"><input type="checkbox" value={day} data-winter-care disabled />Extended care ({session.careHours}) +{money(session.carePriceCents!)}</label>}</div>)}
+                </fieldset>
+                <details class="winter-camp-practical"><summary>Care, pickup &amp; what to bring</summary>
+                  {session.careDays.length > 0 && <p class="winter-care-note">Extended care: {session.careHours}, December {session.careDays[0]}–{session.careDays.at(-1)} only · +{money(session.carePriceCents!)}/day.</p>}
+                  {session.pickupNote && <p class="winter-care-note"><strong>{session.pickupNote}</strong></p>}
+                  <p class="winter-care-note">{session.foodNote}</p>
+                </details>
+              </div>}
+              {session.priceCents === null && <div class="winter-price-pending"><strong>Planning for this week?</strong><p>Pricing and care details are being confirmed.</p><a href={winterCampEmail(session.title)}>Ask about this camp <span aria-hidden="true">↗</span></a></div>}
+              <div class="winter-card-purchase">
+                <p class="winter-card-price"><span data-winter-card-price>{session.priceCents === null ? 'Price to be confirmed' : money(session.priceCents)}</span><small data-winter-card-price-note>{session.priceCents === null ? 'Contact us for this camp’s pricing' : 'Per week · per child · before tax'}</small></p>
+                <button class="button button-secondary" type="button" data-winter-add aria-pressed="false" aria-label={`Add ${session.title}, ${session.dates}, to cart`}>Add camp <span aria-hidden="true">+</span></button>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="winter-selection-footer"><div class="winter-selection-summary" role="status" aria-live="polite"><span data-winter-count>0 camps</span><strong data-winter-selection-total>No camps selected</strong></div><button class="winter-cart-link" type="button" data-winter-next disabled>Continue to details &amp; payment <span aria-hidden="true">→</span></button></div>
+      </div>
+    </section>
+
+    <section id="winter-registration" class="winter-registration" aria-labelledby="winter-registration-title">
+      <div class="programs-shell">
+        <h2 id="winter-registration-title" class="sr-only">Complete your enrollment</h2>
+        <div class="winter-registration-layout">
+        <div class="winter-details-panel">
+          <form class="winter-registration-form" data-winter-form>
+            <p class="winter-form-intro">All fields are required unless marked optional.</p>
+            <fieldset class="winter-form-group"><legend>Your young maker</legend>
+              <div class="winter-form-row winter-child-row"><label>Child’s full name<input name="studentName" autocomplete="section-child name" maxlength="100" required /></label><label>Age<input name="studentAge" type="number" min="4" max="12" step="1" inputmode="numeric" required /></label></div>
+            </fieldset>
+            <fieldset class="winter-form-group"><legend>Parent or guardian</legend>
+              <label>Full name<input name="parentName" autocomplete="section-parent name" maxlength="100" required /></label>
+              <div class="winter-form-row"><label>Email address<input name="parentEmail" type="email" autocomplete="email" maxlength="120" required /></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" maxlength="40" required /></label></div>
+            </fieldset>
+            <details class="winter-discount-panel"><summary>Have a discount or referral code?</summary><RegistrationDiscount /></details>
+            <div class="winter-payment-actions">
+            <button class="button button-primary" type="submit" data-winter-checkout aria-describedby="winter-payment-status" disabled>Continue to Secure Payment <span aria-hidden="true">→</span></button>
+            <p id="winter-payment-status" class="winter-payment-status" data-winter-status role="status" aria-live="polite">Online payment is not available yet. Email us to register.</p>
+            <a class="winter-email-registration" href={registrationUrl}>Register by email <span aria-hidden="true">↗</span></a>
+            </div>
+          </form>
+        </div>
+        <aside class="winter-visit winter-cart" aria-labelledby="winter-cart-title">
+          <div class="winter-summary-heading"><h3 id="winter-cart-title">Your booking</h3><a href="#winter-dates">Edit <span aria-hidden="true">↗</span><span class="sr-only"> camps</span></a></div>
+          <p class="winter-summary-note">1 child <span aria-hidden="true">·</span> Prices in CAD</p>
+          <ul class="winter-cart-items" data-winter-cart><li>Select a camp above to get started.</li></ul>
+          <dl class="winter-cart-totals" data-winter-totals hidden><div><dt>Subtotal</dt><dd data-winter-subtotal></dd></div><div data-winter-tax-row><dt data-winter-tax-label>Tax</dt><dd data-winter-tax></dd></div><div><dt data-winter-total-label>Total (CAD)</dt><dd data-winter-total></dd></div></dl>
+          <button class="winter-clear-cart" type="button" data-winter-clear disabled hidden>Remove all camps</button>
+          <div class="winter-cart-location"><a href="https://www.google.com/maps/search/?api=1&query=3445+Yonge+Street+Toronto" target="_blank" rel="noopener">{winterCamp.address} ↗</a></div>
+        </aside>
+        </div>
+      </div>
+    </section>
+
+      </div>
+    </div>
+
+    <section class="camps-faq" aria-labelledby="winter-faq-title">
+      <div class="programs-shell camps-faq-layout">
+        <div><span class="eyebrow">GOOD TO KNOW</span><h2 id="winter-faq-title">A few winter<br />camp questions.</h2><p>Need a hand planning your child’s break? <a href={registrationUrl}>Email the studio.</a></p></div>
+        <div class="camps-faq-list">
+          <details><summary>What ages can attend?</summary><p>Winter Camp is for children ages 4–12.</p></details>
+          <details><summary>Which dates can we choose?</summary><p>Christmas Camp runs December 21–24, 2026. Winter Break Camp runs December 28–31, 2026. Each camp runs Monday through Thursday.</p></details>
+          <details><summary>Are prices per week?</summary><p>Yes. Both weeks have the same prices per child: $85 for a single day, $320 for one four-day week, or $380 for one week with all three available extended-care days. Booking both weeks costs $640 for camp, or $760 with all available extended care, before applicable taxes.</p></details>
+          <details><summary>Is extended care available?</summary><p>Extended care runs 3–5 PM at $20/day on December 21–23 for Christmas Camp and December 28–30 for Winter Break Camp. Each weekly package with all three care days is $380 before applicable taxes. Pickup on December 24 and 31 is at 3 PM.</p></details>
+          <details><summary>Is food provided?</summary><p>Bring lunch and snacks from home for either week. Contact the studio to discuss dietary needs.</p></details>
+          <details><summary>Can I register for both camps?</summary><p>Yes. Add Christmas Camp and Winter Break Camp to your cart for the same child. Complete a separate registration for another child. While online payment is being prepared, email <a href={`mailto:${winterCamp.email}`}>{winterCamp.email}</a> for pricing and registration.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+  <script>
+    import '../../scripts/winter-camp-checkout.js';
+  </script>
+  <script>
+    const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    menuButton?.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      menu?.classList.toggle('is-open', !open);
+    });
+    menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menuButton?.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('is-open');
+    }));
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || menuButton?.getAttribute('aria-expanded') !== 'true') return;
+      menuButton.setAttribute('aria-expanded', 'false');
+      menu?.classList.remove('is-open');
+      menuButton.focus();
+    });
+  </script>
+
+  <style>
+    .winter-camp-page { --camp-green: #486d77; --camp-green-deep: #2b4b55; }
+    .camps-hero-copy > .eyebrow { display: block; }
+    .winter-hero-printing { top: 85px; right: 0; bottom: auto; width: 170px; height: 155px; transform: rotate(-4deg); }
+    .winter-hero-printing img { object-position: 65% center; }
+    .camps-experience { padding: 44px 0; }
+    .camps-experience-layout { gap: 48px; align-items: center; }
+    .camps-experience h2 { margin: 10px 0 12px; font-size: clamp(28px, 3vw, 36px); }
+    .camps-experience-layout > div > p { max-width: 360px; font-size: 14px; }
+    .camps-experience li { gap: 14px; padding: 14px 0; }
+    .camps-experience li > span { width: 30px; height: 30px; }
+    .camps-experience h3 { margin-bottom: 4px; font-size: 19px; }
+    .winter-date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+    #winter-dates { padding: 40px 0 28px; }
+    #winter-dates .camps-section-heading { gap: 24px; margin-bottom: 22px; }
+    #winter-dates h2 { font-size: clamp(28px, 3vw, 36px); }
+    #winter-dates .camps-section-heading > p { font-size: 14px; }
+    .winter-date-card { display: flex; flex-direction: column; min-width: 0; padding: 22px; border: 1px solid var(--line); border-top: 4px solid #9f4e3e; border-radius: 16px; background: white; box-shadow: 0 8px 28px #1e3a5f06; }
+    .winter-date-card:nth-child(2) { border-top-color: var(--camp-green); }
+    .winter-date-card h3 { margin: 0 0 6px; font-size: 26px; }
+    .winter-date-range { margin: 0; color: var(--muted); font-size: 15px; }
+    .winter-session-hours { margin: 4px 0 16px; color: var(--muted); font-size: 12px; }
+    .winter-booking-options { display: grid; gap: 6px; margin: 0 0 16px; }
+    .winter-package-options { display: grid; gap: 9px; min-width: 0; margin: 0 0 6px; padding: 0; border: 0; }
+    .winter-package-options legend, .winter-daily-options legend { margin-bottom: 8px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .winter-package-option { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: border-color .15s, background .15s; }
+    .winter-package-option:hover { border-color: var(--camp-green); }
+    .winter-package-option:has(input:checked) { border-color: var(--ink); background: var(--paper-alt); box-shadow: inset 0 0 0 1px var(--ink); }
+    .winter-package-option input { flex: 0 0 auto; width: 17px; height: 17px; margin: 0; accent-color: var(--camp-green-deep); }
+    .winter-package-option > span { flex: 1; min-width: 0; }
+    .winter-package-option strong { display: block; color: var(--ink); font-size: 13px; }
+    .winter-package-option small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; font-weight: 400; }
+    .winter-package-option > b { color: var(--ink); font-size: 15px; text-align: right; white-space: nowrap; }
+    .winter-package-option > b small { display: inline; margin-left: 2px; }
+    .winter-daily-options { display: grid; gap: 10px; min-width: 0; margin: 4px 0; padding: 15px; border: 1px solid var(--line); border-radius: 8px; }
+    .winter-daily-options[hidden] { display: none; }
+    .winter-day-option { display: grid; gap: 7px; }
+    .winter-day-option label { display: flex; align-items: center; gap: 8px; color: var(--ink); font-size: 12px; }
+    .winter-day-option label > span { margin-left: auto; color: var(--muted); }
+    .winter-day-option .winter-day-care { padding-left: 22px; color: var(--muted); font-size: 10px; }
+    .winter-day-option input { accent-color: var(--camp-green); }
+    .winter-care-note { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .winter-camp-practical { color: var(--muted); font-size: 12px; }
+    .winter-camp-practical summary { display: flex; align-items: center; min-height: 32px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    .winter-camp-practical summary::after { content: '+'; margin-left: 8px; }
+    .winter-camp-practical[open] summary::after { content: '−'; }
+    .winter-price-pending { margin-bottom: 24px; padding: 22px; border: 1px dashed var(--kraft); border-radius: 12px; background: var(--paper); color: var(--ink); }
+    .winter-price-pending strong { font-size: 15px; }
+    .winter-price-pending p { margin: 6px 0 14px; color: var(--muted); font-size: 13px; }
+    .winter-price-pending a { font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+    .winter-date-card.is-selected { border-color: var(--camp-green); box-shadow: 0 0 0 2px var(--camp-green), var(--shadow); }
+    .winter-card-purchase { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+    .winter-card-price { min-width: 0; margin: 0; color: var(--ink); font-size: 20px; font-weight: 800; }
+    .winter-card-price small { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; font-weight: 500; }
+    .winter-card-purchase .button { flex-shrink: 0; min-height: 44px; padding: 10px 16px; font-size: 13px; }
+    .winter-date-card.is-selected [data-winter-add] { background: var(--ink); box-shadow: 0 3px 0 var(--ink-deep); }
+    .winter-selection-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; }
+    .winter-selection-footer > p { margin: 0; color: var(--muted); font-size: 13px; }
+    .winter-cart-link { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; min-height: 48px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); font-size: 13px; font-weight: 700; }
+    .winter-cart-link [data-winter-count] { padding: 5px 10px; border-radius: 100px; background: var(--paper-alt); }
+    .winter-registration { padding: 32px 0 40px; border-top: 1px solid var(--line); background: #eef3f2; }
+    .winter-registration-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 20px; }
+    .winter-registration h2 { margin: 0; font-size: clamp(26px, 3vw, 34px); }
+    .winter-registration-heading > p { max-width: 600px; margin: 0; color: var(--muted); }
+    .winter-registration-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 28px; align-items: start; }
+    .winter-details-panel, .winter-visit { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: white; box-shadow: 0 8px 28px #1e3a5f06; }
+    .winter-visit h3 { margin: 0; font-size: 26px; }
+    .winter-visit address { color: var(--ink); font-size: 15px; font-weight: 700; font-style: normal; }
+    .winter-visit p { color: var(--muted); font-size: 13px; line-height: 1.9; }
+    .winter-visit > a { display: inline-block; margin-top: 10px; border-bottom: 2px solid var(--orange); font-size: 12px; font-weight: 800; }
+    .winter-registration-form { display: grid; gap: 16px; }
+    .winter-form-intro { margin: 0; color: var(--muted); font-size: 12px; }
+    .winter-form-group { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
+    .winter-form-group legend { margin-bottom: 6px; padding: 0; color: var(--ink); font-size: 19px; font-weight: 800; }
+    .winter-form-group > p { margin: 0 0 2px; color: var(--muted); font-size: 12px; }
+    .winter-discount-panel { padding: 10px 0; border-block: 1px solid var(--line); }
+    .winter-discount-panel summary { min-height: 24px; color: var(--ink); font-size: 13px; font-weight: 700; cursor: pointer; }
+    .winter-discount-panel :global(.registration-discount) { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px 12px; margin: 16px 0 4px; }
+    .winter-discount-panel :global(.registration-discount > label) { display: grid; min-width: 0; gap: 7px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .winter-discount-panel :global(input[name="discountCode"]) { box-sizing: border-box; width: 100%; min-width: 0; min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); font: inherit; font-size: 16px; font-weight: 400; }
+    .winter-discount-panel :global(input[name="discountCode"]:focus) { border-color: var(--ink); background: white; }
+    .winter-discount-panel :global(.registration-discount [data-discount-apply]) { justify-self: stretch; min-height: 48px; padding: 10px 14px; border: 1px solid var(--ink); border-radius: 9px; background: var(--ink); color: white; box-shadow: none; font-size: 12px; }
+    .winter-discount-panel :global(.registration-discount > p), .winter-discount-panel :global(.registration-discount > dl) { grid-column: 1 / -1; }
+    .winter-discount-panel :global(.registration-discount > p:empty) { display: none; }
+    .winter-discount-panel :global(input:focus-visible), .winter-discount-panel :global(button:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .winter-registration-form label { display: grid; align-content: start; gap: 7px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .winter-registration-form input { min-width: 0; width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #b8c6c9; border-radius: 9px; background: #fcfdfc; color: var(--ink); font: inherit; font-size: 16px; font-weight: 400; }
+    .winter-camp-page :is(input, button, a, summary):focus-visible { outline: 3px solid var(--camp-green); outline-offset: 4px; }
+    .winter-registration-form input:focus { border-color: var(--camp-green); background: white; }
+    .winter-registration-form small { color: var(--muted); font-weight: 400; }
+    .winter-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .winter-child-row { grid-template-columns: minmax(0, 1fr) 100px; }
+    .winter-payment-actions { display: grid; gap: 8px; }
+    .winter-registration-form button[type="submit"] { width: 100%; min-height: 52px; border: 0; text-align: center; }
+    .winter-email-registration { justify-self: center; min-height: 32px; color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+    .winter-camp-page button:disabled { cursor: not-allowed; opacity: .55; }
+    .winter-payment-status { margin: 0; color: var(--muted); font-size: 12px; }
+    .winter-payment-status[data-status="error"] { color: #b42318; }
+    .winter-payment-status[data-status="success"] { color: var(--camp-green-deep); }
+    .winter-cart { position: sticky; top: 100px; }
+    .winter-summary-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .winter-summary-heading a { flex-shrink: 0; color: var(--camp-green-deep); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+    .winter-visit .winter-summary-note { margin: 10px 0 0; font-size: 12px; }
+    .winter-cart-items { display: grid; gap: 18px; margin: 24px 0; padding: 0; list-style: none; }
+    .winter-cart-items li { display: grid; gap: 7px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .winter-cart-items li > span { color: var(--ink); font-size: 17px; font-weight: 800; }
+    .winter-cart-items li:only-child:not(:has(strong)) { padding: 22px 18px; border: 1px dashed #b8c6c9; border-radius: 12px; background: #f5f8f7; color: var(--muted); font-size: 13px; text-align: center; }
+    .winter-cart-items strong { color: var(--ink); font-size: 16px; }
+    .winter-cart-items small { color: var(--muted); font-size: 12px; }
+    .winter-cart-items button, .winter-clear-cart { justify-self: start; width: fit-content; min-height: 32px; padding: 4px 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .winter-cart-totals { display: grid; gap: 12px; margin: 0 0 25px; }
+    .winter-cart-totals[hidden] { display: none; }
+    .winter-cart-totals > div { display: flex; justify-content: space-between; gap: 15px; font-size: 13px; }
+    .winter-cart-totals dd { margin: 0; font-weight: 700; }
+    .winter-cart-totals > div:last-child { padding-top: 12px; border-top: 1px solid var(--line); font-size: 17px; font-weight: 800; }
+    .winter-cart-location { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .winter-cart-location address { margin-top: 12px; }
+    .winter-cart-location > a { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: underline; }
+    .camps-faq a { color: var(--ink); text-decoration: underline; overflow-wrap: anywhere; }
+    .winter-booking { --camp-green: var(--ink); --camp-green-deep: var(--ink); margin-block: 40px; padding: 32px; border: 1px solid var(--kraft); border-top: 4px solid var(--ink); border-radius: 20px; background: var(--paper-alt); box-shadow: 0 10px 30px #1e3a5f08; }
+    .winter-booking-heading { margin-bottom: 28px; }
+    .winter-booking-heading h2 { margin: 0 0 10px; font-size: clamp(30px, 3.5vw, 40px); }
+    .winter-booking-heading p { margin: 0; color: var(--muted); font-size: 14px; }
+    .winter-booking-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
+    .winter-booking-columns > section { min-width: 0; }
+    .winter-booking-columns > section > .programs-shell { width: 100%; max-width: none; margin: 0; padding: 0; }
+    .winter-booking #winter-dates, .winter-booking #winter-registration { padding: 0; border: 0; background: transparent; }
+    .winter-booking .winter-date-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+    .winter-booking .winter-registration-layout { grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); gap: 32px; }
+    .winter-booking .winter-details-panel { padding: 22px; border: 1px solid var(--line); border-radius: 12px; box-shadow: none; background: white; }
+    .winter-booking .winter-cart { position: static; padding: 24px; background: white; border: 1px solid var(--line); border-top: 4px solid var(--ink); border-radius: 12px; box-shadow: 0 6px 18px #1e3a5f06; }
+    .winter-cart .winter-summary-heading h3 { font-size: 23px; }
+    .winter-cart .winter-summary-heading a { padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; text-decoration: none; }
+    .winter-cart .winter-summary-note { display: flex; gap: 8px; margin-top: 8px; }
+    .winter-cart-items :global(.winter-cart-item) { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 6px 12px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .winter-cart-items :global(.winter-cart-item-name) { color: var(--ink); font-size: 15px; line-height: 1.4; }
+    .winter-cart-items :global(.winter-cart-item-price) { max-width: 125px; color: var(--ink); font-size: 15px; font-weight: 800; line-height: 1.4; text-align: right; }
+    .winter-cart-items :global(.winter-cart-item-dates), .winter-cart-items :global(.winter-cart-item-details) { grid-column: 1 / -1; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .winter-cart-items :global(.winter-cart-item-remove) { grid-column: 1 / -1; justify-self: start; min-height: 32px; margin-top: 2px; padding: 4px 0; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .winter-cart-items :global(.winter-cart-item-remove:focus-visible) { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .winter-cart-items :global(.winter-cart-item-remove:disabled) { cursor: not-allowed; opacity: .55; }
+    .winter-cart-items :global(.winter-cart-empty) { padding: 24px 16px; border: 1px dashed var(--kraft); border-radius: 8px; background: var(--paper); color: var(--muted); font-size: 13px; text-align: center; }
+    .winter-cart .winter-cart-totals { margin-top: 18px; }
+    .winter-cart .winter-cart-totals > div:last-child { margin-top: 6px; padding: 16px; border: 0; border-radius: 8px; background: var(--ink); color: white; font-size: 16px; }
+    .winter-cart .winter-cart-totals > div:last-child dd { text-align: right; }
+    .winter-cart .winter-clear-cart { margin-top: 8px; font-size: 11px; }
+    .winter-cart .winter-clear-cart[hidden] { display: none; }
+    .winter-cart .winter-cart-location { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line); }
+    .winter-cart .winter-cart-location a { color: var(--muted); font-size: 11px; font-weight: 500; }
+    .winter-booking .winter-registration-form input { border-color: var(--line); background: var(--paper); }
+    .winter-booking .winter-registration-form input:focus { border-color: var(--ink); background: white; }
+    .winter-booking .winter-cart-items { margin-block: 10px 0; gap: 0; }
+    .winter-booking .winter-cart-totals { margin-bottom: 8px; gap: 8px; }
+    .winter-booking .winter-selection-footer { justify-content: space-between; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--kraft); }
+    .winter-selection-summary { display: grid; gap: 3px; color: var(--ink); }
+    .winter-selection-summary > span { color: var(--muted); font-size: 12px; }
+    .winter-selection-summary > strong { font-size: 18px; }
+    .winter-booking .winter-cart-link { width: auto; border-color: var(--camp-green-deep); background: var(--camp-green-deep); color: white; }
+    .winter-booking .winter-cart-link [data-winter-count] { background: #ffffff1a; }
+    .winter-booking-tabs { display: flex; gap: 24px; margin-bottom: 28px; padding: 0; border-bottom: 1px solid var(--line); }
+    .winter-booking-tabs[hidden], .winter-booking-columns > [hidden] { display: none; }
+    .winter-booking-tabs button { min-height: 48px; padding: 12px 16px; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: transparent; color: var(--muted); font-size: 14px; font-weight: 700; cursor: pointer; }
+    .winter-booking-tabs button[aria-selected="true"] { border-bottom-color: var(--orange); background: transparent; color: var(--ink); }
+    @media (max-width: 780px) {
+      .winter-booking { margin-block: 28px; padding: 22px 18px; border-radius: 16px; }
+      .winter-booking-tabs { gap: 8px; }
+      .winter-booking-tabs button { flex: 1; padding-inline: 8px; font-size: 13px; }
+      .winter-booking .winter-details-panel { padding: 18px; }
+      .winter-booking-columns { grid-template-columns: minmax(0, 1fr); }
+      .winter-booking .winter-date-grid, .winter-booking .winter-registration-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+      .camps-experience { padding: 32px 0; }
+      .camps-experience-layout { gap: 22px; }
+      .winter-date-grid, .winter-registration-layout { grid-template-columns: 1fr; }
+      .winter-registration-layout { gap: 22px; }
+      .winter-cart { position: static; grid-row: 1; }
+      #winter-dates .camps-section-heading { gap: 10px; }
+      .winter-selection-footer { align-items: stretch; flex-direction: column; gap: 10px; }
+    }
+    @media (max-width: 420px) {
+      .winter-discount-panel :global(.registration-discount) { grid-template-columns: minmax(0, 1fr); }
+      .winter-date-card { padding: 18px; }
+      .winter-form-row:not(.winter-child-row) { grid-template-columns: 1fr; }
+      .winter-child-row { grid-template-columns: minmax(0, 1fr) 70px; gap: 10px; }
+      .winter-date-card h3 { font-size: 24px; }
+      .winter-date-card .button { padding-inline: 12px; font-size: 12px; }
+      .winter-visit, .winter-details-panel { padding: 18px; }
+      .winter-package-option { gap: 8px; padding: 12px 10px; }
+      .winter-package-option strong { font-size: 12px; }
+      .winter-package-option > b { font-size: 14px; }
+    }
+    @media (max-width: 560px) {
+      .winter-hero-printing { top: 75px; width: 130px; height: 105px; }
+    }
+  </style>
+</BaseLayout>
