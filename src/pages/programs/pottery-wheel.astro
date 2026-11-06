@@ -181,7 +181,7 @@ const skills = [
               </div>
               <div class="course-form-row"><label>Email<input type="email" name="email" autocomplete="email" required /></label><label>Phone<input type="tel" name="phone" autocomplete="tel" required /></label></div>
               <label>Experience level<select name="experienceLevel" required><option value="">Choose one</option><option value="beginner">Beginner</option><option value="some-experience">Some experience</option><option value="experienced">Experienced</option></select></label>
-              <div class="pottery-discount" data-pottery-discount hidden>
+              <div class="pottery-discount" data-pottery-discount>
                 <label>Discount code (optional)<input name="discountCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" aria-describedby="pottery-discount-help" /></label>
                 <button class="button button-ghost" type="button" data-pottery-discount-apply>Apply code</button>
                 <p id="pottery-discount-help">Each code can be used once per email across all registrations.</p>
@@ -254,7 +254,6 @@ const skills = [
       let isSubmitting = false;
       let discountsSupported = false;
       let appliedQuote = null;
-      const discountPanel = registration.querySelector('[data-pottery-discount]');
       const quotePanel = registration.querySelector('[data-pottery-discount-summary]');
       const discountInput = form.querySelector('[name="discountCode"]');
       const emailInput = form.querySelector('[name="email"]');
@@ -299,11 +298,12 @@ const skills = [
       const checkBackend = async () => {
         if (!appsScriptUrl || !programCode) { setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', 'warning'); updateSelection(); return; }
         setStatus('Preparing secure checkout…', 'pending');
-        try { const result = await post({ action: 'ping', programCode }); backendReady = result.programCode === programCode && result.stripeMode === requiredStripeMode; discountsSupported = backendReady && result.discountsSupported === true; discountPanel.hidden = !discountsSupported; setStatus(backendReady ? '' : 'Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', backendReady ? '' : 'warning'); }
+        try { const result = await post({ action: 'ping', programCode }); backendReady = result.programCode === programCode && result.stripeMode === requiredStripeMode; discountsSupported = backendReady && result.discountsSupported === true; setStatus(backendReady ? '' : 'Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', backendReady ? '' : 'warning'); }
         catch { backendReady = false; setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', 'warning'); }
         updateSelection();
       };
       const requestQuote = async () => {
+        if (!discountsSupported) throw new Error('Discount codes are temporarily unavailable. Remove the code to continue without a discount, or contact SparkPreneurs.');
         const input = selectedInput();
         if (!input) throw new Error('Please choose a schedule before applying a discount.');
         if (!emailInput.reportValidity()) throw new Error('Enter your email before applying a discount.');
@@ -327,7 +327,7 @@ const skills = [
         quotePanel.hidden = false;
       };
       registration.querySelector('[data-pottery-discount-apply]').addEventListener('click', async () => {
-        if (!discountsSupported || isSubmitting) return;
+        if (isSubmitting) return;
         resetQuote(); isSubmitting = true; updateSelection(); setStatus('Checking your code and total…', 'pending');
         try { await requestQuote(); setStatus('Your total is ready. Continue to secure payment when you are ready.', 'success'); }
         catch (error) { resetQuote(); setStatus(error.message || 'The discount could not be checked.', 'error'); }
@@ -351,6 +351,7 @@ const skills = [
         if (!input) { setStatus('Please choose one four-session cohort before continuing.', 'warning'); document.querySelector('#schedule')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
         if (!backendReady) { setStatus('Secure checkout is temporarily unavailable. Please contact SparkPreneurs.', 'warning'); return; }
         if (!form.reportValidity()) { setStatus('Please complete the required registration fields before continuing.', 'warning'); return; }
+        if (discountInput.value.trim() && !discountsSupported) { setStatus('Discount codes are temporarily unavailable. Remove the code to continue without a discount, or contact SparkPreneurs.', 'warning'); return; }
         if (discountsSupported && (!appliedQuote || appliedQuote.key !== quoteKey())) {
           isSubmitting = true; updateSelection();
           try { await requestQuote(); setStatus('Review the total above, then click Continue to Secure Payment again.', 'pending'); }
