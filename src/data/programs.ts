@@ -1,8 +1,26 @@
 import type { Program } from './content-models';
+import { winterCamp } from './winter-camp';
+import { paDayCamp } from './pa-day-camp';
 
 const location = 'yonge-studio' as const;
 
 export const programs: Program[] = [
+  {
+    id: 'pa-day-camp', title: paDayCamp.title, slug: 'pa-day-camp', canonicalPath: paDayCamp.href,
+    publicationStatus: 'published',
+    shortDescription: 'A creative school day off with clay, crafts, and music at our Toronto studio.',
+    overview: 'Hands-on PA Day Camp with a choice of a regular camp day or extended hours. Select one or more TDSB elementary PA days and request enrollment by email.',
+    primaryAudience: 'kids-youth', minimumAge: null, maximumAge: null,
+    primaryActivity: 'art-mixed-media', activityTags: ['art-mixed-media', 'pottery'], format: 'camp',
+    sessionOverview: 'Choose 8 AM–3 PM or 8 AM–5 PM for each date. PA days follow the school board calendar; the studio confirms availability and age suitability.',
+    learningOrExperienceHighlights: ['Clay', 'Creative crafts', 'Music'], inclusions: [],
+    location, availabilityMode: 'inquiry',
+    primaryImage: { src: paDayCamp.image, alt: 'Children painting and making colourful artwork at a creative camp' },
+    relatedPrograms: ['winter-camp', 'summer-camp'],
+    seoTitle: 'PA Day Camp | SparkPreneurs Toronto',
+    seoDescription: 'Select PA days for a creative camp with clay, crafts, and music at SparkPreneurs in Toronto.',
+    lastReviewedDate: '2026-11-06',
+  },
   {
     id: '3d-printing', title: '3D Printing', slug: '3d-printing', canonicalPath: '/programs/3d-printing/',
     publicationStatus: 'published', legacyUrl: '/3d-printing/',
@@ -84,6 +102,22 @@ export const programs: Program[] = [
     seoTitle: 'Creative Summer Camp for Kids | SparkPreneurs Toronto',
     seoDescription: 'Explore SparkPreneurs summer camp themes and current availability in Midtown Toronto.',
     lastReviewedDate: '2026-08-23',
+  },
+  {
+    id: 'winter-camp', title: winterCamp.title, slug: 'winter-camp', canonicalPath: winterCamp.href,
+    publicationStatus: 'published',
+    shortDescription: 'Creative crafts, clay, and 3D printing for ages 4–12 during Christmas and winter break.',
+    overview: 'Two four-day creative camps at SparkPreneurs in Midtown Toronto, with extra care available.',
+    primaryAudience: 'kids-youth', minimumAge: 4, maximumAge: 12,
+    primaryActivity: 'art-mixed-media', activityTags: ['art-mixed-media', 'pottery', 'creative-technology'], format: 'camp',
+    sessionOverview: 'Camp runs from 8 AM to 3 PM. Review each camp’s daily, package, and extended-care options.',
+    learningOrExperienceHighlights: ['Creative crafts', 'Clay', '3D printing'],
+    inclusions: [], location, availabilityMode: 'inquiry',
+    primaryImage: { src: winterCamp.image, alt: 'SparkPreneurs Winter Camp poster with a snowman and creative activities' },
+    relatedPrograms: ['summer-camp'],
+    seoTitle: 'Winter Camp Ages 4–12 | SparkPreneurs Toronto',
+    seoDescription: 'Christmas and Winter Break Camp with creative crafts, clay, and 3D printing at SparkPreneurs in Toronto.',
+    lastReviewedDate: '2026-11-06',
   },
   {
     id: 'after-school', title: 'After-School Program', slug: 'after-school', canonicalPath: '/after-school/',
