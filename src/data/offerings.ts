@@ -43,7 +43,7 @@ export const offerings: Offering[] = [
     minimumAge: 4, maximumAge: 12, price: session.priceCents, currency: 'CAD', taxDisplay: 'Before applicable taxes',
     displayDataLastSynced: '2026-11-06', includedItems: ['Creative crafts', 'Clay', '3D printing'],
     registrationMode: 'inquiry', registrationUrl: winterCampEmail(`${session.title}, ${session.dates}`), location,
-    businessNotes: `${session.title}: $85/day, $320 per four-day week, extended care ${session.careHours} on December ${session.careDays.join(', ')} at $20/day; one week with all available care $380. ${session.foodNote} ${session.pickupNote} Prices per child, before applicable taxes.`,
+    businessNotes: `${session.title}: $320 per four-day week, extended care ${session.careHours} on December ${session.careDays.join(', ')} at $10/hour; one week with 6 PM pickup on all three eligible days $410. ${session.foodNote} ${session.pickupNote} Prices per child, before applicable taxes.`,
   })),
   {
     id: '3d-printing-six-sessions', programId: '3d-printing', programCode: 'august_2026_3d_printing',
