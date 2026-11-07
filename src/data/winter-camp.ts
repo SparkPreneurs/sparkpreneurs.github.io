@@ -8,8 +8,8 @@ export const winterCamp = {
   extraCareHours: 'See camp details',
   address: '3445 Yonge St., Toronto',
   sessions: [
-    { id: 'christmas', code: 'WINTER_CHRISTMAS_2026', title: 'Christmas Camp', dates: 'December 21–24, 2026', startDate: '2026-12-21', endDate: '2026-12-24', dayNumbers: ['21', '22', '23', '24'], priceCents: 32000 as number | null, dailyPriceCents: 8500 as number | null, carePriceCents: 2000 as number | null, careDays: ['21', '22', '23'], careHours: '3–5 PM', pickupNote: 'December 24 pickup is at 3 PM.', foodNote: 'Bring lunch and snacks from home.' },
-    { id: 'winter-break', code: 'WINTER_BREAK_2026', title: 'Winter Break Camp', dates: 'December 28–31, 2026', startDate: '2026-12-28', endDate: '2026-12-31', dayNumbers: ['28', '29', '30', '31'], priceCents: 32000 as number | null, dailyPriceCents: 8500 as number | null, carePriceCents: 2000 as number | null, careDays: ['28', '29', '30'], careHours: '3–5 PM', pickupNote: 'December 31 pickup is at 3 PM.', foodNote: 'Bring lunch and snacks from home.' },
+    { id: 'christmas', code: 'WINTER_CHRISTMAS_2026', title: 'Christmas Camp', dates: 'December 21–24, 2026', startDate: '2026-12-21', endDate: '2026-12-24', dayNumbers: ['21', '22', '23', '24'], priceCents: 32000 as number | null, careHourlyPriceCents: 1000 as number | null, careDays: ['21', '22', '23'], careHours: '3–6 PM', pickupNote: 'December 24 pickup is at 3 PM.', foodNote: 'Bring lunch and snacks from home.' },
+    { id: 'winter-break', code: 'WINTER_BREAK_2026', title: 'Winter Break Camp', dates: 'December 28–31, 2026', startDate: '2026-12-28', endDate: '2026-12-31', dayNumbers: ['28', '29', '30', '31'], priceCents: 32000 as number | null, careHourlyPriceCents: 1000 as number | null, careDays: ['28', '29', '30'], careHours: '3–6 PM', pickupNote: 'December 31 pickup is at 3 PM.', foodNote: 'Bring lunch and snacks from home.' },
   ],
   activities: [
     { title: 'Creative crafts', description: 'A little imagination, a hands-on project, and the joy of making something your own.' },

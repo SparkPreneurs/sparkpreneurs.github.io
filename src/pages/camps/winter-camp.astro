@@ -65,23 +65,27 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
         <h2 id="winter-dates-title" class="sr-only">Dates &amp; camp options</h2>
         <div class="winter-date-grid">
           {winterCamp.sessions.map(session => (
-            <article class="winter-date-card" aria-labelledby={`${session.id}-title`} data-winter-item data-code={session.code} data-name={session.title} data-dates={session.dates} data-price={session.priceCents ?? ''} data-daily-price={session.dailyPriceCents ?? ''} data-care-price={session.carePriceCents ?? ''} data-care-days={session.careDays.join(',')}>
+            <article class="winter-date-card" aria-labelledby={`${session.id}-title`} data-winter-item data-code={session.code} data-name={session.title} data-dates={session.dates} data-price={session.priceCents ?? ''} data-care-hourly-price={session.careHourlyPriceCents ?? ''} data-care-days={session.careDays.join(',')} data-pickup-note={session.pickupNote}>
               <h3 id={`${session.id}-title`}>{session.title}</h3>
               <p class="winter-date-range"><time datetime={session.startDate}>December {session.dayNumbers[0]}</time>–<time datetime={session.endDate}>{session.dayNumbers[3]}, 2026</time></p>
               <p class="winter-session-hours">Mon–Thu · {winterCamp.hours} · Ages 4–12</p>
               {session.priceCents !== null && <div class="winter-booking-options">
-                <fieldset class="winter-package-options">
-                  <legend class="sr-only">Choose your camp option</legend>
-                  <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="package" data-winter-option checked /><span><strong>One week · four-day camp</strong><small>All four days, 8 AM–3 PM</small></span><b>{money(session.priceCents)}<small>/week</small></b></label>
-                  {session.carePriceCents !== null && session.careDays.length > 0 && <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="package-care" data-winter-option /><span><strong>One week + extended care</strong><small>Four days + care on Dec {session.careDays.join(', ')}</small></span><b>{money(session.priceCents + session.carePriceCents * session.careDays.length)}<small>/week</small></b></label>}
-                  {session.dailyPriceCents !== null && <label class="winter-package-option"><input type="radio" name={`${session.id}-option`} value="daily" data-winter-option /><span><strong>Individual days</strong><small>Choose the days that suit you</small></span><b>{money(session.dailyPriceCents)}<small>/day</small></b></label>}
-                </fieldset>
-                <fieldset class="winter-daily-options" data-winter-daily hidden>
-                  <legend>Choose your days</legend>
-                  {session.dayNumbers.map(day => <div class="winter-day-option"><label><input type="checkbox" value={day} data-winter-day />December {day} <span>{money(session.dailyPriceCents!)}</span></label>{session.careDays.includes(day) && <label class="winter-day-care"><input type="checkbox" value={day} data-winter-care disabled />Extended care ({session.careHours}) +{money(session.carePriceCents!)}</label>}</div>)}
-                </fieldset>
+                <div class="winter-week-price"><span><small>YOUR FOUR-DAY ADVENTURE</small><strong>Make it a full week.</strong><small>8 AM–3 PM · All four days included</small></span><b>{money(session.priceCents)}<small>per child</small></b></div>
+                <div class="winter-care-options" aria-labelledby={`${session.id}-care-title`}>
+                  <div class="winter-care-heading"><h4 id={`${session.id}-care-title`}>A little more time?</h4><span>OPTIONAL</span></div>
+                  <p class="winter-care-help">Set your pickup time for each day. Extra care is {money(session.careHourlyPriceCents!)} per hour.</p>
+                  {session.careDays.map((day, index) => <fieldset class="winter-pickup-day">
+                    <legend><span>{['MON', 'TUE', 'WED'][index]}</span> December {day}<span class="sr-only"> · {session.title} pickup time</span></legend>
+                    <div class="winter-pickup-tiles">{[0, 1, 2, 3].map(hours => <label class="winter-pickup-tile">
+                      <input type="radio" name={`${session.id}-pickup-${day}`} value={hours} data-winter-pickup data-day={day} checked={hours === 0} />
+                      <span><strong>{3 + hours} <small>PM</small></strong><em>{hours === 0 ? 'Included' : `+${money(session.careHourlyPriceCents! * hours)}`}</em></span>
+                    </label>)}</div>
+                  </fieldset>)}
+                  <div class="winter-pickup-notice"><span class="winter-final-day">THU<strong>{session.dayNumbers.at(-1)}</strong></span><p><strong>Home for the holiday.</strong>December {session.dayNumbers.at(-1)} · 3 PM pickup only.<br />No extended care on this day.</p></div>
+                </div>
+                <dl class="winter-price-breakdown" aria-live="polite"><div><dt>Four-day camp</dt><dd>{money(session.priceCents)}</dd></div><div><dt>Extended care <span data-winter-care-hours>(0 hours)</span></dt><dd data-winter-care-total>{money(0)}</dd></div></dl>
                 <details class="winter-camp-practical"><summary>Care, pickup &amp; what to bring</summary>
-                  {session.careDays.length > 0 && <p class="winter-care-note">Extended care: {session.careHours}, December {session.careDays[0]}–{session.careDays.at(-1)} only · +{money(session.carePriceCents!)}/day.</p>}
+                  {session.careDays.length > 0 && <p class="winter-care-note">Extended care: {session.careHours}, December {session.careDays[0]}–{session.careDays.at(-1)} only · +{money(session.careHourlyPriceCents!)}/hour.</p>}
                   {session.pickupNote && <p class="winter-care-note"><strong>{session.pickupNote}</strong></p>}
                   <p class="winter-care-note">{session.foodNote}</p>
                 </details>
@@ -141,8 +145,8 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
         <div class="camps-faq-list">
           <details><summary>What ages can attend?</summary><p>Winter Camp is for children ages 4–12.</p></details>
           <details><summary>Which dates can we choose?</summary><p>Christmas Camp runs December 21–24, 2026. Winter Break Camp runs December 28–31, 2026. Each camp runs Monday through Thursday.</p></details>
-          <details><summary>Are prices per week?</summary><p>Yes. Both weeks have the same prices per child: $85 for a single day, $320 for one four-day week, or $380 for one week with all three available extended-care days. Booking both weeks costs $640 for camp, or $760 with all available extended care, before applicable taxes.</p></details>
-          <details><summary>Is extended care available?</summary><p>Extended care runs 3–5 PM at $20/day on December 21–23 for Christmas Camp and December 28–30 for Winter Break Camp. Each weekly package with all three care days is $380 before applicable taxes. Pickup on December 24 and 31 is at 3 PM.</p></details>
+          <details><summary>Are prices per week?</summary><p>Yes. Both weeks have the same prices per child: $320.00 for one four-day week, 8 AM–3 PM. Optional extended care costs $10.00 per hour, per child, until 6 PM on eligible days. A week with 6 PM pickup on all three eligible days is $410.00, before applicable taxes.</p></details>
+          <details><summary>Is extended care available?</summary><p>Extended care runs 3–6 PM at $10.00 per hour, per child, on December 21–23 for Christmas Camp and December 28–30 for Winter Break Camp. Choose 4 PM (+$10), 5 PM (+$20), or 6 PM (+$30) pickup separately for each eligible day. Pickup on December 24 and 31 is at 3 PM.</p></details>
           <details><summary>Is food provided?</summary><p>Bring lunch and snacks from home for either week. Contact the studio to discuss dietary needs.</p></details>
           <details><summary>Can I register for both camps?</summary><p>Yes. Add Christmas Camp and Winter Break Camp to your cart for the same child. Complete a separate registration for another child. While online payment is being prepared, email <a href={`mailto:${winterCamp.email}`}>{winterCamp.email}</a> for pricing and registration.</p></details>
         </div>
@@ -191,12 +195,47 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
     #winter-dates .camps-section-heading { gap: 24px; margin-bottom: 22px; }
     #winter-dates h2 { font-size: clamp(28px, 3vw, 36px); }
     #winter-dates .camps-section-heading > p { font-size: 14px; }
-    .winter-date-card { display: flex; flex-direction: column; min-width: 0; padding: 22px; border: 1px solid var(--line); border-top: 4px solid #9f4e3e; border-radius: 16px; background: white; box-shadow: 0 8px 28px #1e3a5f06; }
+    .winter-date-card { display: flex; flex-direction: column; min-width: 0; padding: 18px; border: 1px solid var(--line); border-top: 4px solid #9f4e3e; border-radius: 16px; background: white; box-shadow: 0 8px 28px #1e3a5f06; }
     .winter-date-card:nth-child(2) { border-top-color: var(--camp-green); }
-    .winter-date-card h3 { margin: 0 0 6px; font-size: 26px; }
+    .winter-date-card h3 { margin: 0 0 5px; font-size: 24px; }
     .winter-date-range { margin: 0; color: var(--muted); font-size: 15px; }
-    .winter-session-hours { margin: 4px 0 16px; color: var(--muted); font-size: 12px; }
-    .winter-booking-options { display: grid; gap: 6px; margin: 0 0 16px; }
+    .winter-session-hours { margin: 4px 0 12px; color: var(--muted); font-size: 12px; }
+    .winter-booking-options { display: grid; gap: 6px; margin: 0 0 12px; }
+    .winter-week-price { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, var(--paper-alt), white); color: var(--ink); }
+    .winter-week-price strong, .winter-week-price small { display: block; }
+    .winter-week-price small { margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 400; }
+    .winter-week-price > span > small:first-child { margin: 0 0 5px; font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+    .winter-week-price strong { font-size: 16px; }
+    .winter-week-price b { font-size: clamp(22px, 2vw, 26px); text-align: right; letter-spacing: -.04em; }
+    .winter-week-price b small { letter-spacing: 0; }
+    .winter-care-options { min-width: 0; margin: 16px 0 0; }
+    .winter-care-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .winter-care-heading h4 { margin: 0; color: var(--ink); font-size: 18px; }
+    .winter-care-heading > span { padding: 5px 8px; border-radius: 20px; background: var(--paper-alt); color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+    .winter-care-help { margin: 6px 0 8px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .winter-pickup-day { min-width: 0; margin: 12px 0 0; padding: 0; border: 0; }
+    .winter-pickup-day legend { margin-bottom: 6px; color: var(--ink); font-size: 12px; font-weight: 700; }
+    .winter-pickup-day legend > span:first-child { margin-right: 8px; color: var(--muted); font-size: 9px; letter-spacing: .08em; }
+    .winter-pickup-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .winter-pickup-tile { position: relative; min-width: 0; cursor: pointer; }
+    .winter-pickup-tile input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .winter-pickup-tile > span { display: grid; gap: 3px; justify-items: center; min-height: 44px; padding: 8px 3px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); transition: background .15s, border-color .15s; }
+    .winter-pickup-tile strong { font-size: 17px; line-height: 1.2; }
+    .winter-pickup-tile strong small { font-size: 10px; font-weight: 500; }
+    .winter-pickup-tile em { color: var(--muted); font-size: 10px; font-style: normal; }
+    .winter-pickup-tile:hover > span { border-color: var(--ink); background: var(--paper-alt); }
+    .winter-pickup-tile input:checked + span { border-color: var(--ink); background: var(--ink); color: white; box-shadow: 0 3px 8px #1e3a5f18; }
+    .winter-pickup-tile input:checked + span em { color: white; }
+    .winter-pickup-tile input:focus-visible + span { outline: 3px solid var(--orange); outline-offset: 3px; }
+    .winter-pickup-tile input:disabled + span { opacity: .55; cursor: wait; }
+    .winter-pickup-notice { display: flex; align-items: center; gap: 10px; margin: 12px 0 4px; padding: 10px; border: 1px dashed var(--kraft); border-radius: 10px; background: var(--paper-alt); color: var(--ink); font-size: 11px; line-height: 1.6; }
+    .winter-pickup-notice p { margin: 0; }
+    .winter-pickup-notice p > strong { display: block; font-size: 13px; }
+    .winter-final-day { flex: 0 0 38px; color: var(--muted); font-size: 9px; letter-spacing: .08em; text-align: center; }
+    .winter-final-day strong { display: block; color: var(--ink); font-size: 21px; line-height: 1.2; letter-spacing: 0; }
+    .winter-price-breakdown { display: grid; gap: 6px; margin: 10px 0; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .winter-price-breakdown div { display: flex; justify-content: space-between; gap: 12px; }
+    .winter-price-breakdown dd { margin: 0; color: var(--ink); font-weight: 700; }
     .winter-package-options { display: grid; gap: 9px; min-width: 0; margin: 0 0 6px; padding: 0; border: 0; }
     .winter-package-options legend, .winter-daily-options legend { margin-bottom: 8px; color: var(--ink); font-size: 12px; font-weight: 700; }
     .winter-package-option { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; transition: border-color .15s, background .15s; }

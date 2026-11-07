@@ -1,3 +1,5 @@
+import { winterCampSelection } from './winter-camp-selection.js';
+
 const shop = document.querySelector('[data-winter-shop]');
 
 if (shop) {
@@ -72,22 +74,14 @@ if (shop) {
   }
 
   function selectionFor(card) {
-    const option = card.querySelector('[data-winter-option]:checked')?.value || 'package';
-    const basePrice = card.dataset.price === '' ? null : Number(card.dataset.price);
-    const dailyPrice = card.dataset.dailyPrice === '' ? null : Number(card.dataset.dailyPrice);
-    const carePrice = card.dataset.carePrice === '' ? null : Number(card.dataset.carePrice);
-    const availableCareDays = (card.dataset.careDays || '').split(',').filter(Boolean);
-    const days = [...card.querySelectorAll('[data-winter-day]:checked')].map(input => input.value);
-    const careDays = option === 'package-care' ? availableCareDays : option === 'daily'
-      ? [...card.querySelectorAll('[data-winter-care]:checked')].map(input => input.value).filter(day => days.includes(day) && availableCareDays.includes(day)) : [];
-    const valid = option !== 'daily' || days.length > 0;
-    let price = option === 'daily' ? dailyPrice === null ? null : days.length * dailyPrice : basePrice;
-    if (careDays.length) price = price === null || carePrice === null ? null : price + careDays.length * carePrice;
-    const codes = option === 'daily' ? days.map(day => `${card.dataset.code}_D${day}`) : [card.dataset.code];
-    codes.push(...careDays.map(day => `${card.dataset.code}_CARE${day}`));
-    return { option, valid, price, codes, careDays,
-      dates: option === 'daily' ? `December ${days.join(', ')}, 2026` : card.dataset.dates,
-      label: option === 'daily' ? `${days.length} ${days.length === 1 ? 'camp day' : 'camp days'}` : 'One week · four-day package' };
+    const selection = winterCampSelection({
+      code: card.dataset.code,
+      basePrice: card.dataset.price === '' ? null : Number(card.dataset.price),
+      hourlyPrice: Number(card.dataset.careHourlyPrice),
+      availableDays: (card.dataset.careDays || '').split(',').filter(Boolean),
+      pickups: [...card.querySelectorAll('[data-winter-pickup]:checked')].map(input => ({ day: input.dataset.day, hours: Number(input.value) })),
+    });
+    return { ...selection, dates: card.dataset.dates, label: 'Four-day camp · 8 AM–3 PM' };
   }
 
   const selectedItemCodes = () => [...selected.values()].flatMap(card => selectionFor(card).codes);
@@ -124,14 +118,9 @@ if (shop) {
   function render() {
     cards.forEach(card => {
       const selection = selectionFor(card);
-      const dailyOptions = card.querySelector('[data-winter-daily]');
-      if (dailyOptions) dailyOptions.hidden = selection.option !== 'daily';
-      card.querySelectorAll('[data-winter-option], [data-winter-day]').forEach(input => { input.disabled = submitting; });
-      card.querySelectorAll('[data-winter-care]').forEach(input => {
-        const day = [...card.querySelectorAll('[data-winter-day]')].find(day => day.value === input.value);
-        if (!day?.checked) input.checked = false;
-        input.disabled = submitting || selection.option !== 'daily' || !day?.checked;
-      });
+      card.querySelectorAll('[data-winter-pickup]').forEach(input => { input.disabled = submitting; });
+      card.querySelector('[data-winter-care-hours]').textContent = `(${selection.careHours} ${selection.careHours === 1 ? 'hour' : 'hours'})`;
+      card.querySelector('[data-winter-care-total]').textContent = money(selection.carePrice);
       if (!selection.valid) selected.delete(card.dataset.code);
       const active = selected.has(card.dataset.code);
       card.classList.toggle('is-selected', active);
@@ -140,8 +129,8 @@ if (shop) {
       button.setAttribute('aria-label', `${active ? 'Remove' : 'Add'} ${card.dataset.name}, ${card.dataset.dates}, ${active ? 'from' : 'to'} cart`);
       button.textContent = active ? 'Added ✓' : 'Add camp +';
       button.disabled = submitting || !selection.valid;
-      card.querySelector('[data-winter-card-price]').textContent = !selection.valid ? 'Select your days' : selection.price === null ? 'Price to be confirmed' : money(selection.price);
-      card.querySelector('[data-winter-card-price-note]').textContent = selection.price === null ? 'Contact us for this camp’s pricing' : selection.option === 'daily' ? 'Selected days · per child · before tax' : 'Per week · per child · before tax';
+      card.querySelector('[data-winter-card-price]').textContent = !selection.valid ? 'Check pickup times' : selection.price === null ? 'Price to be confirmed' : money(selection.price);
+      card.querySelector('[data-winter-card-price-note]').textContent = selection.price === null ? 'Contact us for this camp’s pricing' : 'Per week · per child · before tax';
     });
     find('[data-winter-count]').textContent = `${selected.size} ${selected.size === 1 ? 'camp' : 'camps'}`;
     find('[data-winter-next]').disabled = submitting || !selected.size;
@@ -150,7 +139,7 @@ if (shop) {
     if (!selected.size) {
       const empty = document.createElement('li');
       empty.className = 'winter-cart-empty';
-      empty.textContent = 'Your camp days will appear here. Choose a camp to start your booking.';
+      empty.textContent = 'Your camps will appear here. Choose a camp to start your booking.';
       list.append(empty);
     }
     selected.forEach((card, code) => {
@@ -165,7 +154,9 @@ if (shop) {
       dates.textContent = selection.dates;
       const details = document.createElement('small');
       details.className = 'winter-cart-item-details';
-      details.textContent = selection.label + (selection.careDays.length ? ` · extended care on December ${selection.careDays.join(', ')}` : '');
+      details.textContent = selection.label + (selection.care.length
+        ? ` · Extended care: ${selection.care.map(({ day, hours }) => `Dec ${day} until ${3 + hours} PM`).join('; ')} · ${money(selection.carePrice)} extra`
+        : ' · No extended care') + ` · ${card.dataset.pickupNote}`;
       const price = document.createElement('span');
       price.className = 'winter-cart-item-price';
       price.textContent = selection.price === null ? 'Price to be confirmed' : money(selection.price);
