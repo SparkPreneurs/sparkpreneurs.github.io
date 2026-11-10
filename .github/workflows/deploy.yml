@@ -1,0 +1,43 @@
+name: Deploy Astro to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Install dependencies, build Astro, and upload the site
+        uses: withastro/action@v6
+        env:
+          PUBLIC_PA_DAY_CAMP_ENDPOINT: https://script.google.com/macros/s/AKfycbxyVC9GnzMryJzpldhdA5Dkv7OABrTAfdp3QM2N8TivvMaR4a-4-F1qhRw3WMPugfYA/exec
+        with:
+          node-version: 22
+          package-manager: npm
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the built site
+        id: deployment
+        uses: actions/deploy-pages@v5
