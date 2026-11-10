@@ -177,6 +177,11 @@ confirming no payable or paid session exists. Do not clear unknown holds blindly
    and `stripeMode: "live"`.
 5. In the website hosting provider's build environment settings, set
    **PUBLIC_PA_DAY_CAMP_ENDPOINT** to the **live** `/exec` URL.
+   For GitHub Pages, this variable is supplied to the Astro build step in
+   `.github/workflows/deploy.yml`. GitHub Actions does not read `netlify.toml`,
+   and local `.env` / `.env.production` files are intentionally not committed.
+   If the backend deployment URL changes, update the workflow too before merging
+   to `main`. A successful build alone does not prove the backend URL was embedded.
 6. Rebuild and publish the website. This is a static site, so changing the
    environment variable requires a new build. Production returns use
    `https://sparkpreneurs.ca/camps/pa-day-camp/`.
