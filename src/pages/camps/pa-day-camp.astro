@@ -9,12 +9,15 @@ import music from '../../assets/camps/pa-day-camp-music.png';
 import { paDayCamp, paDayLabel, paDayEmail } from '../../data/pa-day-camp';
 
 const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-CA', { ...options, timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`));
+const endpoint = import.meta.env.PUBLIC_PA_DAY_CAMP_ENDPOINT || '';
+const stripeMode = import.meta.env.DEV && import.meta.env.PUBLIC_PA_DAY_CAMP_STRIPE_MODE !== 'live' ? 'test' : 'live';
+const returnUrl = import.meta.env.DEV && stripeMode === 'test' ? new URL('/camps/pa-day-camp/', Astro.url).href : 'https://sparkpreneurs.ca/camps/pa-day-camp/';
 ---
 
-<BaseLayout title="PA Day Camp | SparkPreneurs Toronto" description="Turn a school day off into a creative day of clay, crafts, and music. Choose PA days, select 8 AM–3 PM or 8 AM–5 PM, and request enrollment at SparkPreneurs in Toronto.">
+<BaseLayout title="PA Day Camp | SparkPreneurs Toronto" description="Turn a school day off into a creative day of clay, crafts, and music. Choose PA days, select 8 AM–3 PM or 8 AM–5 PM, and register securely at SparkPreneurs in Toronto.">
   <a class="programs-skip-link" href="#pa-dates">Skip to PA day selection</a>
   <SiteHeader current="camps" variant="programs" ctaHref="#pa-dates" ctaLabel="Choose PA Days" />
-  <main class="camps-page pa-camp-page" data-pa-camp data-email={paDayCamp.email}>
+  <main class="camps-page pa-camp-page" data-pa-camp data-endpoint={endpoint} data-program-code="pa_day_camp" data-stripe-mode={stripeMode} data-return-url={returnUrl}>
     <section class="camps-hero" aria-labelledby="pa-title">
       <div class="programs-shell camps-hero-grid">
         <div class="camps-hero-copy">
@@ -47,13 +50,16 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
       </div>
       <section id="pa-dates" role="tabpanel" aria-labelledby="pa-dates-tab" tabindex="0" data-pa-panel>
         <div class="pa-date-intro"><p><strong>TDSB elementary · {paDayCamp.schoolYear}</strong><br />All days start at 8 AM. Select your dates and choose a pickup time.</p></div>
+        <p class="pa-availability-status" data-pa-availability-status role="status" aria-live="polite">Checking available places…</p>
+        <button class="pa-clear" type="button" data-pa-availability-retry hidden>Check availability again</button>
         <div class="pa-date-list">
           {paDayCamp.dates.map(date => (
             <article class="pa-date" data-pa-day data-date={date} data-label={paDayLabel(date)}>
               <label class="pa-date-choice" for={`pa-${date}`}>
-                <input id={`pa-${date}`} type="checkbox" data-pa-select aria-label={`Select ${paDayLabel(date)}`} />
+                <input id={`pa-${date}`} type="checkbox" data-pa-select aria-label={`Select ${paDayLabel(date)}`} aria-describedby={`pa-availability-${date}`} disabled />
                 <span class="pa-date-description"><svg class="pa-date-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" /><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2" /></svg><strong>{datePart(date, { month: 'short', day: 'numeric' })}</strong><small>{datePart(date, { weekday: 'short', year: 'numeric' })}</small></span>
               </label>
+              <span class="pa-day-availability" id={`pa-availability-${date}`} data-pa-day-availability>Checking availability…</span>
               <div class="pa-date-option" data-pa-time-picker>
                 <span class="pa-time-label" id={`pa-time-label-${date}`}>Time &amp; price</span>
                 <select id={`pa-hours-${date}`} aria-label={`Camp time and price for ${paDayLabel(date)}`} disabled hidden>{paDayCamp.options.map(option => <option value={option.id} data-price={option.priceCents} data-label={`${option.label} · ${option.hours}`}>{option.id === 'standard' ? '8:00 AM - 3:00 PM' : '8:00 AM - 5:00 PM'} · ${option.priceCents / 100}</option>)}</select>
@@ -74,10 +80,22 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
             <p class="pa-form-intro">One child per registration. All fields required unless marked optional.</p>
             <fieldset><legend>Your young maker</legend><div class="pa-form-row pa-child-row"><label>Child’s full name<input name="studentName" autocomplete="section-child name" maxlength="100" required /></label><label>Age<input name="studentAge" type="number" inputmode="numeric" min="1" max="99" step="1" required /></label></div><label>Child’s school<input name="school" maxlength="150" autocomplete="off" required /></label></fieldset>
             <fieldset><legend>Parent or guardian</legend><label>Full name<input name="parentName" autocomplete="section-parent name" maxlength="100" required /></label><div class="pa-form-row"><label>Email address<input name="parentEmail" type="email" autocomplete="email" maxlength="120" required /></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" maxlength="40" required /></label></div></fieldset>
-            <details class="pa-code"><summary>Have a discount or referral code?</summary><label>Code (optional)<input name="discountCode" maxlength="40" autocomplete="off" autocapitalize="characters" /></label><p>The studio will confirm any discount with your registration.</p></details>
-            <div class="pa-submit"><button class="button button-primary" type="submit" data-pa-submit disabled>Email My Registration <span aria-hidden="true">→</span></button><p>This opens a draft in your email app. Send it to request enrollment; the studio will confirm your place and payment details.</p><p role="status" aria-live="polite" data-pa-status></p><a href={paDayEmail} data-pa-email-link hidden>Open my registration email again ↗</a></div>
+            <details class="pa-code" data-pa-discount hidden>
+              <summary>Have a discount code?</summary>
+              <label for="pa-discount-code">Code (optional)</label>
+              <div class="pa-code-row">
+                <div class="pa-code-input">
+                  <input id="pa-discount-code" name="discountCode" maxlength="40" autocomplete="off" autocapitalize="characters" aria-describedby="pa-discount-help pa-discount-status" />
+                  <button type="button" class="pa-code-remove" data-pa-remove-discount disabled>Remove code</button>
+                </div>
+                <div class="pa-code-actions"><button type="button" class="button button-secondary" data-pa-apply-discount disabled>Apply code</button></div>
+              </div>
+              <p id="pa-discount-help">Complete your registration details, then apply your code to review the savings and total. Each code can be used once per email across participating programs.</p>
+              <p id="pa-discount-status" role="status" aria-live="polite" data-pa-discount-status></p>
+            </details>
+            <div class="pa-submit"><button class="button button-primary" type="submit" data-pa-submit disabled>Review Total</button><p>Review your total, then continue to secure payment with Stripe. Your place is confirmed after payment is verified.</p><p role="status" aria-live="polite" data-pa-status></p><a href={paDayEmail}>Contact the studio for help registering ↗</a></div>
           </form>
-          <aside class="pa-cart" aria-labelledby="pa-cart-title"><div class="pa-cart-heading"><h3 id="pa-cart-title">Your booking</h3><a href="#pa-dates">Edit dates ↗</a></div><p class="pa-cart-caption">1 child · Prices in CAD</p><ul data-pa-items><li>Choose your PA days to start your booking.</li></ul><div class="pa-cart-total" data-pa-summary hidden><span>Camp subtotal</span><strong data-pa-subtotal>$0.00</strong></div><p class="pa-tax-note">The studio will confirm any applicable tax and discounts before payment.</p><button class="pa-clear" type="button" data-pa-clear hidden>Remove all dates</button><div class="pa-studio"><span>YOUR CREATIVE DAY STARTS HERE</span><a href="https://www.google.com/maps/search/?api=1&query=3445+Yonge+Street+Toronto" target="_blank" rel="noopener">{paDayCamp.address} ↗</a></div></aside>
+          <aside class="pa-cart" aria-labelledby="pa-cart-title"><div class="pa-cart-heading"><h3 id="pa-cart-title">Your booking</h3><a href="#pa-dates">Edit dates ↗</a></div><p class="pa-cart-caption">1 child · Prices in CAD</p><ul data-pa-items><li>Choose your PA days to start your booking.</li></ul><div class="pa-cart-total" data-pa-summary hidden><span>Camp subtotal</span><strong data-pa-subtotal>$0.00</strong></div><dl class="pa-payment-totals" data-pa-quote hidden><div><dt>Discount</dt><dd data-pa-discount-total></dd></div><div><dt>Tax</dt><dd data-pa-tax></dd></div><div><dt>Total (CAD)</dt><dd data-pa-total></dd></div></dl><p class="pa-tax-note">Review Total checks availability, tax, and any discount before payment.</p><button class="pa-clear" type="button" data-pa-clear hidden>Remove all dates</button><div class="pa-studio"><span>YOUR CREATIVE DAY STARTS HERE</span><a href="https://www.google.com/maps/search/?api=1&query=3445+Yonge+Street+Toronto" target="_blank" rel="noopener">{paDayCamp.address} ↗</a></div></aside>
         </div>
       </section>
       <noscript><p>Date selection needs JavaScript. <a href={paDayEmail}>Email the studio to register for PA Day Camp.</a></p></noscript>
@@ -85,10 +103,10 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
 
     <section class="camps-faq" aria-labelledby="pa-faq-title"><div class="programs-shell camps-faq-layout"><div><span class="eyebrow">GOOD TO KNOW</span><h2 id="pa-faq-title">A few PA day<br />questions.</h2><p>Need a hand? <a href={paDayEmail}>Email the studio.</a></p></div><div class="camps-faq-list">
       <details><summary>What happens at PA Day Camp?</summary><p>A fun and creative day of hands-on activities, including clay, creative crafts, and music.</p></details>
-      <details><summary>How much is each day?</summary><p>Camp from 8 AM–3 PM is $85 per child per day. Camp from 8 AM–5 PM is $105 per child per day. Select different hours for different dates if you need to. The studio will confirm any applicable tax and discounts.</p></details>
+      <details><summary>How much is each day?</summary><p>Camp from 8 AM–3 PM is $85 per child per day. Camp from 8 AM–5 PM is $105 per child per day. Select different hours for different dates if you need to. Review your total to see applicable tax and any discount before payment.</p></details>
       <details><summary>Are these PA days the same across Canada?</summary><p>No. PA days depend on your school board and school. The dates shown come from the <a href={paDayCamp.boardCalendarUrl} target="_blank" rel="noopener">TDSB 2026–27 elementary calendar</a>. Check your child’s calendar; a school PA day does not guarantee camp availability.</p></details>
       <details><summary>Can I book more than one PA day?</summary><p>Yes. Select several dates and choose your preferred hours for each. Your booking adds them together. Complete a separate registration for another child.</p></details>
-      <details><summary>How do I enroll and pay?</summary><p>Choose your days, enter your details, and select Email My Registration. Send the draft email to {paDayCamp.email}. The studio will confirm availability, age suitability, what to bring, and payment instructions. A draft email alone does not reserve a place.</p></details>
+      <details><summary>How do I enroll and pay?</summary><p>Choose your days, enter your details, and select Review Total. Check the amount, then continue to Stripe to pay securely. We verify your payment before recording your confirmed registration. Contact the studio for age suitability and what to bring.</p></details>
     </div></div></section>
   </main>
   <SiteFooter />
@@ -129,6 +147,11 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
     .pa-date { display: grid; gap: 10px; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: white; transition: border-color .15s, box-shadow .15s; }
     .pa-date:hover { border-color: var(--ink); }
     .pa-date.is-selected { border-color: var(--ink); box-shadow: inset 0 3px 0 var(--orange); }
+    .pa-date.is-unavailable { background: var(--paper); border-color: var(--line); box-shadow: none; }
+    .pa-date.is-unavailable .pa-date-choice { cursor: not-allowed; opacity: .6; }
+    .pa-day-availability, .pa-availability-status { color: var(--muted); font-size: 12px; }
+    .pa-availability-status { margin: 0 0 14px; }
+    .pa-date.is-unavailable .pa-day-availability { color: var(--orange-deep); font-weight: 700; }
     .pa-date-choice { display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: start; gap: 8px; min-width: 0; min-height: 44px; cursor: pointer; }
     .pa-date-choice input { width: 19px; height: 19px; margin: 0; flex-shrink: 0; accent-color: var(--ink); }
     .pa-date-description { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: 2px 6px; }
@@ -180,7 +203,23 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
     .pa-code { padding-block: 12px; border-block: 1px solid var(--line); }
     .pa-code summary { min-height: 28px; color: var(--ink); font-size: 13px; font-weight: 700; cursor: pointer; }
     .pa-code label { margin-top: 12px; }
+    .pa-code-row { display: grid; gap: 12px; margin-top: 6px; }
+    .pa-code-input { position: relative; min-width: 0; }
+    .pa-code-input input { padding-right: 112px; }
+    .pa-code-remove { position: absolute; top: 8px; right: 8px; min-height: 32px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .pa-code-remove:hover:not(:disabled) { border-color: var(--ink); background: var(--paper-alt); }
+    .pa-code-actions { display: flex; align-items: center; }
+    .pa-code-actions .button { min-height: 40px; padding: 8px 16px; font-size: 12px; }
+    @media (min-width: 1024px) {
+      .pa-code-row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+      .pa-code-actions .button { min-height: 48px; white-space: nowrap; }
+    }
     .pa-code p, .pa-submit p { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+    .pa-code [data-pa-discount-status]:empty { display: none; }
+    .pa-code [data-pa-discount-status][data-status="error"] { display: flex; align-items: start; gap: 9px; padding: 12px 14px; border: 1px solid #f0a8a0; border-left: 4px solid #b42318; border-radius: 8px; background: #fff1f0; color: #9b1c13; font-weight: 700; line-height: 1.5; }
+    .pa-code [data-pa-discount-status][data-status="error"]::before { content: '!'; display: inline-grid; place-items: center; flex: 0 0 18px; height: 18px; margin-top: 1px; border: 1.5px solid currentColor; border-radius: 50%; font-size: 12px; line-height: 1; }
+    .pa-code input[aria-invalid="true"] { border-color: #b42318; background: #fff8f7; }
+    .pa-code [data-pa-discount-status][data-status="success"] { color: #21613b; font-weight: 700; }
     .pa-submit button { width: 100%; min-height: 48px; border: 0; }
     .pa-submit a { color: var(--ink); font-size: 12px; text-decoration: underline; }
     .pa-cart { min-width: 0; padding: 24px; border: 1px solid var(--line); border-top: 4px solid var(--ink); border-radius: 12px; background: white; }
@@ -197,6 +236,9 @@ const datePart = (date: string, options: Intl.DateTimeFormatOptions) => new Intl
     .pa-cart :global(.pa-cart-empty) { padding: 20px 12px; border: 1px dashed var(--kraft); border-radius: 8px; color: var(--muted); font-size: 13px; text-align: center; }
     .pa-cart-total { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 18px; padding: 16px; border-radius: 8px; background: var(--ink); color: white; font-size: 14px; }
     .pa-cart-total strong { font-size: 19px; }
+    .pa-payment-totals { margin: 12px 0; }
+    .pa-payment-totals > div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 14px; }
+    .pa-payment-totals dd { margin: 0; font-weight: 700; }
     .pa-tax-note { color: var(--muted); font-size: 11px; }
     .pa-studio { display: grid; gap: 7px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line); }
     .pa-studio span { color: var(--orange-deep); font-size: 9px; font-weight: 800; letter-spacing: .05em; }

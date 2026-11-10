@@ -1,14 +1,14 @@
 # KUMON25: $25 off, once per email across registrations
 
 All active checkout forms support this discount: Pottery Wheel, Hand-Building
-Pottery, 3D Printing, Zumba, and After School. Summer Camp uses its original
+Pottery, 3D Printing, Zumba, After School, and PA Day Camp. Summer Camp uses its original
 shared checkout service, whose deployed API does not advertise discount support;
 its checkout does not offer this discount.
 
 Pottery Wheel's base price is $250. KUMON25 reduces it to $225 before any
 applicable tax. The other programs retain their trusted Products-tab prices.
 The $25 discount applies once to the registration subtotal, before tax, rather
-than once per week/session. Each email may redeem KUMON25 once across all five
+than once per week/session/date. Each email may redeem KUMON25 once across all six
 programs. Matching ignores letter case and surrounding whitespace. This does
 not verify email ownership or identify people using different addresses.
 
@@ -67,7 +67,7 @@ or full-price-covering discounts are rejected.
 
 ## Update each registration backend
 
-For each of the five canonical `.gs` files in this directory:
+For each participating program backend in this directory (including `PA_DAY_CAMP.gs`):
 
 1. Paste its complete updated source into its existing program Apps Script
    project (or an isolated copy during testing).
@@ -89,6 +89,12 @@ For each of the five canonical `.gs` files in this directory:
 The frontend files also need publishing through the usual website deployment.
 No Apps Script deployments, spreadsheet edits, or website publishing are
 performed automatically by this change.
+
+PA Day Camp uses **Apply code** to request its total review and **Remove code**
+to return to a regular-price review. Its workbook already contains `discountCode`
+and `discountCents`, so no discount column migration is needed. See
+[PA_DAY_CAMP_SETUP.md](PA_DAY_CAMP_SETUP.md#optional-discounts) for the test-service
+connection steps. The shared discount service already accepts `pa_day_camp`.
 
 ## Verification and concurrency
 
