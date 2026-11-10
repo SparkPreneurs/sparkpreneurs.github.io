@@ -6,4 +6,7 @@ dist/
 .tools/
 .clasprc.json
 .clasp.json
+.env
+.env.*
+!.env.example
 after school rest/

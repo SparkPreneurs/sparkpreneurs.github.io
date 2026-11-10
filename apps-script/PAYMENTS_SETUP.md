@@ -1,5 +1,15 @@
 # Website payment connections
 
+## New PA Day Camp setup
+
+PA Day Camp now has a standalone backend source and a two-step total review and
+Stripe checkout flow. It has **not been deployed**. Follow
+[PA_DAY_CAMP_SETUP.md](PA_DAY_CAMP_SETUP.md) to create its workbook and Apps Script
+project, configure tax and shared date capacity, test payments, and set
+`PUBLIC_PA_DAY_CAMP_ENDPOINT` for the website build. No endpoint or tax rate is
+assumed. Production checkout requires the live `pa_day_camp` backend with
+`bookingVersion: 1`; development uses Stripe test mode.
+
 Each registration page sends JSON to its existing Google Apps Script `/exec`
 endpoint using `Content-Type: text/plain;charset=utf-8`, then redirects to a
 validated HTTPS Stripe Checkout URL. The backend calculates trusted prices and

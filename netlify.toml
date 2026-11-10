@@ -5,6 +5,9 @@
 [build.environment]
   NODE_VERSION = "22"
 
+[context.production.environment]
+  PUBLIC_PA_DAY_CAMP_ENDPOINT = "https://script.google.com/macros/s/AKfycbxyVC9GnzMryJzpldhdA5Dkv7OABrTAfdp3QM2N8TivvMaR4a-4-F1qhRw3WMPugfYA/exec"
+
 [[redirects]]
   from = "/pottery-wheel/"
   to = "/programs/pottery-wheel/"
