@@ -19,9 +19,9 @@ const handBuildingSources = [
 ] as const;
 
 const afterSchoolSources = [
-  ['AFTER3', '3 days per week', 7200, 8400],
-  ['AFTER4', '4 days per week', 8800, 10400],
-  ['AFTER5', '5 days per week', 10000, 12000],
+  ['AFTER3', '3 days per week', 8400],
+  ['AFTER4', '4 days per week', 10400],
+  ['AFTER5', '5 days per week', 12000],
 ] as const;
 
 export const offerings: Offering[] = [
@@ -78,13 +78,13 @@ export const offerings: Offering[] = [
     registrationMode: 'interest', location,
     businessNotes: 'Historical promotional prices must not be reused for a future season.',
   },
-  ...afterSchoolSources.map(([itemCode, label, price, originalPrice]): Offering => ({
+  ...afterSchoolSources.map(([itemCode, label, price]): Offering => ({
     id: `after-school-${itemCode.toLowerCase()}`, programId: 'after-school', programCode: 'after_school_program',
     itemCode, label, status: 'open', startDate: null, endDate: null, sessionDates: [], dayOfWeek: 'Weekdays',
     startTime: '15:00', endTime: '17:00', numberOfSessions: null, duration: 'Four-week minimum',
-    price, currency: 'CAD', taxDisplay: 'Per week + HST', displayDataLastSynced: reviewed,
-    discountLabel: 'Early-bird deadline requires confirmation', originalPrice, registrationMode: 'checkout', location,
-    businessNotes: 'Enrollment dates, eligible ages/grades, schools, and early-bird deadline require confirmation.',
+    price, currency: 'CAD', taxDisplay: 'Per week + HST', displayDataLastSynced: '2026-11-11',
+    registrationMode: 'checkout', location,
+    businessNotes: 'Enrollment dates, eligible ages/grades, and schools require confirmation.',
   })),
   ...[
     ['ZUMBA_SINGLE', 'Single Session', 1, 3500, undefined],
