@@ -2,26 +2,27 @@
 import { offerings } from '../data/offerings';
 import { getProgramById } from '../data/programs';
 
-const featuredOffers = [
+const featuredPrograms = [
+  { offeringId: 'after-school-after3', badge: 'After School', age: 'Kids', priceNote: 'Per week + HST' },
   { offeringId: 'hand-building-hb4sun', badge: 'Limited-time price', age: 'Adult' },
   { offeringId: 'zumba-zumba_8', badge: 'Seasonal offer', age: 'Adults' },
 ].flatMap((feature) => {
   const offering = offerings.find((item) => item.id === feature.offeringId && item.status === 'open');
   const program = offering ? getProgramById(offering.programId) : undefined;
-  return offering && program && offering.price !== null && offering.originalPrice
-    ? [{ ...feature, offering, program, savings: offering.originalPrice - offering.price }]
+  return offering && program && offering.price !== null
+    ? [{ ...feature, offering, program, savings: offering.originalPrice ? offering.originalPrice - offering.price : null }]
     : [];
 });
 
 const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}`;
 ---
 
-{featuredOffers.length > 0 && (
-  <dialog class="featured-popup" data-featured-popup aria-label="Featured program offers">
+{featuredPrograms.length > 0 && (
+  <dialog class="featured-popup" data-featured-popup aria-label="Featured programs">
     <button class="featured-popup-close" type="button" aria-label="Close featured programs" data-featured-popup-close>×</button>
 
     <div class="featured-popup-grid">
-      {featuredOffers.map(({ offering, program, badge, age, savings }) => (
+      {featuredPrograms.map(({ offering, program, badge, age, savings, priceNote }) => (
         <article class="featured-popup-card">
           <div class="featured-popup-card-top">
             <span class="featured-popup-badge">{badge}</span>
@@ -30,8 +31,11 @@ const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}
           <h3>{program.title}</h3>
           <p>{offering.label}</p>
           <div class="featured-popup-price">
-            <span><s>{money(offering.originalPrice!)}</s><strong>{money(offering.price!)}</strong></span>
-            <small>Save {money(savings)}</small>
+            {offering.originalPrice && savings !== null ? (
+              <><span><s>{money(offering.originalPrice)}</s><strong>{money(offering.price!)}</strong></span><small>Save {money(savings)}</small></>
+            ) : (
+              <><span><strong>{money(offering.price!)}</strong></span><small>{priceNote}</small></>
+            )}
           </div>
           <a href={program.canonicalPath}>View program <span aria-hidden="true">→</span></a>
         </article>
@@ -39,7 +43,7 @@ const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}
     </div>
 
     <div class="featured-popup-footer">
-      <small>Offers and availability may change. Open a program to review its current details.</small>
+      <small>Programs, prices, and availability may change. Open a program to review current details.</small>
       <a href="/programs/">Browse all programs</a>
     </div>
   </dialog>
