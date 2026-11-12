@@ -8,8 +8,10 @@ import winterHero from '../../assets/camps/winter-camp-hero.png';
 import winterClay from '../../assets/camps/winter-camp-clay.png';
 import winterPrinting from '../../assets/camps/winter-camp-3d-printing.png';
 import { winterCamp, winterCampEmail, winterCampCheckout } from '../../data/winter-camp';
+import '../../styles/winter-camp-availability.css';
 
 const registrationUrl = winterCampEmail();
+const returnUrl = import.meta.env.DEV && winterCampCheckout.stripeMode === 'test' ? new URL('/camps/winter-camp/', Astro.url).href : 'https://sparkpreneurs.ca/camps/winter-camp/';
 const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(cents / 100);
 ---
 
@@ -17,7 +19,7 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
   <a class="programs-skip-link" href="#winter-dates">Skip to camp dates</a>
   <SiteHeader current="camps" variant="programs" ctaHref={registrationUrl} ctaLabel="Register by Email" />
 
-  <main class="camps-page winter-camp-page" data-winter-shop data-endpoint={winterCampCheckout.endpoint} data-program-code={winterCampCheckout.programCode} data-stripe-mode={winterCampCheckout.stripeMode} data-tax-rate={winterCampCheckout.taxRatePercent ?? ''} data-tax-included={String(winterCampCheckout.taxIncluded)}>
+  <main class="camps-page winter-camp-page" data-winter-shop data-endpoint={winterCampCheckout.endpoint} data-program-code={winterCampCheckout.programCode} data-stripe-mode={winterCampCheckout.stripeMode} data-return-url={returnUrl}>
     <section class="camps-hero" aria-labelledby="winter-title">
       <div class="programs-shell">
         <div class="camps-hero-grid">
@@ -69,6 +71,7 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
               <h3 id={`${session.id}-title`}>{session.title}</h3>
               <p class="winter-date-range"><time datetime={session.startDate}>December {session.dayNumbers[0]}</time>–<time datetime={session.endDate}>{session.dayNumbers[3]}, 2026</time></p>
               <p class="winter-session-hours">Mon–Thu · {winterCamp.hours} · Ages 4–12</p>
+              <p data-winter-availability data-status="loading" role="status">Checking availability…</p>
               {session.priceCents !== null && <div class="winter-booking-options">
                 <div class="winter-week-price"><span><small>YOUR FOUR-DAY ADVENTURE</small><strong>Make it a full week.</strong><small>8 AM–3 PM · All four days included</small></span><b>{money(session.priceCents)}<small>per child</small></b></div>
                 <div class="winter-care-options" aria-labelledby={`${session.id}-care-title`}>
@@ -128,7 +131,7 @@ const money = (cents: number) => new Intl.NumberFormat('en-CA', { style: 'curren
           <div class="winter-summary-heading"><h3 id="winter-cart-title">Your booking</h3><a href="#winter-dates">Edit <span aria-hidden="true">↗</span><span class="sr-only"> camps</span></a></div>
           <p class="winter-summary-note">1 child <span aria-hidden="true">·</span> Prices in CAD</p>
           <ul class="winter-cart-items" data-winter-cart><li>Select a camp above to get started.</li></ul>
-          <dl class="winter-cart-totals" data-winter-totals hidden><div><dt>Subtotal</dt><dd data-winter-subtotal></dd></div><div data-winter-tax-row><dt data-winter-tax-label>Tax</dt><dd data-winter-tax></dd></div><div><dt data-winter-total-label>Total (CAD)</dt><dd data-winter-total></dd></div></dl>
+          <dl class="winter-cart-totals" data-winter-totals hidden><div><dt>Subtotal</dt><dd data-winter-subtotal></dd></div><div data-winter-saving-row hidden><dt>Discount</dt><dd data-winter-saving></dd></div><div data-winter-tax-row><dt data-winter-tax-label>Applicable tax</dt><dd data-winter-tax></dd></div><div><dt data-winter-total-label>Total (CAD)</dt><dd data-winter-total></dd></div></dl>
           <button class="winter-clear-cart" type="button" data-winter-clear disabled hidden>Remove all camps</button>
           <div class="winter-cart-location"><a href="https://www.google.com/maps/search/?api=1&query=3445+Yonge+Street+Toronto" target="_blank" rel="noopener">{winterCamp.address} ↗</a></div>
         </aside>

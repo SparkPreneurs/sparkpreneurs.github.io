@@ -1,5 +1,17 @@
 # Website payment connections
 
+## Winter Camp setup
+
+Winter Camp now has a standalone backend and a server-calculated total review.
+Follow [WINTER_CAMP_SETUP.md](WINTER_CAMP_SETUP.md) to deploy a separate test
+service, validate payment and registration, then connect the live service with
+`PUBLIC_WINTER_CAMP_ENDPOINT`. The supplied test deployment is configured locally
+and passed hosted availability, price review, Stripe sandbox payment, paid
+registration verification, duplicate verification and shared-capacity checks.
+One sample Christmas Camp booking remains in the test workbook (nine places
+remaining). See the setup guide for the tested amount and remaining checks.
+Production still requires a separate verified live endpoint.
+
 ## New PA Day Camp setup
 
 PA Day Camp now has a standalone backend source and a two-step total review and

@@ -18,14 +18,12 @@ export const winterCamp = {
   ],
 };
 
-// Set confirmed prices and tax here; connect only a verified Winter Camp endpoint.
-// Display values are checked again against trusted backend prices before payment.
+// Connect only a verified Winter Camp endpoint. The backend calculates tax and
+// the reviewed total using its trusted Products rows before payment.
 export const winterCampCheckout = {
   programCode: 'winter_2026_camp',
-  endpoint: '',
-  stripeMode: 'live',
-  taxRatePercent: null as number | null,
-  taxIncluded: false,
+  endpoint: import.meta.env.PUBLIC_WINTER_CAMP_ENDPOINT || '',
+  stripeMode: import.meta.env.DEV && import.meta.env.PUBLIC_WINTER_CAMP_STRIPE_MODE !== 'live' ? 'test' : 'live',
 };
 
 export function winterCampEmail(session?: string) {
