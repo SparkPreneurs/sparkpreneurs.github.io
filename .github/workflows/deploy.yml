@@ -22,6 +22,7 @@ jobs:
       - name: Install dependencies, build Astro, and upload the site
         uses: withastro/action@v6
         env:
+          PUBLIC_WINTER_CAMP_ENDPOINT: https://script.google.com/macros/s/AKfycbyWEnGAaZHFOAnxH0n4BLQpJ9gaZD2HpnG1Khk4p3Joao4uTJu1I4uN0fyXcc2vcMwc/exec
           PUBLIC_PA_DAY_CAMP_ENDPOINT: https://script.google.com/macros/s/AKfycbxyVC9GnzMryJzpldhdA5Dkv7OABrTAfdp3QM2N8TivvMaR4a-4-F1qhRw3WMPugfYA/exec
         with:
           node-version: 22
