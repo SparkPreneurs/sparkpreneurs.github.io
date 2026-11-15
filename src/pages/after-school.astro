@@ -7,9 +7,9 @@ import '../styles/after-school-registration.css';
 import '../styles/after-school-theme.css';
 
 const plans = [
-  { code: 'AFTER3', name: '3 days/week', label: 'Flexible', price: 7200, regularPrice: 8400, description: 'For families who want a lighter after-school schedule.' },
-  { code: 'AFTER4', name: '4 days/week', label: 'Balanced', price: 8800, regularPrice: 10400, description: 'For steady creative time through most of the school week.' },
-  { code: 'AFTER5', name: '5 days/week', label: 'Full week', price: 10000, regularPrice: 12000, description: 'For families who need consistent weekday coverage.' },
+  { code: 'AFTER3', name: '3 days/week', label: 'Flexible', price: 8400, description: 'For families who want a lighter after-school schedule.' },
+  { code: 'AFTER4', name: '4 days/week', label: 'Balanced', price: 10400, description: 'For steady creative time through most of the school week.' },
+  { code: 'AFTER5', name: '5 days/week', label: 'Full week', price: 12000, description: 'For families who need consistent weekday coverage.' },
 ];
 
 const afternoonHighlights = [
@@ -67,18 +67,14 @@ const registrationSteps = [
           <div><span class="eyebrow">SCHEDULE & REGISTRATION</span><h2>Pick your weekly rhythm.</h2></div>
           <p>Choose your plan and weeks, then add your family’s details. Afternoons run from 3–5 PM, with a four-week minimum.</p>
         </div>
-        <div class="early-bird-banner" aria-label="Early Bird pricing">
-          <div><span class="early-bird-star">✦</span><p class="eyebrow">EARLY BIRD PRICING</p><h3>Early-bird weekly rates</h3></div>
-          <p><strong>Four-week minimum purchase:</strong> Choose four or more consecutive weeks.<br /><span class="content-required-inline">[CONTENT REQUIRED FROM BUSINESS: early-bird deadline and current enrollment period]</span></p>
-        </div>
         <p class="booking-fit-note">Before booking, confirm your child’s age/grade eligibility, school pick-up, and program dates. <a href="mailto:sparkpreneurs.ca@gmail.com">Ask us →</a></p>
         <ol class="registration-progress" aria-label="Registration progress"><li data-progress="1" aria-current="step"><span>1</span> Plan & dates</li><li data-progress="2"><span>2</span> Family & payment</li></ol>
         <div class="after-school-shop-grid">
           <div class="plan-grid" data-schedule-panel>
             {plans.map((plan) => (
               <article class="schedule-plan" data-plan data-code={plan.code} data-name={plan.name} data-price={plan.price}>
-                <div class="plan-label-row"><span class="tag">{plan.label}</span><span class="early-bird-badge">Early Bird</span></div><h3>{plan.name}</h3><p>{plan.description}</p>
-                <div class="plan-bottom"><p class="regular-price">Regular <s>${plan.regularPrice / 100}/week</s></p><p class="plan-price">${plan.price / 100}<small>/week + HST</small></p><p class="minimum-price">4-week minimum: {(plan.price * 4 / 100).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })} + HST</p><button type="button" class="button button-ghost" data-select-plan>Select this option</button></div>
+                <div class="plan-label-row"><span class="tag">{plan.label}</span></div><h3>{plan.name}</h3><p>{plan.description}</p>
+                <div class="plan-bottom"><p class="plan-price">${plan.price / 100}<small>/week + HST</small></p><p class="minimum-price">4-week minimum: {(plan.price * 4 / 100).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })} + HST</p><button type="button" class="button button-ghost" data-select-plan>Select this option</button></div>
               </article>
             ))}
           </div>
