@@ -56,22 +56,30 @@ compatibility with the original service. The Netlify redirect maps that path to
 Keep this redirect when publishing. Other hosts must provide the equivalent
 redirect before checkout is enabled there.
 
-## Required After School backend deployment
+## After School live backend (verified November 17, 2026)
 
-The current live version reports `2026-09-22-regular-prices-1` and does not
-advertise the weekly booking API. The frontend intentionally keeps checkout
-disabled because that backend cannot demonstrate it records purchased dates.
+The new live deployment is version `2026-11-16-after-school-4`, with
+`bookingVersion: 1`, `checkoutVersion: 1`, and `stripeMode: "live"`.
 
-Follow [AFTER_SCHOOL_SETUP.md](AFTER_SCHOOL_SETUP.md) to deploy the existing
-`AFTER_SCHOOL_PROGRAM.gs` source with confirmed calendar Script Properties,
-preserving workbook data. Check the workbook Products against the displayed
-weekly prices before launch. Then verify POST `ping` reports `bookingVersion: 1`
-and `stripeMode: "live"`, and `getBookingCalendar` returns the configured dates.
-Keep the existing deployment URL, or update `data-endpoint` in
-`src/pages/after-school.astro` to the new `/exec` URL.
+- Endpoint: `https://script.google.com/macros/s/AKfycbxlv4NzTR4JeO9LgZbKAnorFN7E5JTC5t-bnb3aQ3zlOCKP7kUeYCmm7Wz8llam-8Y/exec`
+- Live workbook: https://docs.google.com/spreadsheets/d/1FsxpTEq0x5kPl0miRwYC6QdeETs8WnElh6Xwn8LY2ec/edit
+- Script project: https://script.google.com/home/projects/1qChbQuEoIgYS7wGYRyBI6XQINzZShPqELyGQhwJ0j_F5DY7wvZGwJyJL/edit
 
-This repository has no authenticated Apps Script deployment connection; local
-source changes do not update Google's hosted deployment.
+Verified public health, calendar, all three regular-price quotes, and KUMON25
+through the shared live discount service. Four weeks cost $379.68 / $470.08 /
+$542.40 including the configured 13% tax. KUMON25 reduces AFTER3's four-week
+total to $351.43. No live checkout sessions, registrations, or charges were
+created by these checks. A real live payment and final registration write still
+require a customer-approved end-to-end check.
+
+The owner reports running `configureLiveAfterSchool`, which initializes the
+workbook and installs reconciliation every five minutes after authorizing Stripe,
+spreadsheet and mail access. Public calendar access was confirmed afterwards.
+
+The frontend fallback and GitHub Pages workflow point to this live endpoint.
+The local `.env` retains the separate test endpoint. Push the frontend changes
+to the website's `main` branch to publish them; local source edits do not publish
+the website or update Apps Script deployments. See [AFTER_SCHOOL_SETUP.md](AFTER_SCHOOL_SETUP.md).
 
 ## Discounts and other booking pages
 

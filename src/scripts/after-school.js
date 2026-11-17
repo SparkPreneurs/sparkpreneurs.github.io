@@ -14,36 +14,79 @@ if (shop) {
   let ready = false;
   let submitting = false;
   let step = 1;
-  function showStep(value) {
+  let reviewedQuote = null;
+  let products = null;
+  let discountsSupported = false;
+  let backendHealthy = false;
+  let loadingCalendar = false;
+  const discountPanel = find('.after-school-discount-panel');
+  const discountInput = form.querySelector('[name="discountCode"]');
+  const discountSummary = form.querySelector('[data-discount-summary]');
+  const discountStatus = form.querySelector('[data-discount-status]');
+  const snapshot = () => JSON.stringify([selected?.code, ...[...form.querySelectorAll('input')].map(input => [input.name, input.value])]);
+  const tabs = [...shop.querySelectorAll('[data-after-school-tab]')];
+  const panels = [...shop.querySelectorAll('[data-step-panel]')];
+  const panelId = value => value === 1 ? 'after-school-plan' : 'after-school-payment';
+  function showStep(value, { moveFocus = false, scroll = false, updateHistory = false } = {}) {
+    if (submitting) return;
     step = value;
-    find('[data-schedule-panel]').hidden = step !== 1;
-    find('.registration-weeks').hidden = step !== 1;
-    find('.registration-family').hidden = step !== 2;
+    find('[data-after-school-tabs]').hidden = false;
+    panels.forEach(panel => { panel.hidden = Number(panel.dataset.stepPanel) !== step; });
+    tabs.forEach(tab => {
+      const active = Number(tab.dataset.afterSchoolTab) === step;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if (active && moveFocus) tab.focus({ preventScroll: true });
+    });
     find('.registration-family').disabled = step !== 2;
-    find('[data-next]').hidden = step !== 1;
-    find('[data-back]').hidden = step !== 2;
-    checkout.hidden = step !== 2;
-    clear.hidden = step !== 1;
-    find('[data-step-caption]').textContent = `STEP ${step} OF 2`;
-    find('#registration-title').textContent = step === 1 ? 'When would you like to start?' : 'Who’s joining the fun?';
-    shop.querySelectorAll('[data-progress]').forEach(item => { if (Number(item.dataset.progress) === step) item.setAttribute('aria-current', 'step'); else item.removeAttribute('aria-current'); });
     render();
-    find('#registration-title').focus({ preventScroll: true });
-    find('.registration-card').scrollIntoView({ behavior: 'instant', block: 'start' });
+    if (updateHistory) history.replaceState({}, '', `#${panelId(step)}`);
+    if (scroll) find('[data-after-school-booking]').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => showStep(Number(tab.dataset.afterSchoolTab), { updateHistory: true }));
+    tab.addEventListener('keydown', event => {
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+        : event.key === 'ArrowRight' ? (index + 1) % tabs.length
+        : event.key === 'ArrowLeft' ? (index + tabs.length - 1) % tabs.length : null;
+      if (next === null) return;
+      event.preventDefault();
+      showStep(Number(tabs[next].dataset.afterSchoolTab), { moveFocus: true, updateHistory: true });
+    });
+  });
+  window.addEventListener('hashchange', () => {
+    if (location.hash === '#after-school-plan') showStep(1);
+    if (location.hash === '#after-school-payment') showStep(2);
+  });
   start.min = nextMonday();
-  const renderCalendar = createBookingCalendar(find('[data-booking-calendar]'), value => { start.value = value; render(); });
+  const calendarDisclosure = find('[data-calendar-disclosure]');
+  const compactCalendar = window.matchMedia('(max-width: 760px)');
+  const updateCalendarDisclosure = () => { calendarDisclosure.open = !compactCalendar.matches; };
+  compactCalendar.addEventListener('change', updateCalendarDisclosure);
+  updateCalendarDisclosure();
+  const renderCalendar = createBookingCalendar(find('[data-booking-calendar]'), value => { start.value = value; invalidateQuote(); });
   const money = cents => new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(cents / 100);
-  const status = (message, type = '') => { find('[data-status]').textContent = message; find('[data-status]').dataset.type = type; };
-  let discountController;
+  const status = (message, type = '') => { find('#after-school-registration-status').textContent = message; find('#after-school-registration-status').dataset.type = type; };
   const post = async payload => {
-    if (payload.action === 'createCheckoutSession' && discountController) payload = await discountController.checkoutPayload(payload);
-    const response = await fetch(shop.dataset.endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-    const data = await response.json();
-    if (!response.ok || data.success === false) throw new Error(data.error || 'Registration could not be processed.');
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(shop.dataset.endpoint || '')) throw new Error('Online registration is not connected yet. Please contact SparkPreneurs.');
+    const response = await fetch(shop.dataset.endpoint, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload),
+      ...(['ping', 'getBookingCalendar', 'quoteCheckout'].includes(payload.action) ? { signal: AbortSignal.timeout(30000) } : {}),
+    });
+    let data;
+    try { data = JSON.parse(await response.text()); }
+    catch { throw new Error('The registration service returned an unreadable response. Please try again.'); }
+    if (!response.ok || !data || data.success !== true) throw new Error(data?.error || 'Registration could not be processed.');
     return data;
   };
-  discountController = globalThis.createRegistrationDiscount?.(form, { programCode: shop.dataset.programCode, post, selection: () => ({ parentEmail: form.querySelector('[name="parentEmail"]').value, selectedItemCodes: selected ? [selected.code] : [], startDate: start.value, weekCount: Number(count.value) }) });
+  function invalidateQuote() {
+    if (reviewedQuote) status('Your registration changed. Review the total again before payment.', 'warning');
+    reviewedQuote = null;
+    discountSummary.hidden = true;
+    discountStatus.textContent = '';
+    discountStatus.dataset.status = '';
+    render();
+  }
 
   function selection() {
     return bookingWeeks(start.value, Number(count.value), calendar || { firstWeek: start.min });
@@ -58,8 +101,6 @@ if (shop) {
       find('[data-week-summary]').textContent = start.value ? error.message : 'Select a starting week to see your dates.';
     }
     if (weeks.length) {
-      const heading = document.createElement('p');
-      heading.textContent = `Your ${weeks.length} weeks of creative afternoons`;
       const range = document.createElement('p');
       range.className = 'booking-date-range';
       const end = new Date(weeks.at(-1) + 'T12:00:00Z');
@@ -71,27 +112,40 @@ if (shop) {
       const list = document.createElement('ul');
       weeks.forEach(week => { const item = document.createElement('li'); item.textContent = `Week of ${dateLabel(week)}`; list.append(item); });
       details.append(summary, list);
-      find('[data-week-summary]').replaceChildren(heading, range, details);
+      find('[data-week-summary]').replaceChildren(range, details);
     }
     shop.querySelectorAll('[data-plan]').forEach(card => {
       const active = selected?.code === card.dataset.code;
       card.classList.toggle('is-selected', active);
       const button = card.querySelector('[data-select-plan]');
-      button.disabled = submitting;
-      button.textContent = active ? 'Selected' : 'Select plan';
+      button.disabled = submitting || Boolean(products && !products.has(card.dataset.code));
       button.setAttribute('aria-pressed', String(active));
     });
-    const validCount = Number.isInteger(Number(count.value)) && Number(count.value) >= 4 && Number(count.value) <= 52;
+    const validCount = Number.isInteger(Number(count.value)) && Number(count.value) >= 4 && Number(count.value) <= 12;
     const subtotal = selected && validCount ? selected.price * Number(count.value) : 0;
-    find('[data-selected-plan]').textContent = selected ? `${selected.name} · ${validCount ? count.value : 'Choose your'} weeks` : 'No weekly plan selected yet.';
+    const taxRate = selected && products?.get(selected.code)?.taxRatePercent;
+    const estimatedTax = Number.isFinite(taxRate) ? Math.round(subtotal * taxRate / 100) : null;
+    if (reviewedQuote && reviewedQuote.key !== snapshot()) reviewedQuote = null;
+    const amount = reviewedQuote || { subtotalCents: subtotal, discountCents: 0, taxCents: estimatedTax,
+      expectedAmountCents: estimatedTax === null ? null : subtotal + estimatedTax };
+    find('[data-selection-preview]').textContent = selected && weeks.length
+      ? `${selected.name} / ${weeks.length} weeks / ${money(subtotal)} before tax`
+      : 'Choose a plan and starting week to continue.';
+    find('[data-selected-plan]').textContent = selected ? `${selected.name} / ${validCount ? count.value : 'Choose your'} weeks` : 'No weekly plan selected yet.';
     find('[data-totals]').hidden = !selected || !validCount;
     find('[data-subtotal-label]').textContent = `Subtotal (${count.value} weeks)`;
-    find('[data-subtotal]').textContent = money(subtotal);
-    find('[data-tax]').textContent = money(Math.round(subtotal * .13));
-    find('[data-total]').textContent = money(subtotal + Math.round(subtotal * .13));
+    find('[data-subtotal]').textContent = money(amount.subtotalCents);
+    find('[data-tax]').textContent = amount.taxCents === null ? 'Review total to calculate' : money(amount.taxCents);
+    find('[data-total]').textContent = amount.expectedAmountCents === null ? 'Review total to calculate' : money(amount.expectedAmountCents);
+    find('[data-saving-row]').hidden = !amount.discountCents;
+    find('[data-saving]').textContent = money(-amount.discountCents);
+    checkout.textContent = submitting ? 'Please wait...' : reviewedQuote ? 'Continue to secure payment' : 'Review total';
+    discountPanel.hidden = !discountsSupported;
+    form.querySelector('[data-discount-apply]').disabled = submitting || !discountsSupported;
     checkout.disabled = submitting || !ready || !selected || !weeks.length;
     find('[data-next]').disabled = submitting || !selected || !weeks.length;
     find('[data-back]').disabled = submitting;
+    tabs.forEach(tab => { tab.disabled = submitting; });
     if (step === 2 && weeks.length) {
       const finalDay = new Date(weeks.at(-1) + 'T12:00:00Z');
       finalDay.setUTCDate(finalDay.getUTCDate() + 4);
@@ -100,7 +154,7 @@ if (shop) {
     clear.disabled = submitting || !selected;
     form.querySelectorAll('input').forEach(input => { input.disabled = submitting; });
     shop.querySelectorAll('[data-week-preset]').forEach(button => { button.disabled = submitting; button.setAttribute('aria-pressed', String(Number(button.dataset.weekPreset) === Number(count.value))); });
-    shop.querySelectorAll('[data-week-adjust]').forEach(button => { button.disabled = submitting || (Number(button.dataset.weekAdjust) < 0 ? Number(count.value) <= 4 : Number(count.value) >= 52); });
+    shop.querySelectorAll('[data-week-adjust]').forEach(button => { button.disabled = submitting || (Number(button.dataset.weekAdjust) < 0 ? Number(count.value) <= 4 : Number(count.value) >= 12); });
     renderCalendar({ start: start.value, count: Number(count.value), minimum: start.min, calendar, submitting });
   }
   shop.addEventListener('click', event => {
@@ -108,24 +162,29 @@ if (shop) {
     if (!button || submitting) return;
     const card = button.closest('[data-plan]');
     selected = selected?.code === card.dataset.code ? null : { code: card.dataset.code, name: card.dataset.name, price: Number(card.dataset.price) };
-    render();
+    invalidateQuote();
   });
-  start.addEventListener('input', render);
-  count.addEventListener('input', render);
+  form.addEventListener('input', invalidateQuote);
+  form.addEventListener('change', invalidateQuote);
+  form.querySelector('[data-discount-apply]').addEventListener('click', () => {
+    if (submitting || !discountsSupported) return;
+    invalidateQuote();
+    form.requestSubmit();
+  });
   shop.addEventListener('click', event => {
     const preset = event.target.closest('[data-week-preset]');
     const adjust = event.target.closest('[data-week-adjust]');
     if (submitting || (!preset && !adjust)) return;
-    count.value = String(preset ? Number(preset.dataset.weekPreset) : Math.max(4, Math.min(52, (Number(count.value) || 4) + Number(adjust.dataset.weekAdjust))));
-    render();
+    count.value = String(preset ? Number(preset.dataset.weekPreset) : Math.max(4, Math.min(12, (Number(count.value) || 4) + Number(adjust.dataset.weekAdjust))));
+    invalidateQuote();
   });
   find('[data-next]').addEventListener('click', () => {
     render();
     if (!selected || !start.reportValidity() || !count.reportValidity()) return;
-    showStep(2);
+    showStep(2, { moveFocus: true, scroll: true, updateHistory: true });
   });
-  find('[data-back]').addEventListener('click', () => { if (!submitting) showStep(1); });
-  clear.addEventListener('click', () => { selected = null; start.value = ''; count.value = '4'; render(); });
+  find('[data-back]').addEventListener('click', () => showStep(1, { moveFocus: true, scroll: true, updateHistory: true }));
+  clear.addEventListener('click', () => { selected = null; start.value = ''; count.value = '4'; invalidateQuote(); });
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (step === 1) { find('[data-next]').click(); return; }
@@ -134,47 +193,105 @@ if (shop) {
     if (!start.checkValidity() || !count.checkValidity()) { showStep(1); start.reportValidity(); return; }
     if (!form.reportValidity()) return;
     const fields = Object.fromEntries(new FormData(form));
-    const subtotal = selected.price * Number(count.value);
+    const key = snapshot();
+    const previousQuote = reviewedQuote;
+    const payload = { ...fields, weekCount: Number(fields.weekCount), programCode: shop.dataset.programCode,
+      selectedItemCodes: [selected.code], discountCode: discountsSupported ? discountInput.value.trim().toUpperCase() : '' };
     submitting = true;
     render();
-    checkout.textContent = 'Opening secure payment…';
-    status('Checking your registration dates and total…', 'pending');
+    status('Checking your registration dates and total...', 'pending');
     try {
-      const pageUrl = location.origin + location.pathname;
-      const data = await post({ ...fields, weekCount: Number(fields.weekCount), action: 'createCheckoutSession', programCode: shop.dataset.programCode, selectedItemCodes: [selected.code], displayedAmountCents: subtotal + Math.round(subtotal * .13), successUrl: pageUrl + '?payment=success', cancelUrl: pageUrl + '?payment=canceled#register' });
+      if (!previousQuote) {
+        const result = await post({ ...payload, action: 'quoteCheckout' });
+        if (key !== snapshot()) throw new Error('Your registration changed. Review the total again.');
+        for (const field of ['subtotalCents', 'discountCents', 'taxCents', 'expectedAmountCents']) {
+          if (!Number.isSafeInteger(result[field]) || result[field] < 0) throw new Error('The service returned an invalid total.');
+        }
+        if (result.subtotalCents - result.discountCents + result.taxCents !== result.expectedAmountCents || result.expectedAmountCents <= 0) throw new Error('The service returned an invalid total.');
+        reviewedQuote = { ...result, key };
+        discountSummary.hidden = true;
+        discountStatus.textContent = '';
+        discountStatus.dataset.status = '';
+        status('');
+        submitting = false; render();
+        return;
+      }
+      const pageUrl = shop.dataset.returnUrl;
+      const data = await post({ ...payload, action: 'createCheckoutSession', displayedAmountCents: previousQuote.expectedAmountCents,
+        successUrl: pageUrl + '?payment=success&session_id={CHECKOUT_SESSION_ID}', cancelUrl: pageUrl + '?payment=canceled#after-school-payment' });
       const url = new URL(data.checkoutUrl);
       if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('Secure payment did not return a valid link.');
-      location.href = url.href;
+      location.assign(url.href);
     } catch (error) {
-      submitting = false;
-      checkout.textContent = 'Continue to secure payment';
+      submitting = false; reviewedQuote = null; discountSummary.hidden = true;
       status(error.message || 'Payment could not be started. Please try again.', 'error');
+      if (payload.discountCode) { discountStatus.textContent = error.message; discountStatus.dataset.status = 'error'; }
       render();
     }
   });
-  async function initialize() {
+
+  async function loadCalendar() {
+    if (loadingCalendar || submitting) return;
+    loadingCalendar = true;
     try {
-      const health = await post({ action: 'ping' });
-      discountController?.setSupported(health.discountsSupported === true);
-      if (!health.success || health.programCode !== shop.dataset.programCode || health.bookingVersion !== 1 || health.stripeMode !== 'live') throw new Error('Weekly checkout is being updated. Please contact SparkPreneurs to register.');
-      calendar = await post({ action: 'getBookingCalendar', programCode: shop.dataset.programCode });
-      start.min = calendar.firstWeek > nextMonday() ? calendar.firstWeek : nextMonday();
-      start.max = calendar.lastWeek;
+      const result = await post({ action: 'getBookingCalendar', programCode: shop.dataset.programCode });
+      if (result.minimumWeeks !== 4 || result.maximumWeeks !== 12 || !Array.isArray(result.products) || !Array.isArray(result.unavailableWeeks) || !Number.isInteger(result.weeklyCapacity) || result.weeklyCapacity < 0 || result.weeklyCapacity > 30) throw new Error('The booking calendar needs updating. Please contact SparkPreneurs.');
+      const previousProducts = JSON.stringify([...products?.values() || []]);
+      products = new Map();
+      result.products.forEach(product => {
+        if (!['AFTER3', 'AFTER4', 'AFTER5'].includes(product.itemCode) || !Number.isSafeInteger(product.weeklyPriceCents) || product.weeklyPriceCents <= 0 || !Number.isFinite(product.taxRatePercent) || product.taxRatePercent < 0 || product.taxRatePercent > 100) throw new Error('The service returned an invalid plan.');
+        products.set(product.itemCode, product);
+      });
+      calendar = result;
+      start.min = result.firstWeek > nextMonday() ? result.firstWeek : nextMonday();
+      start.max = result.lastWeek || '';
+      shop.querySelectorAll('[data-plan]').forEach(card => {
+        const product = products.get(card.dataset.code);
+        if (!product) return;
+        card.dataset.price = String(product.weeklyPriceCents);
+        card.querySelector('[data-plan-price-amount]').textContent = money(product.weeklyPriceCents);
+        card.querySelector('[data-select-plan]').setAttribute('aria-label', `${card.dataset.name}, ${money(product.weeklyPriceCents)} per week`);
+      });
+      if (selected) {
+        const product = products.get(selected.code);
+        if (!product) selected = null;
+        else selected.price = product.weeklyPriceCents;
+      }
+      if (previousProducts !== JSON.stringify([...products.values()])) { reviewedQuote = null; discountSummary.hidden = true; }
       ready = true;
       const closures = calendar.closedWeeks || [];
-      if (closures.length) find('#week-help').textContent += ` Closed weeks: ${closures.map(dateLabel).join(', ')}. Choose a block that does not include these weeks.`;
-    } catch (error) { status(error.message || 'Secure checkout is temporarily unavailable.', 'warning'); }
+      find('#week-help').textContent = closures.length ? `Closed weeks: ${closures.map(dateLabel).join(', ')}. Choose a consecutive block without closures.` : 'Choose a Monday strictly after today. Your weeks run consecutively.';
+      if (start.value) {
+        try { selection(); }
+        catch (error) { reviewedQuote = null; discountSummary.hidden = true; status(error.message, 'warning'); }
+      }
+    } catch (error) {
+      ready = false; reviewedQuote = null; discountSummary.hidden = true;
+      status(error.message || 'Availability could not be loaded. Please contact SparkPreneurs.', 'warning');
+    } finally { loadingCalendar = false; render(); }
+  }
+  async function initialize() {
+    try {
+      const health = await post({ action: 'ping', programCode: shop.dataset.programCode });
+      if (health.programCode !== shop.dataset.programCode || health.bookingVersion !== 1 || health.checkoutVersion !== 1 || health.stripeMode !== shop.dataset.stripeMode) throw new Error('Weekly checkout is being updated. Please contact SparkPreneurs to register.');
+      backendHealthy = true;
+      discountsSupported = health.discountsSupported === true;
+      await loadCalendar();
+    } catch (error) { backendHealthy = false; ready = false; status(error.message || 'Secure checkout is temporarily unavailable.', 'warning'); }
     render();
     const params = new URLSearchParams(location.search);
-    if (params.get('payment') === 'canceled') status('Payment was canceled. You can choose your weeks again.', 'warning');
-    if (params.get('payment') === 'success' && params.get('session_id')) {
+    const cleanReturn = () => history.replaceState({}, document.title, location.pathname + '#after-school-payment');
+    if (params.get('payment') === 'canceled') { status('Payment was canceled. You can choose your weeks again.', 'warning'); cleanReturn(); }
+    if (backendHealthy && params.get('payment') === 'success' && params.get('session_id')) {
       try {
-        const data = await post({ action: 'verifyCheckoutSession', sessionId: params.get('session_id') });
-        status(data.paid ? 'Payment received. Your selected weeks have been recorded.' : 'Payment is still processing. Please contact us if this does not update.', data.paid ? 'success' : 'warning');
-      } catch { status('We could not confirm your payment. Please contact us with your receipt.', 'warning'); }
+        const data = await post({ action: 'verifyCheckoutSession', programCode: shop.dataset.programCode, sessionId: params.get('session_id') });
+        if (!data.paid || data.paymentStatus !== 'paid') throw new Error('Payment is still processing. Refresh to check again, or contact us with your receipt.');
+        status(data.message || 'Payment received. Your selected weeks have been recorded.', 'success'); cleanReturn();
+      } catch (error) { status(error.message || 'We could not confirm your payment. Please contact us with your receipt.', 'warning'); }
     }
-    if (params.has('payment')) history.replaceState({}, document.title, location.pathname + '#register');
   }
-  render();
+  window.addEventListener('focus', () => { if (backendHealthy) loadCalendar(); });
+  setInterval(() => { if (backendHealthy && !document.hidden) loadCalendar(); }, 60000);
+  showStep(location.hash === '#after-school-payment' || new URLSearchParams(location.search).has('payment') ? 2 : 1);
   initialize();
 }
