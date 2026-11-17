@@ -1,9 +1,10 @@
-const SPREADSHEET_ID = "1ptQXLvpebEHRiENXX-Sr5c7WE4r5MURd2MIMc95jBpk";
 const PROGRAM_CODE = "after_school_program";
 const PROGRAM_NAME = "After School Program";
 const MINIMUM_WEEKS = 4;
+const MAXIMUM_WEEKS = 12;
+const MAXIMUM_CHILDREN = 30;
 const CURRENCY = "cad";
-const SCRIPT_VERSION = "2026-10-18-after_school_program-discounts-1";
+const SCRIPT_VERSION = "2026-11-16-after-school-4";
 const STRIPE_API_BASE = "https://api.stripe.com/v1";
 const MAX_REQUEST_BYTES = 30000;
 const DEFAULT_ENROLLMENT_NOTIFICATION_EMAILS = "sparkpreneurs.ca@gmail.com";
@@ -47,13 +48,14 @@ const LEGACY_ATTEMPT_HEADERS = [
 ];
 
 const BOOKING_HEADERS = ["startDate", "endDate", "weekCount", "paidWeekStarts", "monthsCovered"];
-const ATTEMPT_HEADERS = LEGACY_ATTEMPT_HEADERS.concat(BOOKING_HEADERS);
+const CHECKOUT_HEADERS = ["discountCode", "discountCents", "checkoutVersion"];
+const ATTEMPT_HEADERS = LEGACY_ATTEMPT_HEADERS.concat(BOOKING_HEADERS, CHECKOUT_HEADERS);
 const REGISTRATION_HEADERS = LEGACY_ATTEMPT_HEADERS.concat([
   "paidAt",
   "stripePaymentIntentId",
   "stripePaymentStatus",
   "registrationStatus"
-]).concat(BOOKING_HEADERS);
+]).concat(BOOKING_HEADERS, CHECKOUT_HEADERS);
 
 const DEFAULT_PRODUCTS = [
   {
@@ -64,10 +66,10 @@ const DEFAULT_PRODUCTS = [
     endDate: "",
     startTime: "3 PM",
     endTime: "5 PM",
-    priceCents: 7200,
+    priceCents: 8400,
     taxRatePercent: 13,
     active: true,
-    capacity: ""
+    capacity: MAXIMUM_CHILDREN
   },
   {
     programCode: PROGRAM_CODE,
@@ -77,10 +79,10 @@ const DEFAULT_PRODUCTS = [
     endDate: "",
     startTime: "3 PM",
     endTime: "5 PM",
-    priceCents: 8800,
+    priceCents: 10400,
     taxRatePercent: 13,
     active: true,
-    capacity: ""
+    capacity: MAXIMUM_CHILDREN
   },
   {
     programCode: PROGRAM_CODE,
@@ -90,70 +92,33 @@ const DEFAULT_PRODUCTS = [
     endDate: "",
     startTime: "3 PM",
     endTime: "5 PM",
-    priceCents: 10000,
+    priceCents: 12000,
     taxRatePercent: 13,
     active: true,
-    capacity: ""
+    capacity: MAXIMUM_CHILDREN
   }
 ];
 
-function doGet() {
-  return jsonResponse_({
-    success: true,
-    message: "After School Program registration endpoint is running.",
-    programCode: PROGRAM_CODE,
-    programName: PROGRAM_NAME,
-    minimumWeeks: MINIMUM_WEEKS,
-    bookingVersion: 1,
-    version: SCRIPT_VERSION,
-    discountsSupported: discountServiceConfigured_(), stripeMode: getStripeMode_()
-  });
-}
+function doGet() { return jsonResponse_(health_()); }
+
 
 function doPost(event) {
   try {
-    const body = getRequestBody_(event);
-    const data = JSON.parse(body || "{}");
-    const action = String(data.action || "").trim();
-
-    if (action === "ping") {
-      return jsonResponse_({
-        success: true,
-        programCode: PROGRAM_CODE,
-        programName: PROGRAM_NAME,
-        minimumWeeks: MINIMUM_WEEKS,
-    bookingVersion: 1,
-        version: SCRIPT_VERSION,
-        discountsSupported: discountServiceConfigured_(), stripeMode: getStripeMode_()
-      });
-    }
-
-    if (action === "getBookingCalendar") {
-      requireProgramCode_(data.programCode);
-      return jsonResponse_(Object.assign({ success: true }, getBookingCalendar_()));
-    }
-
-    if (action === "quoteCheckout") {
-      return jsonResponse_(quoteCheckout_(data));
-    }
-
-    if (action === "createCheckoutSession") {
-      requireProgramCode_(data.programCode);
-      return jsonResponse_(createCheckoutSession_(data));
-    }
-
-    if (action === "verifyCheckoutSession") {
-      return jsonResponse_(verifyCheckoutSession_(data));
-    }
-
+    const data = JSON.parse(getRequestBody_(event));
+    if (!data || typeof data !== "object" || Array.isArray(data)) throw clientError_("Invalid request data.");
+    if (data.action === "ping") return jsonResponse_(health_());
+    requireProgramCode_(data.programCode);
+    if (data.action === "getBookingCalendar") return jsonResponse_(getPublicBookingCalendar_());
+    if (data.action === "quoteCheckout") return jsonResponse_(quoteCheckout_(data));
+    if (data.action === "createCheckoutSession") return jsonResponse_(createCheckoutSession_(data));
+    if (data.action === "verifyCheckoutSession") return jsonResponse_(verifyCheckoutSession_(data));
     throw clientError_("Unknown request action.");
   } catch (error) {
-    return jsonResponse_({
-      success: false,
-      error: publicErrorMessage_(error)
-    });
+    console.log("After School request failed: " + String(error && error.message || error));
+    return jsonResponse_({ success: false, error: publicErrorMessage_(error) });
   }
 }
+
 
 function setupPeriodWorkbook() {
   const spreadsheet = getSpreadsheet_();
@@ -165,87 +130,68 @@ function setupPeriodWorkbook() {
   return {
     success: true,
     message: "After School Program workbook is ready.",
-    spreadsheetId: SPREADSHEET_ID,
+    spreadsheetId: PropertiesService.getScriptProperties().getProperty("AFTER_SCHOOL_SPREADSHEET_ID"),
     productCount: DEFAULT_PRODUCTS.length
   };
 }
 
 function authorizeRequiredServices() {
   const spreadsheet = getSpreadsheet_();
-  setupPeriodWorkbook();
+  [ [PRODUCTS_SHEET_NAME, PRODUCT_HEADERS], [ATTEMPTS_SHEET_NAME, ATTEMPT_HEADERS], [REGISTRATIONS_SHEET_NAME, REGISTRATION_HEADERS] ].forEach(function(pair) {
+    assertSheetHeaders_(spreadsheet.getSheetByName(pair[0]), pair[1]);
+  });
+  getPublicBookingCalendar_();
   const config = getStripeConfig_();
-
-  return {
-    success: true,
-    message: "Authorization check completed.",
-    spreadsheetName: spreadsheet.getName(),
-    stripeMode: config.mode
-  };
+  stripeGet_("checkout/sessions", { limit: 1 });
+  MailApp.getRemainingDailyQuota();
+  return { success: true, message: "Calendar, workbook, mail permissions and Stripe access are authorized.", stripeMode: config.mode };
 }
 
+
 function createCheckoutSession_(data) {
-  const booking = normalizeBooking_(data);
-  const registration = Object.assign(normalizeRegistration_(data), booking, { programCode: PROGRAM_CODE });
-  const selectedItemCodes = normalizeSelectedItemCodes_(data.selectedItemCodes || data.items || data.itemCode);
-  const pricing = calculateTrustedPricing_(selectedItemCodes, booking);
-  discountApplyPricing_(data, pricing, Number(getActiveProducts_()[selectedItemCodes[0]].taxRatePercent || 0));
-  const displayedAmountCents = toOptionalInteger_(data.displayedAmountCents);
-
-  if (displayedAmountCents !== null && displayedAmountCents !== pricing.expectedAmountCents) {
-    throw clientError_("The checkout total changed. Please refresh the page and try again.");
-  }
-
-  const urls = validateReturnUrls_(data.successUrl, data.cancelUrl);
   const lock = LockService.getScriptLock();
   lock.waitLock(15000);
+  try { return createCheckoutSessionLocked_(data); }
+  finally { lock.releaseLock(); }
+}
 
-  let orderId = "";
-  try {
-    orderId = createOrderId_();
-    appendAttempt_(Object.assign({}, registration, {
-      createdAt: nowIso_(),
-      updatedAt: nowIso_(),
-      orderId: orderId,
-      stripeSessionId: "",
-      stripeMode: getStripeMode_(),
-      status: "CREATING_CHECKOUT",
-      selectedItemCodes: pricing.itemCodes.join(","),
-      selectedItemNames: pricing.itemNames.join(" | "),
-      subtotalCents: pricing.subtotalCents,
-      taxCents: pricing.taxCents,
-      expectedAmountCents: pricing.expectedAmountCents,
-      lastError: ""
-    }));
-  } finally {
-    lock.releaseLock();
+
+function createCheckoutSessionLocked_(data) {
+  requireProgramCode_(data.programCode);
+  const booking = normalizeBooking_(data);
+  const registration = Object.assign(normalizeRegistration_(data), booking, { programCode: PROGRAM_CODE });
+  const codes = normalizeSelectedItemCodes_(data.selectedItemCodes);
+  const pricing = calculateTrustedPricing_(codes, booking);
+  discountApplyPricing_(data, pricing, pricing.items[0].taxRatePercent);
+  if (!Number.isSafeInteger(data.displayedAmountCents) || data.displayedAmountCents !== pricing.expectedAmountCents) {
+    throw clientError_("The total changed. Review your total again before payment.");
   }
-
-  try {
-    discountReservePricing_(pricing, orderId);
-    const session = createStripeCheckoutSession_(orderId, pricing, registration, urls);
-    discountAttachSession_(pricing, orderId, session);
-    updateAttemptByOrderId_(orderId, {
-      updatedAt: nowIso_(),
-      stripeSessionId: session.id || "",
-      status: "CHECKOUT_CREATED",
-      lastError: ""
-    });
-
-    return {
-      success: true,
-      checkoutUrl: session.url,
-      stripeSessionId: session.id,
-      orderId: orderId,
-      expectedAmountCents: pricing.expectedAmountCents
-    };
-  } catch (error) {
-    updateAttemptByOrderId_(orderId, {
-      updatedAt: nowIso_(),
-      status: "CHECKOUT_ERROR",
-      lastError: publicErrorMessage_(error)
-    });
+  const urls = validateReturnUrls_(data.successUrl, data.cancelUrl);
+  const config = getStripeConfig_();
+  const orderId = createOrderId_();
+  appendAttempt_(Object.assign({}, registration, {
+    createdAt: nowIso_(), updatedAt: nowIso_(), orderId: orderId, stripeSessionId: "",
+    stripeMode: config.mode, status: "CREATING_CHECKOUT", checkoutVersion: 1,
+    selectedItemCodes: pricing.itemCodes.join(","), selectedItemNames: pricing.itemNames.join(" | "),
+    subtotalCents: pricing.subtotalCents, taxCents: pricing.taxCents, expectedAmountCents: pricing.expectedAmountCents,
+    discountCode: pricing.discountCode || "", discountCents: pricing.discountCents || 0, lastError: ""
+  }));
+  try { discountReservePricing_(pricing, orderId); }
+  catch (error) {
+    updateAttemptByOrderId_(orderId, { status: "CHECKOUT_FAILED", updatedAt: nowIso_(), lastError: "Discount reservation failed before requesting Stripe." });
     throw error;
   }
+  let session;
+  try { session = createStripeCheckoutSession_(orderId, pricing, registration, urls); }
+  catch (error) {
+    updateAttemptByOrderId_(orderId, { status: "CHECKOUT_UNKNOWN", updatedAt: nowIso_(), lastError: "Stripe outcome requires review before releasing the reserved weeks." });
+    throw error;
+  }
+  if (!session || !session.url || !/^https:\/\/checkout\.stripe\.com\//.test(String(session.url))) throw new Error("Stripe returned no usable checkout link.");
+  const sessionId = sanitizeSessionId_(session.id);
+  updateAttemptByOrderId_(orderId, { stripeSessionId: sessionId, status: "CHECKOUT_CREATED", updatedAt: nowIso_(), lastError: "" });
+  discountAttachSession_(pricing, orderId, session);
+  return { success: true, checkoutUrl: session.url, stripeSessionId: sessionId, expectedAmountCents: pricing.expectedAmountCents };
 }
 
 function verifyCheckoutSession_(data) {
@@ -256,183 +202,83 @@ function verifyCheckoutSession_(data) {
 }
 
 function verifyCheckoutSessionLocked_(data) {
-  const sessionId = requireText_(data.sessionId, "checkout session", 120);
-  if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(sessionId)) throw clientError_("Invalid checkout session.");
-  const session = stripeGet_("checkout/sessions/" + encodeURIComponent(sessionId), {
-    "expand[]": "payment_intent"
-  });
-
-  if (!session || session.object !== "checkout.session") {
-    throw clientError_("Checkout session could not be found.");
-  }
-
-  if (session.payment_status !== "paid") {
-    if (session.status === "expired") {
-      const expiredAttempt = getAttemptBySessionId_(sessionId);
-      if (expiredAttempt) updateAttemptByOrderId_(expiredAttempt.orderId, { status: "EXPIRED", updatedAt: nowIso_() });
-    }
-    return {
-      success: true,
-      paid: false,
-      status: session.payment_status || "unpaid"
-    };
-  }
-
+  const sessionId = sanitizeSessionId_(data.sessionId || data.stripeSessionId);
+  const session = stripeGet_("checkout/sessions/" + encodeURIComponent(sessionId), { "expand[]": "payment_intent" });
   const attempt = getAttemptBySessionId_(sessionId);
-  if (!attempt) {
-    throw clientError_("Registration record could not be found for this checkout.");
+  if (!attempt) throw clientError_("Registration record could not be found for this checkout.");
+  verifySessionIdentity_(session, attempt, sessionId);
+  if (session.payment_status !== "paid") {
+    if (session.status === "expired" && attempt.status !== "PAID") updateAttemptByOrderId_(attempt.orderId, { status: "EXPIRED", updatedAt: nowIso_() });
+    return { success: true, paid: false, paymentStatus: session.payment_status || "unpaid" };
   }
-
-  if (!session.metadata || session.metadata.programCode !== PROGRAM_CODE || session.metadata.orderId !== attempt.orderId) {
-    throw clientError_("Payment does not match this registration.");
-  }
-  const expectedAmountCents = toInteger_(attempt.expectedAmountCents);
-  if (toInteger_(session.amount_total) !== expectedAmountCents || String(session.currency || "").toLowerCase() !== CURRENCY) {
-    throw clientError_("Paid amount does not match the registration total.");
-  }
-
   discountConfirmSession_(sessionId);
-  const registrationsSheet = getSpreadsheet_().getSheetByName(REGISTRATIONS_SHEET_NAME);
-  const existing = registrationsSheet
-    ? readRows_(registrationsSheet, REGISTRATION_HEADERS).filter(function(row) {
-        return String(row.stripeSessionId || "") === sessionId;
-      }).slice(-1)[0]
-    : null;
-
-  if (existing) {
-    updateAttemptByOrderId_(attempt.orderId, {
-      updatedAt: nowIso_(),
-      status: "PAID",
-      lastError: ""
-    });
-    return {
-      success: true,
-      paid: true,
-      orderId: attempt.orderId,
-      programName: PROGRAM_NAME,
-      selectedItemNames: attempt.selectedItemNames,
-      amountPaidCents: expectedAmountCents,
-      alreadyRecorded: true
-    };
-  }
-
-  const paymentIntent = typeof session.payment_intent === "object" && session.payment_intent
-    ? session.payment_intent
-    : {};
-
-  const paidAt = nowIso_();
-  const registration = Object.assign({}, attempt, {
-    updatedAt: paidAt,
-    status: "PAID",
-    paidAt: paidAt,
-    stripePaymentIntentId: paymentIntent.id || String(session.payment_intent || ""),
-    stripePaymentStatus: paymentIntent.status || session.payment_status || "",
-    registrationStatus: "Registered",
-    lastError: ""
+  const existing = readRows_(getSpreadsheet_().getSheetByName(REGISTRATIONS_SHEET_NAME), REGISTRATION_HEADERS).some(function(row) {
+    return String(row.stripeSessionId) === sessionId;
   });
-
-  upsertRegistrationBySessionId_(registration);
-  updateAttemptByOrderId_(attempt.orderId, {
-    updatedAt: paidAt,
-    status: "PAID",
-    lastError: ""
-  });
-  sendEnrollmentNotificationSafely_(registration, paidAt);
-
-  return {
-    success: true,
-    paid: true,
-    orderId: attempt.orderId,
-    programName: PROGRAM_NAME,
-    selectedItemNames: attempt.selectedItemNames,
-    amountPaidCents: expectedAmountCents
-  };
+  if (!existing) {
+    const paidAt = nowIso_();
+    const intent = session.payment_intent;
+    const registration = Object.assign({}, attempt, { updatedAt: paidAt, status: "PAID", paidAt: paidAt,
+      stripePaymentIntentId: typeof intent === "object" && intent ? intent.id : String(intent || ""),
+      stripePaymentStatus: "paid", registrationStatus: "Registered", lastError: "" });
+    upsertRegistrationBySessionId_(registration);
+    updateAttemptByOrderId_(attempt.orderId, { updatedAt: paidAt, status: "PAID", lastError: "" });
+    sendEnrollmentNotificationSafely_(registration, paidAt);
+  } else updateAttemptByOrderId_(attempt.orderId, { updatedAt: nowIso_(), status: "PAID", lastError: "" });
+  return { success: true, paid: true, paymentStatus: "paid", alreadyRecorded: existing,
+    message: existing ? "Payment was already verified. Your registration is on file." : "Payment verified. Your selected weeks have been recorded." };
 }
+
 
 function createStripeCheckoutSession_(orderId, pricing, registration, urls) {
-  const params = {
-    mode: "payment",
-    success_url: urls.successUrl + (urls.successUrl.indexOf("?") === -1 ? "?" : "&") + "session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: urls.cancelUrl,
-    customer_email: registration.parentEmail,
-    client_reference_id: orderId,
-    "metadata[programCode]": PROGRAM_CODE,
-    "metadata[programName]": PROGRAM_NAME,
-    "metadata[orderId]": orderId,
-    "metadata[selectedItemCodes]": pricing.itemCodes.join(","),
-    "metadata[minimumWeeks]": String(MINIMUM_WEEKS),
-    "metadata[startDate]": registration.startDate,
-    "metadata[weekCount]": String(registration.weekCount),
-    "payment_intent_data[metadata][programCode]": PROGRAM_CODE,
-    "payment_intent_data[metadata][orderId]": orderId
-  };
-
-  pricing.items.forEach(function(item, index) {
-    params["line_items[" + index + "][quantity]"] = "1";
-    params["line_items[" + index + "][price_data][currency]"] = CURRENCY;
-    params["line_items[" + index + "][price_data][unit_amount]"] = String(item.totalCents);
-    params["line_items[" + index + "][price_data][product_data][name]"] = item.itemName;
-    params["line_items[" + index + "][price_data][product_data][metadata][programCode]"] = PROGRAM_CODE;
-    params["line_items[" + index + "][price_data][product_data][metadata][itemCode]"] = item.itemCode;
-  });
-
-  return stripePost_("checkout/sessions", params);
+  return stripePost_("checkout/sessions", {
+    mode: "payment", "payment_method_types[0]": "card", expires_at: String(Math.floor(Date.now() / 1000) + 1800),
+    success_url: urls.successUrl, cancel_url: urls.cancelUrl, customer_email: registration.parentEmail, client_reference_id: orderId,
+    "metadata[programCode]": PROGRAM_CODE, "metadata[orderId]": orderId,
+    "metadata[selectedItemCodes]": pricing.itemCodes.join(","), "metadata[expectedAmountCents]": String(pricing.expectedAmountCents),
+    "metadata[startDate]": registration.startDate, "metadata[weekCount]": String(registration.weekCount),
+    "payment_intent_data[metadata][programCode]": PROGRAM_CODE, "payment_intent_data[metadata][orderId]": orderId,
+    "line_items[0][quantity]": "1", "line_items[0][price_data][currency]": CURRENCY,
+    "line_items[0][price_data][unit_amount]": String(pricing.expectedAmountCents),
+    "line_items[0][price_data][product_data][name]": PROGRAM_NAME,
+    "line_items[0][price_data][product_data][description]": pricing.itemNames.join(" | ")
+  }, PROGRAM_CODE + ":" + orderId);
 }
+
 
 function calculateTrustedPricing_(selectedItemCodes, booking) {
-  if (selectedItemCodes.length !== 1) {
-    throw clientError_("Please choose one After School option before checkout.");
-  }
-
-  const products = getActiveProducts_();
-  const selected = selectedItemCodes.map(function(code) {
-    const product = products[code];
-    if (!product) {
-      throw clientError_("Selected option is no longer available.");
-    }
-    const weeklyPriceCents = toInteger_(product.priceCents);
-    const subtotalCents = weeklyPriceCents * booking.weekCount;
-    const taxRate = Number(product.taxRatePercent || 0);
-    if (!Number.isSafeInteger(weeklyPriceCents) || weeklyPriceCents <= 0 || !isFinite(taxRate) || taxRate < 0 || taxRate > 100) throw clientError_("Invalid product price.");
-    const taxCents = Math.round(subtotalCents * taxRate / 100);
-
-    return {
-      itemCode: product.itemCode,
-      itemName: product.itemName + " (" + booking.weekCount + " weeks from " + booking.startDate + " to " + booking.endDate + ")",
-      weeklyPriceCents: weeklyPriceCents,
-      weeks: booking.weekCount,
-      subtotalCents: subtotalCents,
-      taxCents: taxCents,
-      totalCents: subtotalCents + taxCents
-    };
+  if (selectedItemCodes.length !== 1) throw clientError_("Choose one weekly plan.");
+  const product = getActiveProducts_()[selectedItemCodes[0]];
+  if (!product) throw clientError_("Selected plan is not currently available.");
+  const reserved = reservedPlacesByWeek_();
+  const capacity = getWeeklyCapacity_();
+  booking.paidWeekStarts.split(/,\s*/).forEach(function(week) {
+    if ((reserved[week] || 0) >= capacity) throw clientError_("One of your selected weeks is fully booked. Choose a different starting week or duration.");
   });
-
-  return {
-    items: selected,
-    itemCodes: selected.map(function(item) { return item.itemCode; }),
-    itemNames: selected.map(function(item) { return item.itemName; }),
-    subtotalCents: selected.reduce(function(total, item) { return total + item.subtotalCents; }, 0),
-    taxCents: selected.reduce(function(total, item) { return total + item.taxCents; }, 0),
-    expectedAmountCents: selected.reduce(function(total, item) { return total + item.totalCents; }, 0)
-  };
+  const weeklyPriceCents = Number(product.priceCents), taxRate = Number(product.taxRatePercent);
+  if (!Number.isSafeInteger(weeklyPriceCents) || weeklyPriceCents <= 0 || String(product.taxRatePercent).trim() === "" || !Number.isFinite(taxRate) || taxRate < 0 || taxRate > 100) throw new Error("Configure a valid weekly price and confirmed tax for " + product.itemCode + ".");
+  const subtotal = weeklyPriceCents * booking.weekCount, tax = Math.round(subtotal * taxRate / 100);
+  if (!Number.isSafeInteger(subtotal + tax)) throw new Error("Invalid registration total.");
+  const name = product.itemName + " (" + booking.weekCount + " weeks: " + booking.startDate + " to " + booking.endDate + ")";
+  return { items: [{ itemCode: product.itemCode, itemName: name, weeklyPriceCents: weeklyPriceCents, taxRatePercent: taxRate,
+    subtotalCents: subtotal, taxCents: tax, totalCents: subtotal + tax }], itemCodes: selectedItemCodes, itemNames: [name],
+    subtotalCents: subtotal, taxCents: tax, totalCents: subtotal + tax, expectedAmountCents: subtotal + tax };
 }
+
 
 function getActiveProducts_() {
-  const sheet = getSpreadsheet_().getSheetByName(PRODUCTS_SHEET_NAME);
-  if (!sheet) {
-    throw clientError_("Products sheet is missing. Please run setupPeriodWorkbook first.");
-  }
-
-  const rows = readRows_(sheet, PRODUCT_HEADERS);
   const products = {};
-  rows.forEach(function(row) {
-    if (row.programCode === PROGRAM_CODE && isTruthy_(row.active)) {
-      products[String(row.itemCode).trim()] = row;
-    }
+  readRows_(getSpreadsheet_().getSheetByName(PRODUCTS_SHEET_NAME), PRODUCT_HEADERS).forEach(function(row) {
+    if (row.programCode !== PROGRAM_CODE || !isTruthy_(row.active)) return;
+    const code = String(row.itemCode || "").trim();
+    if (["AFTER3", "AFTER4", "AFTER5"].indexOf(code) === -1 || products[code]) throw new Error("Invalid or duplicate After School product code: " + code);
+    const price = Number(row.priceCents), tax = Number(row.taxRatePercent);
+    if (!Number.isSafeInteger(price) || price <= 0 || String(row.taxRatePercent).trim() === "" || !Number.isFinite(tax) || tax < 0 || tax > 100) throw new Error("Configure a valid price and confirmed tax for " + code);
+    products[code] = row;
   });
-
   return products;
 }
+
 
 function normalizeRegistration_(data) {
   return {
@@ -444,20 +290,10 @@ function normalizeRegistration_(data) {
 }
 
 function normalizeSelectedItemCodes_(value) {
-  if (Array.isArray(value)) {
-    return value.map(function(item) {
-      return typeof item === "object" && item !== null ? String(item.itemCode || item.code || "").trim() : String(item).trim();
-    }).filter(Boolean);
-  }
-
-  if (typeof value === "string") {
-    return value.split(",").map(function(item) {
-      return item.trim();
-    }).filter(Boolean);
-  }
-
-  return [];
+  if (!Array.isArray(value) || value.length !== 1 || ["AFTER3", "AFTER4", "AFTER5"].indexOf(value[0]) === -1) throw clientError_("Choose one valid weekly plan.");
+  return [value[0]];
 }
+
 
 function validateReturnUrls_(successValue, cancelValue) {
   return {
@@ -474,21 +310,14 @@ function requireProgramCode_(value) {
 
 function validateReturnUrl_(value, kind) {
   const url = requireText_(value, kind + " URL", 500);
-  const match = url.match(/^https:\/\/([^\/?#]+)(\/[^?#]*)?/i);
-  if (!match) {
-    throw clientError_("Checkout return URL is not allowed.");
-  }
-
-  const host = match[1].toLowerCase();
-  const path = match[2] || "/";
-  const allowedHost = host === "sparkpreneurs.ca" || host === "www.sparkpreneurs.ca";
-  const allowedPath = path === "/after-school/" || path === "/after-school/index.html";
-  if (!allowedHost || !allowedPath) {
-    throw clientError_("Checkout return URL is not allowed.");
-  }
-
+  const production = /^https:\/\/(?:www\.)?sparkpreneurs\.ca\/after-school\/?(?:\?[^#]*)?(?:#[\s\S]*)?$/.test(url);
+  const localTest = getStripeMode_() === "test" && /^http:\/\/localhost:4321\/after-school\/?(?:\?[^#]*)?(?:#[\s\S]*)?$/.test(url);
+  if (!production && !localTest) throw clientError_("Checkout return URL is not allowed.");
+  const query = url.split("#")[0].split("?")[1] || "";
+  if (kind === "success" && !/(?:^|&)session_id=\{CHECKOUT_SESSION_ID\}(?:&|$)/.test(query)) throw clientError_("Checkout success URL must include the session placeholder.");
   return url;
 }
+
 
 function seedDefaultProducts_(sheet) {
   const existingCodes = {};
@@ -508,6 +337,8 @@ function seedDefaultProducts_(sheet) {
 function ensureSheet_(spreadsheet, sheetName, headers) {
   const sheet = spreadsheet.getSheetByName(sheetName) || spreadsheet.insertSheet(sheetName);
   const width = headers.length;
+  if (sheet.getLastColumn() > width) throw new Error("Unexpected extra columns in " + sheetName + ". Preserve data and review the schema before upgrading.");
+  if (sheet.getMaxColumns() < width) sheet.insertColumnsAfter(sheet.getMaxColumns(), width - sheet.getMaxColumns());
   const currentHeaders = sheet.getRange(1, 1, 1, width).getValues()[0];
   const missingHeaders = headers.some(function(header, index) {
     return String(currentHeaders[index] || "").trim() !== header;
@@ -554,6 +385,7 @@ function upsertRegistrationBySessionId_(registration) {
 }
 
 function updateRowByKey_(sheet, headers, keyName, keyValue, updates) {
+  assertSheetHeaders_(sheet, headers);
   const headerMap = headerMap_(headers);
   const keyColumn = headerMap[keyName] + 1;
   const lastRow = sheet.getLastRow();
@@ -578,6 +410,7 @@ function updateRowByKey_(sheet, headers, keyName, keyValue, updates) {
 }
 
 function appendByHeaders_(sheet, headers, data) {
+  assertSheetHeaders_(sheet, headers);
   const values = headers.map(function(header) {
     return Object.prototype.hasOwnProperty.call(data, header) ? safeCell_(data[header]) : "";
   });
@@ -585,6 +418,7 @@ function appendByHeaders_(sheet, headers, data) {
 }
 
 function readRows_(sheet, headers) {
+  assertSheetHeaders_(sheet, headers);
   const lastRow = sheet.getLastRow();
   if (lastRow < 2) {
     return [];
@@ -594,7 +428,14 @@ function readRows_(sheet, headers) {
   return values.map(function(row) {
     const item = {};
     headers.forEach(function(header, index) {
-      item[header] = row[index];
+      const value = row[index];
+      if ((header === "startDate" || header === "endDate") && Object.prototype.toString.call(value) === "[object Date]") {
+        // ISO date strings can return as UTC-midnight Dates, even in a
+        // western workbook timezone. Preserve that original ISO day.
+        // Dates stored at local midnight still use the workbook timezone.
+        const utcMidnight = value.getUTCHours() === 0 && value.getUTCMinutes() === 0 && value.getUTCSeconds() === 0 && value.getUTCMilliseconds() === 0;
+        item[header] = utcMidnight ? value.toISOString().slice(0, 10) : Utilities.formatDate(value, sheet.getParent().getSpreadsheetTimeZone(), "yyyy-MM-dd");
+      } else item[header] = value;
     });
     return item;
   });
@@ -608,15 +449,15 @@ function headerMap_(headers) {
   return map;
 }
 
-function stripePost_(path, params) {
-  return stripeRequest_(path, "post", params);
+function stripePost_(path, params, idempotencyKey) {
+  return stripeRequest_(path, "post", params, idempotencyKey);
 }
 
 function stripeGet_(path, params) {
   return stripeRequest_(path, "get", params || {});
 }
 
-function stripeRequest_(path, method, params) {
+function stripeRequest_(path, method, params, idempotencyKey) {
   const config = getStripeConfig_();
   const query = formEncode_(params || {});
   const url = STRIPE_API_BASE + "/" + path + (method === "get" && query ? "?" + query : "");
@@ -628,6 +469,7 @@ function stripeRequest_(path, method, params) {
     }
   };
 
+  if (idempotencyKey) options.headers["Idempotency-Key"] = idempotencyKey;
   if (method === "post") {
     options.payload = query;
     options.contentType = "application/x-www-form-urlencoded";
@@ -638,7 +480,8 @@ function stripeRequest_(path, method, params) {
   const parsed = text ? JSON.parse(text) : {};
   if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
     const message = parsed && parsed.error && parsed.error.message ? parsed.error.message : "Stripe request failed.";
-    throw clientError_(message);
+    console.log("Stripe request failed: " + message);
+    throw new Error("Stripe request failed.");
   }
 
   return parsed;
@@ -669,9 +512,11 @@ function getStripeConfig_() {
 }
 
 function getStripeMode_() {
-  const mode = String(PropertiesService.getScriptProperties().getProperty("STRIPE_MODE") || "test").trim().toLowerCase();
-  return mode === "live" ? "live" : "test";
+  const mode = String(PropertiesService.getScriptProperties().getProperty("STRIPE_MODE") || "").trim().toLowerCase();
+  if (mode !== "test" && mode !== "live") throw new Error("Set STRIPE_MODE to test or live.");
+  return mode;
 }
+
 
 function formEncode_(params) {
   return Object.keys(params).map(function(key) {
@@ -680,16 +525,19 @@ function formEncode_(params) {
 }
 
 function getRequestBody_(event) {
-  const contents = event && event.postData && event.postData.contents ? event.postData.contents : "";
-  if (contents.length > MAX_REQUEST_BYTES) {
-    throw clientError_("Request is too large.");
-  }
+  const contents = event && event.postData && event.postData.contents;
+  if (typeof contents !== "string" || !contents.trim()) throw clientError_("Missing request data. Run testAfterSchoolConfiguration from the editor instead of doPost.");
+  if (Utilities.newBlob(contents).getBytes().length > MAX_REQUEST_BYTES) throw clientError_("Request is too large.");
   return contents;
 }
 
+
 function getSpreadsheet_() {
-  return SpreadsheetApp.openById(SPREADSHEET_ID);
+  const spreadsheetId = String(PropertiesService.getScriptProperties().getProperty("AFTER_SCHOOL_SPREADSHEET_ID") || "").trim();
+  if (!spreadsheetId) throw new Error("Set AFTER_SCHOOL_SPREADSHEET_ID in Script Properties.");
+  return SpreadsheetApp.openById(spreadsheetId);
 }
+
 
 function createOrderId_() {
   return "ASP-" + Utilities.formatDate(new Date(), "America/Toronto", "yyyyMMdd-HHmmss") + "-" + Utilities.getUuid().slice(0, 8);
@@ -763,6 +611,10 @@ function sendEnrollmentNotificationSafely_(registration, paidAt) {
       contactEmail: registration.parentEmail,
       phone: registration.phone,
       selectedItemNames: registration.selectedItemNames,
+      startDate: registration.startDate,
+      endDate: registration.endDate,
+      weekCount: registration.weekCount,
+      paidWeekStarts: registration.paidWeekStarts,
       amountCents: registration.expectedAmountCents,
       paidAt: paidAt,
       orderId: registration.orderId,
@@ -786,6 +638,9 @@ function sendEnrollmentNotification_(details) {
     "Email: " + String(details.contactEmail || ""),
     "Phone: " + String(details.phone || ""),
     "Selection: " + String(details.selectedItemNames || ""),
+    "Dates: " + String(details.startDate || "") + " to " + String(details.endDate || ""),
+    "Weeks: " + String(details.weekCount || ""),
+    "Purchased Mondays: " + String(details.paidWeekStarts || ""),
     "Amount paid: " + formatMoneyCents_(details.amountCents),
     "Paid at: " + String(details.paidAt || ""),
     "Order ID: " + String(details.orderId || ""),
@@ -834,38 +689,38 @@ function bookingDate_(value) {
   return date;
 }
 
-// Set these non-secret Script Properties before enabling weekly registration:
-// BOOKING_FIRST_WEEK, BOOKING_LAST_WEEK: inclusive Mondays, YYYY-MM-DD.
-// BOOKING_CLOSED_WEEKS: JSON array of closed Mondays, e.g. ["2026-12-21"].
-// An empty calendar intentionally prevents checkout.
+// First Monday is always strictly after today in Toronto time.
+// Optional BOOKING_LAST_WEEK: final purchasable Monday, YYYY-MM-DD.
+// Optional BOOKING_CLOSED_WEEKS: JSON array of closed Mondays.
 function getBookingCalendar_() {
   const props = PropertiesService.getScriptProperties();
-  const firstWeek = props.getProperty("BOOKING_FIRST_WEEK") || "";
-  const lastWeek = props.getProperty("BOOKING_LAST_WEEK") || "";
-  if (!firstWeek || !lastWeek) throw clientError_("The program calendar is being confirmed. Please contact SparkPreneurs to register.");
-  bookingDate_(firstWeek);
-  bookingDate_(lastWeek);
-  if (lastWeek < firstWeek) throw clientError_("The program calendar needs updating.");
+  const today = Utilities.formatDate(new Date(), "America/Toronto", "yyyy-MM-dd");
+  const first = new Date(today + "T12:00:00Z");
+  first.setUTCDate(first.getUTCDate() + ((8 - first.getUTCDay()) % 7 || 7));
+  const firstWeek = first.toISOString().slice(0, 10);
+  const lastWeek = String(props.getProperty("BOOKING_LAST_WEEK") || "").trim();
+  if (lastWeek) bookingDate_(lastWeek);
   const closedWeeks = JSON.parse(props.getProperty("BOOKING_CLOSED_WEEKS") || "[]");
-  if (!Array.isArray(closedWeeks)) throw clientError_("The program calendar needs updating.");
+  if (!Array.isArray(closedWeeks)) throw new Error("BOOKING_CLOSED_WEEKS must be a JSON array of Mondays.");
   closedWeeks.forEach(bookingDate_);
-  return { firstWeek: firstWeek, lastWeek: lastWeek, closedWeeks: closedWeeks };
+  return { firstWeek: firstWeek, lastWeek: lastWeek, closedWeeks: closedWeeks, minimumWeeks: MINIMUM_WEEKS, maximumWeeks: MAXIMUM_WEEKS };
 }
+
 
 function normalizeBooking_(data) {
   const calendar = getBookingCalendar_();
   const date = bookingDate_(data.startDate);
   const count = data.weekCount;
-  if (typeof count !== "number" || !Number.isInteger(count) || count < MINIMUM_WEEKS || count > 52) throw clientError_("Choose between 4 and 52 whole weeks.");
+  if (typeof count !== "number" || !Number.isInteger(count) || count < MINIMUM_WEEKS || count > MAXIMUM_WEEKS) throw clientError_("Choose between 4 and 12 whole weeks.");
   const today = Utilities.formatDate(new Date(), "America/Toronto", "yyyy-MM-dd");
-  if (data.startDate < today || data.startDate < calendar.firstWeek) throw clientError_("Choose an upcoming available week.");
+  if (data.startDate <= today || data.startDate < calendar.firstWeek) throw clientError_("Choose an upcoming available week.");
   const weeks = [];
   const months = {};
   for (let i = 0; i < count; i++) {
     const week = new Date(date);
     week.setUTCDate(week.getUTCDate() + i * 7);
     const iso = week.toISOString().slice(0, 10);
-    if (iso > calendar.lastWeek || calendar.closedWeeks.indexOf(iso) !== -1) throw clientError_("Your selection includes an unavailable week. Choose a different consecutive block.");
+    if ((calendar.lastWeek && iso > calendar.lastWeek) || calendar.closedWeeks.indexOf(iso) !== -1) throw clientError_("Your selection includes an unavailable week. Choose a different consecutive block.");
     weeks.push(iso);
     // Include both months when a Monday-Friday week crosses a month boundary.
     for (let day = 0; day < 5; day++) {
@@ -882,22 +737,131 @@ function normalizeBooking_(data) {
 // Run on an Apps Script time trigger to record payments even if a parent
 // closes the browser before returning. Verification remains idempotent.
 function reconcilePendingPayments() {
-  const attempts = readRows_(getSpreadsheet_().getSheetByName(ATTEMPTS_SHEET_NAME), ATTEMPT_HEADERS);
-  const pending = attempts.filter(function(attempt) {
-    return attempt.stripeSessionId && attempt.stripeMode === getStripeMode_() && attempt.status === "CHECKOUT_CREATED";
-  }).slice(0, 50);
-  pending.forEach(function(attempt) {
+  const pending = readRows_(getSpreadsheet_().getSheetByName(ATTEMPTS_SHEET_NAME), ATTEMPT_HEADERS).filter(function(attempt) {
+    return attempt.programCode === PROGRAM_CODE && attempt.stripeMode === getStripeMode_() && ["PAID", "EXPIRED", "CHECKOUT_FAILED"].indexOf(String(attempt.status)) === -1;
+  });
+  pending.filter(function(attempt) { return !attempt.stripeSessionId; }).forEach(function(attempt) {
+    console.log("Review unresolved checkout order: " + attempt.orderId);
+  });
+  pending.filter(function(attempt) { return Boolean(attempt.stripeSessionId); }).slice(0, 50).forEach(function(attempt) {
     try { verifyCheckoutSession_({ sessionId: String(attempt.stripeSessionId) }); }
-    catch (error) { console.log("Payment reconciliation failed for order " + attempt.orderId); }
+    catch (error) { console.log("Payment reconciliation failed for order " + attempt.orderId + ": " + String(error && error.message || error)); }
   });
 }
 
+
 function quoteCheckout_(data) {
-  if (data.programCode !== PROGRAM_CODE) throw clientError_("Invalid program.");
+  requireProgramCode_(data.programCode);
   const booking = normalizeBooking_(data);
-  const codes = normalizeSelectedItemCodes_(data.selectedItemCodes);
-  const pricing = calculateTrustedPricing_(codes, booking);
-  return discountPricingResponse_(discountApplyPricing_(data, pricing, Number(getActiveProducts_()[codes[0]].taxRatePercent || 0)));
+  const pricing = calculateTrustedPricing_(normalizeSelectedItemCodes_(data.selectedItemCodes), booking);
+  return discountPricingResponse_(discountApplyPricing_(data, pricing, pricing.items[0].taxRatePercent));
+}
+
+function health_() {
+  const mode = String(PropertiesService.getScriptProperties().getProperty("STRIPE_MODE") || "").trim().toLowerCase();
+  return { success: true, programCode: PROGRAM_CODE, programName: PROGRAM_NAME, version: SCRIPT_VERSION,
+    bookingVersion: 1, checkoutVersion: 1, minimumWeeks: MINIMUM_WEEKS, maximumWeeks: MAXIMUM_WEEKS,
+    stripeMode: mode === "test" || mode === "live" ? mode : "not-configured", discountsSupported: discountServiceConfigured_() };
+}
+
+function getWeeklyCapacity_() {
+  const raw = PropertiesService.getScriptProperties().getProperty("AFTER_SCHOOL_WEEKLY_CAPACITY");
+  const capacity = raw === null || raw === undefined || String(raw).trim() === "" ? MAXIMUM_CHILDREN : Number(raw);
+  if (!Number.isInteger(capacity) || capacity < 0 || capacity > MAXIMUM_CHILDREN) throw new Error("AFTER_SCHOOL_WEEKLY_CAPACITY must be a whole number from 0 to 30.");
+  return capacity;
+}
+
+function reservedPlacesByWeek_() {
+  const reserved = {};
+  readRows_(getSpreadsheet_().getSheetByName(ATTEMPTS_SHEET_NAME), ATTEMPT_HEADERS).forEach(function(attempt) {
+    if (attempt.programCode !== PROGRAM_CODE || ["EXPIRED", "CHECKOUT_FAILED"].indexOf(String(attempt.status)) !== -1) return;
+    const weeks = String(attempt.paidWeekStarts || "").split(/,\s*/).filter(Boolean);
+    if (!weeks.length) throw new Error("Legacy checkout " + attempt.orderId + " has no purchased weeks. Review its dates before enabling new bookings.");
+    const seen = {};
+    weeks.forEach(function(week) { bookingDate_(week); if (!seen[week]) { reserved[week] = (reserved[week] || 0) + 1; seen[week] = true; } });
+  });
+  return reserved;
+}
+
+function getPublicBookingCalendar_() {
+  const calendar = getBookingCalendar_(), reserved = reservedPlacesByWeek_(), capacity = getWeeklyCapacity_();
+  const products = getActiveProducts_();
+  return Object.assign({ success: true }, calendar, {
+    weeklyCapacity: capacity,
+    unavailableWeeks: Object.keys(reserved).filter(function(week) { return reserved[week] >= capacity; }),
+    products: Object.keys(products).map(function(code) {
+      const product = products[code];
+      return { itemCode: code, weeklyPriceCents: Number(product.priceCents), taxRatePercent: Number(product.taxRatePercent) };
+    })
+  });
+}
+
+function sanitizeSessionId_(value) {
+  const id = String(value || "");
+  const prefix = getStripeMode_() === "live" ? "cs_live_" : "cs_test_";
+  if (id.length > 200 || id.indexOf(prefix) !== 0 || !/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) throw clientError_("Invalid checkout session for this payment mode.");
+  return id;
+}
+
+function verifySessionIdentity_(session, attempt, sessionId) {
+  const mode = getStripeMode_();
+  const metadata = session && session.metadata || {};
+  if (!session || session.object !== "checkout.session" || session.id !== sessionId || session.mode !== "payment" || session.livemode !== (mode === "live")) throw new Error("Stripe session mode or identity mismatch.");
+  if (attempt.programCode !== PROGRAM_CODE || attempt.stripeMode !== mode || metadata.programCode !== PROGRAM_CODE || metadata.orderId !== attempt.orderId || session.client_reference_id !== attempt.orderId) throw new Error("Payment does not match its saved registration.");
+  const amount = Number(attempt.expectedAmountCents);
+  if (!Number.isSafeInteger(amount) || amount <= 0 || session.amount_total !== amount || String(session.currency).toLowerCase() !== CURRENCY) throw new Error("Payment amount or currency mismatch.");
+  if (Number(attempt.checkoutVersion) === 1) {
+    const expected = { expectedAmountCents: String(amount), selectedItemCodes: String(attempt.selectedItemCodes), startDate: attempt.startDate, weekCount: String(attempt.weekCount) };
+    const mismatches = Object.keys(expected).filter(function(field) { return metadata[field] !== expected[field]; });
+    if (mismatches.length) throw new Error("Purchased plan or weeks do not match the saved registration: " + mismatches.join(", ") + ".");
+  }
+}
+
+function assertSheetHeaders_(sheet, headers) {
+  if (!sheet) throw new Error("Missing workbook tab. Run setupPeriodWorkbook first.");
+  if (sheet.getMaxColumns() < headers.length) throw new Error("Run setupPeriodWorkbook to extend the workbook columns.");
+  const current = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), headers.length)).getValues()[0];
+  if (current.length !== headers.length || headers.some(function(header, i) { return String(current[i] || "").trim() !== header; })) throw new Error("Unexpected columns in " + sheet.getName() + ". Run setupPeriodWorkbook to append the supported columns without reordering existing data.");
+}
+
+function testAfterSchoolConfiguration() {
+  const result = getPublicBookingCalendar_();
+  console.log(JSON.stringify(result));
+  return result;
+}
+
+// Editor-only, read-only diagnostics. No payment or spreadsheet updates.
+function diagnoseAfterSchoolPaymentDates() {
+  const sheet = getSpreadsheet_().getSheetByName(ATTEMPTS_SHEET_NAME);
+  const attempts = readRows_(sheet, ATTEMPT_HEADERS);
+  const rawRows = attempts.length ? sheet.getRange(2, 1, attempts.length, ATTEMPT_HEADERS.length).getValues() : [];
+  const dateColumn = ATTEMPT_HEADERS.indexOf("startDate");
+  const pending = attempts.map(function(attempt, index) { return { attempt: attempt, index: index }; }).filter(function(entry) {
+    const attempt = entry.attempt;
+    return attempt.programCode === PROGRAM_CODE && attempt.stripeMode === getStripeMode_() && attempt.stripeSessionId && ["PAID", "EXPIRED", "CHECKOUT_FAILED"].indexOf(String(attempt.status)) === -1;
+  }).slice(-10);
+  return pending.map(function(entry) {
+    const attempt = entry.attempt;
+    try {
+      const session = stripeGet_("checkout/sessions/" + sanitizeSessionId_(attempt.stripeSessionId));
+      const raw = rawRows[entry.index][dateColumn];
+      const report = {
+        orderId: attempt.orderId,
+        spreadsheetTimeZone: sheet.getParent().getSpreadsheetTimeZone(),
+        storedStartDateType: Object.prototype.toString.call(raw),
+        storedStartDateRaw: Object.prototype.toString.call(raw) === "[object Date]" ? raw.toISOString() : String(raw),
+        normalizedStartDate: attempt.startDate,
+        firstPurchasedWeek: String(attempt.paidWeekStarts || "").split(/,\s*/)[0],
+        stripeStartDate: session.metadata && session.metadata.startDate || "",
+        dateMatches: Boolean(session.metadata && session.metadata.startDate === attempt.startDate)
+      };
+      console.log(JSON.stringify(report));
+      return report;
+    } catch (error) {
+      console.log("Date diagnosis failed for order " + attempt.orderId + ": " + String(error && error.message || error));
+      return { orderId: attempt.orderId, diagnosticFailed: true };
+    }
+  });
 }
 
 // BEGIN SHARED DISCOUNT CLIENT

@@ -1,0 +1,145 @@
+/* Keep the weekly plan and its dates in one compact workspace. */
+.after-school-register .after-school-booking {
+  padding: 24px;
+}
+
+.after-school-booking .after-school-booking-tabs { margin-bottom: 20px; }
+
+.after-school-planner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+
+.after-school-planner-options,
+.after-school-planner-calendar { min-width: 0; padding: 22px; }
+
+.after-school-planner-calendar { border-left: 1px solid var(--line); }
+
+.planner-control-heading,
+.planner-duration-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.planner-control-heading h3 { margin: 0; color: var(--ink); font-size: 17px; }
+.planner-control-heading > span,
+.planner-duration-heading > span { color: var(--muted); font-size: 12px; }
+
+.after-school-register .after-school-planner .compact-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.after-school-register .after-school-planner .compact-plan {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.compact-plan [data-select-plan] {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  min-height: 94px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 600 14px var(--body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.compact-plan [data-select-plan]:hover { border-color: var(--ink); }
+.compact-plan [data-select-plan][aria-pressed="true"] {
+  border-color: var(--ink);
+  background: #edf2f6;
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.compact-plan [data-select-plan]:disabled { cursor: wait; opacity: .6; }
+.compact-plan [data-select-plan]:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+.compact-plan-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.compact-plan-indicator { width: 14px; height: 14px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 50%; background: white; }
+[aria-pressed="true"] .compact-plan-indicator { border: 4px solid var(--ink); }
+.compact-plan-price { font-size: 23px; line-height: 1.1; font-weight: 700; }
+.compact-plan-price small { margin-left: 3px; color: var(--muted); font-size: 10px; font-weight: 400; }
+.planner-price-note { margin: 9px 0 20px; color: var(--muted); font-size: 11px; }
+
+.after-school-planner .compact-schedule-fields { display: grid; min-width: 0; gap: 12px; margin: 0; padding: 0; border: 0; }
+.after-school-planner label { display: grid; gap: 7px; color: var(--ink); font-size: 13px; font-weight: 600; }
+.after-school-planner input {
+  min-width: 0;
+  min-height: 42px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font: 400 16px var(--body);
+  color-scheme: light;
+}
+.after-school-planner input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.planner-duration-heading { margin-top: 3px; }
+.planner-duration-controls { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.after-school-planner .week-stepper { flex: 0 0 auto; border-radius: 8px; }
+.after-school-planner .week-stepper button { width: 34px; height: 40px; }
+.after-school-planner .week-stepper input { width: 38px; min-height: 40px; padding: 0; border: 0; text-align: center; font-weight: 700; }
+.after-school-planner .week-shortcuts { flex: 1; gap: 6px; }
+.after-school-planner .week-shortcuts button { min-width: 0; min-height: 38px; padding: 4px 7px; border-radius: 8px; font-size: 11px; white-space: nowrap; }
+.after-school-planner #week-help { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+.planner-calendar-disclosure > summary { display: none; }
+.after-school-planner .booking-calendar { padding: 0; border: 0; border-radius: 0; }
+.after-school-planner .booking-calendar-heading { margin-bottom: 12px; }
+.after-school-planner .booking-calendar-heading button { width: 32px; height: 32px; border-radius: 8px; }
+.after-school-planner .booking-day { height: 32px; font-size: 12px; }
+.after-school-planner .booking-calendar-key { margin-top: 8px; padding-top: 8px; font-size: 10px; }
+.after-school-planner [data-week-summary] { margin-top: 12px; padding: 10px 12px; border-radius: 8px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.after-school-planner [data-week-summary] .booking-date-range { margin: 0; color: var(--ink); font-size: 12px; font-weight: 600; }
+.after-school-planner [data-week-summary] details { margin-top: 6px; }
+.after-school-planner [data-week-summary] summary { cursor: pointer; }
+
+.after-school-booking .after-school-selection-footer { margin-top: 16px; padding-top: 16px; gap: 16px; }
+.after-school-booking .after-school-selection-footer > p { font-size: 12px; }
+.after-school-booking .after-school-selection-footer .registration-actions { flex-direction: row; align-items: center; gap: 18px; }
+.after-school-booking .after-school-selection-footer .button { width: auto; min-height: 44px; padding: 10px 18px; font-size: 13px; }
+
+@media (max-width: 760px) {
+  .after-school-register .after-school-booking { padding: 16px; }
+  .after-school-booking .after-school-booking-tabs { margin-bottom: 16px; }
+  .after-school-planner { grid-template-columns: 1fr; }
+  .after-school-planner-options { padding: 16px; }
+  .after-school-planner-calendar { padding: 12px 16px; border-top: 1px solid var(--line); border-left: 0; }
+  .after-school-register .after-school-planner .compact-plan-grid { gap: 7px; margin-top: 12px; }
+  .compact-plan [data-select-plan] { min-height: 80px; padding: 10px; font-size: 12px; }
+  .compact-plan-price { font-size: 21px; }
+  .compact-plan-price small { display: block; margin: 3px 0 0; }
+  .compact-plan-indicator { width: 12px; height: 12px; }
+  .planner-price-note { margin-bottom: 16px; }
+  .planner-duration-controls { gap: 8px; }
+  .after-school-planner .week-stepper button { width: 28px; }
+  .after-school-planner .week-stepper input { width: 30px; }
+  .after-school-planner .week-shortcuts { gap: 4px; }
+  .after-school-planner .week-shortcuts button { padding-inline: 4px; font-size: 10px; }
+  .planner-calendar-disclosure > summary { display: list-item; color: var(--ink); font-size: 12px; font-weight: 600; cursor: pointer; }
+  .planner-calendar-disclosure[open] > summary { margin-bottom: 14px; }
+  .after-school-planner [data-week-summary] { margin-top: 10px; padding: 0; background: transparent; }
+  .after-school-booking .after-school-selection-footer .registration-actions { justify-content: space-between; gap: 10px; }
+  .after-school-booking .after-school-selection-footer .clear-plan { align-self: auto; font-size: 11px; }
+}

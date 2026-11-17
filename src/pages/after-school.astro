@@ -5,12 +5,19 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/after-school-registration.css';
 import '../styles/after-school-theme.css';
+import '../styles/after-school-tabs.css';
+import '../styles/after-school-planner.css';
 
 const plans = [
   { code: 'AFTER3', name: '3 days/week', label: 'Flexible', price: 8400, description: 'For families who want a lighter after-school schedule.' },
   { code: 'AFTER4', name: '4 days/week', label: 'Balanced', price: 10400, description: 'For steady creative time through most of the school week.' },
   { code: 'AFTER5', name: '5 days/week', label: 'Full week', price: 12000, description: 'For families who need consistent weekday coverage.' },
 ];
+
+const endpoint = import.meta.env.PUBLIC_AFTER_SCHOOL_ENDPOINT || 'https://script.google.com/macros/s/AKfycbxlv4NzTR4JeO9LgZbKAnorFN7E5JTC5t-bnb3aQ3zlOCKP7kUeYCmm7Wz8llam-8Y/exec';
+const stripeMode = import.meta.env.DEV && import.meta.env.PUBLIC_AFTER_SCHOOL_STRIPE_MODE !== 'live' ? 'test' : 'live';
+const returnUrl = import.meta.env.DEV && stripeMode === 'test' ? new URL('/after-school/', Astro.url).href : 'https://sparkpreneurs.ca/after-school/';
+const registrationEmailUrl = `mailto:sparkpreneurs.ca@gmail.com?subject=${encodeURIComponent('After School Registration')}&body=${encodeURIComponent("Hello SparkPreneurs,\n\nI'd like to register my child for the After School Program. Please confirm availability and school pick-up options.\n\nChild's name:\nChild's age/grade:\nPreferred weekly plan:\nPreferred starting Monday:\nNumber of weeks:\nSchool:\n\nThank you!")}`;
 
 const afternoonHighlights = [
   { number: '01', title: 'Make', detail: 'Explore hands-on creative projects in a welcoming studio.' },
@@ -61,61 +68,92 @@ const registrationSteps = [
       </div>
     </section>
 
-    <section id="register" class="after-school-register" data-after-school-shop data-program-code="after_school_program" data-minimum-weeks="4" data-endpoint="https://script.google.com/macros/s/AKfycbwtCEfAlRW_uljANPNBRf8X0ZuRLc_lpzdh4uowBp4P4mIQmJnqYS3grjiIwkG7hWlS/exec">
+    <section id="register" class="after-school-register" data-after-school-shop data-program-code="after_school_program" data-minimum-weeks="4" data-maximum-weeks="12" data-stripe-mode={stripeMode} data-return-url={returnUrl} data-endpoint={endpoint}>
       <div class="after-school-shell">
         <div class="section-heading">
           <div><span class="eyebrow">SCHEDULE & REGISTRATION</span><h2>Pick your weekly rhythm.</h2></div>
           <p>Choose your plan and weeks, then add your family’s details. Afternoons run from 3–5 PM, with a four-week minimum.</p>
         </div>
         <p class="booking-fit-note">Before booking, confirm your child’s age/grade eligibility, school pick-up, and program dates. <a href="mailto:sparkpreneurs.ca@gmail.com">Ask us →</a></p>
-        <ol class="registration-progress" aria-label="Registration progress"><li data-progress="1" aria-current="step"><span>1</span> Plan & dates</li><li data-progress="2"><span>2</span> Family & payment</li></ol>
-        <div class="after-school-shop-grid">
-          <div class="plan-grid" data-schedule-panel>
-            {plans.map((plan) => (
-              <article class="schedule-plan" data-plan data-code={plan.code} data-name={plan.name} data-price={plan.price}>
-                <div class="plan-label-row"><span class="tag">{plan.label}</span></div><h3>{plan.name}</h3><p>{plan.description}</p>
-                <div class="plan-bottom"><p class="plan-price">${plan.price / 100}<small>/week + HST</small></p><p class="minimum-price">4-week minimum: {(plan.price * 4 / 100).toLocaleString('en-CA', { style: 'currency', currency: 'CAD' })} + HST</p><button type="button" class="button button-ghost" data-select-plan>Select this option</button></div>
-              </article>
-            ))}
+        <div class="after-school-booking" data-after-school-booking>
+          <div class="after-school-booking-tabs" role="tablist" aria-label="After-school registration" data-after-school-tabs hidden>
+            <button id="after-school-plan-tab" type="button" role="tab" aria-controls="after-school-plan" aria-selected="true" data-after-school-tab="1">1. Plan &amp; dates</button>
+            <button id="after-school-payment-tab" type="button" role="tab" aria-controls="after-school-payment" aria-selected="false" tabindex="-1" data-after-school-tab="2">2. Details &amp; payment</button>
           </div>
-
-          <aside class="registration-card" aria-labelledby="registration-title">
-            <div class="registration-welcome"><span class="registration-spark" aria-hidden="true">✦</span><div><span class="eyebrow" data-step-caption>STEP 1 OF 2</span><h3 id="registration-title" tabindex="-1">When would you like to start?</h3></div></div>
-            <div class="selected-plan" data-selected-plan aria-live="polite"><p>No weekly plan selected yet.</p></div>
-            <form id="after-school-registration-form" data-registration-form novalidate>
-              <fieldset class="registration-weeks">
-                <legend class="sr-only">Choose your weeks</legend>
-                <p id="week-help">Start with a Monday. We’ll line up your consecutive weeks from there.</p>
-                <div class="registration-date-layout">
-                <div class="booking-calendar" data-booking-calendar aria-label="Choose a starting Monday"></div>
-                <div class="registration-duration-panel">
-                <label>Starting Monday<input name="startDate" type="date" step="7" data-start-date required aria-describedby="week-help" /></label>
-                <div class="week-duration"><label for="booking-week-count">How many weeks?<span>Four weeks is just the beginning.</span></label><div class="week-stepper"><button type="button" data-week-adjust="-1" aria-label="One fewer week">−</button><input id="booking-week-count" name="weekCount" type="number" min="4" max="52" step="1" value="4" data-week-count required /><button type="button" data-week-adjust="1" aria-label="One more week">+</button></div></div>
-                <div class="week-shortcuts" aria-label="Quick week choices">{[4, 8, 12].map(weeks => <button type="button" data-week-preset={weeks} aria-pressed={weeks === 4 ? 'true' : 'false'}>{weeks} weeks</button>)}</div>
-                <div data-week-summary aria-live="polite"></div>
+          <form id="after-school-registration-form" data-registration-form novalidate>
+            <section id="after-school-plan" class="after-school-plan-panel" role="tabpanel" aria-labelledby="after-school-plan-tab" tabindex="0" data-step-panel="1">
+              <h3 class="sr-only">Choose your plan and dates</h3>
+              <div class="after-school-planner">
+                <div class="after-school-planner-options">
+                  <div class="planner-control-heading"><h3>Weekly plan</h3><span>3&ndash;5 PM</span></div>
+                  <div class="plan-grid compact-plan-grid" data-schedule-panel role="group" aria-label="Choose your weekly plan">
+                    {plans.map((plan) => (
+                      <article class="schedule-plan compact-plan" data-plan data-code={plan.code} data-name={plan.name} data-price={plan.price}>
+                        <button type="button" data-select-plan aria-pressed="false" aria-label={`${plan.name}, $${plan.price / 100} per week`}>
+                          <span class="compact-plan-top"><span>{plan.name.replace('/week', '')}</span><span class="compact-plan-indicator" aria-hidden="true"></span></span>
+                          <span class="compact-plan-price"><span data-plan-price-amount>${plan.price / 100}</span><small>/week</small></span>
+                        </button>
+                      </article>
+                    ))}
+                  </div>
+                  <p class="planner-price-note">Weekly prices + HST &middot; 4-week minimum</p>
+                  <fieldset class="registration-weeks compact-schedule-fields">
+                    <legend class="sr-only">Choose your dates and duration</legend>
+                    <label class="compact-start-date">Starting Monday<input name="startDate" type="date" step="7" data-start-date required aria-describedby="week-help" /></label>
+                    <div class="planner-duration-heading"><label for="booking-week-count">Number of weeks</label><span>Minimum 4</span></div>
+                    <div class="planner-duration-controls">
+                      <div class="week-stepper"><button type="button" data-week-adjust="-1" aria-label="One fewer week">&minus;</button><input id="booking-week-count" name="weekCount" type="number" min="4" max="12" step="1" value="4" data-week-count required /><button type="button" data-week-adjust="1" aria-label="One more week">+</button></div>
+                      <div class="week-shortcuts" aria-label="Quick week choices">{[4, 8, 12].map(weeks => <button type="button" data-week-preset={weeks} aria-pressed={weeks === 4 ? 'true' : 'false'}>{weeks} weeks</button>)}</div>
+                    </div>
+                    <p id="week-help">Choose a Monday. Your weeks run consecutively.</p>
+                  </fieldset>
                 </div>
+                <div class="after-school-planner-calendar">
+                  <details class="planner-calendar-disclosure" data-calendar-disclosure open>
+                    <summary>Choose from calendar</summary>
+                    <div class="booking-calendar" data-booking-calendar aria-label="Choose a starting Monday"></div>
+                  </details>
+                  <div data-week-summary aria-live="polite"></div>
                 </div>
-              </fieldset>
-              <fieldset class="registration-family" hidden disabled>
-                <legend class="sr-only">A little about your family</legend>
-                <p>All fields are required so we can confirm your registration.</p>
-                <label>Child’s name<input name="studentName" type="text" autocomplete="section-student name" placeholder="First and last name" required /></label>
-                <label>Parent or guardian’s name<input name="parentName" type="text" autocomplete="section-parent name" placeholder="First and last name" required /></label>
-                <label>Email address<input name="parentEmail" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-                <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="Your best contact number" required /></label>
-                <RegistrationDiscount />
-              </fieldset>
-            </form>
-            <div class="registration-totals" data-totals hidden><p><span data-subtotal-label>Subtotal (4 weeks)</span><strong data-subtotal></strong></p><p><span>HST</span><strong data-tax></strong></p><p class="total"><span>Total</span><strong data-total></strong></p></div>
-            <p id="after-school-registration-note" class="registration-note">Need school pick-up? Contact us to confirm your school is eligible.</p>
-            <p id="after-school-registration-status" class="registration-status" data-status role="status" aria-live="polite"></p>
-            <div class="registration-actions">
-              <button class="button button-ghost" type="button" data-back hidden>← Edit plan & dates</button>
-              <button class="button button-primary" type="button" data-next disabled>Continue to family details →</button>
-              <button class="button button-primary checkout-button" type="submit" form="after-school-registration-form" data-checkout aria-describedby="after-school-registration-note after-school-registration-status" hidden disabled>Continue to secure payment</button>
-              <button class="clear-plan" type="button" data-clear disabled>Clear selection</button>
-            </div>
-          </aside>
+              </div>
+              <div class="after-school-selection-footer">
+                <p data-selection-preview aria-live="polite">Choose a plan and starting week to continue.</p>
+                <div class="registration-actions">
+                  <button class="clear-plan" type="button" data-clear disabled>Clear selection</button>
+                  <button class="button button-primary" type="button" data-next aria-label="Continue to details and payment" disabled>Continue &rarr;</button>
+                </div>
+              </div>
+            </section>
+            <section id="after-school-payment" role="tabpanel" aria-labelledby="after-school-payment-tab" tabindex="0" data-step-panel="2" hidden>
+              <div class="after-school-payment-layout">
+                <div class="registration-card after-school-family-card">
+                  <h3>Your family details.</h3>
+                  <fieldset class="registration-family" disabled>
+                    <legend class="sr-only">A little about your family</legend>
+                    <p>All fields are required so we can confirm your registration.</p>
+                    <label>Child’s name<input name="studentName" type="text" autocomplete="section-student name" placeholder="First and last name" required /></label>
+                    <label>Parent or guardian’s name<input name="parentName" type="text" autocomplete="section-parent name" placeholder="First and last name" required /></label>
+                    <label>Email address<input name="parentEmail" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+                    <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="Your best contact number" required /></label>
+                  </fieldset>
+                  <details class="after-school-discount-panel">
+                    <summary>Have a discount or referral code?</summary>
+                    <RegistrationDiscount />
+                  </details>
+                  <p id="after-school-registration-note" class="registration-note">Need school pick-up? Contact us to confirm your school is eligible.</p>
+                  <p id="after-school-registration-status" class="registration-status" data-status role="status" aria-live="polite"></p>
+                  <button class="button button-primary checkout-button" type="submit" data-checkout aria-describedby="after-school-registration-note after-school-registration-status" disabled>Review total</button>
+                  <a class="after-school-email-registration" href={registrationEmailUrl}>Register by email <span aria-hidden="true">↗</span></a>
+                </div>
+                <aside class="registration-card after-school-booking-summary" aria-labelledby="after-school-summary-title">
+                  <div class="after-school-summary-heading"><h3 id="after-school-summary-title">Your booking</h3><button type="button" data-back>Edit plan &amp; dates</button></div>
+                  <p class="after-school-summary-note">1 child &middot; Prices in CAD</p>
+                  <div class="selected-plan" data-selected-plan aria-live="polite"><p>No weekly plan selected yet.</p></div>
+                  <div class="registration-totals" data-totals hidden><p><span data-subtotal-label>Subtotal (4 weeks)</span><strong data-subtotal></strong></p><p data-saving-row hidden><span>Discount</span><strong data-saving></strong></p><p><span>Applicable tax</span><strong data-tax></strong></p><p class="total"><span>Total</span><strong data-total></strong></p></div>
+                </aside>
+              </div>
+            </section>
+          </form>
         </div>
       </div>
     </section>
@@ -136,11 +174,11 @@ const registrationSteps = [
       <div class="after-school-shell after-school-faq-layout">
         <div><span class="eyebrow">COMMON QUESTIONS</span><h2 id="after-school-faq-title">Before you choose a plan.</h2><p>These answers use information already confirmed by the existing registration page. Missing operational details remain clearly identified.</p></div>
         <div class="after-school-faq-list">
-          <details><summary>What are the program dates and closures?</summary><p>Contact SparkPreneurs to confirm the current program calendar and any closures before registering.</p></details>
+          <details><summary>What are the program dates and closures?</summary><p>Choose a starting Monday strictly after today, then book 4–12 consecutive weeks. If today is Monday, the earliest start is the following Monday. The calendar excludes configured closures and fully booked weeks.</p></details>
           <details><summary>When is my registration confirmed?</summary><p>Your registration is confirmed after your payment is verified. The selected weeks are recorded with your payment.</p></details>
           <details><summary>What time does the program run?</summary><p>Every displayed weekly option runs from 3 PM to 5 PM.</p></details>
-          <details><summary>How long is the minimum registration?</summary><p>Every option requires a minimum purchase of four weeks. Choose a starting Monday and four or more consecutive weeks. Your total covers the weeks shown in your registration.</p></details>
-          <details><summary>How are the specific weekdays selected?</summary><p>[CONTENT REQUIRED FROM BUSINESS: available weekday combinations and how families confirm their selected days]</p></details>
+          <details><summary>How long is the minimum registration?</summary><p>Every option requires at least four weeks, with a maximum of 12 consecutive weeks per registration. Your total covers the weeks shown in your registration.</p></details>
+          <details><summary>How are the specific weekdays selected?</summary><p>Choose your 3-, 4-, or 5-day weekly plan online. The specific attendance days are arranged directly with SparkPreneurs.</p></details>
           <details><summary>Is school pick-up available?</summary><p>Pick-up may be available from select neighbourhood schools. Contact SparkPreneurs before registering to confirm whether your school is eligible.</p></details>
           <details><summary>Which ages and grades can attend?</summary><p>[CONTENT REQUIRED FROM BUSINESS: exact eligible ages and grades]</p></details>
           <details><summary>What are the cancellation and late-pickup rules?</summary><p>[CONTENT REQUIRED FROM BUSINESS: approved registration, cancellation, transfer, missed-day, and late-pickup policies]</p></details>
