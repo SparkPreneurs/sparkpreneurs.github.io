@@ -5,7 +5,6 @@ import { getProgramById } from '../data/programs';
 const featuredPrograms = [
   { offeringId: 'after-school-after3', badge: 'After School', age: 'Kids', priceNote: 'Per week + HST' },
   { offeringId: 'hand-building-hb4sun', badge: 'Limited-time price', age: 'Adult' },
-  { offeringId: 'zumba-zumba_8', badge: 'Seasonal offer', age: 'Adults' },
 ].flatMap((feature) => {
   const offering = offerings.find((item) => item.id === feature.offeringId && item.status === 'open');
   const program = offering ? getProgramById(offering.programId) : undefined;
@@ -17,7 +16,6 @@ const featuredPrograms = [
 const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}`;
 ---
 
-{featuredPrograms.length > 0 && (
   <dialog class="featured-popup" data-featured-popup aria-label="Featured programs">
     <button class="featured-popup-close" type="button" aria-label="Close featured programs" data-featured-popup-close>×</button>
 
@@ -40,6 +38,16 @@ const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}
           <a href={program.canonicalPath}>View program <span aria-hidden="true">→</span></a>
         </article>
       ))}
+      <article class="featured-popup-card">
+        <div class="featured-popup-card-top">
+          <span class="featured-popup-badge">Special experience</span>
+          <span class="featured-popup-age">Adults</span>
+        </div>
+        <h3>The Art of Becoming</h3>
+        <p>With author Livia Grujich</p>
+        <div class="featured-popup-price"><span><strong>February 3–24</strong></span><small>Four Wednesdays · 2027</small></div>
+        <a href="/events/the-art-of-becoming/">Explore experience <span aria-hidden="true">→</span></a>
+      </article>
     </div>
 
     <div class="featured-popup-footer">
@@ -47,7 +55,6 @@ const money = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}
       <a href="/programs/">Browse all programs</a>
     </div>
   </dialog>
-)}
 
 <script>
   const popup = document.querySelector<HTMLDialogElement>('[data-featured-popup]');
